@@ -29,7 +29,12 @@
               "node_modules/font-awesome/css/font-awesome.min.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              {
+                "input": "src/styles.css",
+                "inject": false,
+                "bundleName": "styles"
+              }
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
