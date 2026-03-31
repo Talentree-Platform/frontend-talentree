@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm install --legacy-peer-deps && ng build --configuration production --base-href=/",
+  "buildCommand": "ng build --configuration production --base-href=/ --optimization=false --source-map=false",
   "outputDirectory": "dist/talentree/browser",
   "framework": "angular",
   "installCommand": "npm install --legacy-peer-deps"
