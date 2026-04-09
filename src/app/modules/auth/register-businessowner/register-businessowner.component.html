@@ -1,0 +1,309 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h2 >Turn Your Idea Into a Growing Business</h2>
+      <p>Join our platform and start reaching customers faster and smarter.</p>
+    </div>
+    @if(success){
+      <div class="alert alert-success">
+      {{ success }}
+    </div>
+    }
+    @if(errorMessage){
+      <div class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    }
+    
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" formControlName="firstName" class="form-control"
+              [class.is-valid]="isFieldValid('firstName')" [class.is-invalid]="isFieldInvalid('firstName')"
+              placeholder="First name" />
+
+          </div>
+          @if(registerForm.get('firstName')?.errors && registerForm.get('firstName')?.touched){
+          @if(registerForm.get('firstName')?.getError('required')){
+          <div class="invalid-feedback mb-3"> first name is required </div>
+          }
+          @else if(registerForm.get('firstName')?.getError('minlength')){
+          <div class="invalid-feedback mb-3"> first name must be at least 3 </div>
+          }
+          @else if(registerForm.get('firstName')?.getError('maxlength')){
+          <div class="invalid-feedback mb-3"> last name must be at maximum at 15 </div>
+          }
+
+          }
+
+
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" formControlName="lastName" class="form-control"
+              [class.is-valid]="isFieldValid('lastName')" [class.is-invalid]="isFieldInvalid('lastName')"
+              placeholder="Last name" />
+          </div>
+          @if(registerForm.get('lastName')?.errors && registerForm.get('lastName')?.touched){
+          @if(registerForm.get('lastName')?.getError('required')){
+          <div class="invalid-feedback mb-3"> last name is required </div>
+          }
+          @else if(registerForm.get('lastName')?.getError('minlength')){
+          <div class="invalid-feedback mb-3"> last name must be at least 3 </div>
+          }
+          @else if(registerForm.get('lastName')?.getError('maxlength')){
+          <div class="invalid-feedback mb-3"> last name must be at maximum at 15 </div>
+          }
+
+          }
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" formControlName="email" class="form-control"
+          [class.is-valid]="isFieldValid('email')" [class.is-invalid]="isFieldInvalid('email')"
+          placeholder="example@mail.com" />
+        @if(registerForm.get('email')?.errors && registerForm.get('email')?.touched){
+        @if(registerForm.get('email')?.getError('required')){
+        <div class="invalid-feedback mb-3"> Email is required </div>
+        }
+        @else if (registerForm.get('email')?.getError('email')){
+        <div class="invalid-feedback mb-3"> Please enter a valid email </div>
+        }
+        }
+
+
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input type="tel" id="phoneNumber" formControlName="phoneNumber" class="form-control"
+          [class.is-invalid]="isFieldInvalid('phoneNumber')" [class.is-valid]="isFieldValid('phoneNumber')"
+          placeholder="+201XXXXXXXXX" />
+        @if(registerForm.get('phoneNumber')?.errors && registerForm.get('phoneNumber')?.touched){
+        @if(registerForm.get('phoneNumber')?.getError('required')){
+        <div class="invalid-feedback mb-3"> Phone Number is required is required </div>
+        }
+        @else if (registerForm.get('phoneNumber')?.getError('pattern')){
+        <div class="invalid-feedback mb-3"> Please enter a valid Egyption number</div>
+        }
+        }
+
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input-group">
+          <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
+            class="form-control"
+             [class.is-invalid]="isFieldInvalid('password')"
+            [class.is-valid]="isFieldValid('password')" 
+            placeholder="Password" />
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility('password')">
+            {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+        @if(registerForm.get('password')?.errors && registerForm.get('password')?.touched){
+        @if(registerForm.get('password')?.getError('required')){
+        <div class="invalid-feedback mb-3"> Password is required is required </div>
+        }
+        @else if (registerForm.get('password')?.getError('minlength')){
+        <div class="invalid-feedback mb-3"> Password must be at least 8 characters long.</div>
+        }
+        @else if (registerForm.get('password')?.getError('missingUpperCase')
+        || registerForm.get('password')?.getError('missingNumber')
+        || registerForm.get('password')?.getError('missingSpecialChar')){
+        <div class="invalid-feedback mb-3">Make sure your password includes Uppercase, Lowercase , Numbers and Special
+          characters.</div>
+        }
+        }
+
+
+
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="password-input-group">
+          <input [type]="showConfirmPassword ? 'text' : 'password'"
+           id="confirmPassword"
+            formControlName="confirmPassword"
+             class="form-control"
+            [class.is-invalid]="registerForm.get('confirmPassword')?.touched &&(registerForm.get('confirmPassword')?.invalid || registerForm.hasError('passwordMismatch'))"
+             [class.is-valid]="
+  registerForm.get('confirmPassword')?.touched &&
+  !registerForm.get('confirmPassword')?.invalid &&
+  !registerForm.hasError('passwordMismatch')
+"
+            placeholder="Re-enter password" />
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility('confirmPassword')">
+            {{ showConfirmPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+        @if (registerForm.get('confirmPassword')?.touched) {
+
+        @if (registerForm.get('confirmPassword')?.hasError('required')) {
+        <div class="invalid-feedback mb-3">
+          Confirm password is required.
+        </div>
+        }
+
+        @else if (registerForm.hasError('passwordMismatch')) {
+        <div class="invalid-feedback mb-3">
+          Confirm password must match the password.
+        </div>
+        }
+
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="businessName">Business Name</label>
+        <input type="text"
+         id="businessName"
+          formControlName="businessName"
+           class="form-control"
+           [class.is-invalid]="isFieldInvalid('businessName')"
+            [class.is-valid]="isFieldValid('businessName')" 
+            placeholder="business Name" />
+        @if(registerForm.get('businessName')?.errors && registerForm.get('businessName')?.touched){
+          @if(registerForm.get('businessName')?.getError('required')){
+          <div class="invalid-feedback mb-3"> Business Name is required </div>
+          }
+          @else if(registerForm.get('businessName')?.getError('minlength')){
+          <div class="invalid-feedback mb-3"> Business Name must be at least 3 </div>
+          }
+          @else if(registerForm.get('businessName')?.getError('maxlength')){
+          <div class="invalid-feedback mb-3"> Business Name must be at maximum at 40 </div>
+          }
+        }
+      </div>
+      <div class="form-group">
+        <label for="businessDescription">Business Description</label>
+        <input type="text" id="businessDescription" 
+        formControlName="businessDescription"
+        [class.is-invalid]="isFieldInvalid('businessDescription')"
+            [class.is-valid]="isFieldValid('businessDescription')" 
+         class="form-control"
+          placeholder="business Description" />
+        @if(registerForm.get('businessDescription')?.errors && registerForm.get('businessDescription')?.touched){
+          @if(registerForm.get('businessDescription')?.getError('required')){
+          <div class="invalid-feedback mb-3"> Business Description is required </div>
+          }
+          @else if(registerForm.get('businessDescription')?.getError('minlength')){
+          <div class="invalid-feedback mb-3"> Business Description must be at least 20 </div>
+          }
+          @else if(registerForm.get('businessDescription')?.getError('maxlength')){
+          <div class="invalid-feedback mb-3"> Business Description must be at maximum at 500 </div>
+          }
+        }
+      </div>
+      <div class="form-group">
+        <label for="businessAddress">Business Address</label>
+        <input type="text" 
+        id="businessAddress" 
+        formControlName="businessAddress" 
+        [class.is-invalid]="isFieldInvalid('businessAddress')"
+            [class.is-valid]="isFieldValid('businessAddress')" 
+        class="form-control"
+          placeholder="businessAddress" />
+
+      </div>
+
+      <div class="form-group">
+        <label for="Category">Business Category</label>
+        <select id="Category" 
+        formControlName="businessCategory"
+        [class.is-invalid]="isFieldInvalid('businessCategory')"
+            [class.is-valid]="isFieldValid('businessCategory')"
+         class="form-control" 
+         >
+          <option value="Fashion & Accessories">Fashion & Accessories</option>
+          <option value="Handmade">Handmade</option>
+          <option value="Natural & Beauty Products">Natural & Beauty Products</option>
+
+        </select>
+
+      </div>
+      <div class="form-group">
+        <label for="taxId">Tax Id</label>
+        <input type="text" id="taxId" formControlName="taxId"
+        [class.is-invalid]="isFieldInvalid('taxId')"
+            [class.is-valid]="isFieldValid('taxId')" 
+         class="form-control" placeholder="123456789" />
+        @if(registerForm.get('taxId')?.errors && registerForm.get('taxId')?.touched){
+        @if(registerForm.get('taxId')?.getError('required')){
+        <div class="invalid-feedback mb-3"> Tax Id is required  </div>
+        }
+        @else if (registerForm.get('taxId')?.getError('pattern')){
+        <div class="invalid-feedback mb-3"> Tax ID must be 9 or 14 digits and contain numbers only.</div>
+        }
+        }
+      </div>
+      <div class="form-group">
+        <label for="faceLink">Facebook Link</label>
+        <input type="text" id="faceLink" formControlName="facebookLink" 
+        [class.is-invalid]="isFieldInvalid('facebookLink')"
+        [class.is-valid]="isFieldValid('facebookLink')"
+        class="form-control"
+          placeholder="https://example.com" />
+        @if(registerForm.get('facebookLink')?.errors && registerForm.get('facebookLink')?.touched){
+        @if(registerForm.get('facebookLink')?.getError('required')){
+        <div class="invalid-feedback mb-3"> Facebook Link is required.  </div>
+        }
+        @else if (registerForm.get('facebookLink')?.getError('pattern')){
+        <div class="invalid-feedback mb-3"> Link is invalid</div>
+        }
+        }
+      </div>
+      <div class="form-group">
+        <label for="instaLink">Instgram Link</label>
+        <input type="text" id="instaLink" formControlName="instagramLink"
+         [class.is-invalid]="isFieldInvalid('instagramLink')"
+        [class.is-valid]="isFieldValid('instagramLink')"
+         class="form-control"
+          placeholder="https://example.com" />
+         @if(registerForm.get('instagramLink')?.errors && registerForm.get('instagramLink')?.touched){
+        @if(registerForm.get('instagramLink')?.getError('required')){
+        <div class="invalid-feedback mb-3"> Instgram Link is required.  </div>
+        }
+        @else if (registerForm.get('instagramLink')?.getError('pattern')){
+        <div class="invalid-feedback mb-3"> Link is invalid</div>
+        }
+        }
+      </div>
+      <div class="form-group">
+        <label for="websiteLink">websiteLink</label>
+        <input type="text" id="websiteLink" 
+        [class.is-invalid]="isFieldInvalid('websiteLink')"
+        [class.is-valid]="isFieldValid('websiteLink')"
+        formControlName="websiteLink" class="form-control"
+          placeholder="https://example.com" />
+       
+          @if(registerForm.get('websiteLink')?.errors && registerForm.get('websiteLink')?.touched){
+        @if(registerForm.get('websiteLink')?.getError('required')){
+        <div class="invalid-feedback mb-3"> WebsiteLink is required is required </div>
+        }
+        @else if (registerForm.get('websiteLink')?.getError('pattern')){
+        <div class="invalid-feedback mb-3"> Link is invalid</div>
+        }
+        }
+      </div>
+
+      <!-- submit button -->
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="registerForm.invalid "> Start your Business
+        @if(isLoading){
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" ></span>
+        }
+      </button>
+
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,196 @@
+@if (isOpen) {
+  <div class="modal-overlay" (click)="onOverlayClick($event)">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <!-- Header -->
+      <div class="modal-header">
+        <div class="header-content">
+          <div class="owner-info">
+            <h2 class="owner-name">{{ businessOwner?.ownerName || 'N/A' }}</h2>
+            <span class="status-badge" [style.background-color]="getStatusBadgeColor()">
+              {{ businessOwner?.statusText || 'Pending' }}
+            </span>
+          </div>
+        </div>
+        <button class="close-btn" (click)="onClose()" aria-label="Close modal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="modal-content">
+        <!-- Section A: Personal & Contact Info -->
+        <section class="info-section">
+          <h3 class="section-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Personal & Contact Info
+          </h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">Owner Name</span>
+              <span class="info-value">{{ businessOwner?.ownerName || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Email</span>
+              <span class="info-value">
+                <a [href]="'mailto:' + businessOwner?.email" class="link">{{ businessOwner?.email || 'N/A' }}</a>
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Phone Number</span>
+              <span class="info-value">
+                <a [href]="'tel:' + businessOwner?.phoneNumber" class="link">{{ businessOwner?.phoneNumber || 'N/A' }}</a>
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">User ID</span>
+              <span class="info-value">{{ businessOwner?.userId || 'N/A' }}</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section B: Business Info -->
+        <section class="info-section">
+          <h3 class="section-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Business Info
+          </h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">Business Name</span>
+              <span class="info-value">{{ businessOwner?.businessName }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Category</span>
+              <span class="info-value">{{ businessOwner?.businessCategory || 'N/A' }}</span>
+            </div>
+            <div class="info-item full-width">
+              <span class="info-label">Description</span>
+              <span class="info-value">{{ businessOwner?.businessDescription || 'N/A' }}</span>
+            </div>
+            <div class="info-item full-width">
+              <span class="info-label">Address</span>
+              <span class="info-value">{{ businessOwner?.businessAddress || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Tax ID</span>
+              <span class="info-value">{{ businessOwner?.taxId || 'N/A' }}</span>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          @if (businessOwner?.websiteLink || businessOwner?.facebookLink || businessOwner?.instagramLink) {
+            <div class="links-section">
+              <h4 class="links-title">Social Links</h4>
+              <div class="links-grid">
+                @if (businessOwner?.websiteLink) {
+                  <a class="link-item" (click)="openLink(businessOwner?.websiteLink)" [class.disabled]="!isValidUrl(businessOwner?.websiteLink)">
+                    <span class="link-icon">🌐</span>
+                    <span class="link-text">{{ formatLink(businessOwner?.websiteLink) }}</span>
+                  </a>
+                }
+                @if (businessOwner?.facebookLink) {
+                  <a class="link-item" (click)="openLink(businessOwner?.facebookLink)" [class.disabled]="!isValidUrl(businessOwner?.facebookLink)">
+                    <span class="link-icon">📘</span>
+                    <span class="link-text">{{ formatLink(businessOwner?.facebookLink) }}</span>
+                  </a>
+                }
+                @if (businessOwner?.instagramLink) {
+                  <a class="link-item" (click)="openLink(businessOwner?.instagramLink)" [class.disabled]="!isValidUrl(businessOwner?.instagramLink)">
+                    <span class="link-icon">📸</span>
+                    <span class="link-text">{{ formatLink(businessOwner?.instagramLink) }}</span>
+                  </a>
+                }
+              </div>
+            </div>
+          }
+        </section>
+
+        <!-- Section C: Approval Info -->
+        <section class="info-section">
+          <h3 class="section-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Approval Info
+          </h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">Status</span>
+              <span class="info-value">
+                <span class="status-badge-small" [style.background-color]="getStatusBadgeColor()">
+                  {{ businessOwner?.statusText || 'Pending' }}
+                </span>
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Submitted At</span>
+              <span class="info-value">{{ formatDate(businessOwner?.submittedAt) }}</span>
+            </div>
+            @if (businessOwner?.autoApprovalDeadline) {
+              <div class="info-item">
+                <span class="info-label">Auto-Approval Deadline</span>
+                <span class="info-value">{{ formatDate(businessOwner?.autoApprovalDeadline) }}</span>
+              </div>
+            }
+            @if (businessOwner?.willAutoApprove !== undefined && businessOwner?.willAutoApprove !== null) {
+              <div class="info-item">
+                <span class="info-label">Will Auto-Approve?</span>
+                <span class="info-value">
+                  <span class="auto-approve-badge" [class.auto-approve-yes]="businessOwner?.willAutoApprove" [class.auto-approve-no]="!businessOwner?.willAutoApprove">
+                    {{ businessOwner?.willAutoApprove ? 'Yes' : 'No' }}
+                  </span>
+                </span> 
+              </div>
+            }
+            @if (businessOwner?.timeUntilAutoApproval) {
+              <div class="info-item">
+                <span class="info-label">Time Until Auto-Approval</span>
+                <span class="info-value highlight">{{ businessOwner?.timeUntilAutoApproval }}</span>
+              </div>
+            }
+            @if (businessOwner?.approvedAt) {
+              <div class="info-item">
+                <span class="info-label">Approved At</span>
+                <span class="info-value">{{ formatDate(businessOwner?.approvedAt) }}</span>
+              </div>
+            }
+            @if (businessOwner?.approvedBy) {
+              <div class="info-item">
+                <span class="info-label">Approved By</span>
+                <span class="info-value">{{ businessOwner?.approvedBy }}</span>
+              </div>
+            }
+            @if (businessOwner?.rejectionReason) {
+              <div class="info-item full-width">
+                <span class="info-label">Rejection Reason</span>
+                <span class="info-value rejection-reason">{{ businessOwner?.rejectionReason }}</span>
+              </div>
+            }
+          </div>
+        </section>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="modal-actions">
+        <button class="btn btn-approve" (click)="onApprove(businessOwner)" [disabled]="isApproved()">
+          Approve
+        </button>
+        <button class="btn btn-reject" (click)="onReject(businessOwner)" [disabled]="isRejected()">
+          Reject
+        </button>
+        <button class="btn btn-message" (click)="onSendMessage()">
+          Send Message
+        </button>
+      </div>
+    </div>
+  </div>
+}

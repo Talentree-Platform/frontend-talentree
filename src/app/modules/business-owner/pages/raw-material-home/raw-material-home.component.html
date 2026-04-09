@@ -1,0 +1,100 @@
+<div>
+  <!-- owl carsoul slider -->
+
+  <div class="row slider">
+    <div class="col-12">
+      <owl-carousel-o [options]="customOptions">
+        <ng-template carouselSlide><img src="../../../../../assets/images/machine-slider1.jpg" class="w-100"
+            height="500px" alt=""></ng-template>
+        <ng-template carouselSlide><img src="../../../../../assets/images/clothes-slider2.jpg" class="w-100"
+            height="500px" alt=""></ng-template>
+        <ng-template carouselSlide><img src="../../../../../assets/images/ciser-slider3.jpg" class="w-100"
+            height="500px" alt=""></ng-template>
+      </owl-carousel-o>
+    </div>
+  </div>
+
+
+
+  <!-- Filters -->
+  <section class="filters">
+    <div class="filter-field">
+      <label for="searchName">Product name</label>
+      <input class="input-main" id="searchName" type="text" placeholder="Search by name..." [(ngModel)]="searchName"
+        (input)="applyFilterName()" />
+    </div>
+    <div class="filter-field">
+      <label for="chooseCategory">Choose Category :</label>
+
+      <select id="chooseCategory" class="select-main" [(ngModel)]="categoryChoise" (click)="loadMaterials()">
+        <option value="Handmade Crafts">Handmade Crafts</option>
+        <option value="Fashion & Accessories">Fashion & Accessories</option>
+        <option value="Natural & Beauty Products">Natural & Beauty Products</option>
+        
+      </select>
+    </div>
+
+    <div class="filter-field">
+      <label for="searchVendor">Vendor</label>
+      <input class="input-main" id="searchVendor" type="text" placeholder="Search by vendor..." />
+    </div>
+    <div class="filter-field">
+      <label for="minQty">Min quantity</label>
+      <input class="input-main" id="minQty" type="number" min="0" placeholder="e.g. 100" />
+    </div>
+    <button class="btn-main btn-burgandy">Filter</button>
+  </section>
+
+  <!-- Grid -->
+  <section class="grid">
+    @for (material of materials; track material.id) {
+    @if(material.isAvailable){
+    <app-product-card
+    [id]="material.id"
+     [image]="material.pictureUrl" [title]="material.name" [type]="material.category"
+      [minQuantity]="material.minimumOrderQuantity" [price]="material.price" [vendor]="material.supplierName" [addMaterialToCart]="addMaterialToCart">
+    </app-product-card>
+    }
+
+    }
+  </section>
+  @if(totalCount ===0){
+  <div class="no-results">
+    <h4 class="text-center">Opps!! No material found ...</h4>
+  </div>
+  }
+
+
+  @if(totalPages>1){
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="pageIndex === 1 || !hasPrevious">
+      &lt;
+    </button>
+
+    <!-- زر أول صفحة -->
+    @if (pageIndex > 3) {
+    <button (click)="goToPage(1)">1</button>
+    <span>...</span>
+    }
+
+    <!-- الأزرار حول الصفحة الحالية -->
+    @for (i of [].constructor(totalPages) ; track $index) {
+    @if ($index + 1 >= pageIndex - 2 && $index + 1 <= pageIndex + 2) { <button [class.active]="$index + 1 === pageIndex"
+      (click)="goToPage($index + 1)">
+      {{ $index + 1 }}
+      </button>
+      }
+      }
+
+      <!-- زر آخر صفحة -->
+      @if (pageIndex < totalPages - 2) { <span>...</span>
+        <button (click)="goToPage(totalPages)">{{ totalPages }}</button>
+        }
+
+        <button (click)="nextPage()" [disabled]="pageIndex === totalPages || !hasNext">
+          &gt;
+        </button>
+  </div>
+  }
+
+</div>

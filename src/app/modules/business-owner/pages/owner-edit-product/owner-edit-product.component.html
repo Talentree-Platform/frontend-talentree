@@ -1,0 +1,118 @@
+<div class="ap-page">
+
+  <!-- ═══════════════════════════════════════════
+       PAGE HEADER
+  ═══════════════════════════════════════════ -->
+  <div class="ap-page-header">
+    <div class="ap-page-header__left">
+      <h1 class="ap-page-title">Edit Product</h1>
+      <p class="ap-page-subtitle">Update your product details and keep your store up to date.</p>
+    </div>
+    <div class="ap-page-header__actions">
+      <button class="btn-main btn-border" type="button" (click)="handleCancel()">
+        Cancel
+      </button>
+      <button class="btn-main btn-gold" type="button" (click)="handleSave()">
+        <i class="fa-solid fa-floppy-disk"></i> Save Product
+      </button>
+    </div>
+  </div>
+  <!-- ② PRODUCT INFORMATION ──────────────── -->
+      <div class="ap-card">
+        <div class="ap-section-heading">
+          <i class="fa-solid fa-box"></i> Product Information
+        </div>
+
+        <div class="ap-form-group">
+          <label class="feild" for="productName">
+            Product Name <span class="ap-required">*</span>
+          </label>
+          <input class="input-main mt-1 mb-1 " id="productName" type="text"
+            placeholder="e.g. Classic Leather Sneakers"
+            oninput="clearError('productName')" />
+          <span class="ap-error" id="err-productName"></span>
+        </div>
+
+        <div class="ap-form-group">
+          <label class="feild" for="description">
+            <span>Description</span>
+            </label>
+          <textarea class="textarea-main mt-1 mb-1" id="description" rows="5"
+            placeholder="Describe your product — materials, features, sizing..."
+            oninput="updateCharCount()"></textarea>
+          <span class="ap-helper" id="charCount">0 / 1000 characters</span>
+        </div>
+
+        <div class="ap-form-group">
+            <label class="feild" for="category">
+                <span>Category</span>
+               <span class="ap-required">*</span>
+            </label>
+            <select class="select-main mt-1 mb-1 " id="category" onchange="clearError('category')">
+              <option value="" color="var(--muted)">Select category…</option>
+              <option>Electronics</option>
+              <option>Clothing &amp; Apparel</option>
+              <option>Home &amp; Garden</option>
+              <option>Sports &amp; Outdoors</option>
+              <option>Beauty &amp; Health</option>
+              <option>Books &amp; Media</option>
+              <option>Toys &amp; Games</option>
+              <option>Food &amp; Beverages</option>
+              <option>Automotive</option>
+              <option>Other</option>
+            </select>
+            <span class="ap-error" id="err-category"></span>
+          </div>
+
+        <div class="ap-row">
+          
+
+          <div class="ap-form-group">
+            <label class="feild" for="price">
+              Cost price (USD) <span class="ap-required">*</span>
+            </label>
+            <div class="ap-input-prefix">
+              <span class="ap-input-prefix__symbol">$</span>
+              <input class="input-main mt-1 mb-1 ap-input--prefixed" id="price" type="number"
+                min="0" step="0.01" placeholder="0.00"
+                oninput="clearError('price')" />
+            </div>
+            <span class="ap-error" id="err-price"></span>
+          </div>
+                <div class="ap-form-group">
+            <label class="feild" for="price">
+              selling price (USD) <span class="ap-required">*</span>
+            </label>
+            <div class="ap-input-prefix">
+              <span class="ap-input-prefix__symbol">$</span>
+              <input class="input-main mt-1 mb-1 ap-input--prefixed" id="price" type="number"
+                min="0" step="0.01" placeholder="0.00"
+                oninput="clearError('price')" />
+            </div>
+            <span class="ap-error" id="err-price"></span>
+          </div>
+        </div>
+        <div class="ap-form-group">
+            <label class="feild" for="quantity">Available quentity</label>
+            <input class="input-main mt-1 mb-1" id="quantity" type="number" min="0" placeholder="e.g. 100" />
+          </div>
+          <!-- Tags -->
+        <div class="ap-form-group" style="margin-top:8px">
+          <label class="feild">
+            <i class="fa-solid fa-tag" style="font-size:12px;margin-right:4px"></i>Tags
+          </label>
+          <div class="ap-tag-input-row">
+            <input class="input-main mt-1 mb-1" id="tagInput" type="text"
+              placeholder="Add a tag and press Enter"
+              onkeydown="handleTagKey(event)" />
+            <button class="ap-btn ap-btn--gold ap-btn--sm" type="button" >
+              <i class="fa-solid fa-plus"></i> Add
+            </button>
+          </div>
+          <div class="ap-chips" id="tagChips">
+            <span class="ap-chip">#new-arrival <button onclick="removeTag(this)" type="button"><i class="fa-solid fa-xmark"></i></button></span>
+            <span class="ap-chip">#trending <button onclick="removeTag(this)" type="button"><i class="fa-solid fa-xmark"></i></button></span>
+          </div>
+        </div>
+      </div>
+      </div><!-- /ap-page -->

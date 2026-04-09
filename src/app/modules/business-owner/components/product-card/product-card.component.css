@@ -1,0 +1,84 @@
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 30px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+  transition: 
+    transform 0.25s cubic-bezier(.22,.61,.36,1),
+    box-shadow 0.25s cubic-bezier(.22,.61,.36,1),
+    filter 0.25s ease;
+   padding-bottom: 15px;
+   margin:10px;
+}
+
+.card:hover {
+  transform: translateY(-3px) scale(1.015);
+  box-shadow: 0 24px 50px rgba(0,0,0,0.12);
+  filter: brightness(1.03);
+}
+
+
+.card-img {
+  width: 100%;
+  border-radius: 30px;
+  aspect-ratio: 4 / 3;
+  background: #f3f4f6;
+  overflow: hidden;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: 12px 50px;
+  display: grid;
+  gap: 6px;
+}
+
+.card-title {
+  margin: 0;
+  color: #1f2937;
+  text-align: center;
+}
+
+.card-btns{
+    display: flex ;
+}
+.btn{
+    width: 60% ;
+    margin: auto;
+}
+
+.qty {
+  display: inline-flex;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.qty button {
+  width: 34px;
+  border: none;
+  background: #f3f4f6;
+  cursor: pointer;
+  font-weight: 700;
+  color: #374151;
+  padding: 7px;
+}
+.qty button:hover{
+  background: #d9d9da;
+}
+.qty input {
+  width: 60px;
+  border: none;
+  text-align: center;
+  font-size: 14px;
+  outline: none;
+}

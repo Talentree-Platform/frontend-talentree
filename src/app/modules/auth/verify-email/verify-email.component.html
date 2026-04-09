@@ -1,0 +1,109 @@
+<div class="verify-container">
+  <div class="verify-card">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="verify-state">
+      <div class="spinner"></div>
+      <h2>Verifying your email</h2>
+      <p>Please wait while we verify your email address</p>
+    </div>
+
+    <!-- Success State -->
+    <div *ngIf="!isLoading && isVerified" class="verify-state">
+      <div class="icon-circle success">
+        <span class="checkmark">✓</span>
+      </div>
+      <h2>Email verified!</h2>
+      <p>Your email has been successfully verified. You can now access all features.</p>
+      <button class="btn btn-primary" (click)="goToLogin()">Back to login</button>
+    </div>
+
+    <!-- ⚠️ NO EMAIL STATE - Show this when there's no email -->
+    <div *ngIf="!isLoading && !isVerified && !email" class="verify-state">
+      <div class="icon-circle pending">
+        <span class="mail-icon">📧</span>
+      </div>
+      <h2>Verify your email</h2>
+      <p>Please enter the email address you registered with.</p>
+      
+      <div class="email-input-container">
+        <label for="email">Email address</label>
+        <div class="email-input-group">
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="emailInput"
+            placeholder="Enter your email"
+            class="email-input"
+          >
+          <button 
+            class="btn-send-code" 
+            (click)="requestVerificationCode()"
+            [disabled]="!emailInput || sendCodeLoading">
+            {{ sendCodeLoading ? 'Sending...' : 'Send Code' }}
+          </button>
+        </div>
+        <div *ngIf="emailError" class="invalid-feedback">
+          {{ emailError }}
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-link" (click)="goToLogin()">Back to login</button>
+      </div>
+    </div>
+
+    <!-- ✅ VERIFICATION CODE STATE - Show this when we HAVE an email -->
+    <div *ngIf="!isLoading && !isVerified && email" class="verify-state">
+      <div class="icon-circle pending">
+        <span class="mail-icon">📧</span>
+      </div>
+      <h2>Verify your email</h2>
+      <p>We've sent a verification code to <strong>{{ email }}</strong></p>
+      
+      <!-- OTP INPUT FIELD -->
+      <div class="otp-container">
+        <label for="verificationCode">Enter verification code</label>
+        <div class="otp-input-group">
+          <input
+            type="text"
+            id="verificationCode"
+            [(ngModel)]="verificationCode"
+            placeholder="Enter 6-digit code"
+            class="otp-input"
+            maxlength="6"
+            inputmode="numeric"
+            pattern="[0-9]*"
+          >
+          <button 
+            class="btn-verify-code" 
+            (click)="submitVerificationCode()"
+            [disabled]="!verificationCode || verificationCode.length < 6 || verifyLoading">
+            {{ verifyLoading ? 'Verifying...' : 'Verify' }}
+          </button>
+        </div>
+        <div *ngIf="codeError" class="invalid-feedback">
+          {{ codeError }}
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-outline" (click)="resendVerification()" [disabled]="resendLoading || !canResend">
+          <span *ngIf="!resendLoading">Resend code</span>
+          <span *ngIf="resendLoading">Sending...</span>
+          <span *ngIf="!canResend && !resendLoading">Resend in {{ countdown }}s</span>
+        </button>
+        <button class="btn-link" (click)="clearEmail()">Use different email</button>
+      </div>
+      
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="alert-danger">
+        {{ errorMessage }}
+      </div>
+      
+      <!-- Success Message -->
+      <div *ngIf="resendSuccess" class="alert-success">
+        Verification code sent! Please check your email.
+      </div>
+    </div>
+  </div>
+</div>

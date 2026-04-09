@@ -1,0 +1,95 @@
+<div class="notifications-page">
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="page-title">
+      <h1>Notifications</h1>
+      <p>Stay updated with recent activity and important announcements.</p>
+    </div>
+
+    <div class="page-controls">
+      <select class="filter-select" aria-label="Filter notifications">
+        <option value="all">All</option>
+        <option value="orders">Orders</option>
+        <option value="products">Products</option>
+        <option value="financial">Financial</option>
+        <option value="system">System Updates</option>
+        <option value="messages">Messages</option>
+      </select>
+
+      <div class="header-actions">
+        <button class="btn ghost">Mark All as Read</button>
+        <button class="btn ghost danger">Clear All</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Main column: notifications + announcements -->
+    <main class="main-column">
+      <!-- Notifications Feed -->
+      <section class="card notifications-feed">
+        <div class="feed-header">
+          <button class="chip chip-active">All</button>
+          <button class="chip">Orders</button>
+          <button class="chip">Products</button>
+          <button class="chip">Financial</button>
+          <button class="chip">System</button>
+          <button class="chip">Messages</button>
+        </div>
+
+        <ul class="notifications-list">
+          <!-- Notification item – unread -->
+          <li class="notification unread">
+            <div class="icon-pill order">
+              🛒
+            </div>
+            <div class="notification-body">
+              <div class="title-row">
+                <h3>Order #O‑1025 delivered successfully.</h3>
+                <span class="timestamp">12 min ago</span>
+              </div>
+              <p class="text">
+                Your shipment for Order O‑1025 has been marked as delivered. Please confirm receipt and share feedback with the supplier.
+              </p>
+              <div class="meta-row">
+                <span class="badge unread-badge">Unread</span>
+                <button class="link-btn">View Order</button>
+              </div>
+            </div>
+          </li>
+
+          <!-- Notification item – payout -->
+          <li class="notification unread">
+            <div class="icon-pill financial">
+              💰
+            </div>
+            <div class="notification-body">
+              <div class="title-row">
+                <h3>Payout of $820 processed to your account.</h3>
+                <span class="timestamp">2h ago</span>
+              </div>
+              <p class="text">
+                Your weekly payout has been settled and will appear in your bank within 1–2 business days.
+              </p>
+              <div class="meta-row">
+                <span class="badge unread-badge">Unread</span>
+                <button class="link-btn">View Payouts</button>
+              </div>
+            </div>
+          </li>
+
+          <!-- Notification item – product -->
+          <li class="notification">
+            <div class="icon-pill product">
+              📦
+            </div>
+            <div class="notification-body">
+              <div class="title-row">
+                <h3>New raw material offer: Dyed Cotton Yarn bundle.</h3>
+                <span class="timestamp">5h ago</span>
+              </div>
+              <p class="text">
+                Limited‑time discount on bulk cotton yarn, available for the next 48 hours only.
+              </p>
+              <div class="meta-row">
+                <span class="badge read-badge">

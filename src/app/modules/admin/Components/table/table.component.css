@@ -1,0 +1,146 @@
+/* Areege */
+.table-card {
+  background: white;
+  border-radius: 10px;
+  border: solid 0.5px var(--main-color);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.orders-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+.orders-table thead{
+  background:#fbf9ed;
+}
+
+.orders-table th{
+  text-align:left;
+  padding:14px 12px;
+  font-weight:600;
+  
+  border-bottom:1px solid #eee;
+}
+
+.orders-table td{
+  padding:14px 12px;
+  border-bottom:1px solid #f1f1f1;
+  color:#555;
+  font-size: 15px;
+  font-weight: 550;
+  text-align: center;
+}
+
+.orders-table tbody tr:hover{
+  background:#faf9f5;
+  cursor: pointer;
+}
+
+.table-header{
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  color: var(--main-color) !important;
+}
+.name-column{
+  font-size: 17px !important;
+  /* font-weight: 500 ; */
+}
+.business-name {
+  font-weight: 500 ;          /* خط أثقل شوي */
+  color: #1f2937;            /* لون داكن للقراءة */
+  font-size: 14px;           /* حجم مناسب للجدول */
+  text-overflow: ellipsis;   /* لو الاسم طويل يتقص */
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;           /* لو هتخلي الاسم clickable */
+}
+.category-column{
+  background-color: #FFD9DF;
+  border-radius: 7px;
+  padding: 2px;
+
+}
+/* phone */
+.phone-number {
+  color: #0d6efd;       /* لون أزرق يشبه الروابط */
+  font-weight: 500;     /* خط متوسط سمك */
+  text-decoration: underline; /* لإظهار أنه clickable */
+  cursor: pointer;      /* عند hover يظهر شكل اليد */
+}
+.phone-number:hover {
+  color: #0056b3;
+  text-decoration: none;
+}
+.invalid-phone {
+  color: red;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.no-data{
+  text-align:center;
+  padding:30px;
+  color:#888;
+}
+
+/* Action buttons */
+
+
+
+.btn {
+  flex: 1;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-approve {
+  background-color: #10b981;
+  color: #fff;
+}
+
+.btn-approve:hover:not(:disabled) {
+  background-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+}
+
+.btn-reject {
+  background-color: #ef4444;
+  color: #fff;
+}
+
+.btn-reject:hover:not(:disabled) {
+  background-color: #c03f3f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px hwb(0 94% 5% / 0.3)
+}
+.btn-view {
+  background-color: #3b82f6; /* أزرق متوسط */
+  color: #fff;
+}
+
+.btn-view:hover:not(:disabled) {
+  background-color: #2563eb; /* أزرق أغمق عند hover */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+}

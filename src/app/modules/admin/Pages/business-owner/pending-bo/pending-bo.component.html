@@ -1,0 +1,75 @@
+<!-- Pending Business owner table -->
+ <div class="table-container ">
+  <div class=" mt-5 mb-5 p-5">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <div class="card bg-pink text-white">
+        <div class="card-body">
+          <h5 class="card-title">Total Pending:</h5>
+          <p class="card-text">{{totalPendingOwners}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4 overlap-card">
+      <div class="card bg-terqwaz text-white">
+        <div class="card-body">
+          <h5 class="card-title">Auto-Approval Pending</h5>
+          <p class="card-text">{{AutoApprovalOwners}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4 overlap-card">
+      <div class="card bg-yellow text-white">
+        <div class="card-body">
+          <h5 class="card-title">Manual Approval Needed</h5>
+          <p class="card-text">{{ManualApprovalOwners}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+<app-table
+
+[columns]="['ownerName','businessName','email','phoneNumber','businessCategory','submittedAt']"
+[data]="pendingOwners"
+[hasActions]="true"
+[actions]="['view' ,'approve' , 'reject']"
+(actionClick)="handelevent($event)"
+(openDetails)="handelevent($event)">
+</app-table>
+
+<!-- Pagination -->
+<app-pagination
+ [hasNext]="hasNext"
+ [hasPrevious]="hasPrevious"
+ [pageIndex]="pageIndex"
+ [totalPages]="totalPages"
+ (pageChange)="pageChangeEvent($event)"
+></app-pagination>
+
+<!-- Business Owner Details Modal -->
+@if (selectedBusinessOwner) {
+  <app-bo-details
+    [businessOwner]="selectedBusinessOwner"
+    [isOpen]="isDetailsOpen"
+    (close)="closeModal()"
+    (approve)="onApprove($event)"
+    (reject)="onReject($event)"
+    (sendMessage)="onSendMessage()"
+  ></app-bo-details>
+}
+
+<!-- Approve Business Owner -->
+
+<app-approve-owner
+  [isOpen]="isApproveOpen"
+  [businessOwner]="selectedBusinessOwner"
+  (close)="closeModal()"
+  (approve)="onApprove(selectedBusinessOwner)"
+  (notes)="noteEvent($event)"
+></app-approve-owner>
+ </div>

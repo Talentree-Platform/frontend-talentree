@@ -1,0 +1,349 @@
+.verify-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.verify-card {
+  background: white;
+  border-radius: 32px;
+  box-shadow: 0 20px 40px -10px rgba(212, 175, 55, 0.12);
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  border: 1px solid #f5ede0;
+}
+
+.verify-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon-circle {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.15);
+  
+  span {
+    font-size: 44px;
+    font-weight: 400;
+  }
+  
+  &.success {
+    background: linear-gradient(145deg, #fef9e7, #fffcf2);
+    border: 2px solid #d4af37;
+    .checkmark { color: #d4af37; }
+  }
+  
+  &.error {
+    background: linear-gradient(145deg, #fef9e7, #fffcf2);
+    border: 2px solid #d4af37;
+    .cross { color: #d4af37; }
+  }
+}
+
+h2 {
+  color: #2c2c2c;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+p {
+  color: #6b6b6b;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  max-width: 320px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 16px;
+  width: 100%;
+  
+  @media (max-width: 480px) { 
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+ .btn {
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  
+  @media (max-width: 480px) {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  &-primary {
+    background: #d4af37;
+    color: white;
+    box-shadow: 0 8px 20px -5px rgba(212, 175, 55, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    
+    &:hover {
+      background: #c9a42e;
+      transform: scale(1.02);
+      box-shadow: 0 12px 25px -5px rgba(212, 175, 55, 0.5);
+    }
+    
+    &:active {
+      transform: scale(0.98);
+      box-shadow: 0 5px 15px -5px rgba(212, 175, 55, 0.4);
+    }
+  }
+  
+  &-outline {
+    background: white;
+    color: #5a5a5a;
+    border: 1.5px solid #e6d5b3;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    
+    &:hover {
+      background: #fefcf7;
+      border-color: #d4af37;
+      color: #2c2c2c;
+      box-shadow: 0 8px 16px -8px rgba(212, 175, 55, 0.2);
+    }
+    
+    &:active {
+      background: #faf3e0;
+      transform: scale(0.98);
+    }
+  }
+} 
+
+
+.btn-outline {
+  border: 1px solid #e3a23b;
+  color: #e3a23b;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 3px solid #f7efe0;
+  border-top: 3px solid #d4af37;
+  border-radius: 50%;
+  animation: spin 0.8s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite;
+  margin-bottom: 24px;
+}
+
+
+.otp-container {
+  width: 100%;
+  margin: 24px 0;
+  text-align: left;
+  
+  label {
+    display: block;
+    color: #6b5a3a;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+}
+
+.otp-input-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.otp-input {
+  flex: 1;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1.5px solid #f0e5d5;
+  font-size: 16px;
+  letter-spacing: 4px;
+  font-weight: 600;
+  text-align: center;
+  background: white;
+  transition: all 0.2s ease;
+  
+  &:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: #c2b5a0;
+    letter-spacing: normal;
+    font-weight: normal;
+  }
+}
+
+.btn-verify-code {
+  background: #d4af37;
+  color: white;
+  border: none;
+  padding: 0 24px;
+  height: 48px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  
+  &:hover:not(:disabled) {
+    background: #c9a42e;
+    transform: scale(1.02);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  
+  &.success {
+    background: rgba(212, 175, 55, 0.1);
+    border: 2px solid #d4af37;
+  }
+  
+  &.pending {
+    background: rgba(212, 175, 55, 0.05);
+    border: 2px solid #d4af37;
+  }
+  
+  .checkmark {
+    color: #d4af37;
+    font-size: 40px;
+    font-weight: 700;
+  }
+  
+  .mail-icon {
+    font-size: 40px;
+  }
+}
+
+.btn-link {
+  background: transparent;
+  color: #d4af37;
+  border: none;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  
+  &:hover {
+    color: #c6a229;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+// Add to your verify-email.component.scss
+
+.email-input-container {
+  width: 100%;
+  margin: 24px 0;
+  text-align: left;
+  
+  label {
+    display: block;
+    color: #6b5a3a;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+}
+
+.email-input-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.email-input {
+  flex: 1;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1.5px solid #f0e5d5;
+  font-size: 15px;
+  background: white;
+  transition: all 0.2s ease;
+  
+  &:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: #c2b5a0;
+  }
+}
+
+.btn-send-code {
+  background: #d4af37;
+  color: white;
+  border: none;
+  padding: 0 24px;
+  height: 48px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  
+  &:hover:not(:disabled) {
+    background: #c9a42e;
+    transform: scale(1.02);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

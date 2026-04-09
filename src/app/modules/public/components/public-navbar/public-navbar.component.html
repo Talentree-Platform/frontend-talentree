@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg bg-white position-fixed">
+  <div class="container">
+    <a class="navbar-brand" routerLink="landingpage"><img class="logo" src="assets/images/logo.jpg" alt=""></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="navbar-nav m-auto mb-2 mb-lg-0">
+        <a class="nav-tab" routerLink="landingpage" routerLinkActive="active">Home</a>
+        <a class="nav-tab" routerLink="about" routerLinkActive="active">About</a>
+        <a class="nav-tab" routerLink="offer" routerLinkActive="active">Offer</a>
+        <a class="nav-tab" routerLink="testimonial" routerLinkActive="active">Testimonial</a>
+        <a class="nav-tab" routerLink="contact" routerLinkActive="active">Contact</a>
+ 
+    </div>
+      <form class="d-flex" >
+        <button class="btn-main btn-border me-2" type="submit" routerLinkActive="active-button"><a [routerLink]="['/auth/register']" >Register</a></button>
+        <button class="btn-main btn-border" type="submit" routerLinkActive="active-button"><a [routerLink]="['/auth/login']" >Login</a></button>
+      </form>
+    </div>
+  </div>
+</nav>

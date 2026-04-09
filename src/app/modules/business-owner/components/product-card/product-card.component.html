@@ -1,0 +1,24 @@
+  <article class="card">
+    <div class="card-img cursor-pointer">
+      <img [src]="image" alt="{{title}}" [routerLink]="['/businessowner/rawmaerialproductdetails' ,id ] "/>
+    </div>
+
+    <div class="card-body">
+      <h5 class="card-title">{{ title }}</h5>
+      <p class="meta"><strong>Type:</strong> {{ type }}</p>
+      <p class="meta"><strong>Min Quantity:</strong> {{ minQuantity }}</p>
+      <p class="meta"><strong>Price:</strong> {{ price }} EGP</p>
+      <p class="meta"><strong>Colors:</strong> {{ colors }}</p>
+      <p class="meta"><strong>Vendor:</strong> {{ vendor }}</p>
+    </div>
+    
+                
+     
+                
+      
+    <div class="card-btns d-flex flex-column">
+      <input type="number" [min]="minQuantity" [value]="quentity" class="text-center m-auto input-main input-border mb-2" style="width: 180px;" placeholder="choose quentity" [(ngModel)]="quentity"/>
+      <button class="btn btn-main btn-gold" (click)="addMaterialToCart(id, quentity)"> add to cart</button>
+    </div>
+
+  </article>

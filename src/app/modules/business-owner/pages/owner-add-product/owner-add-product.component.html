@@ -1,0 +1,324 @@
+<div class="ap-page">
+
+  <!-- ═══════════════════════════════════════════
+       PAGE HEADER
+  ═══════════════════════════════════════════ -->
+  <div class="ap-page-header">
+    <div class="ap-page-header__left">
+      <h1 class="ap-page-title">Add New Product</h1>
+      <p class="ap-page-subtitle">Fill in the details below to list a new product in your store.</p>
+    </div>
+    <div class="ap-page-header__actions">
+      <button class="btn-main btn-border" type="button" (click)="handleCancel()">
+        Cancel
+      </button>
+      <button class="btn-main btn-gold" type="button" (click)="handleSave()">
+        <i class="fa-solid fa-floppy-disk"></i> Save Product
+      </button>
+    </div>
+  </div>
+
+
+<input #fileInput type="file" accept="image/*" multiple hidden
+  (change)="handleFileSelect($event)" />
+
+  <!-- success toast -->
+  <div class="ap-toast ap-toast--success" id="successToast" style="display:none">
+    <i class="fa-solid fa-circle-check"></i> Product saved successfully!
+  </div>
+  <div class="ap-toast ap-toast--error" id="errorToast" style="display:none">
+    <i class="fa-solid fa-circle-exclamation"></i> Please fix the errors below.
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN GRID
+  ═══════════════════════════════════════════ -->
+  <div class="ap-grid">
+
+    <!-- ─────────────────────────────────────────
+         LEFT COLUMN
+    ───────────────────────────────────────── -->
+    <div class="ap-col ap-col--main">
+
+      <!-- ① PRODUCT IMAGES ──────────────────── -->
+      <div class="ap-card">
+        <div class="ap-section-heading">
+          <i class="fa-regular fa-image"></i> Product Images
+        </div>
+
+        <!-- Drop zone -->
+        <div class="ap-upload-zone" id="uploadZone"
+          onclick="document.getElementById('fileInput').click()"
+          ondragover="onDragOver(event)"
+          ondragleave="onDragLeave(event)"
+          ondrop="onDrop(event)">
+          <div class="ap-upload-zone__icon">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+          </div>
+          <p class="ap-upload-zone__title">Upload product images</p>
+          <p class="ap-upload-zone__sub">Drag &amp; drop files here, or <span class="ap-link">browse</span></p>
+          <p class="ap-upload-zone__hint">PNG, JPG, WEBP — max 10 MB each</p>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" multiple style="display:none"
+          onchange="handleFileSelect(event)" />
+
+        <!-- Image previews -->
+        <div class="ap-preview-grid" id="previewGrid"></div>
+      </div>
+
+      <!-- ② PRODUCT INFORMATION ──────────────── -->
+      <div class="ap-card">
+        <div class="ap-section-heading">
+          <i class="fa-solid fa-box"></i> Product Information
+        </div>
+
+        <div class="ap-form-group">
+          <label class="feild" for="productName">
+            Product Name <span class="ap-required">*</span>
+          </label>
+          <input class="input-main mt-1 mb-1 " id="productName" type="text"
+            placeholder="e.g. Classic Leather Sneakers"
+            oninput="clearError('productName')" />
+          <span class="ap-error" id="err-productName"></span>
+        </div>
+
+        <div class="ap-form-group">
+          <label class="feild" for="description">
+            <span>Description</span>
+            </label>
+          <textarea class="textarea-main mt-1 mb-1" id="description" rows="5"
+            placeholder="Describe your product — materials, features, sizing..."
+            oninput="updateCharCount()"></textarea>
+          <span class="ap-helper" id="charCount">0 / 1000 characters</span>
+        </div>
+        <div class="ap-form-group">
+            <label class="feild" for="category">
+                <span>Category</span>
+               <span class="ap-required">*</span>
+            </label>
+            <select class="select-main mt-1 mb-1 " id="category" onchange="clearError('category')">
+              <option value="" color="var(--muted)">Select category…</option>
+              <option>Electronics</option>
+              <option>Clothing &amp; Apparel</option>
+              <option>Home &amp; Garden</option>
+              <option>Sports &amp; Outdoors</option>
+              <option>Beauty &amp; Health</option>
+              <option>Books &amp; Media</option>
+              <option>Toys &amp; Games</option>
+              <option>Food &amp; Beverages</option>
+              <option>Automotive</option>
+              <option>Other</option>
+            </select>
+            <span class="ap-error" id="err-category"></span>
+          </div>
+
+        <div class="ap-row">
+          
+
+          <div class="ap-form-group">
+            <label class="feild" for="price">
+              Cost price (USD) <span class="ap-required">*</span>
+            </label>
+            <div class="ap-input-prefix">
+              <span class="ap-input-prefix__symbol">$</span>
+              <input class="input-main mt-1 mb-1 ap-input--prefixed" id="price" type="number"
+                min="0" step="0.01" placeholder="0.00"
+                oninput="clearError('price')" />
+            </div>
+            <span class="ap-error" id="err-price"></span>
+          </div>
+                <div class="ap-form-group">
+            <label class="feild" for="price">
+              selling price (USD) <span class="ap-required">*</span>
+            </label>
+            <div class="ap-input-prefix">
+              <span class="ap-input-prefix__symbol">$</span>
+              <input class="input-main mt-1 mb-1 ap-input--prefixed" id="price" type="number"
+                min="0" step="0.01" placeholder="0.00"
+                oninput="clearError('price')" />
+            </div>
+            <span class="ap-error" id="err-price"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ ADDITIONAL DETAILS ─────────────── -->
+      <div class="ap-card">
+        <div class="ap-section-heading">
+          <i class="fa-solid fa-circle-info"></i> Additional Details
+        </div>
+
+        <div class="ap-row">
+          <div class="ap-form-group">
+            <label class="feild" for="quantity">Quantity / Stock</label>
+            <input class="input-main mt-1 mb-1" id="quantity" type="number" min="0" placeholder="e.g. 100" />
+          </div>
+          <div class="ap-form-group">
+            <label class="feild" for="brand">Brand Name</label>
+            <input class="input-main mt-1 mb-1" id="brand" type="text" placeholder="e.g. Nike" />
+          </div>
+          <div class="ap-form-group">
+            <label class="feild" for="sku">SKU</label>
+            <input class="input-main mt-1 mb-1" id="sku" type="text" placeholder="e.g. SKU-0042" />
+            <span class="ap-helper">Unique identifier for inventory</span>
+          </div>
+          <div class="ap-form-group">
+            <label class="feild" for="weight">Weight (kg)</label>
+            <input class="input-main mt-1 mb-1" id="weight" type="number" min="0" step="0.01" placeholder="e.g. 0.5" />
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="ap-form-group" style="margin-top:8px">
+          <label class="feild">
+            <i class="fa-solid fa-tag" style="font-size:12px;margin-right:4px"></i>Tags
+          </label>
+          <div class="ap-tag-input-row">
+            <input class="input-main mt-1 mb-1" id="tagInput" type="text"
+              placeholder="Add a tag and press Enter"
+              onkeydown="handleTagKey(event)" />
+            <button class="ap-btn ap-btn--gold ap-btn--sm" type="button" (click)="addTag()">
+              <i class="fa-solid fa-plus"></i> Add
+            </button>
+          </div>
+          <div class="ap-chips" id="tagChips">
+            <span class="ap-chip">#new-arrival <button onclick="removeTag(this)" type="button"><i class="fa-solid fa-xmark"></i></button></span>
+            <span class="ap-chip">#trending <button onclick="removeTag(this)" type="button"><i class="fa-solid fa-xmark"></i></button></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ④ SHIPPING & AVAILABILITY ──────────── -->
+      <div class="ap-card">
+        <div class="ap-section-heading">
+          <i class="fa-solid fa-truck"></i> Shipping &amp; Availability
+        </div>
+        <div class="ap-info-box">
+
+          <div class="ap-toggle-row">
+            <div class="ap-toggle-row__text">
+              <p class="ap-toggle-row__title">Free Shipping</p>
+              <p class="ap-toggle-row__sub">Offer free shipping for this product</p>
+            </div>
+            <label class="ap-toggle">
+              <input type="checkbox" id="freeShipping" onchange="refreshSummary()" />
+              <span class="ap-toggle__slider"></span>
+            </label>
+          </div>
+
+          <div class="ap-divider"></div>
+
+          <div class="ap-toggle-row">
+            <div class="ap-toggle-row__text">
+              <p class="ap-toggle-row__title">Track Inventory</p>
+              <p class="ap-toggle-row__sub">Automatically manage stock levels</p>
+            </div>
+            <label class="ap-toggle">
+              <input type="checkbox" id="trackInventory" checked onchange="refreshSummary()" />
+              <span class="ap-toggle__slider"></span>
+            </label>
+          </div>
+
+          <div class="ap-divider"></div>
+
+          <div class="ap-toggle-row">
+            <div class="ap-toggle-row__text">
+              <p class="ap-toggle-row__title">Featured Product</p>
+              <p class="ap-toggle-row__sub">Highlight this product on the storefront</p>
+            </div>
+            <label class="ap-toggle">
+              <input type="checkbox" id="featured" onchange="refreshSummary()" />
+              <span class="ap-toggle__slider"></span>
+            </label>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ⑤ SEO & META ────────────────────────── -->
+      <div class="ap-card">
+        <div class="ap-section-heading">
+          <i class="fa-solid fa-magnifying-glass"></i> SEO &amp; Meta
+        </div>
+        <div class="ap-form-group">
+          <label class="feild" for="metaTitle">Meta Title</label>
+          <input class="input-main mt-1 mb-1" id="metaTitle" type="text"
+            placeholder="e.g. Buy Classic Leather Sneakers Online" />
+          <span class="ap-helper">Recommended: 50–60 characters</span>
+        </div>
+        <div class="ap-form-group" style="margin-top:16px">
+          <label class="feild" for="metaDesc">Meta Description</label>
+          <textarea class="textarea-main" id="metaDesc" rows="3"
+            placeholder="Brief description for search engines..."></textarea>
+          <span class="ap-helper">Recommended: 120–160 characters</span>
+        </div>
+      </div>
+
+      <!-- ⑥ BOTTOM ACTION BAR ─────────────────── -->
+      <div class="ap-action-bar">
+        <button class="btn-main btn-border" type="button" (click)="handleCancel()">Cancel</button>
+        <button class="btn-main btn-gold" type="button" (click)="handleSave()">
+          <i class="fa-solid fa-floppy-disk"></i> Save Product
+        </button>
+      </div>
+
+    </div><!-- /ap-col--main -->
+
+    <!-- ─────────────────────────────────────────
+         RIGHT COLUMN
+    ───────────────────────────────────────── -->
+    <div class="ap-col ap-col--side">
+
+      <!-- Summary -->
+      <div class="ap-card ap-card--sm">
+        <p class="ap-side-heading">
+          <i class="fa-solid fa-box-open"></i> Summary
+        </p>
+        <ul class="ap-summary-list">
+          <li><span class="ap-summary-list__key">Name</span>       <span class="ap-summary-list__val" id="s-name">—</span></li>
+          <li><span class="ap-summary-list__key">Category</span>   <span class="ap-summary-list__val" id="s-category">—</span></li>
+          <li><span class="ap-summary-list__key">Price</span>      <span class="ap-summary-list__val ap-val--gold" id="s-price">—</span></li>
+          <li><span class="ap-summary-list__key">Stock</span>      <span class="ap-summary-list__val" id="s-stock">—</span></li>
+          <li><span class="ap-summary-list__key">Brand</span>      <span class="ap-summary-list__val" id="s-brand">—</span></li>
+          <li><span class="ap-summary-list__key">Images</span>     <span class="ap-badge" id="s-images">0 uploaded</span></li>
+        </ul>
+      </div>
+
+      <!-- Status -->
+      <div class="ap-card ap-card--sm">
+        <p class="ap-side-heading">Product Status</p>
+        <ul class="ap-summary-list">
+          <li>
+            <span class="ap-summary-list__key">Free Shipping</span>
+            <span class="ap-status ap-status--off" id="st-shipping">OFF</span>
+          </li>
+          <li>
+            <span class="ap-summary-list__key">Track Inventory</span>
+            <span class="ap-status ap-status--on" id="st-inventory">ON</span>
+          </li>
+          <li>
+            <span class="ap-summary-list__key">Featured</span>
+            <span class="ap-status ap-status--off" id="st-featured">OFF</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Tips -->
+      <div class="ap-card ap-card--sm ap-card--tip">
+        <p class="ap-side-heading ap-side-heading--tip">
+          <i class="fa-solid fa-lightbulb"></i> Tips for a great listing
+        </p>
+        <ul class="ap-tips-list">
+          <li>Use clear, high-resolution images</li>
+          <li>Write a detailed product description</li>
+          <li>Set accurate stock levels</li>
+          <li>Add relevant tags to improve discoverability</li>
+          <li>Include weight for accurate shipping calculations</li>
+        </ul>
+      </div>
+
+    </div><!-- /ap-col--side -->
+
+  </div><!-- /ap-grid -->
+</div><!-- /ap-page -->
+

@@ -1,0 +1,118 @@
+<div class="cart-layout">
+  
+
+    
+
+      @if (cartItems.length >0) {
+        <!-- Cart list -->
+  <section class="cart-list">
+    <h1 class="text-center">Your Shopping Cart</h1>
+<div class="table-wrap">
+      
+      <table>
+        <thead>
+          <tr>
+            <th class="text-center">Material</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-center">Price</th>
+            <th class="text-center">Subtotal</th>
+            <th class="actions-col text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Example row; replace with *ngFor -->
+          @for(item of cartItems ; track item.id){
+          <tr>
+            <td>
+              <div class="item">
+                <img [src]="item.pictureUrl" [alt]="item.materialName" class="cursor-pointer" [routerLink]="['/businessowner/rawmaerialproductdetails', item.id]" />
+                <div>
+                  <div class="name">{{item.materialName}}</div>
+                  <div class="meta">from : {{item.supplierName}}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="qty">
+                <button aria-label="decrease" (click)="decreaseQuentity(item.id )">-</button>
+                <input type="number" [min]="item.minimumOrderQuantity" [value]="item.quantity" />
+                <button aria-label="increase" (click)="increaseQuentity(item.id)">+</button>
+              </div>
+            </td>
+            <td>{{item.unitPrice}} EGP / {{item.unit}}</td>
+            <td>{{item.lineTotal}} EGP</td>
+            <td class="actions-col">
+              <button class="btn-main btn-burgandy" aria-label="remove" (click)="removeItemFromCart(item.id)">Remove</button>
+            </td>
+          </tr>
+          }
+
+        </tbody>
+      </table>
+      <button class="btn-main btn-burgandy mt-2 mb-3 m-auto d-block" (click)="removeAll()">Clear All</button>
+</div>
+
+</section>
+      }
+    
+
+    @else {
+    <section class="poster">
+      
+        <div class="poster-text ">
+        <h1 class="text-gold pb-5">your cart is empty</h1>
+        <button class="btn-main btn-border" routerLink="/businessowner/rawmaterialhome"> Continue shopping</button>
+      </div>
+      <div class="poster-img ">
+        <img src="https://i.pinimg.com/1200x/24/fc/42/24fc42a5b0ae66758512c4f08458dad6.jpg" alt="Dashboard illustration" />
+      </div>
+      
+      
+      
+    </section>
+    
+    }
+
+  
+
+  <!-- Order summary -->
+   @if(cartItems.length>0){
+    <aside class="summary-card">
+    <h2 class="text-gold">Order Summary</h2>
+    <div class="line">
+      <span>Subtotal</span><span class="value">{{cartData.subtotal}} EGP</span>
+    </div>
+    <div class="line">
+      <span>Total Items</span><span class="value">{{cartData.totalItemCount}} item</span>
+    </div>
+    <div class="line">
+      <span>Shipping</span><span class="value">$8.00</span>
+    </div>
+    <div class="line">
+      <span>Taxes</span><span class="value">$0.00</span>
+    </div>
+    <div class="line">
+      <span>Discount</span><span class="value">-$0.00</span>
+    </div>
+
+    <div class="promo">
+      <label for="promo">Promo Code</label>
+      <div class="promo-row">
+        <input id="promo" type="text" placeholder="Enter promo code" class="input-main" />
+        <button class="btn-main btn-gold ghost">Apply</button>
+      </div>
+    </div>
+
+    <div class="line total">
+      <span>Grand Total</span>
+      <span class="value">$62.00</span>
+    </div>
+
+    <button class="btn-gold btn-main full">Proceed to Checkout</button>
+    <button class="btn-main btn-border full" routerLink="/businessowner/rawmaterialhome">
+      Continue Shopping
+    </button>
+  </aside>
+   }
+  
+</div>

@@ -1,1 +1,177 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@300&display=swap");
+
+:root {
+  --main-color: #d1a33e;
+  --burgandy-color:#B84642;
+  --light-color: #f0f3f2;
+  --light-beige:#fbedcf;
+  --text: #111827;
+  --ap-gold-dark:     #bb891c;
+  --ap-gold-light:    rgba(209, 163, 62, 0.10);
+  --ap-gold-ring:     rgba(209, 163, 62, 0.22);
+  --ap-burgandy-dark: #9c2e2a;
+  --ap-bg:            #f6f7f9;
+  --ap-surface:       #ffffff;
+  --ap-border:        #e5e7eb;
+  --ap-text-muted:    #6b7280;
+  --ap-text-light:    #9ca3af;
+  --ap-error:         #ef4444;
+  --ap-success:       #22c55e;
+  --ap-shadow-sm:     0 1px 4px rgba(0,0,0,0.06);
+  --ap-shadow-card:   0 4px 24px rgba(0,0,0,0.07);
+  --ap-radius-card:   14px;
+  --ap-radius-input:  10px;
+  --ap-radius-pill:   999px;
+  --ap-transition:    0.18s ease;
+  --shadow: rgba(145, 158, 171, 0.2) 0px 2px 4px -1px,
+    rgba(145, 158, 171, 0.14) 0px 4px 5px 0px,
+    rgba(145, 158, 171, 0.12) 0px 1px 10px 0px;
+  --font-family: 'Inter', system-ui, sans-serif;
+  --rating-color: #ffc908;
+}
+
+
+body {
+  font-family: var(--font-family) !important;
+  background: #f6f7f9 ;
+  color: var(--text);
+  /* font-size: 14px; */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page{
+  width:80%;
+  padding-top: 120px;
+  margin:auto;
+}
+
+/* text colors */
+.text-gold{
+  color:var(--main-color)
+}
+.text-burgandy{
+  color:var(--burgandy-color)
+}
+
+.nav-link {
+  transition: unset !important;
+}
+.active-link {
+  background-color: var(--main-color) !important;
+  color: var(--light-color) !important;
+  border-radius: 5px;
+}
+
+.rating-color {
+  color: var(--rating-color);
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+a,
+a:hover {
+  color: black;
+  text-decoration: none;
+}
+
+
+.font-sm {
+  font-size: 12px;
+}
+.text-main {
+  color: var(--main-color);
+}
+.bg-main {
+  background-color: var(--main-color) !important;
+}
+.bg-main-light {
+  background-color: var(--light-color) !important;
+}
+/* buttons */
+.btn-main {
+  padding: 7px 20px !important;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+.btn-main:disabled {
+  cursor: not-allowed;
+  background-color: #ccc;
+}
+.btn-main:disabled:hover {
+  background-color: #ccc;
+}
+.btn-main:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 12px rgba(149, 144, 249, 0.45);
+  filter: brightness(1.05);
+}
+.btn-gold{
+  background-color: var(--main-color);
+}
+.btn-gold:hover{
+  background-color: #bb891c;
+}
+.btn-burgandy{
+  background-color: var(--burgandy-color);
+}
+.btn-burgandy:hover{
+  background-color: #bc2621;
+}
+
+.btn-border {
+  transition: all 0.25s ease;
+  border: 1.5px solid var(--main-color);
+  background: white;
+  color: var(--main-color);
+  
+}
+
+.btn-border:hover , .active-button {
+  background: #d4af37;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -5px rgba(212, 175, 55, 0.4);
+}
+
+.btn-border:active {
+  transform: translateY(0);
+}
+
+
+/* input , textarea , select styling */
+input.input-main,
+select.select-main,
+textarea.textarea-main {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input.input-main:focus,
+select.select-main:focus,
+textarea.textarea-main:focus {
+  border-color: #d1a33e ;
+  box-shadow: 0 0 0 3px rgba(209, 163, 62, 0.18);
+}
+
+/* Card */
+.card {
+  margin-top: 18px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 60px 40px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  
+}
+.margin{
+  margin-top: 90px;
+}

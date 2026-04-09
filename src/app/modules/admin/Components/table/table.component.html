@@ -1,0 +1,90 @@
+<div class="table-card">
+
+  <div class="table-responsive">
+
+    <table class="orders-table">
+
+      <thead class="pt-2 pb-2  ">
+        <tr>
+
+          @for(col of columns ; track $index){
+          <th class="table-header text-center">{{ col | titlecase }}</th>
+          }
+
+          @if(hasActions){
+          <th class="table-header text-center">Actions</th>
+          }
+          <!-- #FEF9E7 -->
+        </tr>
+      </thead>
+
+      <tbody class="pt-2 pb-2 ">
+
+        @for(row of data ; track $index){
+
+        <tr (click)="openOwnerDetails(row,'view')">
+
+          @for(col of columns ; track $index){
+          <td>
+            @if(isEmail(row[col])){
+            <a [href]="'mailto:' + row[col]">{{ row[col] }}</a>
+            }
+            @else if (col==='submittedAt') {
+          <td>
+            {{ row.submittedAt | date:'dd/MM/yyyy HH:mm:ss' }}
+          </td>
+          }
+          @else if (col==='phoneNumber') {
+            <a [href]="'tel:' + row[col]" 
+   [ngClass]="{'phone-number': isValidPhone(row[col]), 'invalid-phone': !isValidPhone(row[col])}">
+  {{ row[col] }}
+</a>
+          }
+          @else {
+          <div [ngClass]="getColumnClass(col)" [style.background-color]="getBadgeColor(row[col])">
+            {{ row[col] }}
+          </div>
+          }
+
+
+          </td>
+          }
+
+          @if(hasActions){
+          <td>
+
+            <div class="action-buttons">
+
+              @for(act of actions ; track $index){
+
+              <button class="btn-main me-1" (click)="onAction(row , act )" [ngClass]="addButtonStyle(act)">
+                {{ act | titlecase }}
+              </button>
+
+              }
+
+            </div>
+
+          </td>
+          }
+
+        </tr>
+
+        }
+
+        <!-- No Data -->
+        @if(data.length === 0){
+        <tr>
+          <td [attr.colspan]="columns.length + (hasActions ? 1 : 0)" class="no-data">
+            No data available
+          </td>
+        </tr>
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

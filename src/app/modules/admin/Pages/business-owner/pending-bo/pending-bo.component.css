@@ -1,0 +1,18 @@
+.table-container{
+    width:90%;
+    margin: auto;
+    padding: 30px 0;
+}
+.bg-terqwaz{
+    background: linear-gradient(135deg, rgb(30, 203, 145), rgb(101, 250, 200));
+}
+.bg-pink{
+   background: linear-gradient(135deg, #F48981, #f9c6b6);
+}
+.bg-yellow{
+    background: linear-gradient(to right, #f3a13e, #FFC75F);
+}
+h5.card-title{
+    font-size: 32 !important;
+    font-weight: 600 !important;
+}
