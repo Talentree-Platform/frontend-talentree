@@ -6,7 +6,7 @@ import { NotFoundComponent } from './layout/not-found/not-found.component';
 import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'public', pathMatch: 'full' },
+  { path: '', redirectTo: 'public/landingpage', pathMatch: 'full' },
   {
     
     path: 'public',

@@ -1,13 +1,17 @@
+import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID, inject } from '@angular/core';
 import { AuthService } from './../../modules/auth/services/auth.service';
-import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
 export const guestGuard: CanActivateFn = (route, state) => {
-  const authService =inject(AuthService) ;
-  const router =inject(Router);
+  const platformId = inject(PLATFORM_ID);
+  if (!isPlatformBrowser(platformId)) return true; // ← SSR
 
-  if (authService.isLoggedIn()){
-    const user =authService.getCurrentUser();
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.isLoggedIn()) {
+    const user = authService.getCurrentUser();
     authService['redirectBasedOnRole'](user!.role);
     return false;
   }
