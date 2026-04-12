@@ -15,7 +15,7 @@ export class RawMaterialService {
 
   constructor(private _HttpClient: HttpClient) {}
 
-  apiUrl = '/api/AdminRawMaterial';
+  apiUrl = 'https://talentreeplateform.runasp.net/api/AdminRawMaterial';
 
   // ── GET all (with filters + pagination) ──────────────────────────────────
 

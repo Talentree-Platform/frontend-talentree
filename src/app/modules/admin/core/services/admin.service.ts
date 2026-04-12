@@ -32,7 +32,7 @@ export class AdminService {
 
   constructor(private _HttpClient: HttpClient) {}
 
-  apiUrl = '/api/Admin';
+  apiUrl = 'https://talentreeplateform.runasp.net/api/Admin';
 
   // ── Business Owners ───────────────────────────────────────────────────────
 
