@@ -14,7 +14,7 @@ export class SupplierService {
 
   constructor(private _HttpClient: HttpClient) {}
 
-  apiUrl = 'https://talentreeplateform.runasp.net/api/Admin';
+ apiUrl = 'https://backtalentree.runasp.net/api/AdminSupplier';
 
   // ── GET all ───────────────────────────────────────────────────────────────
 
