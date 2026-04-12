@@ -1,0 +1,62 @@
+<div class="owner-products-modal-backdrop" (click)="onBackdropClick()" role="presentation"></div>
+<div
+  class="owner-products-modal owner-products-modal--wide admin-reject-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="reject-product-title"
+  (click)="$event.stopPropagation()"
+>
+  <h2 id="reject-product-title" class="owner-products-modal-title">Reject Product</h2>
+
+  <p class="owner-products-modal-text">
+    <strong>{{ productName }}</strong>
+  </p>
+
+  @if (productId == null) {
+    <p class="admin-reject-modal__error">This product has no valid id and cannot be rejected.</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submitReject()" novalidate>
+    <div class="admin-reject-modal__field">
+      <label class="admin-reject-modal__label" for="reject-reason">
+        Rejection reason <span class="admin-reject-modal__required" aria-hidden="true">*</span>
+      </label>
+      <textarea
+        id="reject-reason"
+        class="textarea-main admin-reject-modal__textarea"
+        formControlName="reason"
+        rows="4"
+        placeholder="Explain why this listing is being rejected…"
+        [attr.aria-invalid]="form.controls.reason.invalid && form.controls.reason.touched"
+        [attr.aria-describedby]="
+          form.controls.reason.invalid && form.controls.reason.touched ? 'reject-reason-error' : null
+        "
+      ></textarea>
+      @if (form.controls.reason.invalid && form.controls.reason.touched) {
+        <span id="reject-reason-error" class="admin-reject-modal__error" role="alert">
+          @if (form.controls.reason.errors?.['required']) {
+            Rejection reason is required.
+          } @else if (form.controls.reason.errors?.['maxlength']) {
+            Reason is too long (max 2000 characters).
+          }
+        </span>
+      }
+    </div>
+
+    <div class="owner-products-modal-actions">
+      <button type="button" class="btn-main btn-secondary" [disabled]="submitting" (click)="dismiss()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn-main btn-danger admin-reject-modal__submit"
+        [disabled]="submitting || productId == null"
+      >
+        @if (submitting) {
+          <span class="admin-reject-modal__spinner" aria-hidden="true"></span>
+        }
+        Reject
+      </button>
+    </div>
+  </form>
+</div>

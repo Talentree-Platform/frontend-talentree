@@ -1,14 +1,1050 @@
-<!DOCTYPE html><html lang="en" data-critters-container><head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Talentree</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-<style>@charset "UTF-8";:root{--bs-blue:#0d6efd;--bs-indigo:#6610f2;--bs-purple:#6f42c1;--bs-pink:#d63384;--bs-red:#dc3545;--bs-orange:#fd7e14;--bs-yellow:#ffc107;--bs-green:#198754;--bs-teal:#20c997;--bs-cyan:#0dcaf0;--bs-black:#000;--bs-white:#fff;--bs-gray:#6c757d;--bs-gray-dark:#343a40;--bs-gray-100:#f8f9fa;--bs-gray-200:#e9ecef;--bs-gray-300:#dee2e6;--bs-gray-400:#ced4da;--bs-gray-500:#adb5bd;--bs-gray-600:#6c757d;--bs-gray-700:#495057;--bs-gray-800:#343a40;--bs-gray-900:#212529;--bs-primary:#0d6efd;--bs-secondary:#6c757d;--bs-success:#198754;--bs-info:#0dcaf0;--bs-warning:#ffc107;--bs-danger:#dc3545;--bs-light:#f8f9fa;--bs-dark:#212529;--bs-primary-rgb:13,110,253;--bs-secondary-rgb:108,117,125;--bs-success-rgb:25,135,84;--bs-info-rgb:13,202,240;--bs-warning-rgb:255,193,7;--bs-danger-rgb:220,53,69;--bs-light-rgb:248,249,250;--bs-dark-rgb:33,37,41;--bs-primary-text-emphasis:#052c65;--bs-secondary-text-emphasis:#2b2f32;--bs-success-text-emphasis:#0a3622;--bs-info-text-emphasis:#055160;--bs-warning-text-emphasis:#664d03;--bs-danger-text-emphasis:#58151c;--bs-light-text-emphasis:#495057;--bs-dark-text-emphasis:#495057;--bs-primary-bg-subtle:#cfe2ff;--bs-secondary-bg-subtle:#e2e3e5;--bs-success-bg-subtle:#d1e7dd;--bs-info-bg-subtle:#cff4fc;--bs-warning-bg-subtle:#fff3cd;--bs-danger-bg-subtle:#f8d7da;--bs-light-bg-subtle:#fcfcfd;--bs-dark-bg-subtle:#ced4da;--bs-primary-border-subtle:#9ec5fe;--bs-secondary-border-subtle:#c4c8cb;--bs-success-border-subtle:#a3cfbb;--bs-info-border-subtle:#9eeaf9;--bs-warning-border-subtle:#ffe69c;--bs-danger-border-subtle:#f1aeb5;--bs-light-border-subtle:#e9ecef;--bs-dark-border-subtle:#adb5bd;--bs-white-rgb:255,255,255;--bs-black-rgb:0,0,0;--bs-font-sans-serif:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--bs-font-monospace:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;--bs-gradient:linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));--bs-body-font-family:var(--bs-font-sans-serif);--bs-body-font-size:1rem;--bs-body-font-weight:400;--bs-body-line-height:1.5;--bs-body-color:#212529;--bs-body-color-rgb:33,37,41;--bs-body-bg:#fff;--bs-body-bg-rgb:255,255,255;--bs-emphasis-color:#000;--bs-emphasis-color-rgb:0,0,0;--bs-secondary-color:rgba(33, 37, 41, .75);--bs-secondary-color-rgb:33,37,41;--bs-secondary-bg:#e9ecef;--bs-secondary-bg-rgb:233,236,239;--bs-tertiary-color:rgba(33, 37, 41, .5);--bs-tertiary-color-rgb:33,37,41;--bs-tertiary-bg:#f8f9fa;--bs-tertiary-bg-rgb:248,249,250;--bs-heading-color:inherit;--bs-link-color:#0d6efd;--bs-link-color-rgb:13,110,253;--bs-link-decoration:underline;--bs-link-hover-color:#0a58ca;--bs-link-hover-color-rgb:10,88,202;--bs-code-color:#d63384;--bs-highlight-color:#212529;--bs-highlight-bg:#fff3cd;--bs-border-width:1px;--bs-border-style:solid;--bs-border-color:#dee2e6;--bs-border-color-translucent:rgba(0, 0, 0, .175);--bs-border-radius:.375rem;--bs-border-radius-sm:.25rem;--bs-border-radius-lg:.5rem;--bs-border-radius-xl:1rem;--bs-border-radius-xxl:2rem;--bs-border-radius-2xl:var(--bs-border-radius-xxl);--bs-border-radius-pill:50rem;--bs-box-shadow:0 .5rem 1rem rgba(0, 0, 0, .15);--bs-box-shadow-sm:0 .125rem .25rem rgba(0, 0, 0, .075);--bs-box-shadow-lg:0 1rem 3rem rgba(0, 0, 0, .175);--bs-box-shadow-inset:inset 0 1px 2px rgba(0, 0, 0, .075);--bs-focus-ring-width:.25rem;--bs-focus-ring-opacity:.25;--bs-focus-ring-color:rgba(13, 110, 253, .25);--bs-form-valid-color:#198754;--bs-form-valid-border-color:#198754;--bs-form-invalid-color:#dc3545;--bs-form-invalid-border-color:#dc3545}*,:after,:before{box-sizing:border-box}@media (prefers-reduced-motion:no-preference){:root{scroll-behavior:smooth}}body{margin:0;font-family:var(--bs-body-font-family);font-size:var(--bs-body-font-size);font-weight:var(--bs-body-font-weight);line-height:var(--bs-body-line-height);color:var(--bs-body-color);text-align:var(--bs-body-text-align);background-color:var(--bs-body-bg);-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}h1,h2,h3,h4{margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2;color:var(--bs-heading-color)}h1{font-size:calc(1.375rem + 1.5vw)}@media (min-width:1200px){h1{font-size:2.5rem}}h2{font-size:calc(1.325rem + .9vw)}@media (min-width:1200px){h2{font-size:2rem}}h3{font-size:calc(1.3rem + .6vw)}@media (min-width:1200px){h3{font-size:1.75rem}}h4{font-size:calc(1.275rem + .3vw)}@media (min-width:1200px){h4{font-size:1.5rem}}p{margin-top:0;margin-bottom:1rem}ul{padding-left:2rem}ul{margin-top:0;margin-bottom:1rem}a{color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));text-decoration:underline}a:hover{--bs-link-color-rgb:var(--bs-link-hover-color-rgb)}img{vertical-align:middle}button{border-radius:0}button:focus:not(:focus-visible){outline:0}button{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button{text-transform:none}[type=button],button{-webkit-appearance:button}[type=button]:not(:disabled),button:not(:disabled){cursor:pointer}.container{--bs-gutter-x:1.5rem;--bs-gutter-y:0;width:100%;padding-right:calc(var(--bs-gutter-x) * .5);padding-left:calc(var(--bs-gutter-x) * .5);margin-right:auto;margin-left:auto}@media (min-width:576px){.container{max-width:540px}}@media (min-width:768px){.container{max-width:720px}}@media (min-width:992px){.container{max-width:960px}}@media (min-width:1200px){.container{max-width:1140px}}@media (min-width:1400px){.container{max-width:1320px}}:root{--bs-breakpoint-xs:0;--bs-breakpoint-sm:576px;--bs-breakpoint-md:768px;--bs-breakpoint-lg:992px;--bs-breakpoint-xl:1200px;--bs-breakpoint-xxl:1400px}.btn-primary{--bs-btn-color:#fff;--bs-btn-bg:#0d6efd;--bs-btn-border-color:#0d6efd;--bs-btn-hover-color:#fff;--bs-btn-hover-bg:#0b5ed7;--bs-btn-hover-border-color:#0a58ca;--bs-btn-focus-shadow-rgb:49,132,253;--bs-btn-active-color:#fff;--bs-btn-active-bg:#0a58ca;--bs-btn-active-border-color:#0a53be;--bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, .125);--bs-btn-disabled-color:#fff;--bs-btn-disabled-bg:#0d6efd;--bs-btn-disabled-border-color:#0d6efd}.collapse:not(.show){display:none}.nav-link{display:block;padding:var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);font-size:var(--bs-nav-link-font-size);font-weight:var(--bs-nav-link-font-weight);color:var(--bs-nav-link-color);text-decoration:none;background:0 0;border:0;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out}@media (prefers-reduced-motion:reduce){.nav-link{transition:none}}.nav-link:focus,.nav-link:hover{color:var(--bs-nav-link-hover-color)}.nav-link:focus-visible{outline:0;box-shadow:0 0 0 .25rem #0d6efd40}.nav-link:disabled{color:var(--bs-nav-link-disabled-color);pointer-events:none;cursor:default}.navbar{--bs-navbar-padding-x:0;--bs-navbar-padding-y:.5rem;--bs-navbar-color:rgba(var(--bs-emphasis-color-rgb), .65);--bs-navbar-hover-color:rgba(var(--bs-emphasis-color-rgb), .8);--bs-navbar-disabled-color:rgba(var(--bs-emphasis-color-rgb), .3);--bs-navbar-active-color:rgba(var(--bs-emphasis-color-rgb), 1);--bs-navbar-brand-padding-y:.3125rem;--bs-navbar-brand-margin-end:1rem;--bs-navbar-brand-font-size:1.25rem;--bs-navbar-brand-color:rgba(var(--bs-emphasis-color-rgb), 1);--bs-navbar-brand-hover-color:rgba(var(--bs-emphasis-color-rgb), 1);--bs-navbar-nav-link-padding-x:.5rem;--bs-navbar-toggler-padding-y:.25rem;--bs-navbar-toggler-padding-x:.75rem;--bs-navbar-toggler-font-size:1.25rem;--bs-navbar-toggler-icon-bg:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");--bs-navbar-toggler-border-color:rgba(var(--bs-emphasis-color-rgb), .15);--bs-navbar-toggler-border-radius:var(--bs-border-radius);--bs-navbar-toggler-focus-width:.25rem;--bs-navbar-toggler-transition:box-shadow .15s ease-in-out;position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:var(--bs-navbar-padding-y) var(--bs-navbar-padding-x)}.navbar>.container{display:flex;flex-wrap:inherit;align-items:center;justify-content:space-between}.navbar-brand{padding-top:var(--bs-navbar-brand-padding-y);padding-bottom:var(--bs-navbar-brand-padding-y);margin-right:var(--bs-navbar-brand-margin-end);font-size:var(--bs-navbar-brand-font-size);color:var(--bs-navbar-brand-color);text-decoration:none;white-space:nowrap}.navbar-brand:focus,.navbar-brand:hover{color:var(--bs-navbar-brand-hover-color)}.navbar-nav{--bs-nav-link-padding-x:0;--bs-nav-link-padding-y:.5rem;--bs-nav-link-font-weight: ;--bs-nav-link-color:var(--bs-navbar-color);--bs-nav-link-hover-color:var(--bs-navbar-hover-color);--bs-nav-link-disabled-color:var(--bs-navbar-disabled-color);display:flex;flex-direction:column;padding-left:0;margin-bottom:0;list-style:none}.navbar-nav .nav-link.active{color:var(--bs-navbar-active-color)}.navbar-collapse{flex-grow:1;flex-basis:100%;align-items:center}.navbar-toggler{padding:var(--bs-navbar-toggler-padding-y) var(--bs-navbar-toggler-padding-x);font-size:var(--bs-navbar-toggler-font-size);line-height:1;color:var(--bs-navbar-color);background-color:transparent;border:var(--bs-border-width) solid var(--bs-navbar-toggler-border-color);border-radius:var(--bs-navbar-toggler-border-radius);transition:var(--bs-navbar-toggler-transition)}@media (prefers-reduced-motion:reduce){.navbar-toggler{transition:none}}.navbar-toggler:hover{text-decoration:none}.navbar-toggler:focus{text-decoration:none;outline:0;box-shadow:0 0 0 var(--bs-navbar-toggler-focus-width)}.navbar-toggler-icon{display:inline-block;width:1.5em;height:1.5em;vertical-align:middle;background-image:var(--bs-navbar-toggler-icon-bg);background-repeat:no-repeat;background-position:center;background-size:100%}@media (min-width:992px){.navbar-expand-lg{flex-wrap:nowrap;justify-content:flex-start}.navbar-expand-lg .navbar-nav{flex-direction:row}.navbar-expand-lg .navbar-nav .nav-link{padding-right:var(--bs-navbar-nav-link-padding-x);padding-left:var(--bs-navbar-nav-link-padding-x)}.navbar-expand-lg .navbar-collapse{display:flex!important;flex-basis:auto}.navbar-expand-lg .navbar-toggler{display:none}}:root{--bs-btn-close-filter: }:root{--bs-carousel-indicator-active-bg:#fff;--bs-carousel-caption-color:#fff;--bs-carousel-control-icon-filter: }.m-auto{margin:auto!important}.mb-2{margin-bottom:.5rem!important}@media (min-width:992px){.mb-lg-0{margin-bottom:0!important}}@-webkit-keyframes fa-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0)}to{-webkit-transform:rotate(359deg);transform:rotate(359deg)}}.fa-twitter:before{content:"\f099"}.fa-facebook-f:before{content:"\f09a"}.fa-instagram:before{content:"\f16d"}:root{--main-color: #d1a33e;--burgandy-color:#B84642;--light-color: #f0f3f2;--light-beige:#fbedcf;--text: #111827;--ap-gold-dark: #bb891c;--ap-gold-light: rgba(209, 163, 62, .1);--ap-gold-ring: rgba(209, 163, 62, .22);--ap-burgandy-dark: #9c2e2a;--ap-bg: #f6f7f9;--ap-surface: #ffffff;--ap-border: #e5e7eb;--ap-text-muted: #6b7280;--ap-text-light: #9ca3af;--ap-error: #ef4444;--ap-success: #22c55e;--ap-shadow-sm: 0 1px 4px rgba(0,0,0,.06);--ap-shadow-card: 0 4px 24px rgba(0,0,0,.07);--ap-radius-card: 14px;--ap-radius-input: 10px;--ap-radius-pill: 999px;--ap-transition: .18s ease;--shadow: rgba(145, 158, 171, .2) 0px 2px 4px -1px, rgba(145, 158, 171, .14) 0px 4px 5px 0px, rgba(145, 158, 171, .12) 0px 1px 10px 0px;--font-family: "Inter", system-ui, sans-serif;--rating-color: #ffc908}body{font-family:var(--font-family)!important;background:#f6f7f9;color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}.nav-link{transition:unset!important}a,a:hover{color:#000;text-decoration:none}
-</style><link rel="stylesheet" href="styles-LKIDR7QH.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-LKIDR7QH.css"></noscript><link rel="modulepreload" href="chunk-35OE3XPW.js"><link rel="modulepreload" href="chunk-FYPXS46S.js"><link rel="modulepreload" href="chunk-XAZLOLJU.js"><link rel="modulepreload" href="chunk-UZV4I56O.js"><style ng-app-id="ng">.setting[_ngcontent-ng-c861037777]{padding-top:100px;margin:auto}</style><style ng-app-id="ng">body[_ngcontent-ng-c151807199]{background-color:#fff;margin:0;padding:0}a[_ngcontent-ng-c151807199]{text-decoration:none;color:#1a1a1a;font-size:13px;font-weight:500;transition:color .3s ease}a[_ngcontent-ng-c151807199]:hover, .gold[_ngcontent-ng-c151807199]{color:#d4af37}.nav-wrapper[_ngcontent-ng-c151807199]{width:100%;display:flex;justify-content:center;position:fixed;top:12px;left:0;z-index:1000;pointer-events:none}.navbar[_ngcontent-ng-c151807199]{background:#fff;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);position:relative;z-index:100;width:92%;margin:0 auto;padding:6px 20px;border-radius:40px;box-shadow:0 2px 10px #0000000d;border:1px solid rgba(212,175,55,.2);pointer-events:auto;min-height:auto}.navbar-brand[_ngcontent-ng-c151807199]{display:flex;align-items:center;padding:0;margin:0}.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199]{height:35px;width:auto;max-height:35px;object-fit:contain;transition:transform .3s ease}.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199]:hover{transform:scale(1.02)}@media (max-width: 768px){.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199]{height:28px}}@media (max-width: 480px){.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199]{height:24px}}.navbar-nav[_ngcontent-ng-c151807199]{display:flex;gap:.2rem;align-items:center}.nav-item[_ngcontent-ng-c151807199]{list-style:none}.nav-link[_ngcontent-ng-c151807199]{color:#1a1a1a!important;font-size:.75rem;font-weight:500;padding:.3rem .7rem!important;border-radius:30px;transition:all .3s ease;line-height:1.2}.nav-link[_ngcontent-ng-c151807199]:hover, .nav-link.active[_ngcontent-ng-c151807199]{color:#d4af37!important;background:#d4af371a}.nav-buttons[_ngcontent-ng-c151807199]{display:flex;gap:.4rem;margin-left:.8rem;align-items:center}.btn-login[_ngcontent-ng-c151807199]{padding:.3rem .9rem;background:transparent;color:#1a1a1a;border:1px solid #d4af37;border-radius:30px;font-size:.7rem;font-weight:500;transition:all .3s;line-height:1.2}.btn-login[_ngcontent-ng-c151807199]:hover{background:#d4af371a;color:#d4af37;transform:translateY(-1px)}.btn-register[_ngcontent-ng-c151807199]{padding:.3rem .9rem;background:linear-gradient(135deg,#d4af37,#f5b042);color:#1a1a1a;border:none;border-radius:30px;font-size:.7rem;font-weight:600;transition:all .3s;line-height:1.2}.btn-register[_ngcontent-ng-c151807199]:hover{transform:translateY(-1px);box-shadow:0 2px 8px #d4af374d}.navbar-toggler[_ngcontent-ng-c151807199]{border:1px solid rgba(212,175,55,.3);background:transparent;padding:.2rem .4rem}.navbar-toggler-icon[_ngcontent-ng-c151807199]{width:1rem;height:1rem;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")}@media (max-width: 992px){.navbar[_ngcontent-ng-c151807199]{width:96%;padding:5px 16px}.navbar-brand[_ngcontent-ng-c151807199]{font-size:1rem}.navbar-collapse[_ngcontent-ng-c151807199]{background:#fffffffa;border-radius:20px;padding:.6rem;margin-top:.6rem}.navbar-nav[_ngcontent-ng-c151807199]{flex-direction:column;gap:.2rem}.nav-link[_ngcontent-ng-c151807199]{text-align:center;padding:.3rem .6rem!important}.nav-buttons[_ngcontent-ng-c151807199]{justify-content:center;margin-left:0;margin-top:.6rem}}@media (max-width: 768px){.navbar[_ngcontent-ng-c151807199]{width:98%;padding:4px 12px}.nav-wrapper[_ngcontent-ng-c151807199]{top:8px}.navbar-brand[_ngcontent-ng-c151807199]{font-size:.9rem}.nav-link[_ngcontent-ng-c151807199]{font-size:.7rem;padding:.25rem .5rem!important}.btn-login[_ngcontent-ng-c151807199], .btn-register[_ngcontent-ng-c151807199]{padding:.25rem .7rem;font-size:.65rem}}</style><style ng-app-id="ng">.footer[_ngcontent-ng-c2361811811]{background:#1a1a1a;padding:60px 0 20px;color:#fff;margin-top:auto;width:100%;position:relative;z-index:2}.container[_ngcontent-ng-c2361811811]{max-width:1200px;margin:0 auto;padding:0 32px}.footer-grid[_ngcontent-ng-c2361811811]{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-bottom:2rem}.footer-brand[_ngcontent-ng-c2361811811]   h3[_ngcontent-ng-c2361811811]{font-size:1.2rem;font-weight:600;letter-spacing:2px;color:#d4af37;margin-bottom:.5rem}.footer-brand[_ngcontent-ng-c2361811811]   p[_ngcontent-ng-c2361811811]{font-size:.8rem;color:#aaa;margin-bottom:1rem}.social-links[_ngcontent-ng-c2361811811]{display:flex;gap:1rem}.social-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]{display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:#ffffff1a;border-radius:50%;color:#fff;text-decoration:none;transition:all .3s}.social-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]:hover{background:#d4af37;color:#1a1a1a;transform:translateY(-3px)}.footer-links[_ngcontent-ng-c2361811811]   h4[_ngcontent-ng-c2361811811]{font-size:.9rem;font-weight:600;margin-bottom:1rem;color:#fff}.footer-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]{display:block;text-decoration:none;font-size:.8rem;color:#aaa;margin-bottom:.5rem;transition:color .3s}.footer-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]:hover{color:#d4af37}.footer-bottom[_ngcontent-ng-c2361811811]{text-align:center;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);font-size:.7rem;color:#666}@media (max-width: 992px){.footer-grid[_ngcontent-ng-c2361811811]{grid-template-columns:repeat(2,1fr)}}@media (max-width: 768px){.footer-grid[_ngcontent-ng-c2361811811]{grid-template-columns:1fr;text-align:center}.social-links[_ngcontent-ng-c2361811811]{justify-content:center}}</style><style ng-app-id="ng">*[_ngcontent-ng-c3051988097]{margin:0;padding:0;box-sizing:border-box}.offer-page[_ngcontent-ng-c3051988097]{font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fff}.container[_ngcontent-ng-c3051988097]{max-width:1200px;margin:0 auto;padding:0 32px}.offer-hero[_ngcontent-ng-c3051988097]{padding:140px 0 80px;background:#fff;text-align:center}.offer-hero-content[_ngcontent-ng-c3051988097]{max-width:800px;margin:0 auto}.gold-badge[_ngcontent-ng-c3051988097]{display:inline-block;font-size:.75rem;letter-spacing:2px;color:#d4af37;margin-bottom:1rem;font-weight:500;text-transform:uppercase}.offer-title[_ngcontent-ng-c3051988097]{font-size:3.5rem;font-weight:600;line-height:1.2;margin-bottom:1.5rem;color:#1a1a1a}.offer-title[_ngcontent-ng-c3051988097]   .gold[_ngcontent-ng-c3051988097]{color:#d4af37}.offer-description[_ngcontent-ng-c3051988097]{font-size:1rem;color:#666;line-height:1.6;max-width:600px;margin:0 auto}.offerings[_ngcontent-ng-c3051988097]{padding:80px 0;background:#fff}.offerings-grid[_ngcontent-ng-c3051988097]{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}.offering-card[_ngcontent-ng-c3051988097]{background:#fff;padding:2rem;border-radius:20px;transition:all .3s;border:1px solid rgba(212,175,55,.1)}.offering-card[_ngcontent-ng-c3051988097]:hover{transform:translateY(-5px);border-color:#d4af374d;box-shadow:0 15px 30px #0000000d}.offering-icon[_ngcontent-ng-c3051988097]{font-size:2.5rem;margin-bottom:1rem}.offering-card[_ngcontent-ng-c3051988097]   h3[_ngcontent-ng-c3051988097]{font-size:1.1rem;font-weight:600;margin-bottom:.75rem;color:#1a1a1a}.offering-card[_ngcontent-ng-c3051988097]   p[_ngcontent-ng-c3051988097]{font-size:.85rem;color:#666;line-height:1.5;margin-bottom:1rem}.offering-features[_ngcontent-ng-c3051988097]{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}.offering-features[_ngcontent-ng-c3051988097]   span[_ngcontent-ng-c3051988097]{font-size:.7rem;color:#d4af37;background:#d4af370d;padding:.25rem .5rem;border-radius:20px}.learn-more[_ngcontent-ng-c3051988097]{text-decoration:none;font-size:.8rem;color:#d4af37;font-weight:500;transition:color .3s}.learn-more[_ngcontent-ng-c3051988097]:hover{color:#c4a22e}.pricing[_ngcontent-ng-c3051988097]{padding:80px 0;background:#faf9f5}.pricing-header[_ngcontent-ng-c3051988097]{text-align:center;margin-bottom:3rem}.section-badge[_ngcontent-ng-c3051988097]{display:inline-block;font-size:.7rem;letter-spacing:2px;color:#d4af37;margin-bottom:1rem;text-transform:uppercase}.section-title[_ngcontent-ng-c3051988097]{font-size:2.2rem;font-weight:600;line-height:1.3;margin-bottom:.5rem;color:#1a1a1a}.section-title[_ngcontent-ng-c3051988097]   .gold[_ngcontent-ng-c3051988097]{color:#d4af37}.pricing-subtitle[_ngcontent-ng-c3051988097]{font-size:.9rem;color:#888}.pricing-grid[_ngcontent-ng-c3051988097]{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}.pricing-card[_ngcontent-ng-c3051988097]{background:#fff;border-radius:24px;padding:2rem;text-align:center;position:relative;transition:all .3s;border:1px solid rgba(212,175,55,.1)}.pricing-card[_ngcontent-ng-c3051988097]:hover{transform:translateY(-5px);border-color:#d4af374d;box-shadow:0 15px 30px #0000000d}.pricing-card.popular[_ngcontent-ng-c3051988097]{border:2px solid #d4af37;transform:scale(1.02)}.pricing-card.popular[_ngcontent-ng-c3051988097]:hover{transform:scale(1.02) translateY(-5px)}.popular-badge[_ngcontent-ng-c3051988097]{position:absolute;top:-12px;left:50%;transform:translate(-50%);background:#d4af37;color:#fff;font-size:.7rem;padding:.25rem 1rem;border-radius:20px;font-weight:500}.pricing-tier[_ngcontent-ng-c3051988097]{font-size:1.1rem;font-weight:600;margin-bottom:1rem;color:#1a1a1a}.pricing-price[_ngcontent-ng-c3051988097]{margin-bottom:1rem}.pricing-price[_ngcontent-ng-c3051988097]   .currency[_ngcontent-ng-c3051988097]{font-size:1rem;vertical-align:top;color:#d4af37}.pricing-price[_ngcontent-ng-c3051988097]   .amount[_ngcontent-ng-c3051988097]{font-size:3rem;font-weight:700;color:#d4af37}.pricing-price[_ngcontent-ng-c3051988097]   .period[_ngcontent-ng-c3051988097]{font-size:.8rem;color:#888}.pricing-description[_ngcontent-ng-c3051988097]{font-size:.8rem;color:#666;margin-bottom:1.5rem}.pricing-features[_ngcontent-ng-c3051988097]{list-style:none;padding:0;margin-bottom:1.5rem}.pricing-features[_ngcontent-ng-c3051988097]   li[_ngcontent-ng-c3051988097]{font-size:.8rem;color:#666;padding:.25rem 0}.btn-primary[_ngcontent-ng-c3051988097], .btn-outline-full[_ngcontent-ng-c3051988097]{display:inline-block;padding:.7rem 1.5rem;text-decoration:none;border-radius:40px;font-weight:500;font-size:.8rem;transition:all .3s}.btn-primary[_ngcontent-ng-c3051988097]{background:#d4af37;color:#fff}.btn-primary[_ngcontent-ng-c3051988097]:hover{background:#c4a22e;transform:translateY(-2px)}.btn-outline-full[_ngcontent-ng-c3051988097]{background:transparent;color:#1a1a1a;border:1px solid #e0e0e0}.btn-outline-full[_ngcontent-ng-c3051988097]:hover{border-color:#d4af37;color:#d4af37;transform:translateY(-2px)}.comparison[_ngcontent-ng-c3051988097]{padding:80px 0;background:#fff}.comparison-header[_ngcontent-ng-c3051988097]{text-align:center;margin-bottom:2rem}.comparison-table[_ngcontent-ng-c3051988097]{border:1px solid #f0f0f0;border-radius:16px;overflow:hidden}.comparison-row[_ngcontent-ng-c3051988097]{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid #f0f0f0}.comparison-row[_ngcontent-ng-c3051988097]:last-child{border-bottom:none}.comparison-row.header[_ngcontent-ng-c3051988097]{background:#faf9f5;font-weight:600}.comparison-row[_ngcontent-ng-c3051988097]   .feature-name[_ngcontent-ng-c3051988097], .comparison-row[_ngcontent-ng-c3051988097]   .feature-starter[_ngcontent-ng-c3051988097], .comparison-row[_ngcontent-ng-c3051988097]   .feature-pro[_ngcontent-ng-c3051988097], .comparison-row[_ngcontent-ng-c3051988097]   .feature-enterprise[_ngcontent-ng-c3051988097]{padding:1rem;font-size:.85rem;color:#666}.comparison-row.header[_ngcontent-ng-c3051988097]   .feature-name[_ngcontent-ng-c3051988097], .comparison-row.header[_ngcontent-ng-c3051988097]   .feature-starter[_ngcontent-ng-c3051988097], .comparison-row.header[_ngcontent-ng-c3051988097]   .feature-pro[_ngcontent-ng-c3051988097], .comparison-row.header[_ngcontent-ng-c3051988097]   .feature-enterprise[_ngcontent-ng-c3051988097]{font-weight:600;color:#1a1a1a}.faq[_ngcontent-ng-c3051988097]{padding:80px 0;background:#faf9f5}.faq-header[_ngcontent-ng-c3051988097]{text-align:center;margin-bottom:3rem}.faq-grid[_ngcontent-ng-c3051988097]{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}.faq-item[_ngcontent-ng-c3051988097]{background:#fff;padding:1.5rem;border-radius:16px;transition:all .3s;border:1px solid rgba(212,175,55,.1)}.faq-item[_ngcontent-ng-c3051988097]:hover{border-color:#d4af374d}.faq-item[_ngcontent-ng-c3051988097]   h3[_ngcontent-ng-c3051988097]{font-size:1rem;font-weight:600;margin-bottom:.5rem;color:#1a1a1a}.faq-item[_ngcontent-ng-c3051988097]   p[_ngcontent-ng-c3051988097]{font-size:.85rem;color:#666;line-height:1.5}.cta-section[_ngcontent-ng-c3051988097]{padding:80px 0;background:#fff;text-align:center;border-top:1px solid #f0f0f0}.cta-content[_ngcontent-ng-c3051988097]   h2[_ngcontent-ng-c3051988097]{font-size:2rem;font-weight:600;margin-bottom:.5rem;color:#1a1a1a}.cta-content[_ngcontent-ng-c3051988097]   p[_ngcontent-ng-c3051988097]{font-size:1rem;color:#666;margin-bottom:2rem}.cta-buttons[_ngcontent-ng-c3051988097]{display:flex;gap:1rem;justify-content:center}.animated-bg[_ngcontent-ng-c3051988097]{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;pointer-events:none}.gradient-bg[_ngcontent-ng-c3051988097]{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 30%,#fff,#fffaf5);animation:_ngcontent-ng-c3051988097_gradientShift 15s ease-in-out infinite}@keyframes _ngcontent-ng-c3051988097_gradientShift{0%,to{opacity:1}50%{opacity:.95}}.gold-particles[_ngcontent-ng-c3051988097]{position:absolute;top:0;left:0;width:100%;height:100%}.gold-particles[_ngcontent-ng-c3051988097]:before, .gold-particles[_ngcontent-ng-c3051988097]:after{content:"";position:absolute;width:100%;height:100%;background-image:radial-gradient(circle at 20% 40%,rgba(212,175,55,.08) 1px,transparent 1px);background-size:60px 60px;animation:_ngcontent-ng-c3051988097_particleFloat 20s linear infinite}.gold-particles[_ngcontent-ng-c3051988097]:after{background-image:radial-gradient(circle at 80% 60%,rgba(212,175,55,.05) 1px,transparent 1px);background-size:80px 80px;animation:_ngcontent-ng-c3051988097_particleFloat 25s linear infinite reverse}@keyframes _ngcontent-ng-c3051988097_particleFloat{0%{transform:translateY(0)}to{transform:translateY(-100px)}}.floating-shapes[_ngcontent-ng-c3051988097]{position:absolute;top:0;left:0;width:100%;height:100%}.gold-lines[_ngcontent-ng-c3051988097]{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}.shape[_ngcontent-ng-c3051988097]{position:absolute;background:radial-gradient(circle,#d4af3766,#d4af3726,#d4af370d);border-radius:50%;animation:_ngcontent-ng-c3051988097_floatGold 20s ease-in-out infinite;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(212,175,55,.3);box-shadow:0 0 40px #d4af3733}.shape-1[_ngcontent-ng-c3051988097]{width:320px;height:320px;top:-100px;right:-100px;animation-delay:0s;background:radial-gradient(circle,#d4af3773,#d4af371a)}.shape-2[_ngcontent-ng-c3051988097]{width:220px;height:220px;bottom:50px;left:-80px;animation-delay:2s;animation-duration:25s;background:radial-gradient(circle,#d4af3766,#d4af3714)}.shape-3[_ngcontent-ng-c3051988097]{width:170px;height:170px;top:40%;right:15%;animation-delay:4s;animation-duration:18s;background:radial-gradient(circle,#d4af3759,#d4af370f)}.shape-4[_ngcontent-ng-c3051988097]{width:120px;height:120px;bottom:20%;right:20%;animation-delay:6s;animation-duration:22s;background:radial-gradient(circle,#d4af3761,#d4af3712)}.shape-5[_ngcontent-ng-c3051988097]{width:270px;height:270px;top:60%;left:-50px;animation-delay:8s;animation-duration:28s;background:radial-gradient(circle,#d4af376b,#d4af3717)}.shape-6[_ngcontent-ng-c3051988097]{width:140px;height:140px;top:75%;right:35%;animation-delay:10s;animation-duration:20s;background:radial-gradient(circle,#d4af3752,#d4af370d)}.shape-7[_ngcontent-ng-c3051988097]{width:400px;height:400px;bottom:-150px;right:-100px;animation-delay:12s;animation-duration:32s;background:radial-gradient(circle,#d4af374d,#d4af370a)}@keyframes _ngcontent-ng-c3051988097_floatGold{0%,to{transform:translateY(0) translate(0) rotate(0);opacity:.5;box-shadow:0 0 30px #d4af374d}25%{transform:translateY(-40px) translate(25px) rotate(8deg);opacity:.8;box-shadow:0 0 60px #d4af3780}50%{transform:translateY(25px) translate(-25px) rotate(-8deg);opacity:.65;box-shadow:0 0 45px #d4af3766}75%{transform:translateY(-30px) translate(35px) rotate(5deg);opacity:.8;box-shadow:0 0 55px #d4af3773}}.line[_ngcontent-ng-c3051988097]{position:absolute;background:linear-gradient(90deg,transparent,#d4af37,transparent);height:1px;width:100%;animation:_ngcontent-ng-c3051988097_lineMove 8s linear infinite}.line-1[_ngcontent-ng-c3051988097]{top:15%;animation-delay:0s}.line-3[_ngcontent-ng-c3051988097]{top:85%;animation-delay:4s;width:60%;left:20%}@keyframes _ngcontent-ng-c3051988097_lineMove{0%{transform:translate(-100%);opacity:0}10%{opacity:.3}50%{opacity:.5}90%{opacity:.3}to{transform:translate(100%);opacity:0}}.fade-up[_ngcontent-ng-c3051988097]{opacity:0;transform:translateY(40px);animation:_ngcontent-ng-c3051988097_fadeUpSimple .8s ease forwards}.delay-1[_ngcontent-ng-c3051988097]{animation-delay:.2s}.delay-2[_ngcontent-ng-c3051988097]{animation-delay:.4s}@keyframes _ngcontent-ng-c3051988097_fadeUpSimple{to{opacity:1;transform:translateY(0)}}.scroll-reveal[_ngcontent-ng-c3051988097]{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}.scroll-reveal.visible[_ngcontent-ng-c3051988097]{opacity:1;transform:translateY(0)}.card-hover[_ngcontent-ng-c3051988097]{transition:all .4s cubic-bezier(.2,.9,.4,1.1)}.card-hover[_ngcontent-ng-c3051988097]:hover{transform:translateY(-8px);box-shadow:0 20px 40px #0000000d}.gold-glow[_ngcontent-ng-c3051988097]{animation:_ngcontent-ng-c3051988097_glowPulse 3s ease-in-out infinite}@keyframes _ngcontent-ng-c3051988097_glowPulse{0%,to{opacity:.8}50%{opacity:1;text-shadow:0 0 10px rgba(212,175,55,.3)}}.btn-gold-animated[_ngcontent-ng-c3051988097]{position:relative;overflow:hidden;transition:all .3s ease}.btn-gold-animated[_ngcontent-ng-c3051988097]:before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .5s ease}.btn-gold-animated[_ngcontent-ng-c3051988097]:hover:before{left:100%}.btn-gold-animated[_ngcontent-ng-c3051988097]:hover{transform:translateY(-2px);box-shadow:0 10px 25px #d4af374d}.offer-hero[_ngcontent-ng-c3051988097], .offerings[_ngcontent-ng-c3051988097], .pricing[_ngcontent-ng-c3051988097], .comparison[_ngcontent-ng-c3051988097], .faq[_ngcontent-ng-c3051988097], .cta-section[_ngcontent-ng-c3051988097]{position:relative;z-index:2;background:transparent}.offer-hero[_ngcontent-ng-c3051988097]{padding:140px 0 80px}.offerings[_ngcontent-ng-c3051988097], .pricing[_ngcontent-ng-c3051988097], .comparison[_ngcontent-ng-c3051988097], .faq[_ngcontent-ng-c3051988097]{padding:80px 0;background:#fffffff2}.cta-section[_ngcontent-ng-c3051988097]{padding:80px 0;background:transparent;border-top:1px solid #f0f0f0}@media (max-width: 992px){.offerings-grid[_ngcontent-ng-c3051988097], .pricing-grid[_ngcontent-ng-c3051988097]{grid-template-columns:repeat(2,1fr)}.comparison-row[_ngcontent-ng-c3051988097]{grid-template-columns:1.5fr 1fr 1fr 1fr}.faq-grid[_ngcontent-ng-c3051988097]{grid-template-columns:1fr}}@media (max-width: 768px){.offer-hero[_ngcontent-ng-c3051988097]{padding:100px 0 60px}.offer-title[_ngcontent-ng-c3051988097]{font-size:2.5rem}.section-title[_ngcontent-ng-c3051988097]{font-size:1.8rem}.offerings-grid[_ngcontent-ng-c3051988097], .pricing-grid[_ngcontent-ng-c3051988097]{grid-template-columns:1fr}.pricing-card.popular[_ngcontent-ng-c3051988097]{transform:scale(1)}.comparison-row[_ngcontent-ng-c3051988097]{grid-template-columns:1fr;text-align:center}.comparison-row.header[_ngcontent-ng-c3051988097]{display:none}.comparison-row[_ngcontent-ng-c3051988097]   .feature-name[_ngcontent-ng-c3051988097]{background:#faf9f5;font-weight:600}.cta-buttons[_ngcontent-ng-c3051988097]{flex-direction:column;align-items:center}.btn-primary[_ngcontent-ng-c3051988097], .btn-outline-full[_ngcontent-ng-c3051988097]{width:200px;text-align:center}}</style></head>
-<body><!--nghm-->
-  <app-root _nghost-ng-c3984273398 ng-version="17.3.12" ngh="2" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3984273398></router-outlet><app-public _nghost-ng-c861037777 ngh="1"><app-public-navbar _ngcontent-ng-c861037777 _nghost-ng-c151807199 ngh="0"><div _ngcontent-ng-c151807199 class="nav-wrapper"><nav _ngcontent-ng-c151807199 class="navbar navbar-expand-lg"><div _ngcontent-ng-c151807199 class="container"><a _ngcontent-ng-c151807199 routerlink="/public" class="navbar-brand" href="/public"><img _ngcontent-ng-c151807199 src="assets/images/logo.jpg" alt="Talentree Logo"></a><button _ngcontent-ng-c151807199 type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span _ngcontent-ng-c151807199 class="navbar-toggler-icon"></span></button><div _ngcontent-ng-c151807199 id="navbarSupportedContent" class="collapse navbar-collapse"><ul _ngcontent-ng-c151807199 class="navbar-nav m-auto mb-2 mb-lg-0"><li _ngcontent-ng-c151807199 class="nav-item"><a _ngcontent-ng-c151807199 routerlink="/public" routerlinkactive="active" class="nav-link active" href="/public">Home</a></li><li _ngcontent-ng-c151807199 class="nav-item"><a _ngcontent-ng-c151807199 routerlink="/public/about" routerlinkactive="active" class="nav-link" href="/public/about">About</a></li><li _ngcontent-ng-c151807199 class="nav-item"><a _ngcontent-ng-c151807199 routerlink="/public/offer" routerlinkactive="active" class="nav-link active" href="/public/offer">Offer</a></li><li _ngcontent-ng-c151807199 class="nav-item"><a _ngcontent-ng-c151807199 routerlink="/public/testimonial" routerlinkactive="active" class="nav-link" href="/public/testimonial">Testimonial</a></li><li _ngcontent-ng-c151807199 class="nav-item"><a _ngcontent-ng-c151807199 routerlink="/public/contact" routerlinkactive="active" class="nav-link" href="/public/contact">Contact</a></li></ul><div _ngcontent-ng-c151807199 class="nav-buttons"><a _ngcontent-ng-c151807199 routerlink="/auth/login" class="btn-login" href="/auth/login">Sign In</a><a _ngcontent-ng-c151807199 routerlink="/auth/register" class="btn-register" href="/auth/register">Get Started</a></div></div></div></nav></div></app-public-navbar><router-outlet _ngcontent-ng-c861037777></router-outlet><app-offer _nghost-ng-c3051988097 ngh="0"><div _ngcontent-ng-c3051988097 class="offer-page"><div _ngcontent-ng-c3051988097 class="animated-bg"><div _ngcontent-ng-c3051988097 class="gradient-bg"></div><div _ngcontent-ng-c3051988097 class="gold-particles"></div><div _ngcontent-ng-c3051988097 class="floating-shapes"><div _ngcontent-ng-c3051988097 class="shape shape-1"></div><div _ngcontent-ng-c3051988097 class="shape shape-2"></div><div _ngcontent-ng-c3051988097 class="shape shape-3"></div><div _ngcontent-ng-c3051988097 class="shape shape-4"></div><div _ngcontent-ng-c3051988097 class="shape shape-5"></div></div><div _ngcontent-ng-c3051988097 class="gold-lines"><div _ngcontent-ng-c3051988097 class="line line-1"></div><div _ngcontent-ng-c3051988097 class="line line-3"></div></div></div><section _ngcontent-ng-c3051988097 class="offer-hero"><div _ngcontent-ng-c3051988097 class="container"><div _ngcontent-ng-c3051988097 class="offer-hero-content"><span _ngcontent-ng-c3051988097 class="gold-badge fade-up">What We Offer</span><h1 _ngcontent-ng-c3051988097 class="offer-title fade-up delay-1"> Powerful Solutions<br _ngcontent-ng-c3051988097><span _ngcontent-ng-c3051988097 class="gold">For Your Business</span></h1><p _ngcontent-ng-c3051988097 class="offer-description fade-up delay-2"> Discover our comprehensive suite of business management tools designed to streamline operations, enhance productivity, and drive growth. </p></div></div></section><section _ngcontent-ng-c3051988097 class="offerings scroll-reveal"><div _ngcontent-ng-c3051988097 class="container"><div _ngcontent-ng-c3051988097 class="offerings-grid"><div _ngcontent-ng-c3051988097 class="offering-card card-hover"><div _ngcontent-ng-c3051988097 class="offering-icon">📦</div><h3 _ngcontent-ng-c3051988097>Raw Materials Management</h3><p _ngcontent-ng-c3051988097>Complete control over your inventory with real-time tracking, automated alerts, and comprehensive reporting.</p><div _ngcontent-ng-c3051988097 class="offering-features"><span _ngcontent-ng-c3051988097>✓ Inventory Tracking</span><span _ngcontent-ng-c3051988097>✓ Price Management</span><span _ngcontent-ng-c3051988097>✓ Supplier Integration</span></div><a _ngcontent-ng-c3051988097 href="#" class="learn-more">Learn More →</a></div><div _ngcontent-ng-c3051988097 class="offering-card card-hover"><div _ngcontent-ng-c3051988097 class="offering-icon">🚚</div><h3 _ngcontent-ng-c3051988097>Supplier Management</h3><p _ngcontent-ng-c3051988097>Build and maintain strong supplier relationships with our comprehensive management tools.</p><div _ngcontent-ng-c3051988097 class="offering-features"><span _ngcontent-ng-c3051988097>✓ Contact Management</span><span _ngcontent-ng-c3051988097>✓ Performance Tracking</span><span _ngcontent-ng-c3051988097>✓ Communication Tools</span></div><a _ngcontent-ng-c3051988097 href="#" class="learn-more">Learn More →</a></div><div _ngcontent-ng-c3051988097 class="offering-card card-hover"><div _ngcontent-ng-c3051988097 class="offering-icon">🛍️</div><h3 _ngcontent-ng-c3051988097>Product Management</h3><p _ngcontent-ng-c3051988097>Showcase and manage your products with professional catalog tools and inventory control.</p><div _ngcontent-ng-c3051988097 class="offering-features"><span _ngcontent-ng-c3051988097>✓ Catalog Management</span><span _ngcontent-ng-c3051988097>✓ Pricing Control</span><span _ngcontent-ng-c3051988097>✓ Image Gallery</span></div><a _ngcontent-ng-c3051988097 href="#" class="learn-more">Learn More →</a></div><div _ngcontent-ng-c3051988097 class="offering-card card-hover"><div _ngcontent-ng-c3051988097 class="offering-icon">📊</div><h3 _ngcontent-ng-c3051988097>Analytics &amp; Reports</h3><p _ngcontent-ng-c3051988097>Data-driven insights to help you make informed business decisions.</p><div _ngcontent-ng-c3051988097 class="offering-features"><span _ngcontent-ng-c3051988097>✓ Real-time Analytics</span><span _ngcontent-ng-c3051988097>✓ Custom Reports</span><span _ngcontent-ng-c3051988097>✓ Export Options</span></div><a _ngcontent-ng-c3051988097 href="#" class="learn-more">Learn More →</a></div><div _ngcontent-ng-c3051988097 class="offering-card card-hover"><div _ngcontent-ng-c3051988097 class="offering-icon">📋</div><h3 _ngcontent-ng-c3051988097>Order Management</h3><p _ngcontent-ng-c3051988097>Streamline your order processing from purchase to delivery with ease.</p><div _ngcontent-ng-c3051988097 class="offering-features"><span _ngcontent-ng-c3051988097>✓ Order Tracking</span><span _ngcontent-ng-c3051988097>✓ Status Updates</span><span _ngcontent-ng-c3051988097>✓ Invoice Generation</span></div><a _ngcontent-ng-c3051988097 href="#" class="learn-more">Learn More →</a></div><div _ngcontent-ng-c3051988097 class="offering-card card-hover"><div _ngcontent-ng-c3051988097 class="offering-icon">👥</div><h3 _ngcontent-ng-c3051988097>Team Collaboration</h3><p _ngcontent-ng-c3051988097>Enable seamless collaboration across your organization with role-based access.</p><div _ngcontent-ng-c3051988097 class="offering-features"><span _ngcontent-ng-c3051988097>✓ Role Management</span><span _ngcontent-ng-c3051988097>✓ Real-time Updates</span><span _ngcontent-ng-c3051988097>✓ Activity Logs</span></div><a _ngcontent-ng-c3051988097 href="#" class="learn-more">Learn More →</a></div></div></div></section><section _ngcontent-ng-c3051988097 class="pricing scroll-reveal"><div _ngcontent-ng-c3051988097 class="container"><div _ngcontent-ng-c3051988097 class="pricing-header"><span _ngcontent-ng-c3051988097 class="section-badge gold-glow">Pricing Plans</span><h2 _ngcontent-ng-c3051988097 class="section-title">Choose the Plan<br _ngcontent-ng-c3051988097><span _ngcontent-ng-c3051988097 class="gold">That Fits Your Business</span></h2><p _ngcontent-ng-c3051988097 class="pricing-subtitle">Simple, transparent pricing. No hidden fees.</p></div><div _ngcontent-ng-c3051988097 class="pricing-grid"><div _ngcontent-ng-c3051988097 class="pricing-card card-hover"><div _ngcontent-ng-c3051988097 class="pricing-tier">Starter</div><div _ngcontent-ng-c3051988097 class="pricing-price"><span _ngcontent-ng-c3051988097 class="currency">$</span><span _ngcontent-ng-c3051988097 class="amount">0</span><span _ngcontent-ng-c3051988097 class="period">/month</span></div><p _ngcontent-ng-c3051988097 class="pricing-description">Perfect for small businesses just getting started</p><ul _ngcontent-ng-c3051988097 class="pricing-features"><li _ngcontent-ng-c3051988097>✓ Up to 100 Products</li><li _ngcontent-ng-c3051988097>✓ 10 Suppliers</li><li _ngcontent-ng-c3051988097>✓ Basic Analytics</li><li _ngcontent-ng-c3051988097>✓ Email Support</li></ul><a _ngcontent-ng-c3051988097 routerlink="/auth/register" class="btn-outline-full btn-gold-animated" href="/auth/register">Get Started</a></div><div _ngcontent-ng-c3051988097 class="pricing-card popular card-hover"><div _ngcontent-ng-c3051988097 class="popular-badge">Most Popular</div><div _ngcontent-ng-c3051988097 class="pricing-tier">Professional</div><div _ngcontent-ng-c3051988097 class="pricing-price"><span _ngcontent-ng-c3051988097 class="currency">$</span><span _ngcontent-ng-c3051988097 class="amount">29</span><span _ngcontent-ng-c3051988097 class="period">/month</span></div><p _ngcontent-ng-c3051988097 class="pricing-description">Ideal for growing businesses</p><ul _ngcontent-ng-c3051988097 class="pricing-features"><li _ngcontent-ng-c3051988097>✓ Unlimited Products</li><li _ngcontent-ng-c3051988097>✓ Unlimited Suppliers</li><li _ngcontent-ng-c3051988097>✓ Advanced Analytics</li><li _ngcontent-ng-c3051988097>✓ Priority Support</li><li _ngcontent-ng-c3051988097>✓ API Access</li></ul><a _ngcontent-ng-c3051988097 routerlink="/auth/register" class="btn-primary btn-gold-animated" href="/auth/register">Get Started</a></div><div _ngcontent-ng-c3051988097 class="pricing-card card-hover"><div _ngcontent-ng-c3051988097 class="pricing-tier">Enterprise</div><div _ngcontent-ng-c3051988097 class="pricing-price"><span _ngcontent-ng-c3051988097 class="currency">$</span><span _ngcontent-ng-c3051988097 class="amount">99</span><span _ngcontent-ng-c3051988097 class="period">/month</span></div><p _ngcontent-ng-c3051988097 class="pricing-description">For large organizations with complex needs</p><ul _ngcontent-ng-c3051988097 class="pricing-features"><li _ngcontent-ng-c3051988097>✓ Everything in Professional</li><li _ngcontent-ng-c3051988097>✓ Custom Integration</li><li _ngcontent-ng-c3051988097>✓ Dedicated Account Manager</li><li _ngcontent-ng-c3051988097>✓ 24/7 Phone Support</li><li _ngcontent-ng-c3051988097>✓ Custom Training</li></ul><a _ngcontent-ng-c3051988097 routerlink="/auth/register" class="btn-outline-full btn-gold-animated" href="/auth/register">Contact Sales</a></div></div></div></section><section _ngcontent-ng-c3051988097 class="comparison scroll-reveal"><div _ngcontent-ng-c3051988097 class="container"><div _ngcontent-ng-c3051988097 class="comparison-header"><span _ngcontent-ng-c3051988097 class="section-badge gold-glow">Compare Features</span><h2 _ngcontent-ng-c3051988097 class="section-title">Everything You Need<br _ngcontent-ng-c3051988097><span _ngcontent-ng-c3051988097 class="gold">In One Place</span></h2></div><div _ngcontent-ng-c3051988097 class="comparison-table"><div _ngcontent-ng-c3051988097 class="comparison-row header"><div _ngcontent-ng-c3051988097 class="feature-name">Feature</div><div _ngcontent-ng-c3051988097 class="feature-starter">Starter</div><div _ngcontent-ng-c3051988097 class="feature-pro">Professional</div><div _ngcontent-ng-c3051988097 class="feature-enterprise">Enterprise</div></div><div _ngcontent-ng-c3051988097 class="comparison-row"><div _ngcontent-ng-c3051988097 class="feature-name">Products</div><div _ngcontent-ng-c3051988097 class="feature-starter">Up to 100</div><div _ngcontent-ng-c3051988097 class="feature-pro">Unlimited</div><div _ngcontent-ng-c3051988097 class="feature-enterprise">Unlimited</div></div><div _ngcontent-ng-c3051988097 class="comparison-row"><div _ngcontent-ng-c3051988097 class="feature-name">Suppliers</div><div _ngcontent-ng-c3051988097 class="feature-starter">Up to 10</div><div _ngcontent-ng-c3051988097 class="feature-pro">Unlimited</div><div _ngcontent-ng-c3051988097 class="feature-enterprise">Unlimited</div></div><div _ngcontent-ng-c3051988097 class="comparison-row"><div _ngcontent-ng-c3051988097 class="feature-name">Analytics</div><div _ngcontent-ng-c3051988097 class="feature-starter">Basic</div><div _ngcontent-ng-c3051988097 class="feature-pro">Advanced</div><div _ngcontent-ng-c3051988097 class="feature-enterprise">Custom</div></div><div _ngcontent-ng-c3051988097 class="comparison-row"><div _ngcontent-ng-c3051988097 class="feature-name">API Access</div><div _ngcontent-ng-c3051988097 class="feature-starter">—</div><div _ngcontent-ng-c3051988097 class="feature-pro">✓</div><div _ngcontent-ng-c3051988097 class="feature-enterprise">✓</div></div><div _ngcontent-ng-c3051988097 class="comparison-row"><div _ngcontent-ng-c3051988097 class="feature-name">Priority Support</div><div _ngcontent-ng-c3051988097 class="feature-starter">—</div><div _ngcontent-ng-c3051988097 class="feature-pro">✓</div><div _ngcontent-ng-c3051988097 class="feature-enterprise">✓</div></div><div _ngcontent-ng-c3051988097 class="comparison-row"><div _ngcontent-ng-c3051988097 class="feature-name">Dedicated Manager</div><div _ngcontent-ng-c3051988097 class="feature-starter">—</div><div _ngcontent-ng-c3051988097 class="feature-pro">—</div><div _ngcontent-ng-c3051988097 class="feature-enterprise">✓</div></div></div></div></section><section _ngcontent-ng-c3051988097 class="faq scroll-reveal"><div _ngcontent-ng-c3051988097 class="container"><div _ngcontent-ng-c3051988097 class="faq-header"><span _ngcontent-ng-c3051988097 class="section-badge gold-glow">FAQ</span><h2 _ngcontent-ng-c3051988097 class="section-title">Frequently Asked<br _ngcontent-ng-c3051988097><span _ngcontent-ng-c3051988097 class="gold">Questions</span></h2></div><div _ngcontent-ng-c3051988097 class="faq-grid"><div _ngcontent-ng-c3051988097 class="faq-item card-hover"><h3 _ngcontent-ng-c3051988097>Can I change my plan later?</h3><p _ngcontent-ng-c3051988097>Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.</p></div><div _ngcontent-ng-c3051988097 class="faq-item card-hover"><h3 _ngcontent-ng-c3051988097>Is there a free trial?</h3><p _ngcontent-ng-c3051988097>Yes, we offer a 14-day free trial on all paid plans. No credit card required.</p></div><div _ngcontent-ng-c3051988097 class="faq-item card-hover"><h3 _ngcontent-ng-c3051988097>What payment methods do you accept?</h3><p _ngcontent-ng-c3051988097>We accept all major credit cards, PayPal, and bank transfers for annual plans.</p></div><div _ngcontent-ng-c3051988097 class="faq-item card-hover"><h3 _ngcontent-ng-c3051988097>Can I cancel my subscription?</h3><p _ngcontent-ng-c3051988097>Yes, you can cancel anytime. No long-term contracts or hidden fees.</p></div></div></div></section><section _ngcontent-ng-c3051988097 class="cta-section scroll-reveal"><div _ngcontent-ng-c3051988097 class="container"><div _ngcontent-ng-c3051988097 class="cta-content"><h2 _ngcontent-ng-c3051988097 class="gold-glow">Ready to Get Started?</h2><p _ngcontent-ng-c3051988097>Join thousands of businesses already using Talentree</p><div _ngcontent-ng-c3051988097 class="cta-buttons"><a _ngcontent-ng-c3051988097 routerlink="/auth/register" class="btn-primary btn-gold-animated" href="/auth/register">Start Free Trial</a><a _ngcontent-ng-c3051988097 routerlink="/contact" class="btn-outline btn-gold-animated" href="/contact">Contact Sales</a></div></div></div></section></div></app-offer><!----><app-public-footer _ngcontent-ng-c861037777 _nghost-ng-c2361811811 ngh="0"><footer _ngcontent-ng-c2361811811 class="footer"><div _ngcontent-ng-c2361811811 class="container"><div _ngcontent-ng-c2361811811 class="footer-grid"><div _ngcontent-ng-c2361811811 class="footer-brand"><h3 _ngcontent-ng-c2361811811>TALENTREE</h3><p _ngcontent-ng-c2361811811>Complete Business Management Platform</p><div _ngcontent-ng-c2361811811 class="social-links"><a _ngcontent-ng-c2361811811 href="#"><i _ngcontent-ng-c2361811811 class="fab fa-instagram"></i></a><a _ngcontent-ng-c2361811811 href="#"><i _ngcontent-ng-c2361811811 class="fab fa-facebook-f"></i></a><a _ngcontent-ng-c2361811811 href="#"><i _ngcontent-ng-c2361811811 class="fab fa-twitter"></i></a><a _ngcontent-ng-c2361811811 href="#"><i _ngcontent-ng-c2361811811 class="fab fa-linkedin-in"></i></a></div></div><div _ngcontent-ng-c2361811811 class="footer-links"><h4 _ngcontent-ng-c2361811811>Company</h4><a _ngcontent-ng-c2361811811 routerlink="/about" href="/about">About Us</a><a _ngcontent-ng-c2361811811 routerlink="/offer" href="/offer">Features</a><a _ngcontent-ng-c2361811811 routerlink="/contact" href="/contact">Contact</a></div><div _ngcontent-ng-c2361811811 class="footer-links"><h4 _ngcontent-ng-c2361811811>Resources</h4><a _ngcontent-ng-c2361811811 href="#">Blog</a><a _ngcontent-ng-c2361811811 href="#">Help Center</a><a _ngcontent-ng-c2361811811 href="#">Support</a></div><div _ngcontent-ng-c2361811811 class="footer-links"><h4 _ngcontent-ng-c2361811811>Legal</h4><a _ngcontent-ng-c2361811811 href="#">Privacy Policy</a><a _ngcontent-ng-c2361811811 href="#">Terms of Service</a></div></div><div _ngcontent-ng-c2361811811 class="footer-bottom"><p _ngcontent-ng-c2361811811>© 2024 Talentree. All rights reserved.</p></div></div></footer></app-public-footer></app-public><!----></app-root>
-<script src="polyfills-FFHMD2TL.js" type="module"></script><script src="scripts-SQ7W6IC7.js" defer></script><script src="main-DOCABAGU.js" type="module"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css"><link rel="modulepreload" href="chunk-KPGKVJIH.js"><link rel="modulepreload" href="chunk-CLIRUUMC.js"><link rel="modulepreload" href="chunk-6TUCOML7.js"><link rel="preload" href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@300&amp;display=swap" as="style"><style ng-app-id="ng">
 
-<script id="ng-state" type="application/json">{"__nghData__":[{},{"c":{"1":[{"i":"c3051988097","r":1}]}},{"c":{"0":[{"i":"c861037777","r":1}]}}]}</script></body></html>
+.setting[_ngcontent-ng-c861037777] {
+  padding-top: 100px;
+  margin: auto;
+}
+/*# sourceMappingURL=public.component.css.map */</style><style ng-app-id="ng">
+
+body[_ngcontent-ng-c151807199] {
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+a[_ngcontent-ng-c151807199] {
+  text-decoration: none;
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+a[_ngcontent-ng-c151807199]:hover {
+  color: #d4af37;
+}
+.gold[_ngcontent-ng-c151807199] {
+  color: #d4af37;
+}
+.nav-wrapper[_ngcontent-ng-c151807199] {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 12px;
+  left: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+.navbar[_ngcontent-ng-c151807199] {
+  background: rgba(255, 255, 255, 1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 100;
+  width: 92%;
+  margin: 0 auto;
+  padding: 6px 20px;
+  border-radius: 40px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  pointer-events: auto;
+  min-height: auto;
+}
+.navbar-brand[_ngcontent-ng-c151807199] {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199] {
+  height: 35px;
+  width: auto;
+  max-height: 35px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199]:hover {
+  transform: scale(1.02);
+}
+@media (max-width: 768px) {
+  .navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199] {
+    height: 28px;
+  }
+}
+@media (max-width: 480px) {
+  .navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199] {
+    height: 24px;
+  }
+}
+.navbar-nav[_ngcontent-ng-c151807199] {
+  display: flex;
+  gap: 0.2rem;
+  align-items: center;
+}
+.nav-item[_ngcontent-ng-c151807199] {
+  list-style: none;
+}
+.nav-link[_ngcontent-ng-c151807199] {
+  color: #1a1a1a !important;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.3rem 0.7rem !important;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  line-height: 1.2;
+}
+.nav-link[_ngcontent-ng-c151807199]:hover, .nav-link.active[_ngcontent-ng-c151807199] {
+  color: #d4af37 !important;
+  background: rgba(212, 175, 55, 0.1);
+}
+.nav-buttons[_ngcontent-ng-c151807199] {
+  display: flex;
+  gap: 0.4rem;
+  margin-left: 0.8rem;
+  align-items: center;
+}
+.btn-login[_ngcontent-ng-c151807199] {
+  padding: 0.3rem 0.9rem;
+  background: transparent;
+  color: #1a1a1a;
+  border: 1px solid #d4af37;
+  border-radius: 30px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  line-height: 1.2;
+}
+.btn-login[_ngcontent-ng-c151807199]:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: #d4af37;
+  transform: translateY(-1px);
+}
+.btn-register[_ngcontent-ng-c151807199] {
+  padding: 0.3rem 0.9rem;
+  background:
+    linear-gradient(
+      135deg,
+      #d4af37,
+      #f5b042);
+  color: #1a1a1a;
+  border: none;
+  border-radius: 30px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  line-height: 1.2;
+}
+.btn-register[_ngcontent-ng-c151807199]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+.navbar-toggler[_ngcontent-ng-c151807199] {
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: transparent;
+  padding: 0.2rem 0.4rem;
+}
+.navbar-toggler-icon[_ngcontent-ng-c151807199] {
+  width: 1rem;
+  height: 1rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+@media (max-width: 992px) {
+  .navbar[_ngcontent-ng-c151807199] {
+    width: 96%;
+    padding: 5px 16px;
+  }
+  .navbar-brand[_ngcontent-ng-c151807199] {
+    font-size: 1rem;
+  }
+  .navbar-collapse[_ngcontent-ng-c151807199] {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20px;
+    padding: 0.6rem;
+    margin-top: 0.6rem;
+  }
+  .navbar-nav[_ngcontent-ng-c151807199] {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .nav-link[_ngcontent-ng-c151807199] {
+    text-align: center;
+    padding: 0.3rem 0.6rem !important;
+  }
+  .nav-buttons[_ngcontent-ng-c151807199] {
+    justify-content: center;
+    margin-left: 0;
+    margin-top: 0.6rem;
+  }
+}
+@media (max-width: 768px) {
+  .navbar[_ngcontent-ng-c151807199] {
+    width: 98%;
+    padding: 4px 12px;
+  }
+  .nav-wrapper[_ngcontent-ng-c151807199] {
+    top: 8px;
+  }
+  .navbar-brand[_ngcontent-ng-c151807199] {
+    font-size: 0.9rem;
+  }
+  .nav-link[_ngcontent-ng-c151807199] {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem !important;
+  }
+  .btn-login[_ngcontent-ng-c151807199], .btn-register[_ngcontent-ng-c151807199] {
+    padding: 0.25rem 0.7rem;
+    font-size: 0.65rem;
+  }
+}
+/*# sourceMappingURL=public-navbar.component.css.map */</style><style ng-app-id="ng">
+
+.footer[_ngcontent-ng-c2361811811] {
+  background: #1a1a1a;
+  padding: 60px 0 20px;
+  color: #fff;
+  margin-top: auto;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+.container[_ngcontent-ng-c2361811811] {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.footer-grid[_ngcontent-ng-c2361811811] {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.footer-brand[_ngcontent-ng-c2361811811]   h3[_ngcontent-ng-c2361811811] {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #d4af37;
+  margin-bottom: 0.5rem;
+}
+.footer-brand[_ngcontent-ng-c2361811811]   p[_ngcontent-ng-c2361811811] {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+.social-links[_ngcontent-ng-c2361811811] {
+  display: flex;
+  gap: 1rem;
+}
+.social-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.social-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]:hover {
+  background: #d4af37;
+  color: #1a1a1a;
+  transform: translateY(-3px);
+}
+.footer-links[_ngcontent-ng-c2361811811]   h4[_ngcontent-ng-c2361811811] {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+.footer-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811] {
+  display: block;
+  text-decoration: none;
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+.footer-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]:hover {
+  color: #d4af37;
+}
+.footer-bottom[_ngcontent-ng-c2361811811] {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.7rem;
+  color: #666;
+}
+@media (max-width: 992px) {
+  .footer-grid[_ngcontent-ng-c2361811811] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .footer-grid[_ngcontent-ng-c2361811811] {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .social-links[_ngcontent-ng-c2361811811] {
+    justify-content: center;
+  }
+}
+/*# sourceMappingURL=public-footer.component.css.map */</style><style ng-app-id="ng">
+
+*[_ngcontent-ng-c1555333287] {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.offer-page[_ngcontent-ng-c1555333287] {
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  color: #1a1a1a;
+  background: #ffffff;
+}
+.container[_ngcontent-ng-c1555333287] {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.offer-hero[_ngcontent-ng-c1555333287] {
+  padding: 140px 0 80px;
+  background: #ffffff;
+  text-align: center;
+}
+.offer-hero-content[_ngcontent-ng-c1555333287] {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.gold-badge[_ngcontent-ng-c1555333287] {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: #d4af37;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.offer-title[_ngcontent-ng-c1555333287] {
+  font-size: 3.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+.offer-title[_ngcontent-ng-c1555333287]   .gold[_ngcontent-ng-c1555333287] {
+  color: #d4af37;
+}
+.offer-description[_ngcontent-ng-c1555333287] {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.offerings[_ngcontent-ng-c1555333287] {
+  padding: 80px 0;
+  background: #ffffff;
+}
+.offerings-grid[_ngcontent-ng-c1555333287] {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.offering-card[_ngcontent-ng-c1555333287] {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 20px;
+  transition: all 0.3s;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+.offering-card[_ngcontent-ng-c1555333287]:hover {
+  transform: translateY(-5px);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+}
+.offering-icon[_ngcontent-ng-c1555333287] {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.offering-card[_ngcontent-ng-c1555333287]   h3[_ngcontent-ng-c1555333287] {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #1a1a1a;
+}
+.offering-card[_ngcontent-ng-c1555333287]   p[_ngcontent-ng-c1555333287] {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+.offering-features[_ngcontent-ng-c1555333287] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.offering-features[_ngcontent-ng-c1555333287]   span[_ngcontent-ng-c1555333287] {
+  font-size: 0.7rem;
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.05);
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+}
+.learn-more[_ngcontent-ng-c1555333287] {
+  text-decoration: none;
+  font-size: 0.8rem;
+  color: #d4af37;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.learn-more[_ngcontent-ng-c1555333287]:hover {
+  color: #c4a22e;
+}
+.pricing[_ngcontent-ng-c1555333287] {
+  padding: 80px 0;
+  background: #faf9f5;
+}
+.pricing-header[_ngcontent-ng-c1555333287] {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.section-badge[_ngcontent-ng-c1555333287] {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: #d4af37;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.section-title[_ngcontent-ng-c1555333287] {
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+.section-title[_ngcontent-ng-c1555333287]   .gold[_ngcontent-ng-c1555333287] {
+  color: #d4af37;
+}
+.pricing-subtitle[_ngcontent-ng-c1555333287] {
+  font-size: 0.9rem;
+  color: #888;
+}
+.pricing-grid[_ngcontent-ng-c1555333287] {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.pricing-card[_ngcontent-ng-c1555333287] {
+  background: white;
+  border-radius: 24px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+.pricing-card[_ngcontent-ng-c1555333287]:hover {
+  transform: translateY(-5px);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+}
+.pricing-card.popular[_ngcontent-ng-c1555333287] {
+  border: 2px solid #d4af37;
+  transform: scale(1.02);
+}
+.pricing-card.popular[_ngcontent-ng-c1555333287]:hover {
+  transform: scale(1.02) translateY(-5px);
+}
+.popular-badge[_ngcontent-ng-c1555333287] {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #d4af37;
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.25rem 1rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.pricing-tier[_ngcontent-ng-c1555333287] {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+}
+.pricing-price[_ngcontent-ng-c1555333287] {
+  margin-bottom: 1rem;
+}
+.pricing-price[_ngcontent-ng-c1555333287]   .currency[_ngcontent-ng-c1555333287] {
+  font-size: 1rem;
+  vertical-align: top;
+  color: #d4af37;
+}
+.pricing-price[_ngcontent-ng-c1555333287]   .amount[_ngcontent-ng-c1555333287] {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #d4af37;
+}
+.pricing-price[_ngcontent-ng-c1555333287]   .period[_ngcontent-ng-c1555333287] {
+  font-size: 0.8rem;
+  color: #888;
+}
+.pricing-description[_ngcontent-ng-c1555333287] {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+.pricing-features[_ngcontent-ng-c1555333287] {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+.pricing-features[_ngcontent-ng-c1555333287]   li[_ngcontent-ng-c1555333287] {
+  font-size: 0.8rem;
+  color: #666;
+  padding: 0.25rem 0;
+}
+.btn-primary[_ngcontent-ng-c1555333287], .btn-outline-full[_ngcontent-ng-c1555333287] {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  text-decoration: none;
+  border-radius: 40px;
+  font-weight: 500;
+  font-size: 0.8rem;
+  transition: all 0.3s;
+}
+.btn-primary[_ngcontent-ng-c1555333287] {
+  background: #d4af37;
+  color: white;
+}
+.btn-primary[_ngcontent-ng-c1555333287]:hover {
+  background: #c4a22e;
+  transform: translateY(-2px);
+}
+.btn-outline-full[_ngcontent-ng-c1555333287] {
+  background: transparent;
+  color: #1a1a1a;
+  border: 1px solid #e0e0e0;
+}
+.btn-outline-full[_ngcontent-ng-c1555333287]:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+  transform: translateY(-2px);
+}
+.comparison[_ngcontent-ng-c1555333287] {
+  padding: 80px 0;
+  background: #ffffff;
+}
+.comparison-header[_ngcontent-ng-c1555333287] {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.comparison-table[_ngcontent-ng-c1555333287] {
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.comparison-row[_ngcontent-ng-c1555333287] {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  border-bottom: 1px solid #f0f0f0;
+}
+.comparison-row[_ngcontent-ng-c1555333287]:last-child {
+  border-bottom: none;
+}
+.comparison-row.header[_ngcontent-ng-c1555333287] {
+  background: #faf9f5;
+  font-weight: 600;
+}
+.comparison-row[_ngcontent-ng-c1555333287]   .feature-name[_ngcontent-ng-c1555333287], .comparison-row[_ngcontent-ng-c1555333287]   .feature-starter[_ngcontent-ng-c1555333287], .comparison-row[_ngcontent-ng-c1555333287]   .feature-pro[_ngcontent-ng-c1555333287], .comparison-row[_ngcontent-ng-c1555333287]   .feature-enterprise[_ngcontent-ng-c1555333287] {
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+.comparison-row.header[_ngcontent-ng-c1555333287]   .feature-name[_ngcontent-ng-c1555333287], .comparison-row.header[_ngcontent-ng-c1555333287]   .feature-starter[_ngcontent-ng-c1555333287], .comparison-row.header[_ngcontent-ng-c1555333287]   .feature-pro[_ngcontent-ng-c1555333287], .comparison-row.header[_ngcontent-ng-c1555333287]   .feature-enterprise[_ngcontent-ng-c1555333287] {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+.faq[_ngcontent-ng-c1555333287] {
+  padding: 80px 0;
+  background: #faf9f5;
+}
+.faq-header[_ngcontent-ng-c1555333287] {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.faq-grid[_ngcontent-ng-c1555333287] {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+.faq-item[_ngcontent-ng-c1555333287] {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  transition: all 0.3s;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+.faq-item[_ngcontent-ng-c1555333287]:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+}
+.faq-item[_ngcontent-ng-c1555333287]   h3[_ngcontent-ng-c1555333287] {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+.faq-item[_ngcontent-ng-c1555333287]   p[_ngcontent-ng-c1555333287] {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+}
+.cta-section[_ngcontent-ng-c1555333287] {
+  padding: 80px 0;
+  background: #ffffff;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+}
+.cta-content[_ngcontent-ng-c1555333287]   h2[_ngcontent-ng-c1555333287] {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+.cta-content[_ngcontent-ng-c1555333287]   p[_ngcontent-ng-c1555333287] {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+.cta-buttons[_ngcontent-ng-c1555333287] {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+.animated-bg[_ngcontent-ng-c1555333287] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.gradient-bg[_ngcontent-ng-c1555333287] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      #ffffff 0%,
+      #fffaf5 100%);
+  animation: _ngcontent-ng-c1555333287_gradientShift 15s ease-in-out infinite;
+}
+@keyframes _ngcontent-ng-c1555333287_gradientShift {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+.gold-particles[_ngcontent-ng-c1555333287] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.gold-particles[_ngcontent-ng-c1555333287]::before, .gold-particles[_ngcontent-ng-c1555333287]::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(
+      circle at 20% 40%,
+      rgba(212, 175, 55, 0.08) 1px,
+      transparent 1px);
+  background-size: 60px 60px;
+  animation: _ngcontent-ng-c1555333287_particleFloat 20s linear infinite;
+}
+.gold-particles[_ngcontent-ng-c1555333287]::after {
+  background-image:
+    radial-gradient(
+      circle at 80% 60%,
+      rgba(212, 175, 55, 0.05) 1px,
+      transparent 1px);
+  background-size: 80px 80px;
+  animation: _ngcontent-ng-c1555333287_particleFloat 25s linear infinite reverse;
+}
+@keyframes _ngcontent-ng-c1555333287_particleFloat {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100px);
+  }
+}
+.floating-shapes[_ngcontent-ng-c1555333287] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.gold-lines[_ngcontent-ng-c1555333287] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.shape[_ngcontent-ng-c1555333287] {
+  position: absolute;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.4) 0%,
+      rgba(212, 175, 55, 0.15) 50%,
+      rgba(212, 175, 55, 0.05) 100%);
+  border-radius: 50%;
+  animation: _ngcontent-ng-c1555333287_floatGold 20s ease-in-out infinite;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+}
+.shape-1[_ngcontent-ng-c1555333287] {
+  width: 320px;
+  height: 320px;
+  top: -100px;
+  right: -100px;
+  animation-delay: 0s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.45),
+      rgba(212, 175, 55, 0.1));
+}
+.shape-2[_ngcontent-ng-c1555333287] {
+  width: 220px;
+  height: 220px;
+  bottom: 50px;
+  left: -80px;
+  animation-delay: 2s;
+  animation-duration: 25s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.4),
+      rgba(212, 175, 55, 0.08));
+}
+.shape-3[_ngcontent-ng-c1555333287] {
+  width: 170px;
+  height: 170px;
+  top: 40%;
+  right: 15%;
+  animation-delay: 4s;
+  animation-duration: 18s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.35),
+      rgba(212, 175, 55, 0.06));
+}
+.shape-4[_ngcontent-ng-c1555333287] {
+  width: 120px;
+  height: 120px;
+  bottom: 20%;
+  right: 20%;
+  animation-delay: 6s;
+  animation-duration: 22s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.38),
+      rgba(212, 175, 55, 0.07));
+}
+.shape-5[_ngcontent-ng-c1555333287] {
+  width: 270px;
+  height: 270px;
+  top: 60%;
+  left: -50px;
+  animation-delay: 8s;
+  animation-duration: 28s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.42),
+      rgba(212, 175, 55, 0.09));
+}
+.shape-6[_ngcontent-ng-c1555333287] {
+  width: 140px;
+  height: 140px;
+  top: 75%;
+  right: 35%;
+  animation-delay: 10s;
+  animation-duration: 20s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.32),
+      rgba(212, 175, 55, 0.05));
+}
+.shape-7[_ngcontent-ng-c1555333287] {
+  width: 400px;
+  height: 400px;
+  bottom: -150px;
+  right: -100px;
+  animation-delay: 12s;
+  animation-duration: 32s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.3),
+      rgba(212, 175, 55, 0.04));
+}
+@keyframes _ngcontent-ng-c1555333287_floatGold {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0.5;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+  }
+  25% {
+    transform: translateY(-40px) translateX(25px) rotate(8deg);
+    opacity: 0.8;
+    box-shadow: 0 0 60px rgba(212, 175, 55, 0.5);
+  }
+  50% {
+    transform: translateY(25px) translateX(-25px) rotate(-8deg);
+    opacity: 0.65;
+    box-shadow: 0 0 45px rgba(212, 175, 55, 0.4);
+  }
+  75% {
+    transform: translateY(-30px) translateX(35px) rotate(5deg);
+    opacity: 0.8;
+    box-shadow: 0 0 55px rgba(212, 175, 55, 0.45);
+  }
+}
+.line[_ngcontent-ng-c1555333287] {
+  position: absolute;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #d4af37,
+      transparent);
+  height: 1px;
+  width: 100%;
+  animation: _ngcontent-ng-c1555333287_lineMove 8s linear infinite;
+}
+.line-1[_ngcontent-ng-c1555333287] {
+  top: 15%;
+  animation-delay: 0s;
+}
+.line-3[_ngcontent-ng-c1555333287] {
+  top: 85%;
+  animation-delay: 4s;
+  width: 60%;
+  left: 20%;
+}
+@keyframes _ngcontent-ng-c1555333287_lineMove {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+.fade-up[_ngcontent-ng-c1555333287] {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: _ngcontent-ng-c1555333287_fadeUpSimple 0.8s ease forwards;
+}
+.delay-1[_ngcontent-ng-c1555333287] {
+  animation-delay: 0.2s;
+}
+.delay-2[_ngcontent-ng-c1555333287] {
+  animation-delay: 0.4s;
+}
+@keyframes _ngcontent-ng-c1555333287_fadeUpSimple {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.scroll-reveal[_ngcontent-ng-c1555333287] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.scroll-reveal.visible[_ngcontent-ng-c1555333287] {
+  opacity: 1;
+  transform: translateY(0);
+}
+.card-hover[_ngcontent-ng-c1555333287] {
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+.card-hover[_ngcontent-ng-c1555333287]:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+.gold-glow[_ngcontent-ng-c1555333287] {
+  animation: _ngcontent-ng-c1555333287_glowPulse 3s ease-in-out infinite;
+}
+@keyframes _ngcontent-ng-c1555333287_glowPulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  }
+}
+.btn-gold-animated[_ngcontent-ng-c1555333287] {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.btn-gold-animated[_ngcontent-ng-c1555333287]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent);
+  transition: left 0.5s ease;
+}
+.btn-gold-animated[_ngcontent-ng-c1555333287]:hover::before {
+  left: 100%;
+}
+.btn-gold-animated[_ngcontent-ng-c1555333287]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+}
+.offer-hero[_ngcontent-ng-c1555333287], .offerings[_ngcontent-ng-c1555333287], .pricing[_ngcontent-ng-c1555333287], .comparison[_ngcontent-ng-c1555333287], .faq[_ngcontent-ng-c1555333287], .cta-section[_ngcontent-ng-c1555333287] {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+.offer-hero[_ngcontent-ng-c1555333287] {
+  padding: 140px 0 80px;
+}
+.offerings[_ngcontent-ng-c1555333287], .pricing[_ngcontent-ng-c1555333287], .comparison[_ngcontent-ng-c1555333287], .faq[_ngcontent-ng-c1555333287] {
+  padding: 80px 0;
+  background: rgba(255, 255, 255, 0.95);
+}
+.cta-section[_ngcontent-ng-c1555333287] {
+  padding: 80px 0;
+  background: transparent;
+  border-top: 1px solid #f0f0f0;
+}
+@media (max-width: 992px) {
+  .offerings-grid[_ngcontent-ng-c1555333287] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pricing-grid[_ngcontent-ng-c1555333287] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .comparison-row[_ngcontent-ng-c1555333287] {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  }
+  .faq-grid[_ngcontent-ng-c1555333287] {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .offer-hero[_ngcontent-ng-c1555333287] {
+    padding: 100px 0 60px;
+  }
+  .offer-title[_ngcontent-ng-c1555333287] {
+    font-size: 2.5rem;
+  }
+  .section-title[_ngcontent-ng-c1555333287] {
+    font-size: 1.8rem;
+  }
+  .offerings-grid[_ngcontent-ng-c1555333287] {
+    grid-template-columns: 1fr;
+  }
+  .pricing-grid[_ngcontent-ng-c1555333287] {
+    grid-template-columns: 1fr;
+  }
+  .pricing-card.popular[_ngcontent-ng-c1555333287] {
+    transform: scale(1);
+  }
+  .comparison-row[_ngcontent-ng-c1555333287] {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .comparison-row.header[_ngcontent-ng-c1555333287] {
+    display: none;
+  }
+  .comparison-row[_ngcontent-ng-c1555333287]   .feature-name[_ngcontent-ng-c1555333287] {
+    background: #faf9f5;
+    font-weight: 600;
+  }
+  .cta-buttons[_ngcontent-ng-c1555333287] {
+    flex-direction: column;
+    align-items: center;
+  }
+  .btn-primary[_ngcontent-ng-c1555333287], .btn-outline-full[_ngcontent-ng-c1555333287] {
+    width: 200px;
+    text-align: center;
+  }
+}
+/*# sourceMappingURL=offer.component.css.map */</style></head>
+<body><!--nghm-->
+  <app-root _nghost-ng-c3984273398="" ng-version="17.3.12" ngh="2" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3984273398=""></router-outlet><app-public _nghost-ng-c861037777="" ngh="1"><app-public-navbar _ngcontent-ng-c861037777="" _nghost-ng-c151807199="" ngh="0"><div _ngcontent-ng-c151807199="" class="nav-wrapper"><nav _ngcontent-ng-c151807199="" class="navbar navbar-expand-lg"><div _ngcontent-ng-c151807199="" class="container"><a _ngcontent-ng-c151807199="" routerlink="/public" class="navbar-brand" ng-reflect-router-link="/public" href="/public"><img _ngcontent-ng-c151807199="" src="assets/images/logo.jpg" alt="Talentree Logo"></a><button _ngcontent-ng-c151807199="" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span _ngcontent-ng-c151807199="" class="navbar-toggler-icon"></span></button><div _ngcontent-ng-c151807199="" id="navbarSupportedContent" class="collapse navbar-collapse"><ul _ngcontent-ng-c151807199="" class="navbar-nav m-auto mb-2 mb-lg-0"><li _ngcontent-ng-c151807199="" class="nav-item"><a _ngcontent-ng-c151807199="" routerlink="/public" routerlinkactive="active" class="nav-link active" ng-reflect-router-link="/public" ng-reflect-router-link-active="active" href="/public">Home</a></li><li _ngcontent-ng-c151807199="" class="nav-item"><a _ngcontent-ng-c151807199="" routerlink="/public/about" routerlinkactive="active" class="nav-link" ng-reflect-router-link="/public/about" ng-reflect-router-link-active="active" href="/public/about">About</a></li><li _ngcontent-ng-c151807199="" class="nav-item"><a _ngcontent-ng-c151807199="" routerlink="/public/offer" routerlinkactive="active" class="nav-link active" ng-reflect-router-link="/public/offer" ng-reflect-router-link-active="active" href="/public/offer">Offer</a></li><li _ngcontent-ng-c151807199="" class="nav-item"><a _ngcontent-ng-c151807199="" routerlink="/public/testimonial" routerlinkactive="active" class="nav-link" ng-reflect-router-link="/public/testimonial" ng-reflect-router-link-active="active" href="/public/testimonial">Testimonial</a></li><li _ngcontent-ng-c151807199="" class="nav-item"><a _ngcontent-ng-c151807199="" routerlink="/public/contact" routerlinkactive="active" class="nav-link" ng-reflect-router-link="/public/contact" ng-reflect-router-link-active="active" href="/public/contact">Contact</a></li></ul><div _ngcontent-ng-c151807199="" class="nav-buttons"><a _ngcontent-ng-c151807199="" routerlink="/auth/login" class="btn-login" ng-reflect-router-link="/auth/login" href="/auth/login">Sign In</a><a _ngcontent-ng-c151807199="" routerlink="/auth/register" class="btn-register" ng-reflect-router-link="/auth/register" href="/auth/register">Get Started</a></div></div></div></nav></div></app-public-navbar><router-outlet _ngcontent-ng-c861037777=""></router-outlet><app-offer _nghost-ng-c1555333287="" ngh="0">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<div _ngcontent-ng-c1555333287="" class="offer-page"><div _ngcontent-ng-c1555333287="" class="animated-bg"><div _ngcontent-ng-c1555333287="" class="gradient-bg"></div><div _ngcontent-ng-c1555333287="" class="gold-particles"></div><div _ngcontent-ng-c1555333287="" class="floating-shapes"><div _ngcontent-ng-c1555333287="" class="shape shape-1"></div><div _ngcontent-ng-c1555333287="" class="shape shape-2"></div><div _ngcontent-ng-c1555333287="" class="shape shape-3"></div><div _ngcontent-ng-c1555333287="" class="shape shape-4"></div><div _ngcontent-ng-c1555333287="" class="shape shape-5"></div></div><div _ngcontent-ng-c1555333287="" class="gold-lines"><div _ngcontent-ng-c1555333287="" class="line line-1"></div><div _ngcontent-ng-c1555333287="" class="line line-3"></div></div></div><section _ngcontent-ng-c1555333287="" class="offer-hero"><div _ngcontent-ng-c1555333287="" class="container"><div _ngcontent-ng-c1555333287="" class="offer-hero-content"><span _ngcontent-ng-c1555333287="" class="gold-badge fade-up">What We Offer</span><h1 _ngcontent-ng-c1555333287="" class="offer-title fade-up delay-1"> Powerful Solutions<br _ngcontent-ng-c1555333287=""><span _ngcontent-ng-c1555333287="" class="gold">For Your Business</span></h1><p _ngcontent-ng-c1555333287="" class="offer-description fade-up delay-2"> Discover our comprehensive suite of business management tools designed to streamline operations, enhance productivity, and drive growth. </p></div></div></section><section _ngcontent-ng-c1555333287="" class="offerings scroll-reveal"><div _ngcontent-ng-c1555333287="" class="container"><div _ngcontent-ng-c1555333287="" class="offerings-grid"><div _ngcontent-ng-c1555333287="" class="offering-card card-hover"><div _ngcontent-ng-c1555333287="" class="offering-icon">📦</div><h3 _ngcontent-ng-c1555333287="">Raw Materials Management</h3><p _ngcontent-ng-c1555333287="">Complete control over your inventory with real-time tracking, automated alerts, and comprehensive reporting.</p><div _ngcontent-ng-c1555333287="" class="offering-features"><span _ngcontent-ng-c1555333287="">✓ Inventory Tracking</span><span _ngcontent-ng-c1555333287="">✓ Price Management</span><span _ngcontent-ng-c1555333287="">✓ Supplier Integration</span></div><a _ngcontent-ng-c1555333287="" href="#" class="learn-more">Learn More →</a></div><div _ngcontent-ng-c1555333287="" class="offering-card card-hover"><div _ngcontent-ng-c1555333287="" class="offering-icon">🚚</div><h3 _ngcontent-ng-c1555333287="">Supplier Management</h3><p _ngcontent-ng-c1555333287="">Build and maintain strong supplier relationships with our comprehensive management tools.</p><div _ngcontent-ng-c1555333287="" class="offering-features"><span _ngcontent-ng-c1555333287="">✓ Contact Management</span><span _ngcontent-ng-c1555333287="">✓ Performance Tracking</span><span _ngcontent-ng-c1555333287="">✓ Communication Tools</span></div><a _ngcontent-ng-c1555333287="" href="#" class="learn-more">Learn More →</a></div><div _ngcontent-ng-c1555333287="" class="offering-card card-hover"><div _ngcontent-ng-c1555333287="" class="offering-icon">🛍️</div><h3 _ngcontent-ng-c1555333287="">Product Management</h3><p _ngcontent-ng-c1555333287="">Showcase and manage your products with professional catalog tools and inventory control.</p><div _ngcontent-ng-c1555333287="" class="offering-features"><span _ngcontent-ng-c1555333287="">✓ Catalog Management</span><span _ngcontent-ng-c1555333287="">✓ Pricing Control</span><span _ngcontent-ng-c1555333287="">✓ Image Gallery</span></div><a _ngcontent-ng-c1555333287="" href="#" class="learn-more">Learn More →</a></div><div _ngcontent-ng-c1555333287="" class="offering-card card-hover"><div _ngcontent-ng-c1555333287="" class="offering-icon">📊</div><h3 _ngcontent-ng-c1555333287="">Analytics &amp; Reports</h3><p _ngcontent-ng-c1555333287="">Data-driven insights to help you make informed business decisions.</p><div _ngcontent-ng-c1555333287="" class="offering-features"><span _ngcontent-ng-c1555333287="">✓ Real-time Analytics</span><span _ngcontent-ng-c1555333287="">✓ Custom Reports</span><span _ngcontent-ng-c1555333287="">✓ Export Options</span></div><a _ngcontent-ng-c1555333287="" href="#" class="learn-more">Learn More →</a></div><div _ngcontent-ng-c1555333287="" class="offering-card card-hover"><div _ngcontent-ng-c1555333287="" class="offering-icon">📋</div><h3 _ngcontent-ng-c1555333287="">Order Management</h3><p _ngcontent-ng-c1555333287="">Streamline your order processing from purchase to delivery with ease.</p><div _ngcontent-ng-c1555333287="" class="offering-features"><span _ngcontent-ng-c1555333287="">✓ Order Tracking</span><span _ngcontent-ng-c1555333287="">✓ Status Updates</span><span _ngcontent-ng-c1555333287="">✓ Invoice Generation</span></div><a _ngcontent-ng-c1555333287="" href="#" class="learn-more">Learn More →</a></div><div _ngcontent-ng-c1555333287="" class="offering-card card-hover"><div _ngcontent-ng-c1555333287="" class="offering-icon">👥</div><h3 _ngcontent-ng-c1555333287="">Team Collaboration</h3><p _ngcontent-ng-c1555333287="">Enable seamless collaboration across your organization with role-based access.</p><div _ngcontent-ng-c1555333287="" class="offering-features"><span _ngcontent-ng-c1555333287="">✓ Role Management</span><span _ngcontent-ng-c1555333287="">✓ Real-time Updates</span><span _ngcontent-ng-c1555333287="">✓ Activity Logs</span></div><a _ngcontent-ng-c1555333287="" href="#" class="learn-more">Learn More →</a></div></div></div></section><section _ngcontent-ng-c1555333287="" class="pricing scroll-reveal"><div _ngcontent-ng-c1555333287="" class="container"><div _ngcontent-ng-c1555333287="" class="pricing-header"><span _ngcontent-ng-c1555333287="" class="section-badge gold-glow">Pricing Plans</span><h2 _ngcontent-ng-c1555333287="" class="section-title">Choose the Plan<br _ngcontent-ng-c1555333287=""><span _ngcontent-ng-c1555333287="" class="gold">That Fits Your Business</span></h2><p _ngcontent-ng-c1555333287="" class="pricing-subtitle">Simple, transparent pricing. No hidden fees.</p></div><div _ngcontent-ng-c1555333287="" class="pricing-grid"><div _ngcontent-ng-c1555333287="" class="pricing-card card-hover"><div _ngcontent-ng-c1555333287="" class="pricing-tier">Starter</div><div _ngcontent-ng-c1555333287="" class="pricing-price"><span _ngcontent-ng-c1555333287="" class="currency">$</span><span _ngcontent-ng-c1555333287="" class="amount">0</span><span _ngcontent-ng-c1555333287="" class="period">/month</span></div><p _ngcontent-ng-c1555333287="" class="pricing-description">Perfect for small businesses just getting started</p><ul _ngcontent-ng-c1555333287="" class="pricing-features"><li _ngcontent-ng-c1555333287="">✓ Up to 100 Products</li><li _ngcontent-ng-c1555333287="">✓ 10 Suppliers</li><li _ngcontent-ng-c1555333287="">✓ Basic Analytics</li><li _ngcontent-ng-c1555333287="">✓ Email Support</li></ul><a _ngcontent-ng-c1555333287="" routerlink="/auth/register" class="btn-outline-full btn-gold-animated" ng-reflect-router-link="/auth/register" href="/auth/register">Get Started</a></div><div _ngcontent-ng-c1555333287="" class="pricing-card popular card-hover"><div _ngcontent-ng-c1555333287="" class="popular-badge">Most Popular</div><div _ngcontent-ng-c1555333287="" class="pricing-tier">Professional</div><div _ngcontent-ng-c1555333287="" class="pricing-price"><span _ngcontent-ng-c1555333287="" class="currency">$</span><span _ngcontent-ng-c1555333287="" class="amount">29</span><span _ngcontent-ng-c1555333287="" class="period">/month</span></div><p _ngcontent-ng-c1555333287="" class="pricing-description">Ideal for growing businesses</p><ul _ngcontent-ng-c1555333287="" class="pricing-features"><li _ngcontent-ng-c1555333287="">✓ Unlimited Products</li><li _ngcontent-ng-c1555333287="">✓ Unlimited Suppliers</li><li _ngcontent-ng-c1555333287="">✓ Advanced Analytics</li><li _ngcontent-ng-c1555333287="">✓ Priority Support</li><li _ngcontent-ng-c1555333287="">✓ API Access</li></ul><a _ngcontent-ng-c1555333287="" routerlink="/auth/register" class="btn-primary btn-gold-animated" ng-reflect-router-link="/auth/register" href="/auth/register">Get Started</a></div><div _ngcontent-ng-c1555333287="" class="pricing-card card-hover"><div _ngcontent-ng-c1555333287="" class="pricing-tier">Enterprise</div><div _ngcontent-ng-c1555333287="" class="pricing-price"><span _ngcontent-ng-c1555333287="" class="currency">$</span><span _ngcontent-ng-c1555333287="" class="amount">99</span><span _ngcontent-ng-c1555333287="" class="period">/month</span></div><p _ngcontent-ng-c1555333287="" class="pricing-description">For large organizations with complex needs</p><ul _ngcontent-ng-c1555333287="" class="pricing-features"><li _ngcontent-ng-c1555333287="">✓ Everything in Professional</li><li _ngcontent-ng-c1555333287="">✓ Custom Integration</li><li _ngcontent-ng-c1555333287="">✓ Dedicated Account Manager</li><li _ngcontent-ng-c1555333287="">✓ 24/7 Phone Support</li><li _ngcontent-ng-c1555333287="">✓ Custom Training</li></ul><a _ngcontent-ng-c1555333287="" routerlink="/auth/register" class="btn-outline-full btn-gold-animated" ng-reflect-router-link="/auth/register" href="/auth/register">Contact Sales</a></div></div></div></section><section _ngcontent-ng-c1555333287="" class="comparison scroll-reveal"><div _ngcontent-ng-c1555333287="" class="container"><div _ngcontent-ng-c1555333287="" class="comparison-header"><span _ngcontent-ng-c1555333287="" class="section-badge gold-glow">Compare Features</span><h2 _ngcontent-ng-c1555333287="" class="section-title">Everything You Need<br _ngcontent-ng-c1555333287=""><span _ngcontent-ng-c1555333287="" class="gold">In One Place</span></h2></div><div _ngcontent-ng-c1555333287="" class="comparison-table"><div _ngcontent-ng-c1555333287="" class="comparison-row header"><div _ngcontent-ng-c1555333287="" class="feature-name">Feature</div><div _ngcontent-ng-c1555333287="" class="feature-starter">Starter</div><div _ngcontent-ng-c1555333287="" class="feature-pro">Professional</div><div _ngcontent-ng-c1555333287="" class="feature-enterprise">Enterprise</div></div><div _ngcontent-ng-c1555333287="" class="comparison-row"><div _ngcontent-ng-c1555333287="" class="feature-name">Products</div><div _ngcontent-ng-c1555333287="" class="feature-starter">Up to 100</div><div _ngcontent-ng-c1555333287="" class="feature-pro">Unlimited</div><div _ngcontent-ng-c1555333287="" class="feature-enterprise">Unlimited</div></div><div _ngcontent-ng-c1555333287="" class="comparison-row"><div _ngcontent-ng-c1555333287="" class="feature-name">Suppliers</div><div _ngcontent-ng-c1555333287="" class="feature-starter">Up to 10</div><div _ngcontent-ng-c1555333287="" class="feature-pro">Unlimited</div><div _ngcontent-ng-c1555333287="" class="feature-enterprise">Unlimited</div></div><div _ngcontent-ng-c1555333287="" class="comparison-row"><div _ngcontent-ng-c1555333287="" class="feature-name">Analytics</div><div _ngcontent-ng-c1555333287="" class="feature-starter">Basic</div><div _ngcontent-ng-c1555333287="" class="feature-pro">Advanced</div><div _ngcontent-ng-c1555333287="" class="feature-enterprise">Custom</div></div><div _ngcontent-ng-c1555333287="" class="comparison-row"><div _ngcontent-ng-c1555333287="" class="feature-name">API Access</div><div _ngcontent-ng-c1555333287="" class="feature-starter">—</div><div _ngcontent-ng-c1555333287="" class="feature-pro">✓</div><div _ngcontent-ng-c1555333287="" class="feature-enterprise">✓</div></div><div _ngcontent-ng-c1555333287="" class="comparison-row"><div _ngcontent-ng-c1555333287="" class="feature-name">Priority Support</div><div _ngcontent-ng-c1555333287="" class="feature-starter">—</div><div _ngcontent-ng-c1555333287="" class="feature-pro">✓</div><div _ngcontent-ng-c1555333287="" class="feature-enterprise">✓</div></div><div _ngcontent-ng-c1555333287="" class="comparison-row"><div _ngcontent-ng-c1555333287="" class="feature-name">Dedicated Manager</div><div _ngcontent-ng-c1555333287="" class="feature-starter">—</div><div _ngcontent-ng-c1555333287="" class="feature-pro">—</div><div _ngcontent-ng-c1555333287="" class="feature-enterprise">✓</div></div></div></div></section><section _ngcontent-ng-c1555333287="" class="faq scroll-reveal"><div _ngcontent-ng-c1555333287="" class="container"><div _ngcontent-ng-c1555333287="" class="faq-header"><span _ngcontent-ng-c1555333287="" class="section-badge gold-glow">FAQ</span><h2 _ngcontent-ng-c1555333287="" class="section-title">Frequently Asked<br _ngcontent-ng-c1555333287=""><span _ngcontent-ng-c1555333287="" class="gold">Questions</span></h2></div><div _ngcontent-ng-c1555333287="" class="faq-grid"><div _ngcontent-ng-c1555333287="" class="faq-item card-hover"><h3 _ngcontent-ng-c1555333287="">Can I change my plan later?</h3><p _ngcontent-ng-c1555333287="">Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.</p></div><div _ngcontent-ng-c1555333287="" class="faq-item card-hover"><h3 _ngcontent-ng-c1555333287="">Is there a free trial?</h3><p _ngcontent-ng-c1555333287="">Yes, we offer a 14-day free trial on all paid plans. No credit card required.</p></div><div _ngcontent-ng-c1555333287="" class="faq-item card-hover"><h3 _ngcontent-ng-c1555333287="">What payment methods do you accept?</h3><p _ngcontent-ng-c1555333287="">We accept all major credit cards, PayPal, and bank transfers for annual plans.</p></div><div _ngcontent-ng-c1555333287="" class="faq-item card-hover"><h3 _ngcontent-ng-c1555333287="">Can I cancel my subscription?</h3><p _ngcontent-ng-c1555333287="">Yes, you can cancel anytime. No long-term contracts or hidden fees.</p></div></div></div></section><section _ngcontent-ng-c1555333287="" class="cta-section scroll-reveal"><div _ngcontent-ng-c1555333287="" class="container"><div _ngcontent-ng-c1555333287="" class="cta-content"><h2 _ngcontent-ng-c1555333287="" class="gold-glow">Ready to Get Started?</h2><p _ngcontent-ng-c1555333287="">Join thousands of businesses already using Talentree</p><div _ngcontent-ng-c1555333287="" class="cta-buttons"><a _ngcontent-ng-c1555333287="" routerlink="/auth/register" class="btn-primary btn-gold-animated" ng-reflect-router-link="/auth/register" href="/auth/register">Start Free Trial</a><a _ngcontent-ng-c1555333287="" routerlink="/contact" class="btn-outline btn-gold-animated" ng-reflect-router-link="/contact" href="/contact">Contact Sales</a></div></div></div></section></div>
+=======
+<p _ngcontent-ng-c1555333287="">offer works!</p>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/dev
+</app-offer><!--container--><app-public-footer _ngcontent-ng-c861037777="" _nghost-ng-c2361811811="" ngh="0"><footer _ngcontent-ng-c2361811811="" class="footer"><div _ngcontent-ng-c2361811811="" class="container"><div _ngcontent-ng-c2361811811="" class="footer-grid"><div _ngcontent-ng-c2361811811="" class="footer-brand"><h3 _ngcontent-ng-c2361811811="">TALENTREE</h3><p _ngcontent-ng-c2361811811="">Complete Business Management Platform</p><div _ngcontent-ng-c2361811811="" class="social-links"><a _ngcontent-ng-c2361811811="" href="#"><i _ngcontent-ng-c2361811811="" class="fab fa-instagram"></i></a><a _ngcontent-ng-c2361811811="" href="#"><i _ngcontent-ng-c2361811811="" class="fab fa-facebook-f"></i></a><a _ngcontent-ng-c2361811811="" href="#"><i _ngcontent-ng-c2361811811="" class="fab fa-twitter"></i></a><a _ngcontent-ng-c2361811811="" href="#"><i _ngcontent-ng-c2361811811="" class="fab fa-linkedin-in"></i></a></div></div><div _ngcontent-ng-c2361811811="" class="footer-links"><h4 _ngcontent-ng-c2361811811="">Company</h4><a _ngcontent-ng-c2361811811="" routerlink="/about" ng-reflect-router-link="/about" href="/about">About Us</a><a _ngcontent-ng-c2361811811="" routerlink="/offer" ng-reflect-router-link="/offer" href="/offer">Features</a><a _ngcontent-ng-c2361811811="" routerlink="/contact" ng-reflect-router-link="/contact" href="/contact">Contact</a></div><div _ngcontent-ng-c2361811811="" class="footer-links"><h4 _ngcontent-ng-c2361811811="">Resources</h4><a _ngcontent-ng-c2361811811="" href="#">Blog</a><a _ngcontent-ng-c2361811811="" href="#">Help Center</a><a _ngcontent-ng-c2361811811="" href="#">Support</a></div><div _ngcontent-ng-c2361811811="" class="footer-links"><h4 _ngcontent-ng-c2361811811="">Legal</h4><a _ngcontent-ng-c2361811811="" href="#">Privacy Policy</a><a _ngcontent-ng-c2361811811="" href="#">Terms of Service</a></div></div><div _ngcontent-ng-c2361811811="" class="footer-bottom"><p _ngcontent-ng-c2361811811="">© 2024 Talentree. All rights reserved.</p></div></div></footer></app-public-footer></app-public><!--container--></app-root>
+<script src="polyfills.js" type="module"></script><script src="scripts.js" defer=""></script><script src="main.js" type="module"></script>
+
+<script id="ng-state" type="application/json">{"__nghData__":[{},{"c":{"1":[{"i":"c1555333287","r":1}]}},{"c":{"0":[{"i":"c861037777","r":1}]}}]}</script></body></html>

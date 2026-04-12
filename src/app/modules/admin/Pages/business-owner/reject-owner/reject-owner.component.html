@@ -1,1 +1,46 @@
-<p>reject-owner works!</p>
+@if (isOpen) {
+  <div class="model-overlay">
+    <div class="model-container">
+      <div class="modal-header">
+        <div class="header-content">
+          <h2 class="title">Reject Business Owner</h2>
+        </div>
+        <button class="close-btn" type="button" (click)="onClose()" aria-label="Close modal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="add-note d-flex flex-column">
+        <label for="rejection-reason">Rejection Reason</label>
+        <textarea
+          id="rejection-reason"
+          class="textarea-main"
+          rows="4"
+          [(ngModel)]="rejectionReason"
+          [disabled]="isRejectRequestPending"
+          placeholder="Provide a clear reason (at least 10 characters)">
+        </textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-reject" type="button" (click)="onClose()" [disabled]="isRejectRequestPending">
+          Cancel
+        </button>
+        <button
+          class="btn btn-confirm-reject"
+          type="button"
+          (click)="onReject()"
+          [disabled]="!isReasonValid() || isRejected() || isRejectRequestPending">
+          @if (isRejectRequestPending) {
+            Rejecting…
+          } @else {
+            Reject
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}

@@ -4,81 +4,95 @@
 
     <table class="orders-table">
 
-      <thead class="pt-2 pb-2  ">
+      <thead class="pt-2 pb-2">
         <tr>
-
-          @for(col of columns ; track $index){
-          <th class="table-header text-center">{{ col | titlecase }}</th>
+          @for (col of columns; track col) {
+            <th
+              class="table-header text-center"
+              [class.sortable-header]="sortable"
+              [class.sorted-asc]="sortable && isSortedAsc(col)"
+              [class.sorted-desc]="sortable && isSortedDesc(col)"
+              (click)="onHeaderClick(col)">
+              <span class="th-inner">
+                <span class="th-label">{{ col | titlecase }}</span>
+                @if (sortable) {
+                  <span class="sort-icon" aria-hidden="true"></span>
+                }
+              </span>
+            </th>
           }
-
-          @if(hasActions){
-          <th class="table-header text-center">Actions</th>
+          @if (hasActions) {
+            <th class="table-header table-header-actions text-center">Actions</th>
           }
-          <!-- #FEF9E7 -->
         </tr>
       </thead>
 
-      <tbody class="pt-2 pb-2 ">
+      <tbody class="pt-2 pb-2">
 
-        @for(row of data ; track $index){
-
-        <tr (click)="openOwnerDetails(row,'view')">
-
-          @for(col of columns ; track $index){
-          <td>
-            @if(isEmail(row[col])){
-            <a [href]="'mailto:' + row[col]">{{ row[col] }}</a>
+        @for (row of viewRows; track trackRow($index, row)) {
+          <tr (click)="openOwnerDetails(row, 'view')">
+            @for (col of columns; track col) {
+              <td>
+                @switch (getColumnType(col)) {
+                  @case ('email') {
+                    @if (isEmail(asString(row[col]))) {
+                      <a [href]="'mailto:' + asString(row[col])">{{ asString(row[col]) }}</a>
+                    } @else {
+                      <div [ngClass]="getCellClass(col)">{{ row[col] }}</div>
+                    }
+                  }
+                  @case ('date') {
+                    {{ asDateInput(row[col]) | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  }
+                  @case ('phone') {
+                    <a
+                      [href]="'tel:' + asString(row[col])"
+                      [ngClass]="{
+                        'phone-number': isValidPhone(asString(row[col])),
+                        'invalid-phone': !isValidPhone(asString(row[col]))
+                      }">
+                      {{ row[col] }}
+                    </a>
+                  }
+                  @case ('badge') {
+                    <div
+                      class="cell-pill"
+                      [ngClass]="getCellClass(col)"
+                      [style.background-color]="getBadgeColor(row[col])">
+                      {{ row[col] }}
+                    </div>
+                  }
+                  @default {
+                    <div [ngClass]="getCellClass(col)">{{ row[col] }}</div>
+                  }
+                }
+              </td>
             }
-            @else if (col==='submittedAt') {
-          <td>
-            {{ row.submittedAt | date:'dd/MM/yyyy HH:mm:ss' }}
-          </td>
-          }
-          @else if (col==='phoneNumber') {
-            <a [href]="'tel:' + row[col]" 
-   [ngClass]="{'phone-number': isValidPhone(row[col]), 'invalid-phone': !isValidPhone(row[col])}">
-  {{ row[col] }}
-</a>
-          }
-          @else {
-          <div [ngClass]="getColumnClass(col)" [style.background-color]="getBadgeColor(row[col])">
-            {{ row[col] }}
-          </div>
-          }
 
-
-          </td>
-          }
-
-          @if(hasActions){
-          <td>
-
-            <div class="action-buttons">
-
-              @for(act of actions ; track $index){
-
-              <button class="btn-main me-1" (click)="onAction(row , act )" [ngClass]="addButtonStyle(act)">
-                {{ act | titlecase }}
-              </button>
-
-              }
-
-            </div>
-
-          </td>
-          }
-
-        </tr>
-
+            @if (hasActions) {
+              <td>
+                <div class="action-buttons">
+                  @for (act of actions; track act) {
+                    <button
+                      type="button"
+                      class="btn-main me-1"
+                      (click)="onAction(row, act, $event)"
+                      [ngClass]="addButtonStyle(act)">
+                      {{ act | titlecase }}
+                    </button>
+                  }
+                </div>
+              </td>
+            }
+          </tr>
         }
 
-        <!-- No Data -->
-        @if(data.length === 0){
-        <tr>
-          <td [attr.colspan]="columns.length + (hasActions ? 1 : 0)" class="no-data">
-            No data available
-          </td>
-        </tr>
+        @if (data.length === 0) {
+          <tr>
+            <td [attr.colspan]="columns.length + (hasActions ? 1 : 0)" class="no-data">
+              <span class="no-data-inner">No records found</span>
+            </td>
+          </tr>
         }
 
       </tbody>

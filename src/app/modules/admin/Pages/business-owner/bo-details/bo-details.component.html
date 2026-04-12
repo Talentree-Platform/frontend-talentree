@@ -181,14 +181,19 @@
 
       <!-- Action Buttons -->
       <div class="modal-actions">
-        <button class="btn btn-approve" (click)="onApprove(businessOwner)" [disabled]="isApproved()">
-          Approve
+        <button
+          class="btn btn-approve"
+          type="button"
+          (click)="onApprove(businessOwner)"
+          [disabled]="isApproved() || isApproveRequestPending">
+          @if (isApproveRequestPending) {
+            Approving…
+          } @else {
+            Approve
+          }
         </button>
-        <button class="btn btn-reject" (click)="onReject(businessOwner)" [disabled]="isRejected()">
+        <button class="btn btn-reject" type="button" (click)="onReject(businessOwner)" [disabled]="isRejected()">
           Reject
-        </button>
-        <button class="btn btn-message" (click)="onSendMessage()">
-          Send Message
         </button>
       </div>
     </div>

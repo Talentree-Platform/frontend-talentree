@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BusinessOwner } from '../../../core/Interfaces/ibusiness-owner';
-import { app } from '../../../../../../../server';
 import { FormsModule } from '@angular/forms';
+
+export interface ApproveOwnerSubmitEvent {
+  note: string;
+}
 
 @Component({
   selector: 'app-approve-owner',
@@ -11,30 +14,24 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './approve-owner.component.css'
 })
 export class ApproveOwnerComponent {
-  noteText!:string;
-  @Input() businessOwner! :BusinessOwner | null;
-  @Input() isOpen:boolean =true;
-  @Output() notes = new EventEmitter<string>();
+  noteText = '';
+  @Input() businessOwner!: BusinessOwner | null;
+  @Input() isOpen = true;
+  @Input() isApproveRequestPending = false;
   @Output() close = new EventEmitter<void>();
-  @Output() approve =new EventEmitter<void>();
+  @Output() approve = new EventEmitter<ApproveOwnerSubmitEvent>();
 
-
-  onClose(){
+  onClose(): void {
     this.close.emit();
   }
+
   isApproved(): boolean {
     if (!this.businessOwner?.statusText) return false;
     return this.businessOwner.statusText.toLowerCase().includes('approved');
   }
 
-  
-  onApprove(){
-    this.approve.emit();
-    this.notes.emit(this.noteText);
+  onApprove(): void {
+    if (this.isApproveRequestPending) return;
+    this.approve.emit({ note: this.noteText?.trim() ?? '' });
   }
-
-  limitWords(){
-    this.notes.emit(this.noteText);
-  }
-
 }

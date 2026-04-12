@@ -1,31 +1,35 @@
-@if(totalPages>1){
+@if (totalPages > 1) {
+  <div class="pagination-meta text-center mb-2">
+    Page {{ pageIndex }} of {{ totalPages }}
+  </div>
   <div class="pagination">
-    <button (click)="previousPage()" [disabled]="pageIndex === 1 || !hasPrevious">
+    <button type="button" (click)="previousPage()" [disabled]="pageIndex === 1 || !hasPrevious">
       &lt;
     </button>
 
-    <!-- زر أول صفحة -->
     @if (pageIndex > 3) {
-    <button (click)="goToPage(1)">1</button>
-    <span>...</span>
+      <button type="button" (click)="goToPage(1)">1</button>
+      <span>...</span>
     }
 
-    <!-- الأزرار حول الصفحة الحالية -->
-    @for (i of [].constructor(totalPages) ; track $index) {
-    @if ($index + 1 >= pageIndex - 2 && $index + 1 <= pageIndex + 2) { <button [class.active]="$index + 1 === pageIndex"
-      (click)="goToPage($index + 1)">
-      {{ $index + 1 }}
-      </button>
-      }
-      }
-
-      <!-- زر آخر صفحة -->
-      @if (pageIndex < totalPages - 2) { <span>...</span>
-        <button (click)="goToPage(totalPages)">{{ totalPages }}</button>
-        }
-
-        <button (click)="nextPage()" [disabled]="pageIndex === totalPages || !hasNext">
-          &gt;
+    @for (i of [].constructor(totalPages); track $index) {
+      @if ($index + 1 >= pageIndex - 2 && $index + 1 <= pageIndex + 2) {
+        <button
+          type="button"
+          [class.active]="$index + 1 === pageIndex"
+          (click)="goToPage($index + 1)">
+          {{ $index + 1 }}
         </button>
+      }
+    }
+
+    @if (pageIndex < totalPages - 2) {
+      <span>...</span>
+      <button type="button" (click)="goToPage(totalPages)">{{ totalPages }}</button>
+    }
+
+    <button type="button" (click)="nextPage()" [disabled]="pageIndex === totalPages || !hasNext">
+      &gt;
+    </button>
   </div>
-  }
+}

@@ -1,18 +1,225 @@
-.table-container{
-    width:90%;
-    margin: auto;
-    padding: 30px 0;
+/* -------------------------------------------------------------------------- */
+/* Layout: pending BO page shell                                              */
+/* -------------------------------------------------------------------------- */
+
+.table-container {
+  width: 90%;
+  margin: auto;
+  padding: 30px 0;
 }
-.bg-terqwaz{
-    background: linear-gradient(135deg, rgb(30, 203, 145), rgb(101, 250, 200));
+
+/* -------------------------------------------------------------------------- */
+/* Dashboard stats row – responsive stack → 3 columns                         */
+/* -------------------------------------------------------------------------- */
+
+.table-container .row.justify-content-center {
+  align-items: stretch;
+  --stat-card-gap: 1.25rem;
+  margin-left: calc(var(--stat-card-gap) * -0.5);
+  margin-right: calc(var(--stat-card-gap) * -0.5);
 }
-.bg-pink{
-   background: linear-gradient(135deg, #F48981, #f9c6b6);
+
+.table-container .row.justify-content-center > .col-4 {
+  display: flex;
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding-left: calc(var(--stat-card-gap) * 0.5);
+  padding-right: calc(var(--stat-card-gap) * 0.5);
+  margin-bottom: var(--stat-card-gap);
 }
-.bg-yellow{
-    background: linear-gradient(to right, #f3a13e, #FFC75F);
+
+@media (min-width: 992px) {
+  .table-container .row.justify-content-center > .col-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    margin-bottom: 0;
+  }
 }
-h5.card-title{
-    font-size: 32 !important;
-    font-weight: 600 !important;
+
+.overlap-card {
+  /* Keeps class for markup compatibility; spacing handled by row gap above */
+}
+
+/* -------------------------------------------------------------------------- */
+/* .stat-card – reusable base (use with: class="card stat-card bg-* …")       */
+/* Also targets existing .card children in the stats row for zero HTML churn. */
+/* -------------------------------------------------------------------------- */
+
+.stat-card,
+.table-container .row.justify-content-center .card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+  border: none;
+  border-radius: 16px;
+  color: #fff;
+  box-shadow:
+    0 4px 6px -1px rgb(15 23 42 / 0.07),
+    0 12px 28px -8px rgb(15 23 42 / 0.12);
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.45, 0.64, 1),
+    box-shadow 0.35s ease;
+}
+
+.stat-card:hover,
+.table-container .row.justify-content-center .card:hover {
+  transform: translateY(-5px) scale(1.015);
+  box-shadow:
+    0 22px 44px -14px rgb(15 23 42 / 0.22),
+    0 10px 20px -8px rgb(15 23 42 / 0.12);
+}
+
+.stat-card .card-body,
+.table-container .row.justify-content-center .card .card-body {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem 1.35rem 1.45rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+/* Typography: light title, bold prominent metric */
+.stat-card .card-title,
+.table-container .row.justify-content-center .card .card-title {
+  font-size: 17px !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+  margin-bottom: 0.5rem !important;
+  letter-spacing: 0.02em;
+  opacity: 0.96;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+.stat-card .card-text,
+.table-container .row.justify-content-center .card .card-text {
+  font-size: 36px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  margin-bottom: 0 !important;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+}
+
+@media (min-width: 1200px) {
+  .stat-card .card-text,
+  .table-container .row.justify-content-center .card .card-text {
+    font-size: 40px !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Soft decorative blob + faint icon (pseudo-elements)                         */
+/* -------------------------------------------------------------------------- */
+
+.stat-card::before,
+.table-container .row.justify-content-center .card::before {
+  content: '';
+  position: absolute;
+  right: -18%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.14);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.stat-card:hover::before,
+.table-container .row.justify-content-center .card:hover::before {
+  opacity: 0.95;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.stat-card::after,
+.table-container .row.justify-content-center .card::after {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 2.75rem;
+  line-height: 1;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 0;
+  text-shadow: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.stat-card:hover::after,
+.table-container .row.justify-content-center .card:hover::after {
+  opacity: 0.28;
+  transform: scale(1.06);
+}
+
+/* Icon hint per theme (unicode, works without extra assets) */
+.card.bg-pink::after,
+.stat-card.bg-pink::after {
+  content: '◷';
+  font-family: 'Segoe UI Symbol', 'Apple Symbols', sans-serif;
+}
+
+.card.bg-terqwaz::after,
+.stat-card.bg-terqwaz::after {
+  content: '⚡';
+}
+
+.card.bg-yellow::after,
+.stat-card.bg-yellow::after {
+  content: '✋';
+  font-size: 2.35rem;
+  top: 1.15rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Theme gradients – color only (no layout)                                  */
+/* -------------------------------------------------------------------------- */
+
+.bg-terqwaz {
+  background: linear-gradient(135deg, #1eb991 0%, #4dd4a8 45%, #7fe8c8 100%);
+}
+
+.bg-pink {
+  background: linear-gradient(135deg, #e8786f 0%, #ee9a8f 50%, #f5c4b4 100%);
+}
+
+.bg-yellow {
+  background: linear-gradient(135deg, #e89430 0%, #f0ac4a 45%, #ffd078 100%);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Stat cards as table filters (clickable)                                    */
+/* -------------------------------------------------------------------------- */
+
+.stat-card-filter {
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+.stat-card-filter:focus-visible {
+  box-shadow:
+    0 0 0 3px rgb(255 255 255 / 0.95),
+    0 0 0 5px rgb(15 23 42 / 0.35),
+    0 22px 44px -14px rgb(15 23 42 / 0.22);
+}
+
+.table-container .row.justify-content-center .card.stat-card-filter--active {
+  box-shadow:
+    0 0 0 3px rgb(255 255 255 / 0.9),
+    0 22px 44px -14px rgb(15 23 42 / 0.25);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.table-container .row.justify-content-center .card.stat-card-filter--active:hover {
+  transform: translateY(-5px) scale(1.015);
+  box-shadow:
+    0 0 0 3px rgb(255 255 255 / 0.95),
+    0 22px 44px -14px rgb(15 23 42 / 0.22);
 }

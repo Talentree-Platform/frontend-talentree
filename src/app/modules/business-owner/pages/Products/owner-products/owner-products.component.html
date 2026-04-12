@@ -1,0 +1,293 @@
+<div class="owner-products-page">
+  <header class="owner-products-header">
+    <div class="owner-products-header-text">
+      <h1 class="owner-products-title">My Products</h1>
+      <p class="owner-products-subtitle">Manage all your listed items and track performance.</p>
+    </div>
+    <button type="button" class="btn-main btn-gold owner-products-btn-primary" (click)="addProduct()">
+      <span class="owner-products-btn-icon" aria-hidden="true">+</span>
+      Add New Product
+    </button>
+  </header>
+
+  @if (loadError) {
+    <p class="owner-products-banner" role="status">{{ loadError }}</p>
+  }
+
+  <section class="owner-products-toolbar" aria-label="Search and filters">
+    <div class="owner-products-search-wrap">
+      <label class="visually-hidden" for="owner-products-search">Search products</label>
+      <input
+        id="owner-products-search"
+        type="search"
+        class="input-main owner-products-search"
+        placeholder="Search products by name, SKU, or category"
+        [(ngModel)]="searchQuery"
+        autocomplete="off"
+      />
+    </div>
+    <div class="owner-products-filters">
+      <div class="owner-products-filter-group">
+        <label class="owner-products-filter-label" for="filter-status">Status</label>
+        <select id="filter-status" class="select-main owner-products-select" [(ngModel)]="statusFilter">
+          @for (opt of statusOptions; track opt.value) {
+            <option [ngValue]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+      </div>
+      <div class="owner-products-filter-group">
+        <label class="owner-products-filter-label" for="filter-category">Category</label>
+        <select id="filter-category" class="select-main owner-products-select" [(ngModel)]="categoryFilter">
+          @for (c of categories; track c) {
+            <option [ngValue]="c">{{ c === 'all' ? 'All categories' : c }}</option>
+          }
+        </select>
+      </div>
+      <div class="owner-products-filter-group">
+        <label class="owner-products-filter-label" for="filter-price">Price range</label>
+        <select id="filter-price" class="select-main owner-products-select" [(ngModel)]="priceRange">
+          <option value="all">Any price</option>
+          <option value="under25">Under $25</option>
+          <option value="25-100">$25 – $100</option>
+          <option value="100-500">$100 – $500</option>
+          <option value="500plus">Over $500</option>
+        </select>
+      </div>
+      <div class="owner-products-filter-group">
+        <label class="owner-products-filter-label" for="filter-sort">Sort by</label>
+        <select id="filter-sort" class="select-main owner-products-select" [(ngModel)]="sortBy">
+          <option value="date">Date added</option>
+          <option value="sales">Sales</option>
+          <option value="priceAsc">Price (low to high)</option>
+          <option value="priceDesc">Price (high to low)</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="owner-products-summary" aria-label="Overview">
+    <button
+      type="button"
+      class="owner-products-stat-card"
+      [class.owner-products-stat-card--active]="isSummaryActive('all')"
+      (click)="setSummaryFilter('all')"
+      [attr.aria-pressed]="isSummaryActive('all')">
+      <span class="owner-products-stat-emoji" aria-hidden="true">🛍️</span>
+      <div class="owner-products-stat-body">
+        <span class="owner-products-stat-label">Total Products Listed</span>
+        <span class="owner-products-stat-value">{{ totalListed }}</span>
+      </div>
+    </button>
+
+    <button
+      type="button"
+      class="owner-products-stat-card"
+      [class.owner-products-stat-card--active]="isSummaryActive('top_selling')"
+      (click)="setSummaryFilter('top_selling')"
+      [attr.aria-pressed]="isSummaryActive('top_selling')">
+      <span class="owner-products-stat-emoji" aria-hidden="true">📈</span>
+      <div class="owner-products-stat-body">
+        <span class="owner-products-stat-label">Top-Selling Product</span>
+        @if (topSellingProduct) {
+          <div class="owner-products-stat-top">
+            <img
+              class="owner-products-stat-thumb"
+              [src]="topSellingProduct.imageUrl"
+              width="40"
+              height="40"
+              alt=""
+              loading="lazy"
+            />
+            <span class="owner-products-stat-value owner-products-stat-value--sm">{{ topSellingProduct.name }}</span>
+          </div>
+        } @else {
+          <span class="owner-products-stat-value owner-products-stat-value--muted">—</span>
+        }
+      </div>
+    </button>
+
+    <button
+      type="button"
+      class="owner-products-stat-card"
+      [class.owner-products-stat-card--active]="isSummaryActive('under_review')"
+      (click)="setSummaryFilter('under_review')"
+      [attr.aria-pressed]="isSummaryActive('under_review')">
+      <span class="owner-products-stat-emoji" aria-hidden="true">🕒</span>
+      <div class="owner-products-stat-body">
+        <span class="owner-products-stat-label">Products Under Review</span>
+        <span class="owner-products-stat-value">{{ underReviewCount }}</span>
+      </div>
+    </button>
+
+    <button
+      type="button"
+      class="owner-products-stat-card"
+      [class.owner-products-stat-card--active]="isSummaryActive('low_stock')"
+      (click)="setSummaryFilter('low_stock')"
+      [attr.aria-pressed]="isSummaryActive('low_stock')">
+      <span class="owner-products-stat-emoji" aria-hidden="true">⚠️</span>
+      <div class="owner-products-stat-body">
+        <span class="owner-products-stat-label">Low-Stock Items</span>
+        <span class="owner-products-stat-value">{{ lowStockCount }}</span>
+      </div>
+    </button>
+  </section>
+
+  <div class="owner-products-main-head">
+    <h2 class="owner-products-section-title">Your products</h2>
+    <div class="owner-products-view-toggle" role="group" aria-label="View mode">
+      <button
+        type="button"
+        class="owner-products-toggle-btn"
+        [class.owner-products-toggle-btn--active]="viewMode === 'table'"
+        (click)="viewMode = 'table'">
+        Table view
+      </button>
+      <button
+        type="button"
+        class="owner-products-toggle-btn"
+        [class.owner-products-toggle-btn--active]="viewMode === 'grid'"
+        (click)="viewMode = 'grid'">
+        Grid view
+      </button>
+    </div>
+  </div>
+
+  @if (loading) {
+    <p class="owner-products-loading">Loading products…</p>
+  } @else if (filteredProducts.length === 0) {
+    <div class="owner-products-empty">
+      <span class="owner-products-empty-icon" aria-hidden="true"></span>
+      <p class="owner-products-empty-title">No products match your filters</p>
+      <p class="owner-products-empty-text">Try clearing search or choosing a different summary card.</p>
+      <button type="button" class="btn-main btn-border" (click)="searchQuery = ''; statusFilter = 'all'; categoryFilter = 'all'; priceRange = 'all'; setSummaryFilter('all')">
+        Reset filters
+      </button>
+    </div>
+  } @else if (viewMode === 'table') {
+    <div class="owner-products-table-scroll">
+      <table class="owner-products-table">
+        <thead>
+          <tr>
+            <th scope="col">Thumbnail</th>
+            <th scope="col">Product</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Status</th>
+            <th scope="col">Sales</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of filteredProducts; track p.id) {
+            <tr class="owner-products-row-clickable" (click)="goToDetails(p)">
+              <td>
+                <div class="owner-products-thumb-wrap">
+                  <img class="owner-products-thumb" [src]="p.imageUrl" [alt]="p.name" loading="lazy" />
+                </div>
+              </td>
+              <td>
+                <div class="owner-products-cell-name">{{ p.name }}</div>
+                <div class="owner-products-cell-sku">SKU {{ p.sku }}</div>
+              </td>
+              <td>{{ p.category }}</td>
+              <td>{{ formatMoney(p.price) }}</td>
+              <td>{{ p.stock }}</td>
+              <td>
+                <span class="owner-products-badge" [attr.data-status]="p.status">{{ statusLabel(p.status) }}</span>
+              </td>
+              <td>{{ p.sales | number }}</td>
+              <td>
+                @if (p.rating > 0) {
+                  <span class="rating-color">{{ p.rating | number: '1.1-1' }}</span>
+                  <span class="owner-products-rating-star" aria-hidden="true">★</span>
+                } @else {
+                  <span class="owner-products-muted">—</span>
+                }
+              </td>
+              <td>
+                <div class="owner-products-actions">
+                  <button type="button" class="owner-products-icon-btn" title="Edit" (click)="editProduct(p); stopRowClick($event)">✏️</button>
+                  <button type="button" class="owner-products-icon-btn" title="Delete" (click)="openDeleteModal(p); stopRowClick($event)">🗑️</button>
+                  <button type="button" class="owner-products-icon-btn" title="View stats" (click)="openStatsModal(p); stopRowClick($event)">📊</button>
+                  <button type="button" class="owner-products-icon-btn" title="Duplicate" (click)="duplicateProduct(p); stopRowClick($event)">📋</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="owner-products-grid">
+      @for (p of filteredProducts; track p.id) {
+        <article class="owner-products-grid-card owner-products-grid-card--clickable" (click)="goToDetails(p)">
+          <div class="owner-products-grid-img-wrap">
+            <img class="owner-products-grid-img" [src]="p.imageUrl" [alt]="p.name" loading="lazy" />
+            <div class="owner-products-grid-overlay" (click)="$event.stopPropagation()">
+              <button type="button" class="owner-products-overlay-btn" (click)="goToDetails(p)">View</button>
+              <button type="button" class="owner-products-overlay-btn" (click)="editProduct(p)">Edit</button>
+              <button type="button" class="owner-products-overlay-btn owner-products-overlay-btn--danger" (click)="openDeleteModal(p)">Delete</button>
+              <button type="button" class="owner-products-overlay-btn" (click)="shareProduct(p)">Share</button>
+            </div>
+          </div>
+          <div class="owner-products-grid-body">
+            <h3 class="owner-products-grid-name">{{ p.name }}</h3>
+            <p class="owner-products-grid-price">{{ formatMoney(p.price) }}</p>
+            <span class="owner-products-badge" [attr.data-status]="p.status">{{ statusLabel(p.status) }}</span>
+          </div>
+        </article>
+      }
+    </div>
+  }
+
+@if (productPendingDelete) {
+  <div class="owner-products-modal-backdrop" (click)="closeDeleteModal()" role="presentation"></div>
+  <div class="owner-products-modal" role="dialog" aria-modal="true" aria-labelledby="del-title">
+    <h3 id="del-title" class="owner-products-modal-title">Delete product?</h3>
+    <p class="owner-products-modal-text">
+      Remove <strong>{{ productPendingDelete.name }}</strong> from your catalog? This cannot be undone from this screen.
+    </p>
+    <div class="owner-products-modal-actions">
+      <button type="button" class="btn-main btn-border" (click)="closeDeleteModal()">Cancel</button>
+      <button type="button" class="btn-main btn-burgandy" (click)="confirmDelete()">Delete</button>
+    </div>
+  </div>
+}
+
+@if (productStats) {
+  <div class="owner-products-modal-backdrop" (click)="closeStatsModal()" role="presentation"></div>
+  <div class="owner-products-modal owner-products-modal--wide" role="dialog" aria-modal="true" aria-labelledby="stats-title">
+    <h3 id="stats-title" class="owner-products-modal-title">Analytics — {{ productStats.name }}</h3>
+    <div class="owner-products-stats-grid">
+      <div class="owner-products-stat-block">
+        <span class="owner-products-stat-block-label">Total views</span>
+        <span class="owner-products-stat-block-value">{{ productStats.views | number }}</span>
+      </div>
+      <div class="owner-products-stat-block">
+        <span class="owner-products-stat-block-label">Units sold</span>
+        <span class="owner-products-stat-block-value">{{ productStats.sales | number }}</span>
+      </div>
+      <div class="owner-products-stat-block">
+        <span class="owner-products-stat-block-label">Revenue (est.)</span>
+        <span class="owner-products-stat-block-value">{{ formatMoney(productStats.price * productStats.sales) }}</span>
+      </div>
+    </div>
+    <p class="owner-products-modal-text owner-products-trend-note">Sales trend: steady growth over the last 30 days (sample insight).</p>
+    <div class="owner-products-trend-bars" aria-hidden="true">
+      <span class="owner-products-trend-bar owner-products-trend-bar--1"></span>
+      <span class="owner-products-trend-bar owner-products-trend-bar--2"></span>
+      <span class="owner-products-trend-bar owner-products-trend-bar--3"></span>
+      <span class="owner-products-trend-bar owner-products-trend-bar--4"></span>
+      <span class="owner-products-trend-bar owner-products-trend-bar--5"></span>
+      <span class="owner-products-trend-bar owner-products-trend-bar--6"></span>
+    </div>
+    <div class="owner-products-modal-actions">
+      <button type="button" class="btn-main btn-gold" (click)="closeStatsModal()">Close</button>
+    </div>
+  </div>
+}
+
+</div>

@@ -13,12 +13,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class BoDetailsComponent {
   @Input() businessOwner!: BusinessOwner | null;
   @Input() isOpen: boolean = false;
+  @Input() isApproveRequestPending = false;
 
   @Output() close = new EventEmitter<void>();
   @Output() approve = new EventEmitter<BusinessOwner|null>();
   @Output() reject = new EventEmitter<BusinessOwner|null>();
-  @Output() sendMessage = new EventEmitter<void>();
-
 
   // Close modal
   onClose() {
@@ -39,12 +38,6 @@ export class BoDetailsComponent {
   onReject(businessOwner:BusinessOwner|null) {
     this.reject.emit(businessOwner);
   }
-
-  // Send message
-  onSendMessage() {
-    this.sendMessage.emit();
-  }
-
 
   // Check status
   isApproved(): boolean {

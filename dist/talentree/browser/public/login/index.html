@@ -1,14 +1,537 @@
-<!DOCTYPE html><html lang="en" data-critters-container><head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Talentree</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-<style>@charset "UTF-8";:root{--bs-blue:#0d6efd;--bs-indigo:#6610f2;--bs-purple:#6f42c1;--bs-pink:#d63384;--bs-red:#dc3545;--bs-orange:#fd7e14;--bs-yellow:#ffc107;--bs-green:#198754;--bs-teal:#20c997;--bs-cyan:#0dcaf0;--bs-black:#000;--bs-white:#fff;--bs-gray:#6c757d;--bs-gray-dark:#343a40;--bs-gray-100:#f8f9fa;--bs-gray-200:#e9ecef;--bs-gray-300:#dee2e6;--bs-gray-400:#ced4da;--bs-gray-500:#adb5bd;--bs-gray-600:#6c757d;--bs-gray-700:#495057;--bs-gray-800:#343a40;--bs-gray-900:#212529;--bs-primary:#0d6efd;--bs-secondary:#6c757d;--bs-success:#198754;--bs-info:#0dcaf0;--bs-warning:#ffc107;--bs-danger:#dc3545;--bs-light:#f8f9fa;--bs-dark:#212529;--bs-primary-rgb:13,110,253;--bs-secondary-rgb:108,117,125;--bs-success-rgb:25,135,84;--bs-info-rgb:13,202,240;--bs-warning-rgb:255,193,7;--bs-danger-rgb:220,53,69;--bs-light-rgb:248,249,250;--bs-dark-rgb:33,37,41;--bs-primary-text-emphasis:#052c65;--bs-secondary-text-emphasis:#2b2f32;--bs-success-text-emphasis:#0a3622;--bs-info-text-emphasis:#055160;--bs-warning-text-emphasis:#664d03;--bs-danger-text-emphasis:#58151c;--bs-light-text-emphasis:#495057;--bs-dark-text-emphasis:#495057;--bs-primary-bg-subtle:#cfe2ff;--bs-secondary-bg-subtle:#e2e3e5;--bs-success-bg-subtle:#d1e7dd;--bs-info-bg-subtle:#cff4fc;--bs-warning-bg-subtle:#fff3cd;--bs-danger-bg-subtle:#f8d7da;--bs-light-bg-subtle:#fcfcfd;--bs-dark-bg-subtle:#ced4da;--bs-primary-border-subtle:#9ec5fe;--bs-secondary-border-subtle:#c4c8cb;--bs-success-border-subtle:#a3cfbb;--bs-info-border-subtle:#9eeaf9;--bs-warning-border-subtle:#ffe69c;--bs-danger-border-subtle:#f1aeb5;--bs-light-border-subtle:#e9ecef;--bs-dark-border-subtle:#adb5bd;--bs-white-rgb:255,255,255;--bs-black-rgb:0,0,0;--bs-font-sans-serif:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--bs-font-monospace:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;--bs-gradient:linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));--bs-body-font-family:var(--bs-font-sans-serif);--bs-body-font-size:1rem;--bs-body-font-weight:400;--bs-body-line-height:1.5;--bs-body-color:#212529;--bs-body-color-rgb:33,37,41;--bs-body-bg:#fff;--bs-body-bg-rgb:255,255,255;--bs-emphasis-color:#000;--bs-emphasis-color-rgb:0,0,0;--bs-secondary-color:rgba(33, 37, 41, .75);--bs-secondary-color-rgb:33,37,41;--bs-secondary-bg:#e9ecef;--bs-secondary-bg-rgb:233,236,239;--bs-tertiary-color:rgba(33, 37, 41, .5);--bs-tertiary-color-rgb:33,37,41;--bs-tertiary-bg:#f8f9fa;--bs-tertiary-bg-rgb:248,249,250;--bs-heading-color:inherit;--bs-link-color:#0d6efd;--bs-link-color-rgb:13,110,253;--bs-link-decoration:underline;--bs-link-hover-color:#0a58ca;--bs-link-hover-color-rgb:10,88,202;--bs-code-color:#d63384;--bs-highlight-color:#212529;--bs-highlight-bg:#fff3cd;--bs-border-width:1px;--bs-border-style:solid;--bs-border-color:#dee2e6;--bs-border-color-translucent:rgba(0, 0, 0, .175);--bs-border-radius:.375rem;--bs-border-radius-sm:.25rem;--bs-border-radius-lg:.5rem;--bs-border-radius-xl:1rem;--bs-border-radius-xxl:2rem;--bs-border-radius-2xl:var(--bs-border-radius-xxl);--bs-border-radius-pill:50rem;--bs-box-shadow:0 .5rem 1rem rgba(0, 0, 0, .15);--bs-box-shadow-sm:0 .125rem .25rem rgba(0, 0, 0, .075);--bs-box-shadow-lg:0 1rem 3rem rgba(0, 0, 0, .175);--bs-box-shadow-inset:inset 0 1px 2px rgba(0, 0, 0, .075);--bs-focus-ring-width:.25rem;--bs-focus-ring-opacity:.25;--bs-focus-ring-color:rgba(13, 110, 253, .25);--bs-form-valid-color:#198754;--bs-form-valid-border-color:#198754;--bs-form-invalid-color:#dc3545;--bs-form-invalid-border-color:#dc3545}*,:after,:before{box-sizing:border-box}@media (prefers-reduced-motion:no-preference){:root{scroll-behavior:smooth}}body{margin:0;font-family:var(--bs-body-font-family);font-size:var(--bs-body-font-size);font-weight:var(--bs-body-font-weight);line-height:var(--bs-body-line-height);color:var(--bs-body-color);text-align:var(--bs-body-text-align);background-color:var(--bs-body-bg);-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}h2{margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2;color:var(--bs-heading-color)}h2{font-size:calc(1.325rem + .9vw)}@media (min-width:1200px){h2{font-size:2rem}}p{margin-top:0;margin-bottom:1rem}a{color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));text-decoration:underline}a:hover{--bs-link-color-rgb:var(--bs-link-hover-color-rgb)}a:not([href]):not([class]),a:not([href]):not([class]):hover{color:inherit;text-decoration:none}label{display:inline-block}button{border-radius:0}button:focus:not(:focus-visible){outline:0}button,input{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button{text-transform:none}[type=button],[type=submit],button{-webkit-appearance:button}[type=button]:not(:disabled),[type=submit]:not(:disabled),button:not(:disabled){cursor:pointer}:root{--bs-breakpoint-xs:0;--bs-breakpoint-sm:576px;--bs-breakpoint-md:768px;--bs-breakpoint-lg:992px;--bs-breakpoint-xl:1200px;--bs-breakpoint-xxl:1400px}.form-control{display:block;width:100%;padding:.375rem .75rem;font-size:1rem;font-weight:400;line-height:1.5;color:var(--bs-body-color);-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:var(--bs-body-bg);background-clip:padding-box;border:var(--bs-border-width) solid var(--bs-border-color);border-radius:var(--bs-border-radius);transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}@media (prefers-reduced-motion:reduce){.form-control{transition:none}}.form-control:focus{color:var(--bs-body-color);background-color:var(--bs-body-bg);border-color:#86b7fe;outline:0;box-shadow:0 0 0 .25rem #0d6efd40}.form-control::-webkit-date-and-time-value{min-width:85px;height:1.5em;margin:0}.form-control::-webkit-datetime-edit{display:block;padding:0}.form-control::placeholder{color:var(--bs-secondary-color);opacity:1}.form-control:disabled{background-color:var(--bs-secondary-bg);opacity:1}.form-control::-webkit-file-upload-button{padding:.375rem .75rem;margin:-.375rem -.75rem;-webkit-margin-end:.75rem;margin-inline-end:.75rem;color:var(--bs-body-color);background-color:var(--bs-tertiary-bg);pointer-events:none;border-color:inherit;border-style:solid;border-width:0;border-inline-end-width:var(--bs-border-width);border-radius:0;-webkit-transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}.form-control::file-selector-button{padding:.375rem .75rem;margin:-.375rem -.75rem;-webkit-margin-end:.75rem;margin-inline-end:.75rem;color:var(--bs-body-color);background-color:var(--bs-tertiary-bg);pointer-events:none;border-color:inherit;border-style:solid;border-width:0;border-inline-end-width:var(--bs-border-width);border-radius:0;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}@media (prefers-reduced-motion:reduce){.form-control::-webkit-file-upload-button{-webkit-transition:none;transition:none}.form-control::file-selector-button{transition:none}}.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button{background-color:var(--bs-secondary-bg)}.form-control:hover:not(:disabled):not([readonly])::file-selector-button{background-color:var(--bs-secondary-bg)}.form-check{display:block;min-height:1.5rem;padding-left:1.5em;margin-bottom:.125rem}.form-check .form-check-input{float:left;margin-left:-1.5em}.form-check-input{--bs-form-check-bg:var(--bs-body-bg);flex-shrink:0;width:1em;height:1em;margin-top:.25em;vertical-align:top;-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:var(--bs-form-check-bg);background-image:var(--bs-form-check-bg-image);background-repeat:no-repeat;background-position:center;background-size:contain;border:var(--bs-border-width) solid var(--bs-border-color);-webkit-print-color-adjust:exact;color-adjust:exact;print-color-adjust:exact}.form-check-input[type=checkbox]{border-radius:.25em}.form-check-input:active{filter:brightness(90%)}.form-check-input:focus{border-color:#86b7fe;outline:0;box-shadow:0 0 0 .25rem #0d6efd40}.form-check-input:checked{background-color:#0d6efd;border-color:#0d6efd}.form-check-input:checked[type=checkbox]{--bs-form-check-bg-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e")}.form-check-input[type=checkbox]:indeterminate{background-color:#0d6efd;border-color:#0d6efd;--bs-form-check-bg-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e")}.form-check-input:disabled{pointer-events:none;filter:none;opacity:.5}.form-check-input:disabled~.form-check-label{cursor:default;opacity:.5}.btn-primary{--bs-btn-color:#fff;--bs-btn-bg:#0d6efd;--bs-btn-border-color:#0d6efd;--bs-btn-hover-color:#fff;--bs-btn-hover-bg:#0b5ed7;--bs-btn-hover-border-color:#0a58ca;--bs-btn-focus-shadow-rgb:49,132,253;--bs-btn-active-color:#fff;--bs-btn-active-bg:#0a58ca;--bs-btn-active-border-color:#0a53be;--bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, .125);--bs-btn-disabled-color:#fff;--bs-btn-disabled-bg:#0d6efd;--bs-btn-disabled-border-color:#0d6efd}.btn-outline-secondary{--bs-btn-color:#6c757d;--bs-btn-border-color:#6c757d;--bs-btn-hover-color:#fff;--bs-btn-hover-bg:#6c757d;--bs-btn-hover-border-color:#6c757d;--bs-btn-focus-shadow-rgb:108,117,125;--bs-btn-active-color:#fff;--bs-btn-active-bg:#6c757d;--bs-btn-active-border-color:#6c757d;--bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, .125);--bs-btn-disabled-color:#6c757d;--bs-btn-disabled-bg:transparent;--bs-btn-disabled-border-color:#6c757d;--bs-gradient:none}:root{--bs-btn-close-filter: }:root{--bs-carousel-indicator-active-bg:#fff;--bs-carousel-caption-color:#fff;--bs-carousel-control-icon-filter: }@-webkit-keyframes fa-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0)}to{-webkit-transform:rotate(359deg);transform:rotate(359deg)}}:root{--main-color: #d1a33e;--burgandy-color:#B84642;--light-color: #f0f3f2;--light-beige:#fbedcf;--text: #111827;--ap-gold-dark: #bb891c;--ap-gold-light: rgba(209, 163, 62, .1);--ap-gold-ring: rgba(209, 163, 62, .22);--ap-burgandy-dark: #9c2e2a;--ap-bg: #f6f7f9;--ap-surface: #ffffff;--ap-border: #e5e7eb;--ap-text-muted: #6b7280;--ap-text-light: #9ca3af;--ap-error: #ef4444;--ap-success: #22c55e;--ap-shadow-sm: 0 1px 4px rgba(0,0,0,.06);--ap-shadow-card: 0 4px 24px rgba(0,0,0,.07);--ap-radius-card: 14px;--ap-radius-input: 10px;--ap-radius-pill: 999px;--ap-transition: .18s ease;--shadow: rgba(145, 158, 171, .2) 0px 2px 4px -1px, rgba(145, 158, 171, .14) 0px 4px 5px 0px, rgba(145, 158, 171, .12) 0px 1px 10px 0px;--font-family: "Inter", system-ui, sans-serif;--rating-color: #ffc908}body{font-family:var(--font-family)!important;background:#f6f7f9;color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}a,a:hover{color:#000;text-decoration:none}
-</style><link rel="stylesheet" href="styles-LKIDR7QH.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-LKIDR7QH.css"></noscript><link rel="modulepreload" href="chunk-35OE3XPW.js"><link rel="modulepreload" href="chunk-FYPXS46S.js"><link rel="modulepreload" href="chunk-XAZLOLJU.js"><link rel="modulepreload" href="chunk-UZV4I56O.js"><style ng-app-id="ng">.login-container[_ngcontent-ng-c2912449563]{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#fff;padding:20px;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif}.login-card[_ngcontent-ng-c2912449563]{background:#fff;border-radius:32px;box-shadow:0 20px 40px -10px #d4af371f;padding:48px 40px;width:100%;max-width:480px;border:1px solid #f5ede0}.login-header[_ngcontent-ng-c2912449563]{text-align:center;margin-bottom:32px}.login-header[_ngcontent-ng-c2912449563]   h2[_ngcontent-ng-c2912449563]{color:#2c2c2c;font-size:30px;font-weight:700;margin-bottom:12px;letter-spacing:-.01em}.login-header[_ngcontent-ng-c2912449563]   p[_ngcontent-ng-c2912449563]{color:#6b6b6b;font-size:16px;line-height:1.5}.form-group[_ngcontent-ng-c2912449563]{width:100%;text-align:left;margin-bottom:24px}.form-group[_ngcontent-ng-c2912449563]   label[_ngcontent-ng-c2912449563]{color:#6b5a3a;font-size:14px;font-weight:600;margin-bottom:8px;display:block}.form-control[_ngcontent-ng-c2912449563]{width:100%;height:48px;padding:0 16px;border-radius:12px;border:1.5px solid #f0e5d5;font-size:15px;transition:all .2s ease;color:#2c2c2c;background:#fff}.form-control[_ngcontent-ng-c2912449563]:focus{border-color:#d4af37;box-shadow:0 0 0 4px #d4af371a;outline:none}.form-control[_ngcontent-ng-c2912449563]::placeholder{color:#c2b5a0}.form-control.is-invalid[_ngcontent-ng-c2912449563]{border-color:#d4af37;background:#fef9e7}.form-control.is-invalid[_ngcontent-ng-c2912449563]:focus{box-shadow:0 0 0 4px #d4af3726}.form-control.is-valid[_ngcontent-ng-c2912449563]{border-color:#2c7a4a;background:#f0f9f0}.form-control.is-valid[_ngcontent-ng-c2912449563]:focus{box-shadow:0 0 0 4px #2c7a4a1a}.password-input-group[_ngcontent-ng-c2912449563]{position:relative;display:flex;width:100%}.password-input-group[_ngcontent-ng-c2912449563]   .form-control[_ngcontent-ng-c2912449563]{padding-right:60px}.password-input-group[_ngcontent-ng-c2912449563]   .btn-outline-secondary[_ngcontent-ng-c2912449563]{position:absolute;right:6px;top:6px;height:36px;width:36px;padding:0;border-radius:10px;border:1px solid rgba(212,175,55,.2);background:#fff;color:#b38f2c;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .2s ease}.password-input-group[_ngcontent-ng-c2912449563]   .btn-outline-secondary[_ngcontent-ng-c2912449563]:hover:not(:disabled){background:#d4af37;border-color:#d4af37;color:#fff;transform:scale(.95)}.password-input-group[_ngcontent-ng-c2912449563]   .btn-outline-secondary[_ngcontent-ng-c2912449563]:active:not(:disabled){transform:scale(.92)}.form-options[_ngcontent-ng-c2912449563]{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}.form-check[_ngcontent-ng-c2912449563]{display:flex;align-items:center;gap:12px;position:relative}.form-check-input[_ngcontent-ng-c2912449563]{width:20px;height:20px;margin:0;border-radius:6px;border:1.5px solid #d4af37;background:#fff;cursor:pointer;transition:all .2s ease}.form-check-input[_ngcontent-ng-c2912449563]:checked{background:#d4af37;border-color:#d4af37}.form-check-input[_ngcontent-ng-c2912449563]:focus{box-shadow:0 0 0 4px #d4af371a;outline:none}.form-check-label[_ngcontent-ng-c2912449563]{color:#6b5a3a;font-size:14px;cursor:pointer}.forgot-password[_ngcontent-ng-c2912449563]{color:#d4af37;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}.forgot-password[_ngcontent-ng-c2912449563]:hover{color:#c6a229;text-decoration:underline;text-underline-offset:4px}.btn-primary[_ngcontent-ng-c2912449563]{padding:16px 32px;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;transition:all .25s ease;border:none;letter-spacing:.3px;display:inline-flex;align-items:center;justify-content:center;background:#d4af37;color:#fff;box-shadow:0 8px 20px -5px #d4af3766;border:1px solid rgba(255,255,255,.1);width:100%}.btn-primary[_ngcontent-ng-c2912449563]:hover:not(:disabled){background:#c9a42e;transform:scale(1.02);box-shadow:0 12px 25px -5px #d4af3780}.btn-primary[_ngcontent-ng-c2912449563]:active:not(:disabled){transform:scale(.98)}.btn-primary[_ngcontent-ng-c2912449563]:disabled{opacity:.6;cursor:not-allowed}.social-login[_ngcontent-ng-c2912449563]{margin-top:32px;width:100%}.divider[_ngcontent-ng-c2912449563]{color:#b3a07a;font-size:14px;text-align:center;position:relative;margin-bottom:24px}.divider[_ngcontent-ng-c2912449563]:before, .divider[_ngcontent-ng-c2912449563]:after{content:"";position:absolute;top:50%;width:calc(50% - 80px);height:1px;background:#d4af3733}.divider[_ngcontent-ng-c2912449563]:before{left:0}.divider[_ngcontent-ng-c2912449563]:after{right:0}.social-buttons[_ngcontent-ng-c2912449563]{display:flex;gap:16px;justify-content:center}.btn-google[_ngcontent-ng-c2912449563], .btn-facebook[_ngcontent-ng-c2912449563]{flex:1;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;transition:all .25s ease;border:1.5px solid #d4af37;background:#fff;color:#b38f2c;display:flex;align-items:center;justify-content:center;letter-spacing:.3px}.btn-google[_ngcontent-ng-c2912449563]:hover, .btn-facebook[_ngcontent-ng-c2912449563]:hover{background:#d4af37;color:#fff;transform:translateY(-1px);box-shadow:0 8px 20px -5px #d4af3766}.btn-google[_ngcontent-ng-c2912449563]:active, .btn-facebook[_ngcontent-ng-c2912449563]:active{transform:translateY(0)}.alert-success[_ngcontent-ng-c2912449563]{border-radius:12px;padding:14px 18px;margin-bottom:24px;font-size:14px;font-weight:500;border:1px solid rgba(212,175,55,.3);width:100%;text-align:left;background-color:#fbf7ed;color:#8a7233}.alert-danger[_ngcontent-ng-c2912449563]{border-radius:12px;padding:14px 18px;margin-bottom:24px;font-size:14px;font-weight:500;border:1px solid rgba(212,175,55,.4);width:100%;text-align:left;background-color:#fef9e7;color:#b38f2c}.invalid-feedback[_ngcontent-ng-c2912449563]{display:block;color:#b38f2c;font-size:13px;margin-top:6px;font-weight:400;padding-left:4px;position:relative}.invalid-feedback[_ngcontent-ng-c2912449563]:before{content:"!";display:inline-block;width:18px;height:18px;background:#fef9e7;border:1px solid #d4af37;border-radius:50%;color:#d4af37;font-weight:700;text-align:center;line-height:16px;font-size:12px;margin-right:6px}.register-link[_ngcontent-ng-c2912449563]{margin-top:24px;width:100%;border-top:1px solid rgba(212,175,55,.1);padding-top:24px;text-align:center}.register-link[_ngcontent-ng-c2912449563]   p[_ngcontent-ng-c2912449563]{color:#6b6b6b;font-size:14px;margin:0}.register-link[_ngcontent-ng-c2912449563]   p[_ngcontent-ng-c2912449563]   a[_ngcontent-ng-c2912449563]{color:#d4af37;text-decoration:none;font-weight:600;margin-left:4px;cursor:pointer}.register-link[_ngcontent-ng-c2912449563]   p[_ngcontent-ng-c2912449563]   a[_ngcontent-ng-c2912449563]:hover{color:#c6a229;text-decoration:underline;text-underline-offset:4px}.spinner-border[_ngcontent-ng-c2912449563]{width:16px;height:16px;margin-right:8px;border-width:2px;border-color:#fff;border-right-color:transparent}.spinner-border-sm[_ngcontent-ng-c2912449563]{width:16px;height:16px}.verify-action[_ngcontent-ng-c2912449563]{margin-top:16px;padding-top:12px;border-top:1px solid rgba(212,175,55,.3);display:flex;flex-direction:column;gap:8px}.verify-message[_ngcontent-ng-c2912449563]{color:#b38f2c;font-size:14px;margin-bottom:4px;font-weight:500}.btn-verify[_ngcontent-ng-c2912449563]{background:#d4af37;color:#fff;border:none;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all .25s ease;box-shadow:0 8px 20px -5px #d4af3766;width:100%}.btn-verify[_ngcontent-ng-c2912449563]:hover{background:#c9a42e;transform:scale(1.02)}.btn-verify[_ngcontent-ng-c2912449563]:active{transform:scale(.98)}.btn-verify[_ngcontent-ng-c2912449563]   .verify-icon[_ngcontent-ng-c2912449563]{font-size:16px}.btn-resend[_ngcontent-ng-c2912449563]{background:transparent;color:#d4af37;border:1.5px solid #d4af37;padding:10px 24px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;transition:all .25s ease;width:100%}.btn-resend[_ngcontent-ng-c2912449563]:hover:not(:disabled){background:#d4af37;color:#fff}.btn-resend[_ngcontent-ng-c2912449563]:disabled{opacity:.5;cursor:not-allowed}.alert-danger[_ngcontent-ng-c2912449563]   .btn-verify[_ngcontent-ng-c2912449563], .alert-danger[_ngcontent-ng-c2912449563]   .btn-resend[_ngcontent-ng-c2912449563]{margin-top:4px}@media (max-width: 480px){.login-card[_ngcontent-ng-c2912449563]{padding:32px 24px}h2[_ngcontent-ng-c2912449563]{font-size:26px}.form-options[_ngcontent-ng-c2912449563]{flex-direction:column;align-items:flex-start;gap:16px}.social-buttons[_ngcontent-ng-c2912449563]{flex-direction:column}.verify-action[_ngcontent-ng-c2912449563]{margin-top:16px;padding-top:12px;border-top:1px solid rgba(212,175,55,.3);text-align:center}.verify-message[_ngcontent-ng-c2912449563]{color:#b38f2c;font-size:14px;margin-bottom:12px;font-weight:500}}</style><style ng-app-id="ng">.btn-google[_ngcontent-ng-c4731079]{flex:1;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;transition:all .25s ease;border:1.5px solid #d4af37;background:#fff;color:#b38f2c;display:flex;align-items:center;justify-content:center;letter-spacing:.3px;width:100%}.btn-google[_ngcontent-ng-c4731079]:hover:not(:disabled){background:#d4af37;color:#fff;transform:translateY(-1px);box-shadow:0 8px 20px -5px #d4af3766}.btn-google[_ngcontent-ng-c4731079]:active:not(:disabled){transform:translateY(0)}.btn-google[_ngcontent-ng-c4731079]:disabled{opacity:.6;cursor:not-allowed}.google-icon[_ngcontent-ng-c4731079]{font-weight:700;margin-right:8px}</style><style ng-app-id="ng">.btn-facebook[_ngcontent-ng-c1998648309]{flex:1;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;transition:all .25s ease;border:1.5px solid #d4af37;background:#fff;color:#b38f2c;display:flex;align-items:center;justify-content:center;letter-spacing:.3px;width:100%}.btn-facebook[_ngcontent-ng-c1998648309]:hover:not(:disabled){background:#d4af37;color:#fff;transform:translateY(-1px);box-shadow:0 8px 20px -5px #d4af3766}.btn-facebook[_ngcontent-ng-c1998648309]:active:not(:disabled){transform:translateY(0)}.btn-facebook[_ngcontent-ng-c1998648309]:disabled{opacity:.6;cursor:not-allowed}.facebook-icon[_ngcontent-ng-c1998648309]{font-weight:700;margin-right:8px}</style></head>
-<body><!--nghm-->
-  <app-root _nghost-ng-c3984273398 ng-version="17.3.12" ngh="3" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3984273398></router-outlet><app-login _nghost-ng-c2912449563 ngh="2"><div _ngcontent-ng-c2912449563 class="login-container"><div _ngcontent-ng-c2912449563 class="login-card"><div _ngcontent-ng-c2912449563 class="login-header"><h2 _ngcontent-ng-c2912449563>Welcome Back</h2><p _ngcontent-ng-c2912449563>Sign in to your account</p></div><!----><!----><form _ngcontent-ng-c2912449563 novalidate class="ng-untouched ng-pristine ng-invalid"><div _ngcontent-ng-c2912449563 class="form-group"><label _ngcontent-ng-c2912449563 for="email">Email</label><input _ngcontent-ng-c2912449563 type="email" id="email" formcontrolname="email" placeholder="Enter your email" class="form-control ng-untouched ng-pristine ng-invalid" value><!----></div><div _ngcontent-ng-c2912449563 class="form-group"><label _ngcontent-ng-c2912449563 for="password">Password</label><div _ngcontent-ng-c2912449563 class="password-input-group"><input _ngcontent-ng-c2912449563 id="password" formcontrolname="password" placeholder="Enter your password" class="form-control ng-untouched ng-pristine ng-invalid" type="password" value><button _ngcontent-ng-c2912449563 type="button" tabindex="-1" class="btn-outline-secondary"> 👁️‍🗨️ </button></div><!----></div><div _ngcontent-ng-c2912449563 class="form-options"><div _ngcontent-ng-c2912449563 class="form-check"><input _ngcontent-ng-c2912449563 type="checkbox" id="rememberMe" formcontrolname="rememberMe" class="form-check-input ng-untouched ng-pristine ng-valid"><label _ngcontent-ng-c2912449563 for="rememberMe" class="form-check-label"> Remember me </label></div><a _ngcontent-ng-c2912449563 class="forgot-password"> Forgot password? </a></div><button _ngcontent-ng-c2912449563 type="submit" class="btn-primary" disabled><!----><span _ngcontent-ng-c2912449563>Sign In</span><!----><!----></button></form><div _ngcontent-ng-c2912449563 class="social-login"><div _ngcontent-ng-c2912449563 class="divider">or continue with</div><div _ngcontent-ng-c2912449563 class="social-buttons"><app-google-login _ngcontent-ng-c2912449563 _nghost-ng-c4731079 ngh="0"><!----></app-google-login><app-facebook-login _ngcontent-ng-c2912449563 _nghost-ng-c1998648309 ngh="1"><!----></app-facebook-login></div></div><div _ngcontent-ng-c2912449563 class="register-link"><p _ngcontent-ng-c2912449563> Don't have an account? <a _ngcontent-ng-c2912449563>Sign up</a></p></div></div></div></app-login><!----></app-root>
-<script src="polyfills-FFHMD2TL.js" type="module"></script><script src="scripts-SQ7W6IC7.js" defer></script><script src="main-DOCABAGU.js" type="module"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css"><link rel="modulepreload" href="chunk-KPGKVJIH.js"><link rel="modulepreload" href="chunk-CLIRUUMC.js"><link rel="modulepreload" href="chunk-6TUCOML7.js"><link rel="preload" href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@300&amp;display=swap" as="style"><style ng-app-id="ng">
 
-<script id="ng-state" type="application/json">{"__nghData__":[{"t":{"0":"t8"},"c":{"0":[]}},{"t":{"0":"t9"},"c":{"0":[]}},{"t":{"7":"t1","8":"t2","14":"t3","22":"t4","31":"t5","32":"t6","33":"t7"},"c":{"7":[],"8":[],"14":[],"22":[],"31":[],"32":[{"i":"t6","r":1}],"33":[]}},{"c":{"0":[{"i":"c2912449563","r":1}]}}]}</script></body></html>
+.login-container[_ngcontent-ng-c2912449563] {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 20px;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+.login-card[_ngcontent-ng-c2912449563] {
+  background: white;
+  border-radius: 32px;
+  box-shadow: 0 20px 40px -10px rgba(212, 175, 55, 0.12);
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 480px;
+  border: 1px solid #f5ede0;
+}
+.login-header[_ngcontent-ng-c2912449563] {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.login-header[_ngcontent-ng-c2912449563]   h2[_ngcontent-ng-c2912449563] {
+  color: #2c2c2c;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.login-header[_ngcontent-ng-c2912449563]   p[_ngcontent-ng-c2912449563] {
+  color: #6b6b6b;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.form-group[_ngcontent-ng-c2912449563] {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 24px;
+}
+.form-group[_ngcontent-ng-c2912449563]   label[_ngcontent-ng-c2912449563] {
+  color: #6b5a3a;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+.form-control[_ngcontent-ng-c2912449563] {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1.5px solid #f0e5d5;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  color: #2c2c2c;
+  background: white;
+}
+.form-control[_ngcontent-ng-c2912449563]:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+  outline: none;
+}
+.form-control[_ngcontent-ng-c2912449563]::placeholder {
+  color: #c2b5a0;
+}
+.form-control.is-invalid[_ngcontent-ng-c2912449563] {
+  border-color: #d4af37;
+  background: #fef9e7;
+}
+.form-control.is-invalid[_ngcontent-ng-c2912449563]:focus {
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+}
+.form-control.is-valid[_ngcontent-ng-c2912449563] {
+  border-color: #2c7a4a;
+  background: #f0f9f0;
+}
+.form-control.is-valid[_ngcontent-ng-c2912449563]:focus {
+  box-shadow: 0 0 0 4px rgba(44, 122, 74, 0.1);
+}
+.password-input-group[_ngcontent-ng-c2912449563] {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+.password-input-group[_ngcontent-ng-c2912449563]   .form-control[_ngcontent-ng-c2912449563] {
+  padding-right: 60px;
+}
+.password-input-group[_ngcontent-ng-c2912449563]   .btn-outline-secondary[_ngcontent-ng-c2912449563] {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  height: 36px;
+  width: 36px;
+  padding: 0;
+  border-radius: 10px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: white;
+  color: #b38f2c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.password-input-group[_ngcontent-ng-c2912449563]   .btn-outline-secondary[_ngcontent-ng-c2912449563]:hover:not(:disabled) {
+  background: #d4af37;
+  border-color: #d4af37;
+  color: white;
+  transform: scale(0.95);
+}
+.password-input-group[_ngcontent-ng-c2912449563]   .btn-outline-secondary[_ngcontent-ng-c2912449563]:active:not(:disabled) {
+  transform: scale(0.92);
+}
+.form-options[_ngcontent-ng-c2912449563] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+.form-check[_ngcontent-ng-c2912449563] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+.form-check-input[_ngcontent-ng-c2912449563] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border-radius: 6px;
+  border: 1.5px solid #d4af37;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.form-check-input[_ngcontent-ng-c2912449563]:checked {
+  background: #d4af37;
+  border-color: #d4af37;
+}
+.form-check-input[_ngcontent-ng-c2912449563]:focus {
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+  outline: none;
+}
+.form-check-label[_ngcontent-ng-c2912449563] {
+  color: #6b5a3a;
+  font-size: 14px;
+  cursor: pointer;
+}
+.forgot-password[_ngcontent-ng-c2912449563] {
+  color: #d4af37;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.forgot-password[_ngcontent-ng-c2912449563]:hover {
+  color: #c6a229;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.btn-primary[_ngcontent-ng-c2912449563] {
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #d4af37;
+  color: white;
+  box-shadow: 0 8px 20px -5px rgba(212, 175, 55, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+}
+.btn-primary[_ngcontent-ng-c2912449563]:hover:not(:disabled) {
+  background: #c9a42e;
+  transform: scale(1.02);
+  box-shadow: 0 12px 25px -5px rgba(212, 175, 55, 0.5);
+}
+.btn-primary[_ngcontent-ng-c2912449563]:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.btn-primary[_ngcontent-ng-c2912449563]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.social-login[_ngcontent-ng-c2912449563] {
+  margin-top: 32px;
+  width: 100%;
+}
+.divider[_ngcontent-ng-c2912449563] {
+  color: #b3a07a;
+  font-size: 14px;
+  text-align: center;
+  position: relative;
+  margin-bottom: 24px;
+}
+.divider[_ngcontent-ng-c2912449563]:before, .divider[_ngcontent-ng-c2912449563]:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 80px);
+  height: 1px;
+  background: rgba(212, 175, 55, 0.2);
+}
+.divider[_ngcontent-ng-c2912449563]:before {
+  left: 0;
+}
+.divider[_ngcontent-ng-c2912449563]:after {
+  right: 0;
+}
+.social-buttons[_ngcontent-ng-c2912449563] {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+.btn-google[_ngcontent-ng-c2912449563], .btn-facebook[_ngcontent-ng-c2912449563] {
+  flex: 1;
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1.5px solid #d4af37;
+  background: white;
+  color: #b38f2c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.3px;
+}
+.btn-google[_ngcontent-ng-c2912449563]:hover, .btn-facebook[_ngcontent-ng-c2912449563]:hover {
+  background: #d4af37;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -5px rgba(212, 175, 55, 0.4);
+}
+.btn-google[_ngcontent-ng-c2912449563]:active, .btn-facebook[_ngcontent-ng-c2912449563]:active {
+  transform: translateY(0);
+}
+.alert-success[_ngcontent-ng-c2912449563] {
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  width: 100%;
+  text-align: left;
+  background-color: #fbf7ed;
+  color: #8a7233;
+}
+.alert-danger[_ngcontent-ng-c2912449563] {
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  width: 100%;
+  text-align: left;
+  background-color: #fef9e7;
+  color: #b38f2c;
+}
+.invalid-feedback[_ngcontent-ng-c2912449563] {
+  display: block;
+  color: #b38f2c;
+  font-size: 13px;
+  margin-top: 6px;
+  font-weight: 400;
+  padding-left: 4px;
+  position: relative;
+}
+.invalid-feedback[_ngcontent-ng-c2912449563]:before {
+  content: "!";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: #fef9e7;
+  border: 1px solid #d4af37;
+  border-radius: 50%;
+  color: #d4af37;
+  font-weight: 700;
+  text-align: center;
+  line-height: 16px;
+  font-size: 12px;
+  margin-right: 6px;
+}
+.register-link[_ngcontent-ng-c2912449563] {
+  margin-top: 24px;
+  width: 100%;
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+  padding-top: 24px;
+  text-align: center;
+}
+.register-link[_ngcontent-ng-c2912449563]   p[_ngcontent-ng-c2912449563] {
+  color: #6b6b6b;
+  font-size: 14px;
+  margin: 0;
+}
+.register-link[_ngcontent-ng-c2912449563]   p[_ngcontent-ng-c2912449563]   a[_ngcontent-ng-c2912449563] {
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 4px;
+  cursor: pointer;
+}
+.register-link[_ngcontent-ng-c2912449563]   p[_ngcontent-ng-c2912449563]   a[_ngcontent-ng-c2912449563]:hover {
+  color: #c6a229;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.spinner-border[_ngcontent-ng-c2912449563] {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-width: 2px;
+  border-color: white;
+  border-right-color: transparent;
+}
+.spinner-border-sm[_ngcontent-ng-c2912449563] {
+  width: 16px;
+  height: 16px;
+}
+.verify-action[_ngcontent-ng-c2912449563] {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.verify-message[_ngcontent-ng-c2912449563] {
+  color: #b38f2c;
+  font-size: 14px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.btn-verify[_ngcontent-ng-c2912449563] {
+  background: #d4af37;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 20px -5px rgba(212, 175, 55, 0.4);
+  width: 100%;
+}
+.btn-verify[_ngcontent-ng-c2912449563]:hover {
+  background: #c9a42e;
+  transform: scale(1.02);
+}
+.btn-verify[_ngcontent-ng-c2912449563]:active {
+  transform: scale(0.98);
+}
+.btn-verify[_ngcontent-ng-c2912449563]   .verify-icon[_ngcontent-ng-c2912449563] {
+  font-size: 16px;
+}
+.btn-resend[_ngcontent-ng-c2912449563] {
+  background: transparent;
+  color: #d4af37;
+  border: 1.5px solid #d4af37;
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+.btn-resend[_ngcontent-ng-c2912449563]:hover:not(:disabled) {
+  background: #d4af37;
+  color: white;
+}
+.btn-resend[_ngcontent-ng-c2912449563]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.alert-danger[_ngcontent-ng-c2912449563]   .btn-verify[_ngcontent-ng-c2912449563], .alert-danger[_ngcontent-ng-c2912449563]   .btn-resend[_ngcontent-ng-c2912449563] {
+  margin-top: 4px;
+}
+@media (max-width: 480px) {
+  .login-card[_ngcontent-ng-c2912449563] {
+    padding: 32px 24px;
+  }
+  h2[_ngcontent-ng-c2912449563] {
+    font-size: 26px;
+  }
+  .form-options[_ngcontent-ng-c2912449563] {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .social-buttons[_ngcontent-ng-c2912449563] {
+    flex-direction: column;
+  }
+  .verify-action[_ngcontent-ng-c2912449563] {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    text-align: center;
+  }
+  .verify-message[_ngcontent-ng-c2912449563] {
+    color: #b38f2c;
+    font-size: 14px;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+}
+/*# sourceMappingURL=login.component.css.map */</style><style ng-app-id="ng">
+
+.btn-google[_ngcontent-ng-c4731079] {
+  flex: 1;
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1.5px solid #d4af37;
+  background: white;
+  color: #b38f2c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.3px;
+  width: 100%;
+}
+.btn-google[_ngcontent-ng-c4731079]:hover:not(:disabled) {
+  background: #d4af37;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -5px rgba(212, 175, 55, 0.4);
+}
+.btn-google[_ngcontent-ng-c4731079]:active:not(:disabled) {
+  transform: translateY(0);
+}
+.btn-google[_ngcontent-ng-c4731079]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.google-icon[_ngcontent-ng-c4731079] {
+  font-weight: bold;
+  margin-right: 8px;
+}
+/*# sourceMappingURL=google-login.component.css.map */</style><style ng-app-id="ng">
+
+.btn-facebook[_ngcontent-ng-c1998648309] {
+  flex: 1;
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1.5px solid #d4af37;
+  background: white;
+  color: #b38f2c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.3px;
+  width: 100%;
+}
+.btn-facebook[_ngcontent-ng-c1998648309]:hover:not(:disabled) {
+  background: #d4af37;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -5px rgba(212, 175, 55, 0.4);
+}
+.btn-facebook[_ngcontent-ng-c1998648309]:active:not(:disabled) {
+  transform: translateY(0);
+}
+.btn-facebook[_ngcontent-ng-c1998648309]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.facebook-icon[_ngcontent-ng-c1998648309] {
+  font-weight: bold;
+  margin-right: 8px;
+}
+/*# sourceMappingURL=facebook-login.component.css.map */</style></head>
+<body><!--nghm-->
+  <app-root _nghost-ng-c3984273398="" ng-version="17.3.12" ngh="3" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3984273398=""></router-outlet><app-login _nghost-ng-c2912449563="" ngh="2"><div _ngcontent-ng-c2912449563="" class="login-container"><div _ngcontent-ng-c2912449563="" class="login-card"><div _ngcontent-ng-c2912449563="" class="login-header"><h2 _ngcontent-ng-c2912449563="">Welcome Back</h2><p _ngcontent-ng-c2912449563="">Sign in to your account</p></div><!--bindings={
+  "ng-reflect-ng-if": ""
+}--><!--bindings={
+  "ng-reflect-ng-if": ""
+}--><form _ngcontent-ng-c2912449563="" novalidate="" ng-reflect-form="[object Object]" class="ng-untouched ng-pristine ng-invalid"><div _ngcontent-ng-c2912449563="" class="form-group"><label _ngcontent-ng-c2912449563="" for="email">Email</label><input _ngcontent-ng-c2912449563="" type="email" id="email" formcontrolname="email" placeholder="Enter your email" class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-name="email" value=""><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></div><div _ngcontent-ng-c2912449563="" class="form-group"><label _ngcontent-ng-c2912449563="" for="password">Password</label><div _ngcontent-ng-c2912449563="" class="password-input-group"><input _ngcontent-ng-c2912449563="" id="password" formcontrolname="password" placeholder="Enter your password" class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-name="password" type="password" value=""><button _ngcontent-ng-c2912449563="" type="button" tabindex="-1" class="btn-outline-secondary"> 👁️‍🗨️ </button></div><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></div><div _ngcontent-ng-c2912449563="" class="form-options"><div _ngcontent-ng-c2912449563="" class="form-check"><input _ngcontent-ng-c2912449563="" type="checkbox" id="rememberMe" formcontrolname="rememberMe" class="form-check-input ng-untouched ng-pristine ng-valid" ng-reflect-name="rememberMe"><label _ngcontent-ng-c2912449563="" for="rememberMe" class="form-check-label"> Remember me </label></div><a _ngcontent-ng-c2912449563="" class="forgot-password"> Forgot password? </a></div><button _ngcontent-ng-c2912449563="" type="submit" class="btn-primary" disabled=""><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><span _ngcontent-ng-c2912449563="">Sign In</span><!--bindings={
+  "ng-reflect-ng-if": "true"
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></button></form><div _ngcontent-ng-c2912449563="" class="social-login"><div _ngcontent-ng-c2912449563="" class="divider">or continue with</div><div _ngcontent-ng-c2912449563="" class="social-buttons"><app-google-login _ngcontent-ng-c2912449563="" _nghost-ng-c4731079="" ngh="0"><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></app-google-login><app-facebook-login _ngcontent-ng-c2912449563="" _nghost-ng-c1998648309="" ngh="1"><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></app-facebook-login></div></div><div _ngcontent-ng-c2912449563="" class="register-link"><p _ngcontent-ng-c2912449563=""> Don't have an account? <a _ngcontent-ng-c2912449563="">Sign up</a></p></div></div></div></app-login><!--container--></app-root>
+<script src="polyfills.js" type="module"></script><script src="scripts.js" defer=""></script><script src="main.js" type="module"></script>
+
+<script id="ng-state" type="application/json">{"__nghData__":[{"t":{"0":"t7"},"c":{"0":[]}},{"t":{"0":"t8"},"c":{"0":[]}},{"t":{"7":"t0","8":"t1","14":"t2","22":"t3","31":"t4","32":"t5","33":"t6"},"c":{"7":[],"8":[],"14":[],"22":[],"31":[],"32":[{"i":"t5","r":1}],"33":[]}},{"c":{"0":[{"i":"c2912449563","r":1}]}}]}</script></body></html>

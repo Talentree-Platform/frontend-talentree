@@ -1,0 +1,51 @@
+<div class="owner-products-modal-backdrop" (click)="onBackdropClick()" role="presentation"></div>
+<div
+  class="owner-products-modal owner-products-modal--wide admin-approve-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="approve-product-title"
+  (click)="$event.stopPropagation()"
+>
+  <h2 id="approve-product-title" class="owner-products-modal-title">Approve Product</h2>
+
+  <p class="owner-products-modal-text">
+    <strong>{{ productName }}</strong>
+  </p>
+
+  @if (productId == null) {
+    <p class="admin-approve-modal__error">This product has no valid id and cannot be approved.</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="confirm()" novalidate>
+    <div class="admin-approve-modal__field">
+      <label class="admin-approve-modal__label" for="approve-notes">Admin notes <span class="admin-approve-modal__optional">(optional)</span></label>
+      <textarea
+        id="approve-notes"
+        class="textarea-main admin-approve-modal__textarea"
+        formControlName="notes"
+        rows="3"
+        placeholder="Internal notes for this approval…"
+        [attr.aria-invalid]="form.controls.notes.invalid && form.controls.notes.touched"
+      ></textarea>
+      @if (form.controls.notes.invalid && form.controls.notes.touched) {
+        <span class="admin-approve-modal__error">Notes are too long (max 2000 characters).</span>
+      }
+    </div>
+
+    <div class="owner-products-modal-actions">
+      <button type="button" class="btn-main btn-secondary" [disabled]="submitting" (click)="dismiss()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn-main btn-success admin-approve-modal__confirm"
+        [disabled]="submitting || productId == null || form.invalid"
+      >
+        @if (submitting) {
+          <span class="admin-approve-modal__spinner" aria-hidden="true"></span>
+        }
+        Confirm
+      </button>
+    </div>
+  </form>
+</div>

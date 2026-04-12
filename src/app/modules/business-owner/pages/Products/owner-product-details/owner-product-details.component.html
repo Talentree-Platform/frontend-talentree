@@ -1,0 +1,212 @@
+<div class="owner-pd-page">
+  <nav class="owner-pd-breadcrumb" aria-label="Breadcrumb">
+    <a routerLink="/businessowner/ownerProduct" class="owner-pd-breadcrumb-link">My Products</a>
+    <span class="owner-pd-breadcrumb-sep" aria-hidden="true">/</span>
+    <span class="owner-pd-breadcrumb-current">Details</span>
+  </nav>
+
+  @if (loading) {
+    <div class="owner-pd-skeleton-layout" aria-busy="true" aria-label="Loading product">
+      <div class="owner-pd-skeleton owner-pd-skeleton--hero"></div>
+      <div class="owner-pd-skeleton-grid">
+        <div class="owner-pd-skeleton owner-pd-skeleton--gallery"></div>
+        <div class="owner-pd-skeleton-col">
+          <div class="owner-pd-skeleton owner-pd-skeleton--line"></div>
+          <div class="owner-pd-skeleton owner-pd-skeleton--line owner-pd-skeleton--short"></div>
+          <div class="owner-pd-skeleton owner-pd-skeleton--line"></div>
+          <div class="owner-pd-skeleton owner-pd-skeleton--line"></div>
+        </div>
+      </div>
+    </div>
+  } @else if (invalidRoute) {
+    <div class="owner-pd-empty owner-pd-empty--error">
+      <h2 class="owner-pd-empty-title">Invalid product link</h2>
+      <p class="owner-pd-empty-text">The URL does not contain a valid product id.</p>
+      <button type="button" class="btn-main btn-gold" (click)="goBackToList()">Back to products</button>
+    </div>
+  } @else if (loadError) {
+    <div class="owner-pd-empty owner-pd-empty--error">
+      <h2 class="owner-pd-empty-title">Something went wrong</h2>
+      <p class="owner-pd-empty-text">{{ loadError }}</p>
+      <button type="button" class="btn-main btn-gold" (click)="goBackToList()">Back to products</button>
+    </div>
+  } @else if (product) {
+    <header class="owner-pd-header">
+      <div class="owner-pd-header-main">
+        <h1 class="owner-pd-title">{{ product.name }}</h1>
+        <span
+          class="owner-products-badge owner-pd-status-badge"
+          [attr.data-status]="product.statusNormalized"
+          >{{ statusLabel(product.statusNormalized) }}</span
+        >
+      </div>
+      <p class="owner-pd-subtitle">
+        <span>{{ product.categoryName }}</span>
+        <span class="owner-pd-subtitle-dot" aria-hidden="true">·</span>
+        <span>Created {{ formatDate(product.createdAt) }}</span>
+      </p>
+    </header>
+
+    <section class="owner-pd-grid" aria-label="Product details">
+      <div class="owner-pd-gallery">
+        @if (galleryImages.length > 1) {
+          <div class="owner-pd-carousel-wrap owner-pd-main-img-wrap">
+            <owl-carousel-o
+              #galleryCarousel
+              [options]="galleryCarouselOptions"
+              (translated)="onGalleryTranslated($event)"
+            >
+              @for (img of galleryImages; track img) {
+                <ng-template carouselSlide>
+                  <div class="owner-pd-slide-img-wrap">
+                    <img
+                      class="owner-pd-main-img"
+                      [src]="img"
+                      [alt]="product.name"
+                      loading="lazy"
+                    />
+                  </div>
+                </ng-template>
+              }
+            </owl-carousel-o>
+          </div>
+          <div class="owner-pd-thumbs" role="tablist" aria-label="Product images">
+            @for (img of galleryImages; track img) {
+              <button
+                type="button"
+                class="owner-pd-thumb"
+                [class.owner-pd-thumb--active]="img === selectedImageUrl"
+                (click)="selectImage(img)"
+                [attr.aria-selected]="img === selectedImageUrl"
+              >
+                <img [src]="img" [alt]="'Thumbnail for ' + product.name" loading="lazy" />
+              </button>
+            }
+          </div>
+        } @else {
+          <div class="owner-pd-main-img-wrap">
+            <img
+              class="owner-pd-main-img"
+              [src]="selectedImageUrl || product.mainImageUrl"
+              [alt]="product.name"
+              loading="eager"
+            />
+          </div>
+        }
+      </div>
+
+      <div class="owner-pd-info">
+        <section class="owner-pd-card">
+          <h2 class="owner-pd-section-title">Description</h2>
+          <p class="owner-pd-description">{{ product.description }}</p>
+
+          <div class="owner-pd-meta-grid">
+            <div class="owner-pd-meta-block">
+              <span class="owner-pd-meta-label">Price</span>
+              <span class="owner-pd-price">{{ formatMoney(product.price) }}</span>
+            </div>
+            <div class="owner-pd-meta-block">
+              <span class="owner-pd-meta-label">Stock</span>
+              <span class="owner-pd-stock" [class.owner-pd-stock--low]="isLowStock()">
+                {{ product.stockQuantity }}
+                @if (isLowStock()) {
+                  <span class="owner-pd-low-badge">Low stock</span>
+                }
+              </span>
+            </div>
+            <div class="owner-pd-meta-block owner-pd-meta-block--full">
+              <span class="owner-pd-meta-label">Category</span>
+              <span class="owner-pd-meta-value">{{ product.categoryName }}</span>
+            </div>
+          </div>
+
+          @if (product.tagList.length) {
+            <div class="owner-pd-tags">
+              <span class="owner-pd-meta-label">Tags</span>
+              <div class="owner-pd-tag-list">
+                @for (t of product.tagList; track t) {
+                  <span class="owner-pd-tag">{{ t }}</span>
+                }
+              </div>
+            </div>
+          }
+
+          <dl class="owner-pd-dates">
+            <div class="owner-pd-date-row">
+              <dt>Created</dt>
+              <dd>{{ formatDate(product.createdAt) }}</dd>
+            </div>
+            <div class="owner-pd-date-row">
+              <dt>Updated</dt>
+              <dd>{{ formatDate(product.updatedAt) }}</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="owner-pd-actions" aria-label="Actions">
+          <button type="button" class="btn-main btn-gold owner-pd-action-btn" (click)="goEdit()">
+            ✏️ Edit product
+          </button>
+          <button type="button" class="btn-main btn-border owner-pd-action-btn" (click)="openStats()">
+            📊 View stats
+          </button>
+          <button type="button" class="btn-main btn-border owner-pd-action-btn" (click)="duplicateProduct()">
+            📋 Duplicate
+          </button>
+          <button type="button" class="btn-main btn-burgandy owner-pd-action-btn" (click)="openDelete()">
+            🗑️ Delete
+          </button>
+        </section>
+      </div>
+    </section>
+  }
+</div>
+
+@if (deleteOpen && product) {
+  <div class="owner-products-modal-backdrop" (click)="closeDelete()" role="presentation"></div>
+  <div class="owner-products-modal" role="dialog" aria-modal="true" aria-labelledby="owner-pd-del-title">
+    <h3 id="owner-pd-del-title" class="owner-products-modal-title">Delete product?</h3>
+    <p class="owner-products-modal-text">
+      Remove <strong>{{ product.name }}</strong> from your catalog? This action may not be reversible.
+    </p>
+    <div class="owner-products-modal-actions">
+      <button type="button" class="btn-main btn-border" [disabled]="deleteBusy" (click)="closeDelete()">
+        Cancel
+      </button>
+      <button type="button" class="btn-main btn-burgandy" [disabled]="deleteBusy" (click)="confirmDelete()">
+        @if (deleteBusy) {
+          Deleting…
+        } @else {
+          Delete
+        }
+      </button>
+    </div>
+  </div>
+}
+
+@if (statsOpen && product) {
+  <div class="owner-products-modal-backdrop" (click)="closeStats()" role="presentation"></div>
+  <div class="owner-products-modal owner-products-modal--wide" role="dialog" aria-modal="true" aria-labelledby="owner-pd-stats-title">
+    <h3 id="owner-pd-stats-title" class="owner-products-modal-title">Analytics — {{ product.name }}</h3>
+    <p class="owner-products-modal-text">
+      Detailed sales and traffic analytics will appear here when connected to your reporting API.
+    </p>
+    <div class="owner-products-stats-grid">
+      <div class="owner-products-stat-block">
+        <span class="owner-products-stat-block-label">Views</span>
+        <span class="owner-products-stat-block-value">—</span>
+      </div>
+      <div class="owner-products-stat-block">
+        <span class="owner-products-stat-block-label">Units sold</span>
+        <span class="owner-products-stat-block-value">—</span>
+      </div>
+      <div class="owner-products-stat-block">
+        <span class="owner-products-stat-block-label">Conversion</span>
+        <span class="owner-products-stat-block-value">—</span>
+      </div>
+    </div>
+    <div class="owner-products-modal-actions">
+      <button type="button" class="btn-main btn-gold" (click)="closeStats()">Close</button>
+    </div>
+  </div>
+}

@@ -1,38 +1,45 @@
-@if(isOpen){
-    <div class="model-overlay">
-        <div class="model-container">
-            <!-- Header -->
-            <div class="modal-header">
-                <div class="header-content">
-                    <h2 class="title">Approve Business Owner</h2>
-                </div>
-
-                
-                <button class="close-btn" (click)="onClose()" aria-label="Close modal">
+@if (isOpen) {
+  <div class="model-overlay">
+    <div class="model-container">
+      <div class="modal-header">
+        <div class="header-content">
+          <h2 class="title">Approve Business Owner</h2>
+        </div>
+        <button class="close-btn" type="button" (click)="onClose()" aria-label="Close modal">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-            </div>
+      </div>
 
-            <!-- Add note -->
-             <div class="add-note d-flex flex-column ">
-                <label for="note">Add note</label>
-                <textarea  id="note" class="textarea-main" rows="4" [(ngModel)]="noteText" (input)="limitWords()"></textarea>
-             </div>
+      <div class="add-note d-flex flex-column">
+        <label for="note">Add note</label>
+        <textarea
+          id="note"
+          class="textarea-main"
+          rows="4"
+          [(ngModel)]="noteText"
+          [disabled]="isApproveRequestPending">
+        </textarea>
+      </div>
 
-             <!-- Action Buttons -->
       <div class="modal-actions">
-        <button class="btn btn-reject" >
+        <button class="btn btn-reject" type="button" (click)="onClose()" [disabled]="isApproveRequestPending">
           Cancel
         </button>
-        <button class="btn btn-approve" (click)="onApprove()" [disabled]="isApproved()">
-          Approve
+        <button
+          class="btn btn-approve"
+          type="button"
+          (click)="onApprove()"
+          [disabled]="isApproved() || isApproveRequestPending">
+          @if (isApproveRequestPending) {
+            Approving…
+          } @else {
+            Approve
+          }
         </button>
-        
-        
       </div>
-        </div>
     </div>
+  </div>
 }

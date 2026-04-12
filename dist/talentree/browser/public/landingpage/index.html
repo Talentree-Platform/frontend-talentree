@@ -1,14 +1,1251 @@
-<!DOCTYPE html><html lang="en" data-critters-container><head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Talentree</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-<style>@charset "UTF-8";:root{--bs-blue:#0d6efd;--bs-indigo:#6610f2;--bs-purple:#6f42c1;--bs-pink:#d63384;--bs-red:#dc3545;--bs-orange:#fd7e14;--bs-yellow:#ffc107;--bs-green:#198754;--bs-teal:#20c997;--bs-cyan:#0dcaf0;--bs-black:#000;--bs-white:#fff;--bs-gray:#6c757d;--bs-gray-dark:#343a40;--bs-gray-100:#f8f9fa;--bs-gray-200:#e9ecef;--bs-gray-300:#dee2e6;--bs-gray-400:#ced4da;--bs-gray-500:#adb5bd;--bs-gray-600:#6c757d;--bs-gray-700:#495057;--bs-gray-800:#343a40;--bs-gray-900:#212529;--bs-primary:#0d6efd;--bs-secondary:#6c757d;--bs-success:#198754;--bs-info:#0dcaf0;--bs-warning:#ffc107;--bs-danger:#dc3545;--bs-light:#f8f9fa;--bs-dark:#212529;--bs-primary-rgb:13,110,253;--bs-secondary-rgb:108,117,125;--bs-success-rgb:25,135,84;--bs-info-rgb:13,202,240;--bs-warning-rgb:255,193,7;--bs-danger-rgb:220,53,69;--bs-light-rgb:248,249,250;--bs-dark-rgb:33,37,41;--bs-primary-text-emphasis:#052c65;--bs-secondary-text-emphasis:#2b2f32;--bs-success-text-emphasis:#0a3622;--bs-info-text-emphasis:#055160;--bs-warning-text-emphasis:#664d03;--bs-danger-text-emphasis:#58151c;--bs-light-text-emphasis:#495057;--bs-dark-text-emphasis:#495057;--bs-primary-bg-subtle:#cfe2ff;--bs-secondary-bg-subtle:#e2e3e5;--bs-success-bg-subtle:#d1e7dd;--bs-info-bg-subtle:#cff4fc;--bs-warning-bg-subtle:#fff3cd;--bs-danger-bg-subtle:#f8d7da;--bs-light-bg-subtle:#fcfcfd;--bs-dark-bg-subtle:#ced4da;--bs-primary-border-subtle:#9ec5fe;--bs-secondary-border-subtle:#c4c8cb;--bs-success-border-subtle:#a3cfbb;--bs-info-border-subtle:#9eeaf9;--bs-warning-border-subtle:#ffe69c;--bs-danger-border-subtle:#f1aeb5;--bs-light-border-subtle:#e9ecef;--bs-dark-border-subtle:#adb5bd;--bs-white-rgb:255,255,255;--bs-black-rgb:0,0,0;--bs-font-sans-serif:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--bs-font-monospace:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;--bs-gradient:linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));--bs-body-font-family:var(--bs-font-sans-serif);--bs-body-font-size:1rem;--bs-body-font-weight:400;--bs-body-line-height:1.5;--bs-body-color:#212529;--bs-body-color-rgb:33,37,41;--bs-body-bg:#fff;--bs-body-bg-rgb:255,255,255;--bs-emphasis-color:#000;--bs-emphasis-color-rgb:0,0,0;--bs-secondary-color:rgba(33, 37, 41, .75);--bs-secondary-color-rgb:33,37,41;--bs-secondary-bg:#e9ecef;--bs-secondary-bg-rgb:233,236,239;--bs-tertiary-color:rgba(33, 37, 41, .5);--bs-tertiary-color-rgb:33,37,41;--bs-tertiary-bg:#f8f9fa;--bs-tertiary-bg-rgb:248,249,250;--bs-heading-color:inherit;--bs-link-color:#0d6efd;--bs-link-color-rgb:13,110,253;--bs-link-decoration:underline;--bs-link-hover-color:#0a58ca;--bs-link-hover-color-rgb:10,88,202;--bs-code-color:#d63384;--bs-highlight-color:#212529;--bs-highlight-bg:#fff3cd;--bs-border-width:1px;--bs-border-style:solid;--bs-border-color:#dee2e6;--bs-border-color-translucent:rgba(0, 0, 0, .175);--bs-border-radius:.375rem;--bs-border-radius-sm:.25rem;--bs-border-radius-lg:.5rem;--bs-border-radius-xl:1rem;--bs-border-radius-xxl:2rem;--bs-border-radius-2xl:var(--bs-border-radius-xxl);--bs-border-radius-pill:50rem;--bs-box-shadow:0 .5rem 1rem rgba(0, 0, 0, .15);--bs-box-shadow-sm:0 .125rem .25rem rgba(0, 0, 0, .075);--bs-box-shadow-lg:0 1rem 3rem rgba(0, 0, 0, .175);--bs-box-shadow-inset:inset 0 1px 2px rgba(0, 0, 0, .075);--bs-focus-ring-width:.25rem;--bs-focus-ring-opacity:.25;--bs-focus-ring-color:rgba(13, 110, 253, .25);--bs-form-valid-color:#198754;--bs-form-valid-border-color:#198754;--bs-form-invalid-color:#dc3545;--bs-form-invalid-border-color:#dc3545}*,:after,:before{box-sizing:border-box}@media (prefers-reduced-motion:no-preference){:root{scroll-behavior:smooth}}body{margin:0;font-family:var(--bs-body-font-family);font-size:var(--bs-body-font-size);font-weight:var(--bs-body-font-weight);line-height:var(--bs-body-line-height);color:var(--bs-body-color);text-align:var(--bs-body-text-align);background-color:var(--bs-body-bg);-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}h1,h2,h3,h4{margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2;color:var(--bs-heading-color)}h1{font-size:calc(1.375rem + 1.5vw)}@media (min-width:1200px){h1{font-size:2.5rem}}h2{font-size:calc(1.325rem + .9vw)}@media (min-width:1200px){h2{font-size:2rem}}h3{font-size:calc(1.3rem + .6vw)}@media (min-width:1200px){h3{font-size:1.75rem}}h4{font-size:calc(1.275rem + .3vw)}@media (min-width:1200px){h4{font-size:1.5rem}}p{margin-top:0;margin-bottom:1rem}ul{padding-left:2rem}ul{margin-top:0;margin-bottom:1rem}a{color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));text-decoration:underline}a:hover{--bs-link-color-rgb:var(--bs-link-hover-color-rgb)}img{vertical-align:middle}button{border-radius:0}button:focus:not(:focus-visible){outline:0}button{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button{text-transform:none}[type=button],button{-webkit-appearance:button}[type=button]:not(:disabled),button:not(:disabled){cursor:pointer}.container{--bs-gutter-x:1.5rem;--bs-gutter-y:0;width:100%;padding-right:calc(var(--bs-gutter-x) * .5);padding-left:calc(var(--bs-gutter-x) * .5);margin-right:auto;margin-left:auto}@media (min-width:576px){.container{max-width:540px}}@media (min-width:768px){.container{max-width:720px}}@media (min-width:992px){.container{max-width:960px}}@media (min-width:1200px){.container{max-width:1140px}}@media (min-width:1400px){.container{max-width:1320px}}:root{--bs-breakpoint-xs:0;--bs-breakpoint-sm:576px;--bs-breakpoint-md:768px;--bs-breakpoint-lg:992px;--bs-breakpoint-xl:1200px;--bs-breakpoint-xxl:1400px}.btn-primary{--bs-btn-color:#fff;--bs-btn-bg:#0d6efd;--bs-btn-border-color:#0d6efd;--bs-btn-hover-color:#fff;--bs-btn-hover-bg:#0b5ed7;--bs-btn-hover-border-color:#0a58ca;--bs-btn-focus-shadow-rgb:49,132,253;--bs-btn-active-color:#fff;--bs-btn-active-bg:#0a58ca;--bs-btn-active-border-color:#0a53be;--bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, .125);--bs-btn-disabled-color:#fff;--bs-btn-disabled-bg:#0d6efd;--bs-btn-disabled-border-color:#0d6efd}.collapse:not(.show){display:none}.nav-link{display:block;padding:var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);font-size:var(--bs-nav-link-font-size);font-weight:var(--bs-nav-link-font-weight);color:var(--bs-nav-link-color);text-decoration:none;background:0 0;border:0;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out}@media (prefers-reduced-motion:reduce){.nav-link{transition:none}}.nav-link:focus,.nav-link:hover{color:var(--bs-nav-link-hover-color)}.nav-link:focus-visible{outline:0;box-shadow:0 0 0 .25rem #0d6efd40}.nav-link:disabled{color:var(--bs-nav-link-disabled-color);pointer-events:none;cursor:default}.navbar{--bs-navbar-padding-x:0;--bs-navbar-padding-y:.5rem;--bs-navbar-color:rgba(var(--bs-emphasis-color-rgb), .65);--bs-navbar-hover-color:rgba(var(--bs-emphasis-color-rgb), .8);--bs-navbar-disabled-color:rgba(var(--bs-emphasis-color-rgb), .3);--bs-navbar-active-color:rgba(var(--bs-emphasis-color-rgb), 1);--bs-navbar-brand-padding-y:.3125rem;--bs-navbar-brand-margin-end:1rem;--bs-navbar-brand-font-size:1.25rem;--bs-navbar-brand-color:rgba(var(--bs-emphasis-color-rgb), 1);--bs-navbar-brand-hover-color:rgba(var(--bs-emphasis-color-rgb), 1);--bs-navbar-nav-link-padding-x:.5rem;--bs-navbar-toggler-padding-y:.25rem;--bs-navbar-toggler-padding-x:.75rem;--bs-navbar-toggler-font-size:1.25rem;--bs-navbar-toggler-icon-bg:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");--bs-navbar-toggler-border-color:rgba(var(--bs-emphasis-color-rgb), .15);--bs-navbar-toggler-border-radius:var(--bs-border-radius);--bs-navbar-toggler-focus-width:.25rem;--bs-navbar-toggler-transition:box-shadow .15s ease-in-out;position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:var(--bs-navbar-padding-y) var(--bs-navbar-padding-x)}.navbar>.container{display:flex;flex-wrap:inherit;align-items:center;justify-content:space-between}.navbar-brand{padding-top:var(--bs-navbar-brand-padding-y);padding-bottom:var(--bs-navbar-brand-padding-y);margin-right:var(--bs-navbar-brand-margin-end);font-size:var(--bs-navbar-brand-font-size);color:var(--bs-navbar-brand-color);text-decoration:none;white-space:nowrap}.navbar-brand:focus,.navbar-brand:hover{color:var(--bs-navbar-brand-hover-color)}.navbar-nav{--bs-nav-link-padding-x:0;--bs-nav-link-padding-y:.5rem;--bs-nav-link-font-weight: ;--bs-nav-link-color:var(--bs-navbar-color);--bs-nav-link-hover-color:var(--bs-navbar-hover-color);--bs-nav-link-disabled-color:var(--bs-navbar-disabled-color);display:flex;flex-direction:column;padding-left:0;margin-bottom:0;list-style:none}.navbar-nav .nav-link.active{color:var(--bs-navbar-active-color)}.navbar-collapse{flex-grow:1;flex-basis:100%;align-items:center}.navbar-toggler{padding:var(--bs-navbar-toggler-padding-y) var(--bs-navbar-toggler-padding-x);font-size:var(--bs-navbar-toggler-font-size);line-height:1;color:var(--bs-navbar-color);background-color:transparent;border:var(--bs-border-width) solid var(--bs-navbar-toggler-border-color);border-radius:var(--bs-navbar-toggler-border-radius);transition:var(--bs-navbar-toggler-transition)}@media (prefers-reduced-motion:reduce){.navbar-toggler{transition:none}}.navbar-toggler:hover{text-decoration:none}.navbar-toggler:focus{text-decoration:none;outline:0;box-shadow:0 0 0 var(--bs-navbar-toggler-focus-width)}.navbar-toggler-icon{display:inline-block;width:1.5em;height:1.5em;vertical-align:middle;background-image:var(--bs-navbar-toggler-icon-bg);background-repeat:no-repeat;background-position:center;background-size:100%}@media (min-width:992px){.navbar-expand-lg{flex-wrap:nowrap;justify-content:flex-start}.navbar-expand-lg .navbar-nav{flex-direction:row}.navbar-expand-lg .navbar-nav .nav-link{padding-right:var(--bs-navbar-nav-link-padding-x);padding-left:var(--bs-navbar-nav-link-padding-x)}.navbar-expand-lg .navbar-collapse{display:flex!important;flex-basis:auto}.navbar-expand-lg .navbar-toggler{display:none}}:root{--bs-btn-close-filter: }:root{--bs-carousel-indicator-active-bg:#fff;--bs-carousel-caption-color:#fff;--bs-carousel-control-icon-filter: }.m-auto{margin:auto!important}.mb-2{margin-bottom:.5rem!important}@media (min-width:992px){.mb-lg-0{margin-bottom:0!important}}@-webkit-keyframes fa-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0)}to{-webkit-transform:rotate(359deg);transform:rotate(359deg)}}.fa-gift:before{content:"\f06b"}.fa-twitter:before{content:"\f099"}.fa-facebook-f:before{content:"\f09a"}.fa-instagram:before{content:"\f16d"}.fa-industry:before{content:"\f275"}.fa-product-hunt:before{content:"\f288"}:root{--main-color: #d1a33e;--burgandy-color:#B84642;--light-color: #f0f3f2;--light-beige:#fbedcf;--text: #111827;--ap-gold-dark: #bb891c;--ap-gold-light: rgba(209, 163, 62, .1);--ap-gold-ring: rgba(209, 163, 62, .22);--ap-burgandy-dark: #9c2e2a;--ap-bg: #f6f7f9;--ap-surface: #ffffff;--ap-border: #e5e7eb;--ap-text-muted: #6b7280;--ap-text-light: #9ca3af;--ap-error: #ef4444;--ap-success: #22c55e;--ap-shadow-sm: 0 1px 4px rgba(0,0,0,.06);--ap-shadow-card: 0 4px 24px rgba(0,0,0,.07);--ap-radius-card: 14px;--ap-radius-input: 10px;--ap-radius-pill: 999px;--ap-transition: .18s ease;--shadow: rgba(145, 158, 171, .2) 0px 2px 4px -1px, rgba(145, 158, 171, .14) 0px 4px 5px 0px, rgba(145, 158, 171, .12) 0px 1px 10px 0px;--font-family: "Inter", system-ui, sans-serif;--rating-color: #ffc908}body{font-family:var(--font-family)!important;background:#f6f7f9;color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}.nav-link{transition:unset!important}a,a:hover{color:#000;text-decoration:none}
-</style><link rel="stylesheet" href="styles-LKIDR7QH.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-LKIDR7QH.css"></noscript><link rel="modulepreload" href="chunk-35OE3XPW.js"><link rel="modulepreload" href="chunk-FYPXS46S.js"><link rel="modulepreload" href="chunk-XAZLOLJU.js"><link rel="modulepreload" href="chunk-UZV4I56O.js"><style ng-app-id="ng">.setting[_ngcontent-ng-c861037777]{padding-top:100px;margin:auto}</style><style ng-app-id="ng">body[_ngcontent-ng-c151807199]{background-color:#fff;margin:0;padding:0}a[_ngcontent-ng-c151807199]{text-decoration:none;color:#1a1a1a;font-size:13px;font-weight:500;transition:color .3s ease}a[_ngcontent-ng-c151807199]:hover, .gold[_ngcontent-ng-c151807199]{color:#d4af37}.nav-wrapper[_ngcontent-ng-c151807199]{width:100%;display:flex;justify-content:center;position:fixed;top:12px;left:0;z-index:1000;pointer-events:none}.navbar[_ngcontent-ng-c151807199]{background:#fff;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);position:relative;z-index:100;width:92%;margin:0 auto;padding:6px 20px;border-radius:40px;box-shadow:0 2px 10px #0000000d;border:1px solid rgba(212,175,55,.2);pointer-events:auto;min-height:auto}.navbar-brand[_ngcontent-ng-c151807199]{display:flex;align-items:center;padding:0;margin:0}.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199]{height:35px;width:auto;max-height:35px;object-fit:contain;transition:transform .3s ease}.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199]:hover{transform:scale(1.02)}@media (max-width: 768px){.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199]{height:28px}}@media (max-width: 480px){.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199]{height:24px}}.navbar-nav[_ngcontent-ng-c151807199]{display:flex;gap:.2rem;align-items:center}.nav-item[_ngcontent-ng-c151807199]{list-style:none}.nav-link[_ngcontent-ng-c151807199]{color:#1a1a1a!important;font-size:.75rem;font-weight:500;padding:.3rem .7rem!important;border-radius:30px;transition:all .3s ease;line-height:1.2}.nav-link[_ngcontent-ng-c151807199]:hover, .nav-link.active[_ngcontent-ng-c151807199]{color:#d4af37!important;background:#d4af371a}.nav-buttons[_ngcontent-ng-c151807199]{display:flex;gap:.4rem;margin-left:.8rem;align-items:center}.btn-login[_ngcontent-ng-c151807199]{padding:.3rem .9rem;background:transparent;color:#1a1a1a;border:1px solid #d4af37;border-radius:30px;font-size:.7rem;font-weight:500;transition:all .3s;line-height:1.2}.btn-login[_ngcontent-ng-c151807199]:hover{background:#d4af371a;color:#d4af37;transform:translateY(-1px)}.btn-register[_ngcontent-ng-c151807199]{padding:.3rem .9rem;background:linear-gradient(135deg,#d4af37,#f5b042);color:#1a1a1a;border:none;border-radius:30px;font-size:.7rem;font-weight:600;transition:all .3s;line-height:1.2}.btn-register[_ngcontent-ng-c151807199]:hover{transform:translateY(-1px);box-shadow:0 2px 8px #d4af374d}.navbar-toggler[_ngcontent-ng-c151807199]{border:1px solid rgba(212,175,55,.3);background:transparent;padding:.2rem .4rem}.navbar-toggler-icon[_ngcontent-ng-c151807199]{width:1rem;height:1rem;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")}@media (max-width: 992px){.navbar[_ngcontent-ng-c151807199]{width:96%;padding:5px 16px}.navbar-brand[_ngcontent-ng-c151807199]{font-size:1rem}.navbar-collapse[_ngcontent-ng-c151807199]{background:#fffffffa;border-radius:20px;padding:.6rem;margin-top:.6rem}.navbar-nav[_ngcontent-ng-c151807199]{flex-direction:column;gap:.2rem}.nav-link[_ngcontent-ng-c151807199]{text-align:center;padding:.3rem .6rem!important}.nav-buttons[_ngcontent-ng-c151807199]{justify-content:center;margin-left:0;margin-top:.6rem}}@media (max-width: 768px){.navbar[_ngcontent-ng-c151807199]{width:98%;padding:4px 12px}.nav-wrapper[_ngcontent-ng-c151807199]{top:8px}.navbar-brand[_ngcontent-ng-c151807199]{font-size:.9rem}.nav-link[_ngcontent-ng-c151807199]{font-size:.7rem;padding:.25rem .5rem!important}.btn-login[_ngcontent-ng-c151807199], .btn-register[_ngcontent-ng-c151807199]{padding:.25rem .7rem;font-size:.65rem}}</style><style ng-app-id="ng">.footer[_ngcontent-ng-c2361811811]{background:#1a1a1a;padding:60px 0 20px;color:#fff;margin-top:auto;width:100%;position:relative;z-index:2}.container[_ngcontent-ng-c2361811811]{max-width:1200px;margin:0 auto;padding:0 32px}.footer-grid[_ngcontent-ng-c2361811811]{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-bottom:2rem}.footer-brand[_ngcontent-ng-c2361811811]   h3[_ngcontent-ng-c2361811811]{font-size:1.2rem;font-weight:600;letter-spacing:2px;color:#d4af37;margin-bottom:.5rem}.footer-brand[_ngcontent-ng-c2361811811]   p[_ngcontent-ng-c2361811811]{font-size:.8rem;color:#aaa;margin-bottom:1rem}.social-links[_ngcontent-ng-c2361811811]{display:flex;gap:1rem}.social-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]{display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:#ffffff1a;border-radius:50%;color:#fff;text-decoration:none;transition:all .3s}.social-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]:hover{background:#d4af37;color:#1a1a1a;transform:translateY(-3px)}.footer-links[_ngcontent-ng-c2361811811]   h4[_ngcontent-ng-c2361811811]{font-size:.9rem;font-weight:600;margin-bottom:1rem;color:#fff}.footer-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]{display:block;text-decoration:none;font-size:.8rem;color:#aaa;margin-bottom:.5rem;transition:color .3s}.footer-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]:hover{color:#d4af37}.footer-bottom[_ngcontent-ng-c2361811811]{text-align:center;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);font-size:.7rem;color:#666}@media (max-width: 992px){.footer-grid[_ngcontent-ng-c2361811811]{grid-template-columns:repeat(2,1fr)}}@media (max-width: 768px){.footer-grid[_ngcontent-ng-c2361811811]{grid-template-columns:1fr;text-align:center}.social-links[_ngcontent-ng-c2361811811]{justify-content:center}}</style><style ng-app-id="ng">*[_ngcontent-ng-c2812891330]{margin:0;padding:0;box-sizing:border-box}.landing-page[_ngcontent-ng-c2812891330]{font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fff;position:relative;overflow-x:hidden}.container[_ngcontent-ng-c2812891330]{max-width:1200px;margin:0 auto;padding:0 32px}.animated-bg[_ngcontent-ng-c2812891330]{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;pointer-events:none}.gradient-bg[_ngcontent-ng-c2812891330]{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 30%,#fff,#fffaf5);animation:_ngcontent-ng-c2812891330_gradientShift 15s ease-in-out infinite}@keyframes _ngcontent-ng-c2812891330_gradientShift{0%,to{opacity:1}50%{opacity:.95}}.gold-particles[_ngcontent-ng-c2812891330]{position:absolute;top:0;left:0;width:100%;height:100%}.gold-particles[_ngcontent-ng-c2812891330]:before, .gold-particles[_ngcontent-ng-c2812891330]:after{content:"";position:absolute;width:100%;height:100%;background-image:radial-gradient(circle at 20% 40%,rgba(212,175,55,.08) 1px,transparent 1px);background-size:60px 60px;animation:_ngcontent-ng-c2812891330_particleFloat 20s linear infinite}.gold-particles[_ngcontent-ng-c2812891330]:after{background-image:radial-gradient(circle at 80% 60%,rgba(212,175,55,.05) 1px,transparent 1px);background-size:80px 80px;animation:_ngcontent-ng-c2812891330_particleFloat 25s linear infinite reverse}@keyframes _ngcontent-ng-c2812891330_particleFloat{0%{transform:translateY(0)}to{transform:translateY(-100px)}}.floating-shapes[_ngcontent-ng-c2812891330]{position:absolute;top:0;left:0;width:100%;height:100%}.shape[_ngcontent-ng-c2812891330]{position:absolute;background:radial-gradient(circle,#d4af3766,#d4af3726,#d4af370d);border-radius:50%;animation:_ngcontent-ng-c2812891330_floatGold 20s ease-in-out infinite;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(212,175,55,.3);box-shadow:0 0 40px #d4af3733}.shape-1[_ngcontent-ng-c2812891330]{width:320px;height:320px;top:-100px;right:-100px;animation-delay:0s;background:radial-gradient(circle,#d4af3773,#d4af371a)}.shape-2[_ngcontent-ng-c2812891330]{width:220px;height:220px;bottom:50px;left:-80px;animation-delay:2s;animation-duration:25s;background:radial-gradient(circle,#d4af3766,#d4af3714)}.shape-3[_ngcontent-ng-c2812891330]{width:170px;height:170px;top:40%;right:15%;animation-delay:4s;animation-duration:18s;background:radial-gradient(circle,#d4af3759,#d4af370f)}.shape-4[_ngcontent-ng-c2812891330]{width:120px;height:120px;bottom:20%;right:20%;animation-delay:6s;animation-duration:22s;background:radial-gradient(circle,#d4af3761,#d4af3712)}.shape-5[_ngcontent-ng-c2812891330]{width:270px;height:270px;top:60%;left:-50px;animation-delay:8s;animation-duration:28s;background:radial-gradient(circle,#d4af376b,#d4af3717)}.shape-6[_ngcontent-ng-c2812891330]{width:140px;height:140px;top:75%;right:35%;animation-delay:10s;animation-duration:20s;background:radial-gradient(circle,#d4af3752,#d4af370d)}.shape-7[_ngcontent-ng-c2812891330]{width:400px;height:400px;bottom:-150px;right:-100px;animation-delay:12s;animation-duration:32s;background:radial-gradient(circle,#d4af374d,#d4af370a)}@keyframes _ngcontent-ng-c2812891330_floatGold{0%,to{transform:translateY(0) translate(0) rotate(0);opacity:.5;box-shadow:0 0 30px #d4af374d}25%{transform:translateY(-40px) translate(25px) rotate(8deg);opacity:.8;box-shadow:0 0 60px #d4af3780}50%{transform:translateY(25px) translate(-25px) rotate(-8deg);opacity:.65;box-shadow:0 0 45px #d4af3766}75%{transform:translateY(-30px) translate(35px) rotate(5deg);opacity:.8;box-shadow:0 0 55px #d4af3773}}.gold-lines[_ngcontent-ng-c2812891330]{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}.line[_ngcontent-ng-c2812891330]{position:absolute;background:linear-gradient(90deg,transparent,#d4af37,transparent);height:1px;width:100%;animation:_ngcontent-ng-c2812891330_lineMove 8s linear infinite}.line-1[_ngcontent-ng-c2812891330]{top:15%;animation-delay:0s}.line-3[_ngcontent-ng-c2812891330]{top:85%;animation-delay:4s;width:60%;left:20%}@keyframes _ngcontent-ng-c2812891330_lineMove{0%{transform:translate(-100%);opacity:0}10%{opacity:.3}50%{opacity:.5}90%{opacity:.3}to{transform:translate(100%);opacity:0}}.fade-up[_ngcontent-ng-c2812891330]{opacity:0;transform:translateY(40px);animation:_ngcontent-ng-c2812891330_fadeUp .8s ease forwards}.delay-1[_ngcontent-ng-c2812891330]{animation-delay:.2s}.delay-2[_ngcontent-ng-c2812891330]{animation-delay:.4s}.delay-3[_ngcontent-ng-c2812891330]{animation-delay:.6s}@keyframes _ngcontent-ng-c2812891330_fadeUp{to{opacity:1;transform:translateY(0)}}.scroll-reveal[_ngcontent-ng-c2812891330]{opacity:0;transform:translateY(30px);transition:all .6s ease}.scroll-reveal.visible[_ngcontent-ng-c2812891330]{opacity:1;transform:translateY(0)}.card-hover[_ngcontent-ng-c2812891330]{transition:all .4s cubic-bezier(.2,.9,.4,1.1)}.card-hover[_ngcontent-ng-c2812891330]:hover{transform:translateY(-8px);box-shadow:0 20px 40px #0000000d}.gold-glow[_ngcontent-ng-c2812891330]{animation:_ngcontent-ng-c2812891330_glowPulse 3s ease-in-out infinite}@keyframes _ngcontent-ng-c2812891330_glowPulse{0%,to{opacity:.8}50%{opacity:1;text-shadow:0 0 10px rgba(212,175,55,.3)}}.btn-gold-animated[_ngcontent-ng-c2812891330]{position:relative;overflow:hidden;transition:all .3s ease}.btn-gold-animated[_ngcontent-ng-c2812891330]:before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .5s ease}.btn-gold-animated[_ngcontent-ng-c2812891330]:hover:before{left:100%}.btn-gold-animated[_ngcontent-ng-c2812891330]:hover{transform:translateY(-2px);box-shadow:0 10px 25px #d4af374d}.hero-video-slider[_ngcontent-ng-c2812891330]{position:relative;min-height:100vh;width:100%;overflow:hidden;display:flex;align-items:center}.video-background[_ngcontent-ng-c2812891330]{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden}.bg-video[_ngcontent-ng-c2812891330]{position:absolute;top:50%;left:50%;width:100%;height:100%;object-fit:cover;transform:translate(-50%) translateY(-50%)}.bg-video.small[_ngcontent-ng-c2812891330]{width:120%;height:120%;object-fit:contain;background:#000}.video-overlay-dark[_ngcontent-ng-c2812891330]{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#000000b3,#00000080);z-index:1}.slider-container[_ngcontent-ng-c2812891330]{position:relative;width:100%;overflow:hidden;z-index:2;padding:100px 0}.slider[_ngcontent-ng-c2812891330]{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1);width:100%}.slide[_ngcontent-ng-c2812891330]{flex:0 0 100%;width:100%;min-height:80vh;display:flex;align-items:center}.slide-content[_ngcontent-ng-c2812891330]{max-width:1200px;margin:0 auto;padding:0 32px;width:100%}.slide-text[_ngcontent-ng-c2812891330]{max-width:700px;color:#fff}.slide-category[_ngcontent-ng-c2812891330]{display:inline-block;font-size:.8rem;letter-spacing:3px;color:#d4af37;margin-bottom:1rem;font-weight:500;text-transform:uppercase;background:#0006;padding:.4rem 1.2rem;border-radius:30px;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}.slide-title[_ngcontent-ng-c2812891330]{font-size:4rem;font-weight:700;line-height:1.2;margin-bottom:1.5rem;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.3)}.slide-title[_ngcontent-ng-c2812891330]   .gold[_ngcontent-ng-c2812891330]{color:#d4af37}.slide-description[_ngcontent-ng-c2812891330]{font-size:1.1rem;color:#ffffffe6;line-height:1.6;margin-bottom:2rem;max-width:550px}.slide-buttons[_ngcontent-ng-c2812891330]{display:flex;gap:1rem}.btn-primary[_ngcontent-ng-c2812891330]{padding:.9rem 2rem;background:linear-gradient(135deg,#d4af37,#f5b042);color:#1a1a1a;text-decoration:none;border-radius:40px;font-weight:600;transition:all .3s;display:inline-block}.btn-primary[_ngcontent-ng-c2812891330]:hover{transform:translateY(-2px);box-shadow:0 5px 20px #d4af3766}.btn-outline[_ngcontent-ng-c2812891330]{padding:.9rem 2rem;background:transparent;color:#fff;text-decoration:none;border-radius:40px;font-weight:600;border:2px solid rgba(255,255,255,.3);transition:all .3s;display:inline-block;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}.slider-dots[_ngcontent-ng-c2812891330]{position:absolute;bottom:30px;left:50%;transform:translate(-50%);display:flex;gap:1rem;z-index:10}.dot[_ngcontent-ng-c2812891330]{width:10px;height:10px;border-radius:50%;background:#ffffff80;border:none;cursor:pointer;transition:all .3s ease;padding:0}.dot.active[_ngcontent-ng-c2812891330]{width:28px;border-radius:5px;background:#d4af37}.dot[_ngcontent-ng-c2812891330]:hover{background:#d4af37}.slider-arrow[_ngcontent-ng-c2812891330]{position:absolute;top:50%;transform:translateY(-50%);width:35px;height:35px;border-radius:50%;background:#0006;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);border:1px solid rgba(255,255,255,.2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s ease;z-index:10;opacity:0;visibility:hidden}.hero-video-slider[_ngcontent-ng-c2812891330]:hover   .slider-arrow[_ngcontent-ng-c2812891330]{opacity:1;visibility:visible}.slider-arrow[_ngcontent-ng-c2812891330]   span[_ngcontent-ng-c2812891330]{font-size:1rem;color:#fff}.prev[_ngcontent-ng-c2812891330]{left:20px}.next[_ngcontent-ng-c2812891330]{right:20px}.slider-arrow[_ngcontent-ng-c2812891330]:hover{background:#d4af37;border-color:#d4af37}@media (max-width: 768px){.slider-arrow[_ngcontent-ng-c2812891330]{width:28px;height:28px}.slider-arrow[_ngcontent-ng-c2812891330]   span[_ngcontent-ng-c2812891330]{font-size:.8rem}}@media (max-width: 992px){.slide-title[_ngcontent-ng-c2812891330]{font-size:3rem}}@media (max-width: 768px){.slider-container[_ngcontent-ng-c2812891330]{padding:60px 0}.slide-title[_ngcontent-ng-c2812891330]{font-size:2rem}.slide-description[_ngcontent-ng-c2812891330]{font-size:.9rem}.slide-buttons[_ngcontent-ng-c2812891330]{flex-direction:column;align-items:flex-start}.btn-primary[_ngcontent-ng-c2812891330], .btn-outline[_ngcontent-ng-c2812891330]{width:200px;text-align:center}.prev[_ngcontent-ng-c2812891330]{left:15px}.next[_ngcontent-ng-c2812891330]{right:15px}}@media (max-width: 480px){.slide-title[_ngcontent-ng-c2812891330]{font-size:1.5rem}.slide-category[_ngcontent-ng-c2812891330]{font-size:.7rem}}@media (max-width: 992px){.slide-content[_ngcontent-ng-c2812891330]{grid-template-columns:1fr;gap:2rem;text-align:center}.slide-buttons[_ngcontent-ng-c2812891330]{justify-content:center}.slide-title[_ngcontent-ng-c2812891330]   .gold[_ngcontent-ng-c2812891330]:after{width:50%;left:25%}.slide-image[_ngcontent-ng-c2812891330]{max-width:400px;margin:0 auto}.slider-arrow[_ngcontent-ng-c2812891330]{display:none}}@media (max-width: 768px){.hero-slider[_ngcontent-ng-c2812891330]{padding:80px 0 100px}.slide-title[_ngcontent-ng-c2812891330]{font-size:2.5rem}.slide-buttons[_ngcontent-ng-c2812891330]{flex-direction:column;align-items:center}.btn-primary[_ngcontent-ng-c2812891330], .btn-outline[_ngcontent-ng-c2812891330]{width:200px;text-align:center}.slide-image[_ngcontent-ng-c2812891330]{max-width:320px}.slider-dots[_ngcontent-ng-c2812891330]{bottom:-20px}}.hero-buttons[_ngcontent-ng-c2812891330]{display:flex;gap:1rem}.btn-primary[_ngcontent-ng-c2812891330]{padding:.8rem 2rem;background:#d4af37;color:#fff;text-decoration:none;border-radius:40px;font-weight:500;transition:all .3s;display:inline-block}.btn-primary[_ngcontent-ng-c2812891330]:hover{background:#c4a22e;transform:translateY(-2px);box-shadow:0 5px 15px #d4af374d}.btn-outline[_ngcontent-ng-c2812891330]{padding:.8rem 2rem;background:transparent;color:#1a1a1a;text-decoration:none;border-radius:40px;font-weight:500;border:1px solid #e0e0e0;transition:all .3s;display:inline-block}.btn-outline[_ngcontent-ng-c2812891330]:hover{border-color:#d4af37;color:#d4af37;transform:translateY(-2px)}.features[_ngcontent-ng-c2812891330]{padding:80px 0;background:transparent;position:relative;z-index:2}.section-header[_ngcontent-ng-c2812891330]{text-align:center;margin-bottom:3rem}.section-badge[_ngcontent-ng-c2812891330]{display:inline-block;font-size:.75rem;letter-spacing:2px;color:#d4af37;margin-bottom:1rem;text-transform:uppercase}.section-title[_ngcontent-ng-c2812891330]{font-size:2.5rem;font-weight:600;line-height:1.3;color:#1a1a1a}.section-title[_ngcontent-ng-c2812891330]   .gold[_ngcontent-ng-c2812891330]{color:#d4af37}.features-grid[_ngcontent-ng-c2812891330]{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}.feature-card[_ngcontent-ng-c2812891330]{text-align:center;padding:1.5rem;border-radius:16px;background:#ffffffe6;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);transition:all .3s;border:1px solid rgba(212,175,55,.1)}.feature-card[_ngcontent-ng-c2812891330]:hover{transform:translateY(-5px);border-color:#d4af374d;box-shadow:0 15px 30px #0000000d}.feature-icon[_ngcontent-ng-c2812891330]{font-size:2.5rem;margin-bottom:1rem}.feature-card[_ngcontent-ng-c2812891330]   h3[_ngcontent-ng-c2812891330]{font-size:1rem;font-weight:600;margin-bottom:.5rem;color:#1a1a1a}.feature-card[_ngcontent-ng-c2812891330]   p[_ngcontent-ng-c2812891330]{font-size:.85rem;color:#666;line-height:1.5}.products[_ngcontent-ng-c2812891330]{padding:80px 0;background:#faf9f5cc;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);position:relative;z-index:2}.products-grid[_ngcontent-ng-c2812891330]{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}.product-card[_ngcontent-ng-c2812891330]{background:#fff;border-radius:20px;padding:2rem;text-align:center;transition:all .3s;border:1px solid rgba(212,175,55,.1)}.product-card[_ngcontent-ng-c2812891330]:hover{transform:translateY(-8px);border-color:#d4af374d;box-shadow:0 20px 40px #0000000d}.product-icon[_ngcontent-ng-c2812891330]{font-size:3rem;margin-bottom:1rem}.product-card[_ngcontent-ng-c2812891330]   h3[_ngcontent-ng-c2812891330]{font-size:1.1rem;font-weight:600;margin-bottom:.75rem;color:#1a1a1a}.product-card[_ngcontent-ng-c2812891330]   p[_ngcontent-ng-c2812891330]{font-size:.85rem;color:#666;margin-bottom:1rem;line-height:1.5}.cta-section[_ngcontent-ng-c2812891330]{padding:80px 0;background:transparent;text-align:center;position:relative;z-index:2}.cta-content[_ngcontent-ng-c2812891330]   h2[_ngcontent-ng-c2812891330]{font-size:2rem;font-weight:600;margin-bottom:1rem;color:#1a1a1a}.cta-content[_ngcontent-ng-c2812891330]   p[_ngcontent-ng-c2812891330]{font-size:1rem;color:#666;margin-bottom:2rem}.cta-buttons[_ngcontent-ng-c2812891330]{display:flex;gap:1rem;justify-content:center}.btn-primary-large[_ngcontent-ng-c2812891330]{padding:1rem 2rem;background:#d4af37;color:#fff;text-decoration:none;border-radius:40px;font-weight:500;transition:all .3s;display:inline-block}.btn-primary-large[_ngcontent-ng-c2812891330]:hover{background:#c4a22e;transform:translateY(-2px)}.btn-outline-large[_ngcontent-ng-c2812891330]{padding:1rem 2rem;background:transparent;color:#1a1a1a;text-decoration:none;border-radius:40px;font-weight:500;border:1px solid #e0e0e0;transition:all .3s;display:inline-block}.btn-outline-large[_ngcontent-ng-c2812891330]:hover{border-color:#d4af37;color:#d4af37;transform:translateY(-2px)}@media (max-width: 992px){.hero-grid[_ngcontent-ng-c2812891330]{grid-template-columns:1fr;gap:2rem;text-align:center}.hero-buttons[_ngcontent-ng-c2812891330]{justify-content:center}.features-grid[_ngcontent-ng-c2812891330], .products-grid[_ngcontent-ng-c2812891330], .footer-grid[_ngcontent-ng-c2812891330]{grid-template-columns:repeat(2,1fr)}}@media (max-width: 768px){.hero[_ngcontent-ng-c2812891330]{padding:100px 0 60px}.hero-title[_ngcontent-ng-c2812891330]{font-size:2.5rem}.section-title[_ngcontent-ng-c2812891330]{font-size:1.8rem}.hero-buttons[_ngcontent-ng-c2812891330]{flex-direction:column;align-items:center}.btn-primary[_ngcontent-ng-c2812891330], .btn-outline[_ngcontent-ng-c2812891330]{width:200px;text-align:center}.features-grid[_ngcontent-ng-c2812891330], .products-grid[_ngcontent-ng-c2812891330]{grid-template-columns:1fr}.footer-grid[_ngcontent-ng-c2812891330]{grid-template-columns:1fr;text-align:center}.social-links[_ngcontent-ng-c2812891330]{justify-content:center}.cta-buttons[_ngcontent-ng-c2812891330]{flex-direction:column;align-items:center}.btn-primary-large[_ngcontent-ng-c2812891330], .btn-outline-large[_ngcontent-ng-c2812891330]{width:220px;text-align:center}.shape-1[_ngcontent-ng-c2812891330], .shape-2[_ngcontent-ng-c2812891330], .shape-3[_ngcontent-ng-c2812891330], .shape-4[_ngcontent-ng-c2812891330], .shape-5[_ngcontent-ng-c2812891330]{display:none}}.features[_ngcontent-ng-c2812891330], .products[_ngcontent-ng-c2812891330], .cta-section[_ngcontent-ng-c2812891330], .footer[_ngcontent-ng-c2812891330]{display:block!important;visibility:visible!important;opacity:1!important;position:relative;z-index:2}.scroll-reveal[_ngcontent-ng-c2812891330]{opacity:1!important;transform:translateY(0)!important;visibility:visible!important}.features[_ngcontent-ng-c2812891330]{background:#fffffff2!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;min-height:auto;padding:80px 0}.products[_ngcontent-ng-c2812891330]{background:#faf9f5!important;min-height:auto;padding:80px 0}.cta-section[_ngcontent-ng-c2812891330]{background:#fff!important;min-height:auto;padding:80px 0}.footer[_ngcontent-ng-c2812891330]{background:#1a1a1a!important;min-height:auto;padding:60px 0 20px}</style></head>
-<body><!--nghm-->
-  <app-root _nghost-ng-c3984273398 ng-version="17.3.12" ngh="3" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3984273398></router-outlet><app-public _nghost-ng-c861037777 ngh="2"><app-public-navbar _ngcontent-ng-c861037777 _nghost-ng-c151807199 ngh="0"><div _ngcontent-ng-c151807199 class="nav-wrapper"><nav _ngcontent-ng-c151807199 class="navbar navbar-expand-lg"><div _ngcontent-ng-c151807199 class="container"><a _ngcontent-ng-c151807199 routerlink="/public" class="navbar-brand" href="/public"><img _ngcontent-ng-c151807199 src="assets/images/logo.jpg" alt="Talentree Logo"></a><button _ngcontent-ng-c151807199 type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span _ngcontent-ng-c151807199 class="navbar-toggler-icon"></span></button><div _ngcontent-ng-c151807199 id="navbarSupportedContent" class="collapse navbar-collapse"><ul _ngcontent-ng-c151807199 class="navbar-nav m-auto mb-2 mb-lg-0"><li _ngcontent-ng-c151807199 class="nav-item"><a _ngcontent-ng-c151807199 routerlink="/public" routerlinkactive="active" class="nav-link active" href="/public">Home</a></li><li _ngcontent-ng-c151807199 class="nav-item"><a _ngcontent-ng-c151807199 routerlink="/public/about" routerlinkactive="active" class="nav-link" href="/public/about">About</a></li><li _ngcontent-ng-c151807199 class="nav-item"><a _ngcontent-ng-c151807199 routerlink="/public/offer" routerlinkactive="active" class="nav-link" href="/public/offer">Offer</a></li><li _ngcontent-ng-c151807199 class="nav-item"><a _ngcontent-ng-c151807199 routerlink="/public/testimonial" routerlinkactive="active" class="nav-link" href="/public/testimonial">Testimonial</a></li><li _ngcontent-ng-c151807199 class="nav-item"><a _ngcontent-ng-c151807199 routerlink="/public/contact" routerlinkactive="active" class="nav-link" href="/public/contact">Contact</a></li></ul><div _ngcontent-ng-c151807199 class="nav-buttons"><a _ngcontent-ng-c151807199 routerlink="/auth/login" class="btn-login" href="/auth/login">Sign In</a><a _ngcontent-ng-c151807199 routerlink="/auth/register" class="btn-register" href="/auth/register">Get Started</a></div></div></div></nav></div></app-public-navbar><router-outlet _ngcontent-ng-c861037777></router-outlet><app-landing-page _nghost-ng-c2812891330 ngh="1"><div _ngcontent-ng-c2812891330 class="landing-page"><div _ngcontent-ng-c2812891330 class="animated-bg"><div _ngcontent-ng-c2812891330 class="gradient-bg"></div><div _ngcontent-ng-c2812891330 class="gold-particles"></div><div _ngcontent-ng-c2812891330 class="floating-shapes"><div _ngcontent-ng-c2812891330 class="shape shape-1"></div><div _ngcontent-ng-c2812891330 class="shape shape-2"></div><div _ngcontent-ng-c2812891330 class="shape shape-3"></div><div _ngcontent-ng-c2812891330 class="shape shape-4"></div><div _ngcontent-ng-c2812891330 class="shape shape-5"></div></div><div _ngcontent-ng-c2812891330 class="gold-lines"><div _ngcontent-ng-c2812891330 class="line line-1"></div><div _ngcontent-ng-c2812891330 class="line line-3"></div></div></div><section _ngcontent-ng-c2812891330 class="hero-video-slider"><div _ngcontent-ng-c2812891330 class="video-background"><video _ngcontent-ng-c2812891330 autoplay muted loop playsinline class="bg-video"><source _ngcontent-ng-c2812891330 type="video/mp4" src="../../../../../assets/videos/fashion.mp4"></video><div _ngcontent-ng-c2812891330 class="video-overlay-dark"></div></div><div _ngcontent-ng-c2812891330 class="slider-container"><div _ngcontent-ng-c2812891330 class="slider" style="transform: translateX(-0%);"><div _ngcontent-ng-c2812891330 class="slide"><div _ngcontent-ng-c2812891330 class="slide-content"><div _ngcontent-ng-c2812891330 class="slide-text"><span _ngcontent-ng-c2812891330 class="slide-category">Fashion Collection</span><h1 _ngcontent-ng-c2812891330 class="slide-title"> Elevate Your<br _ngcontent-ng-c2812891330><span _ngcontent-ng-c2812891330 class="gold">Fashion Business</span></h1><p _ngcontent-ng-c2812891330 class="slide-description"> Manage your fashion inventory, track seasonal trends, and showcase your collections with elegance. From haute couture to everyday wear, we've got you covered. </p><div _ngcontent-ng-c2812891330 class="slide-buttons"><a _ngcontent-ng-c2812891330 routerlink="/auth/register" class="btn-primary" href="/auth/register">Start Selling</a><a _ngcontent-ng-c2812891330 routerlink="/offer" class="btn-outline" href="/offer">Explore Collections</a></div></div></div></div><div _ngcontent-ng-c2812891330 class="slide"><div _ngcontent-ng-c2812891330 class="slide-content"><div _ngcontent-ng-c2812891330 class="slide-text"><span _ngcontent-ng-c2812891330 class="slide-category">Luxury Bags</span><h1 _ngcontent-ng-c2812891330 class="slide-title"> Showcase Your<br _ngcontent-ng-c2812891330><span _ngcontent-ng-c2812891330 class="gold">Premium Bags</span></h1><p _ngcontent-ng-c2812891330 class="slide-description"> From designer handbags to premium leather goods, manage your bag collection with sophistication. Track materials, suppliers, and inventory seamlessly. </p><div _ngcontent-ng-c2812891330 class="slide-buttons"><a _ngcontent-ng-c2812891330 routerlink="/auth/register" class="btn-primary" href="/auth/register">Start Selling</a><a _ngcontent-ng-c2812891330 routerlink="/offer" class="btn-outline" href="/offer">View Collection</a></div></div></div></div><div _ngcontent-ng-c2812891330 class="slide"><div _ngcontent-ng-c2812891330 class="slide-content"><div _ngcontent-ng-c2812891330 class="slide-text"><span _ngcontent-ng-c2812891330 class="slide-category">Beauty &amp; Cosmetics</span><h1 _ngcontent-ng-c2812891330 class="slide-title"> Transform Your<br _ngcontent-ng-c2812891330><span _ngcontent-ng-c2812891330 class="gold">Beauty Business</span></h1><p _ngcontent-ng-c2812891330 class="slide-description"> Manage skincare, makeup, and cosmetic products with precision. Track ingredients, expiry dates, and customer preferences all in one place. </p><div _ngcontent-ng-c2812891330 class="slide-buttons"><a _ngcontent-ng-c2812891330 routerlink="/auth/register" class="btn-primary" href="/auth/register">Start Selling</a><a _ngcontent-ng-c2812891330 routerlink="/offer" class="btn-outline" href="/offer">Discover Products</a></div></div></div></div><div _ngcontent-ng-c2812891330 class="slide"><div _ngcontent-ng-c2812891330 class="slide-content"><div _ngcontent-ng-c2812891330 class="slide-text"><span _ngcontent-ng-c2812891330 class="slide-category">Fine Jewelry</span><h1 _ngcontent-ng-c2812891330 class="slide-title"> Craft Your<br _ngcontent-ng-c2812891330><span _ngcontent-ng-c2812891330 class="gold">Jewelry Collection</span></h1><p _ngcontent-ng-c2812891330 class="slide-description"> Manage precious metals, gemstones, and finished pieces with unmatched precision. Track materials, suppliers, and showcase your masterpieces. </p><div _ngcontent-ng-c2812891330 class="slide-buttons"><a _ngcontent-ng-c2812891330 routerlink="/auth/register" class="btn-primary" href="/auth/register">Start Selling</a><a _ngcontent-ng-c2812891330 routerlink="/offer" class="btn-outline" href="/offer">Explore Jewelry</a></div></div></div></div><div _ngcontent-ng-c2812891330 class="slide"><div _ngcontent-ng-c2812891330 class="slide-content"><div _ngcontent-ng-c2812891330 class="slide-text"><span _ngcontent-ng-c2812891330 class="slide-category">Handmade Crafts</span><h1 _ngcontent-ng-c2812891330 class="slide-title"> Showcase Your<br _ngcontent-ng-c2812891330><span _ngcontent-ng-c2812891330 class="gold">Handmade Creations</span></h1><p _ngcontent-ng-c2812891330 class="slide-description"> From unique crafts to personalized gifts, manage your handmade business with care. Track materials, connect with customers, and share your artistic journey. </p><div _ngcontent-ng-c2812891330 class="slide-buttons"><a _ngcontent-ng-c2812891330 routerlink="/auth/register" class="btn-primary" href="/auth/register">Start Selling</a><a _ngcontent-ng-c2812891330 routerlink="/offer" class="btn-outline" href="/offer">Explore Handmade</a></div></div></div></div></div><div _ngcontent-ng-c2812891330 class="slider-dots"><button _ngcontent-ng-c2812891330 class="dot active"></button><button _ngcontent-ng-c2812891330 class="dot"></button><button _ngcontent-ng-c2812891330 class="dot"></button><button _ngcontent-ng-c2812891330 class="dot"></button><button _ngcontent-ng-c2812891330 class="dot"></button><!----></div><button _ngcontent-ng-c2812891330 class="slider-arrow prev"><span _ngcontent-ng-c2812891330>❮</span></button><button _ngcontent-ng-c2812891330 class="slider-arrow next"><span _ngcontent-ng-c2812891330>❯</span></button></div></section><section _ngcontent-ng-c2812891330 class="features scroll-reveal"><div _ngcontent-ng-c2812891330 class="container"><div _ngcontent-ng-c2812891330 class="section-header"><span _ngcontent-ng-c2812891330 class="section-badge gold-glow">Why Choose Us</span><h2 _ngcontent-ng-c2812891330 class="section-title">Benefit Using<br _ngcontent-ng-c2812891330><span _ngcontent-ng-c2812891330 class="gold">Talentree Platform</span></h2></div><div _ngcontent-ng-c2812891330 class="features-grid"><div _ngcontent-ng-c2812891330 class="feature-card card-hover"><div _ngcontent-ng-c2812891330 class="feature-icon"><i _ngcontent-ng-c2812891330 class="fa-solid fa-shirt"></i></div><h3 _ngcontent-ng-c2812891330>Raw Materials</h3><p _ngcontent-ng-c2812891330>Track inventory, pricing, and supplier information with precision and accuracy.</p></div><div _ngcontent-ng-c2812891330 class="feature-card card-hover"><div _ngcontent-ng-c2812891330 class="feature-icon"><i _ngcontent-ng-c2812891330 class="fa-solid fa-boxes-packing"></i></div><h3 _ngcontent-ng-c2812891330>Suppliers</h3><p _ngcontent-ng-c2812891330>Build and manage strong supplier relationships for sustainable growth.</p></div><div _ngcontent-ng-c2812891330 class="feature-card card-hover"><div _ngcontent-ng-c2812891330 class="feature-icon"><i _ngcontent-ng-c2812891330 class="fa-brands fa-product-hunt"></i></div><h3 _ngcontent-ng-c2812891330>Products</h3><p _ngcontent-ng-c2812891330>Showcase and manage your products with professional precision.</p></div><div _ngcontent-ng-c2812891330 class="feature-card card-hover"><div _ngcontent-ng-c2812891330 class="feature-icon"><i _ngcontent-ng-c2812891330 class="fa-solid fa-chart-column"></i></div><h3 _ngcontent-ng-c2812891330>Analytics</h3><p _ngcontent-ng-c2812891330>Data-driven insights to help you make informed business decisions.</p></div></div></div></section><section _ngcontent-ng-c2812891330 class="products scroll-reveal"><div _ngcontent-ng-c2812891330 class="container"><div _ngcontent-ng-c2812891330 class="section-header"><span _ngcontent-ng-c2812891330 class="section-badge gold-glow">Our Solutions</span><h2 _ngcontent-ng-c2812891330 class="section-title">Business Management<br _ngcontent-ng-c2812891330><span _ngcontent-ng-c2812891330 class="gold">Made Simple</span></h2></div><div _ngcontent-ng-c2812891330 class="products-grid"><div _ngcontent-ng-c2812891330 class="product-card card-hover"><div _ngcontent-ng-c2812891330 class="product-image"><div _ngcontent-ng-c2812891330 class="product-icon"><i _ngcontent-ng-c2812891330 class="fa-solid fa-industry"></i></div></div><h3 _ngcontent-ng-c2812891330>Raw Materials Management</h3><p _ngcontent-ng-c2812891330>Complete control over your inventory with real-time tracking and alerts.</p></div><div _ngcontent-ng-c2812891330 class="product-card card-hover"><div _ngcontent-ng-c2812891330 class="product-image"><div _ngcontent-ng-c2812891330 class="product-icon"><i _ngcontent-ng-c2812891330 class="fa-solid fa-handshake"></i></div></div><h3 _ngcontent-ng-c2812891330>Supplier Relations</h3><p _ngcontent-ng-c2812891330>Build lasting partnerships with our comprehensive supplier management tools.</p></div><div _ngcontent-ng-c2812891330 class="product-card card-hover"><div _ngcontent-ng-c2812891330 class="product-image"><div _ngcontent-ng-c2812891330 class="product-icon"><i _ngcontent-ng-c2812891330 class="fa-solid fa-gift"></i></div></div><h3 _ngcontent-ng-c2812891330>Product Catalog</h3><p _ngcontent-ng-c2812891330>Showcase your products beautifully with our professional catalog system.</p></div></div></div></section><section _ngcontent-ng-c2812891330 class="cta-section scroll-reveal"><div _ngcontent-ng-c2812891330 class="container"><div _ngcontent-ng-c2812891330 class="cta-content"><h2 _ngcontent-ng-c2812891330 class="gold-glow">Ready to Transform Your Business?</h2><p _ngcontent-ng-c2812891330>Join thousands of businesses already using Talentree</p><div _ngcontent-ng-c2812891330 class="cta-buttons"><a _ngcontent-ng-c2812891330 routerlink="/auth/register" class="btn-primary-large btn-gold-animated" href="/auth/register">Get Started Free</a><a _ngcontent-ng-c2812891330 routerlink="/auth/login" class="btn-outline-large btn-gold-animated" href="/auth/login">Sign In</a></div></div></div></section></div></app-landing-page><!----><app-public-footer _ngcontent-ng-c861037777 _nghost-ng-c2361811811 ngh="0"><footer _ngcontent-ng-c2361811811 class="footer"><div _ngcontent-ng-c2361811811 class="container"><div _ngcontent-ng-c2361811811 class="footer-grid"><div _ngcontent-ng-c2361811811 class="footer-brand"><h3 _ngcontent-ng-c2361811811>TALENTREE</h3><p _ngcontent-ng-c2361811811>Complete Business Management Platform</p><div _ngcontent-ng-c2361811811 class="social-links"><a _ngcontent-ng-c2361811811 href="#"><i _ngcontent-ng-c2361811811 class="fab fa-instagram"></i></a><a _ngcontent-ng-c2361811811 href="#"><i _ngcontent-ng-c2361811811 class="fab fa-facebook-f"></i></a><a _ngcontent-ng-c2361811811 href="#"><i _ngcontent-ng-c2361811811 class="fab fa-twitter"></i></a><a _ngcontent-ng-c2361811811 href="#"><i _ngcontent-ng-c2361811811 class="fab fa-linkedin-in"></i></a></div></div><div _ngcontent-ng-c2361811811 class="footer-links"><h4 _ngcontent-ng-c2361811811>Company</h4><a _ngcontent-ng-c2361811811 routerlink="/about" href="/about">About Us</a><a _ngcontent-ng-c2361811811 routerlink="/offer" href="/offer">Features</a><a _ngcontent-ng-c2361811811 routerlink="/contact" href="/contact">Contact</a></div><div _ngcontent-ng-c2361811811 class="footer-links"><h4 _ngcontent-ng-c2361811811>Resources</h4><a _ngcontent-ng-c2361811811 href="#">Blog</a><a _ngcontent-ng-c2361811811 href="#">Help Center</a><a _ngcontent-ng-c2361811811 href="#">Support</a></div><div _ngcontent-ng-c2361811811 class="footer-links"><h4 _ngcontent-ng-c2361811811>Legal</h4><a _ngcontent-ng-c2361811811 href="#">Privacy Policy</a><a _ngcontent-ng-c2361811811 href="#">Terms of Service</a></div></div><div _ngcontent-ng-c2361811811 class="footer-bottom"><p _ngcontent-ng-c2361811811>© 2024 Talentree. All rights reserved.</p></div></div></footer></app-public-footer></app-public><!----></app-root>
-<script src="polyfills-FFHMD2TL.js" type="module"></script><script src="scripts-SQ7W6IC7.js" defer></script><script src="main-DOCABAGU.js" type="module"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css"><link rel="modulepreload" href="chunk-KPGKVJIH.js"><link rel="modulepreload" href="chunk-CLIRUUMC.js"><link rel="modulepreload" href="chunk-6TUCOML7.js"><link rel="preload" href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@300&amp;display=swap" as="style"><style ng-app-id="ng">
 
-<script id="ng-state" type="application/json">{"__nghData__":[{},{"t":{"107":"t0"},"c":{"107":[{"i":"t0","r":1,"x":5}]}},{"c":{"1":[{"i":"c2812891330","r":1}]}},{"c":{"0":[{"i":"c861037777","r":1}]}}]}</script></body></html>
+.setting[_ngcontent-ng-c861037777] {
+  padding-top: 100px;
+  margin: auto;
+}
+/*# sourceMappingURL=public.component.css.map */</style><style ng-app-id="ng">
+
+body[_ngcontent-ng-c151807199] {
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+a[_ngcontent-ng-c151807199] {
+  text-decoration: none;
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+a[_ngcontent-ng-c151807199]:hover {
+  color: #d4af37;
+}
+.gold[_ngcontent-ng-c151807199] {
+  color: #d4af37;
+}
+.nav-wrapper[_ngcontent-ng-c151807199] {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 12px;
+  left: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+.navbar[_ngcontent-ng-c151807199] {
+  background: rgba(255, 255, 255, 1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 100;
+  width: 92%;
+  margin: 0 auto;
+  padding: 6px 20px;
+  border-radius: 40px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  pointer-events: auto;
+  min-height: auto;
+}
+.navbar-brand[_ngcontent-ng-c151807199] {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199] {
+  height: 35px;
+  width: auto;
+  max-height: 35px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+.navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199]:hover {
+  transform: scale(1.02);
+}
+@media (max-width: 768px) {
+  .navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199] {
+    height: 28px;
+  }
+}
+@media (max-width: 480px) {
+  .navbar-brand[_ngcontent-ng-c151807199]   img[_ngcontent-ng-c151807199] {
+    height: 24px;
+  }
+}
+.navbar-nav[_ngcontent-ng-c151807199] {
+  display: flex;
+  gap: 0.2rem;
+  align-items: center;
+}
+.nav-item[_ngcontent-ng-c151807199] {
+  list-style: none;
+}
+.nav-link[_ngcontent-ng-c151807199] {
+  color: #1a1a1a !important;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.3rem 0.7rem !important;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  line-height: 1.2;
+}
+.nav-link[_ngcontent-ng-c151807199]:hover, .nav-link.active[_ngcontent-ng-c151807199] {
+  color: #d4af37 !important;
+  background: rgba(212, 175, 55, 0.1);
+}
+.nav-buttons[_ngcontent-ng-c151807199] {
+  display: flex;
+  gap: 0.4rem;
+  margin-left: 0.8rem;
+  align-items: center;
+}
+.btn-login[_ngcontent-ng-c151807199] {
+  padding: 0.3rem 0.9rem;
+  background: transparent;
+  color: #1a1a1a;
+  border: 1px solid #d4af37;
+  border-radius: 30px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  line-height: 1.2;
+}
+.btn-login[_ngcontent-ng-c151807199]:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: #d4af37;
+  transform: translateY(-1px);
+}
+.btn-register[_ngcontent-ng-c151807199] {
+  padding: 0.3rem 0.9rem;
+  background:
+    linear-gradient(
+      135deg,
+      #d4af37,
+      #f5b042);
+  color: #1a1a1a;
+  border: none;
+  border-radius: 30px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  line-height: 1.2;
+}
+.btn-register[_ngcontent-ng-c151807199]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+.navbar-toggler[_ngcontent-ng-c151807199] {
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: transparent;
+  padding: 0.2rem 0.4rem;
+}
+.navbar-toggler-icon[_ngcontent-ng-c151807199] {
+  width: 1rem;
+  height: 1rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+@media (max-width: 992px) {
+  .navbar[_ngcontent-ng-c151807199] {
+    width: 96%;
+    padding: 5px 16px;
+  }
+  .navbar-brand[_ngcontent-ng-c151807199] {
+    font-size: 1rem;
+  }
+  .navbar-collapse[_ngcontent-ng-c151807199] {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20px;
+    padding: 0.6rem;
+    margin-top: 0.6rem;
+  }
+  .navbar-nav[_ngcontent-ng-c151807199] {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .nav-link[_ngcontent-ng-c151807199] {
+    text-align: center;
+    padding: 0.3rem 0.6rem !important;
+  }
+  .nav-buttons[_ngcontent-ng-c151807199] {
+    justify-content: center;
+    margin-left: 0;
+    margin-top: 0.6rem;
+  }
+}
+@media (max-width: 768px) {
+  .navbar[_ngcontent-ng-c151807199] {
+    width: 98%;
+    padding: 4px 12px;
+  }
+  .nav-wrapper[_ngcontent-ng-c151807199] {
+    top: 8px;
+  }
+  .navbar-brand[_ngcontent-ng-c151807199] {
+    font-size: 0.9rem;
+  }
+  .nav-link[_ngcontent-ng-c151807199] {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem !important;
+  }
+  .btn-login[_ngcontent-ng-c151807199], .btn-register[_ngcontent-ng-c151807199] {
+    padding: 0.25rem 0.7rem;
+    font-size: 0.65rem;
+  }
+}
+/*# sourceMappingURL=public-navbar.component.css.map */</style><style ng-app-id="ng">
+
+.footer[_ngcontent-ng-c2361811811] {
+  background: #1a1a1a;
+  padding: 60px 0 20px;
+  color: #fff;
+  margin-top: auto;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+.container[_ngcontent-ng-c2361811811] {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.footer-grid[_ngcontent-ng-c2361811811] {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.footer-brand[_ngcontent-ng-c2361811811]   h3[_ngcontent-ng-c2361811811] {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #d4af37;
+  margin-bottom: 0.5rem;
+}
+.footer-brand[_ngcontent-ng-c2361811811]   p[_ngcontent-ng-c2361811811] {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+.social-links[_ngcontent-ng-c2361811811] {
+  display: flex;
+  gap: 1rem;
+}
+.social-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.social-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]:hover {
+  background: #d4af37;
+  color: #1a1a1a;
+  transform: translateY(-3px);
+}
+.footer-links[_ngcontent-ng-c2361811811]   h4[_ngcontent-ng-c2361811811] {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+.footer-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811] {
+  display: block;
+  text-decoration: none;
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+.footer-links[_ngcontent-ng-c2361811811]   a[_ngcontent-ng-c2361811811]:hover {
+  color: #d4af37;
+}
+.footer-bottom[_ngcontent-ng-c2361811811] {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.7rem;
+  color: #666;
+}
+@media (max-width: 992px) {
+  .footer-grid[_ngcontent-ng-c2361811811] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .footer-grid[_ngcontent-ng-c2361811811] {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .social-links[_ngcontent-ng-c2361811811] {
+    justify-content: center;
+  }
+}
+/*# sourceMappingURL=public-footer.component.css.map */</style><style ng-app-id="ng">
+
+*[_ngcontent-ng-c1101195302] {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.landing-page[_ngcontent-ng-c1101195302] {
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  color: #1a1a1a;
+  background: #ffffff;
+  position: relative;
+  overflow-x: hidden;
+}
+.container[_ngcontent-ng-c1101195302] {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.animated-bg[_ngcontent-ng-c1101195302] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.gradient-bg[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      #ffffff 0%,
+      #fffaf5 100%);
+  animation: _ngcontent-ng-c1101195302_gradientShift 15s ease-in-out infinite;
+}
+@keyframes _ngcontent-ng-c1101195302_gradientShift {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+.gold-particles[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.gold-particles[_ngcontent-ng-c1101195302]::before, .gold-particles[_ngcontent-ng-c1101195302]::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(
+      circle at 20% 40%,
+      rgba(212, 175, 55, 0.08) 1px,
+      transparent 1px);
+  background-size: 60px 60px;
+  animation: _ngcontent-ng-c1101195302_particleFloat 20s linear infinite;
+}
+.gold-particles[_ngcontent-ng-c1101195302]::after {
+  background-image:
+    radial-gradient(
+      circle at 80% 60%,
+      rgba(212, 175, 55, 0.05) 1px,
+      transparent 1px);
+  background-size: 80px 80px;
+  animation: _ngcontent-ng-c1101195302_particleFloat 25s linear infinite reverse;
+}
+@keyframes _ngcontent-ng-c1101195302_particleFloat {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100px);
+  }
+}
+.floating-shapes[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.shape[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.4) 0%,
+      rgba(212, 175, 55, 0.15) 50%,
+      rgba(212, 175, 55, 0.05) 100%);
+  border-radius: 50%;
+  animation: _ngcontent-ng-c1101195302_floatGold 20s ease-in-out infinite;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+}
+.shape-1[_ngcontent-ng-c1101195302] {
+  width: 320px;
+  height: 320px;
+  top: -100px;
+  right: -100px;
+  animation-delay: 0s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.45),
+      rgba(212, 175, 55, 0.1));
+}
+.shape-2[_ngcontent-ng-c1101195302] {
+  width: 220px;
+  height: 220px;
+  bottom: 50px;
+  left: -80px;
+  animation-delay: 2s;
+  animation-duration: 25s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.4),
+      rgba(212, 175, 55, 0.08));
+}
+.shape-3[_ngcontent-ng-c1101195302] {
+  width: 170px;
+  height: 170px;
+  top: 40%;
+  right: 15%;
+  animation-delay: 4s;
+  animation-duration: 18s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.35),
+      rgba(212, 175, 55, 0.06));
+}
+.shape-4[_ngcontent-ng-c1101195302] {
+  width: 120px;
+  height: 120px;
+  bottom: 20%;
+  right: 20%;
+  animation-delay: 6s;
+  animation-duration: 22s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.38),
+      rgba(212, 175, 55, 0.07));
+}
+.shape-5[_ngcontent-ng-c1101195302] {
+  width: 270px;
+  height: 270px;
+  top: 60%;
+  left: -50px;
+  animation-delay: 8s;
+  animation-duration: 28s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.42),
+      rgba(212, 175, 55, 0.09));
+}
+.shape-6[_ngcontent-ng-c1101195302] {
+  width: 140px;
+  height: 140px;
+  top: 75%;
+  right: 35%;
+  animation-delay: 10s;
+  animation-duration: 20s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.32),
+      rgba(212, 175, 55, 0.05));
+}
+.shape-7[_ngcontent-ng-c1101195302] {
+  width: 400px;
+  height: 400px;
+  bottom: -150px;
+  right: -100px;
+  animation-delay: 12s;
+  animation-duration: 32s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.3),
+      rgba(212, 175, 55, 0.04));
+}
+@keyframes _ngcontent-ng-c1101195302_floatGold {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0.5;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+  }
+  25% {
+    transform: translateY(-40px) translateX(25px) rotate(8deg);
+    opacity: 0.8;
+    box-shadow: 0 0 60px rgba(212, 175, 55, 0.5);
+  }
+  50% {
+    transform: translateY(25px) translateX(-25px) rotate(-8deg);
+    opacity: 0.65;
+    box-shadow: 0 0 45px rgba(212, 175, 55, 0.4);
+  }
+  75% {
+    transform: translateY(-30px) translateX(35px) rotate(5deg);
+    opacity: 0.8;
+    box-shadow: 0 0 55px rgba(212, 175, 55, 0.45);
+  }
+}
+.gold-lines[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.line[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #d4af37,
+      transparent);
+  height: 1px;
+  width: 100%;
+  animation: _ngcontent-ng-c1101195302_lineMove 8s linear infinite;
+}
+.line-1[_ngcontent-ng-c1101195302] {
+  top: 15%;
+  animation-delay: 0s;
+}
+.line-3[_ngcontent-ng-c1101195302] {
+  top: 85%;
+  animation-delay: 4s;
+  width: 60%;
+  left: 20%;
+}
+@keyframes _ngcontent-ng-c1101195302_lineMove {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+.fade-up[_ngcontent-ng-c1101195302] {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: _ngcontent-ng-c1101195302_fadeUp 0.8s ease forwards;
+}
+.delay-1[_ngcontent-ng-c1101195302] {
+  animation-delay: 0.2s;
+}
+.delay-2[_ngcontent-ng-c1101195302] {
+  animation-delay: 0.4s;
+}
+.delay-3[_ngcontent-ng-c1101195302] {
+  animation-delay: 0.6s;
+}
+@keyframes _ngcontent-ng-c1101195302_fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.scroll-reveal[_ngcontent-ng-c1101195302] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+.scroll-reveal.visible[_ngcontent-ng-c1101195302] {
+  opacity: 1;
+  transform: translateY(0);
+}
+.card-hover[_ngcontent-ng-c1101195302] {
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+.card-hover[_ngcontent-ng-c1101195302]:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+.gold-glow[_ngcontent-ng-c1101195302] {
+  animation: _ngcontent-ng-c1101195302_glowPulse 3s ease-in-out infinite;
+}
+@keyframes _ngcontent-ng-c1101195302_glowPulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  }
+}
+.btn-gold-animated[_ngcontent-ng-c1101195302] {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.btn-gold-animated[_ngcontent-ng-c1101195302]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent);
+  transition: left 0.5s ease;
+}
+.btn-gold-animated[_ngcontent-ng-c1101195302]:hover::before {
+  left: 100%;
+}
+.btn-gold-animated[_ngcontent-ng-c1101195302]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+}
+.hero-video-slider[_ngcontent-ng-c1101195302] {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.video-background[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+.bg-video[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateX(-50%) translateY(-50%);
+}
+.bg-video.small[_ngcontent-ng-c1101195302] {
+  width: 120%;
+  height: 120%;
+  object-fit: contain;
+  background: #000;
+}
+.video-overlay-dark[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.5) 100%);
+  z-index: 1;
+}
+.slider-container[_ngcontent-ng-c1101195302] {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  z-index: 2;
+  padding: 100px 0;
+}
+.slider[_ngcontent-ng-c1101195302] {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+.slide[_ngcontent-ng-c1101195302] {
+  flex: 0 0 100%;
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+}
+.slide-content[_ngcontent-ng-c1101195302] {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  width: 100%;
+}
+.slide-text[_ngcontent-ng-c1101195302] {
+  max-width: 700px;
+  color: white;
+}
+.slide-category[_ngcontent-ng-c1101195302] {
+  display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  color: #d4af37;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.4rem 1.2rem;
+  border-radius: 30px;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+.slide-title[_ngcontent-ng-c1101195302] {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: white;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+.slide-title[_ngcontent-ng-c1101195302]   .gold[_ngcontent-ng-c1101195302] {
+  color: #d4af37;
+}
+.slide-description[_ngcontent-ng-c1101195302] {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 550px;
+}
+.slide-buttons[_ngcontent-ng-c1101195302] {
+  display: flex;
+  gap: 1rem;
+}
+.btn-primary[_ngcontent-ng-c1101195302] {
+  padding: 0.9rem 2rem;
+  background:
+    linear-gradient(
+      135deg,
+      #d4af37,
+      #f5b042);
+  color: #1a1a1a;
+  text-decoration: none;
+  border-radius: 40px;
+  font-weight: 600;
+  transition: all 0.3s;
+  display: inline-block;
+}
+.btn-primary[_ngcontent-ng-c1101195302]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+}
+.btn-outline[_ngcontent-ng-c1101195302] {
+  padding: 0.9rem 2rem;
+  background: transparent;
+  color: white;
+  text-decoration: none;
+  border-radius: 40px;
+  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s;
+  display: inline-block;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+.btn-outline[_ngcontent-ng-c1101195302]:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+  transform: translateY(-2px);
+}
+.slider-dots[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1rem;
+  z-index: 10;
+}
+.dot[_ngcontent-ng-c1101195302] {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+.dot.active[_ngcontent-ng-c1101195302] {
+  width: 28px;
+  border-radius: 5px;
+  background: #d4af37;
+}
+.dot[_ngcontent-ng-c1101195302]:hover {
+  background: #d4af37;
+}
+.slider-arrow[_ngcontent-ng-c1101195302] {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+}
+.hero-video-slider[_ngcontent-ng-c1101195302]:hover   .slider-arrow[_ngcontent-ng-c1101195302] {
+  opacity: 1;
+  visibility: visible;
+}
+.slider-arrow[_ngcontent-ng-c1101195302]   span[_ngcontent-ng-c1101195302] {
+  font-size: 1rem;
+  color: white;
+}
+.prev[_ngcontent-ng-c1101195302] {
+  left: 20px;
+}
+.next[_ngcontent-ng-c1101195302] {
+  right: 20px;
+}
+.slider-arrow[_ngcontent-ng-c1101195302]:hover {
+  background: #d4af37;
+  border-color: #d4af37;
+}
+@media (max-width: 768px) {
+  .slider-arrow[_ngcontent-ng-c1101195302] {
+    width: 28px;
+    height: 28px;
+  }
+  .slider-arrow[_ngcontent-ng-c1101195302]   span[_ngcontent-ng-c1101195302] {
+    font-size: 0.8rem;
+  }
+}
+@media (max-width: 992px) {
+  .slide-title[_ngcontent-ng-c1101195302] {
+    font-size: 3rem;
+  }
+}
+@media (max-width: 768px) {
+  .slider-container[_ngcontent-ng-c1101195302] {
+    padding: 60px 0;
+  }
+  .slide-title[_ngcontent-ng-c1101195302] {
+    font-size: 2rem;
+  }
+  .slide-description[_ngcontent-ng-c1101195302] {
+    font-size: 0.9rem;
+  }
+  .slide-buttons[_ngcontent-ng-c1101195302] {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .btn-primary[_ngcontent-ng-c1101195302], .btn-outline[_ngcontent-ng-c1101195302] {
+    width: 200px;
+    text-align: center;
+  }
+  .prev[_ngcontent-ng-c1101195302] {
+    left: 15px;
+  }
+  .next[_ngcontent-ng-c1101195302] {
+    right: 15px;
+  }
+}
+@media (max-width: 480px) {
+  .slide-title[_ngcontent-ng-c1101195302] {
+    font-size: 1.5rem;
+  }
+  .slide-category[_ngcontent-ng-c1101195302] {
+    font-size: 0.7rem;
+  }
+}
+@media (max-width: 992px) {
+  .slide-content[_ngcontent-ng-c1101195302] {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  .slide-buttons[_ngcontent-ng-c1101195302] {
+    justify-content: center;
+  }
+  .slide-title[_ngcontent-ng-c1101195302]   .gold[_ngcontent-ng-c1101195302]::after {
+    width: 50%;
+    left: 25%;
+  }
+  .slide-image[_ngcontent-ng-c1101195302] {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .slider-arrow[_ngcontent-ng-c1101195302] {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .hero-slider[_ngcontent-ng-c1101195302] {
+    padding: 80px 0 100px;
+  }
+  .slide-title[_ngcontent-ng-c1101195302] {
+    font-size: 2.5rem;
+  }
+  .slide-buttons[_ngcontent-ng-c1101195302] {
+    flex-direction: column;
+    align-items: center;
+  }
+  .btn-primary[_ngcontent-ng-c1101195302], .btn-outline[_ngcontent-ng-c1101195302] {
+    width: 200px;
+    text-align: center;
+  }
+  .slide-image[_ngcontent-ng-c1101195302] {
+    max-width: 320px;
+  }
+  .slider-dots[_ngcontent-ng-c1101195302] {
+    bottom: -20px;
+  }
+}
+.hero-buttons[_ngcontent-ng-c1101195302] {
+  display: flex;
+  gap: 1rem;
+}
+.btn-primary[_ngcontent-ng-c1101195302] {
+  padding: 0.8rem 2rem;
+  background: #d4af37;
+  color: white;
+  text-decoration: none;
+  border-radius: 40px;
+  font-weight: 500;
+  transition: all 0.3s;
+  display: inline-block;
+}
+.btn-primary[_ngcontent-ng-c1101195302]:hover {
+  background: #c4a22e;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+.btn-outline[_ngcontent-ng-c1101195302] {
+  padding: 0.8rem 2rem;
+  background: transparent;
+  color: #1a1a1a;
+  text-decoration: none;
+  border-radius: 40px;
+  font-weight: 500;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s;
+  display: inline-block;
+}
+.btn-outline[_ngcontent-ng-c1101195302]:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+  transform: translateY(-2px);
+}
+.features[_ngcontent-ng-c1101195302] {
+  padding: 80px 0;
+  background: transparent;
+  position: relative;
+  z-index: 2;
+}
+.section-header[_ngcontent-ng-c1101195302] {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.section-badge[_ngcontent-ng-c1101195302] {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: #d4af37;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.section-title[_ngcontent-ng-c1101195302] {
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #1a1a1a;
+}
+.section-title[_ngcontent-ng-c1101195302]   .gold[_ngcontent-ng-c1101195302] {
+  color: #d4af37;
+}
+.features-grid[_ngcontent-ng-c1101195302] {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+.feature-card[_ngcontent-ng-c1101195302] {
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+.feature-card[_ngcontent-ng-c1101195302]:hover {
+  transform: translateY(-5px);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+}
+.feature-icon[_ngcontent-ng-c1101195302] {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.feature-card[_ngcontent-ng-c1101195302]   h3[_ngcontent-ng-c1101195302] {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+.feature-card[_ngcontent-ng-c1101195302]   p[_ngcontent-ng-c1101195302] {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+}
+.products[_ngcontent-ng-c1101195302] {
+  padding: 80px 0;
+  background: rgba(250, 249, 245, 0.8);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  position: relative;
+  z-index: 2;
+}
+.products-grid[_ngcontent-ng-c1101195302] {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.product-card[_ngcontent-ng-c1101195302] {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+.product-card[_ngcontent-ng-c1101195302]:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+.product-icon[_ngcontent-ng-c1101195302] {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.product-card[_ngcontent-ng-c1101195302]   h3[_ngcontent-ng-c1101195302] {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #1a1a1a;
+}
+.product-card[_ngcontent-ng-c1101195302]   p[_ngcontent-ng-c1101195302] {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.cta-section[_ngcontent-ng-c1101195302] {
+  padding: 80px 0;
+  background: transparent;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.cta-content[_ngcontent-ng-c1101195302]   h2[_ngcontent-ng-c1101195302] {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+}
+.cta-content[_ngcontent-ng-c1101195302]   p[_ngcontent-ng-c1101195302] {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+.cta-buttons[_ngcontent-ng-c1101195302] {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+.btn-primary-large[_ngcontent-ng-c1101195302] {
+  padding: 1rem 2rem;
+  background: #d4af37;
+  color: white;
+  text-decoration: none;
+  border-radius: 40px;
+  font-weight: 500;
+  transition: all 0.3s;
+  display: inline-block;
+}
+.btn-primary-large[_ngcontent-ng-c1101195302]:hover {
+  background: #c4a22e;
+  transform: translateY(-2px);
+}
+.btn-outline-large[_ngcontent-ng-c1101195302] {
+  padding: 1rem 2rem;
+  background: transparent;
+  color: #1a1a1a;
+  text-decoration: none;
+  border-radius: 40px;
+  font-weight: 500;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s;
+  display: inline-block;
+}
+.btn-outline-large[_ngcontent-ng-c1101195302]:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+  transform: translateY(-2px);
+}
+@media (max-width: 992px) {
+  .hero-grid[_ngcontent-ng-c1101195302] {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  .hero-buttons[_ngcontent-ng-c1101195302] {
+    justify-content: center;
+  }
+  .features-grid[_ngcontent-ng-c1101195302], .products-grid[_ngcontent-ng-c1101195302] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-grid[_ngcontent-ng-c1101195302] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .hero[_ngcontent-ng-c1101195302] {
+    padding: 100px 0 60px;
+  }
+  .hero-title[_ngcontent-ng-c1101195302] {
+    font-size: 2.5rem;
+  }
+  .section-title[_ngcontent-ng-c1101195302] {
+    font-size: 1.8rem;
+  }
+  .hero-buttons[_ngcontent-ng-c1101195302] {
+    flex-direction: column;
+    align-items: center;
+  }
+  .btn-primary[_ngcontent-ng-c1101195302], .btn-outline[_ngcontent-ng-c1101195302] {
+    width: 200px;
+    text-align: center;
+  }
+  .features-grid[_ngcontent-ng-c1101195302], .products-grid[_ngcontent-ng-c1101195302] {
+    grid-template-columns: 1fr;
+  }
+  .footer-grid[_ngcontent-ng-c1101195302] {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .social-links[_ngcontent-ng-c1101195302] {
+    justify-content: center;
+  }
+  .cta-buttons[_ngcontent-ng-c1101195302] {
+    flex-direction: column;
+    align-items: center;
+  }
+  .btn-primary-large[_ngcontent-ng-c1101195302], .btn-outline-large[_ngcontent-ng-c1101195302] {
+    width: 220px;
+    text-align: center;
+  }
+  .shape-1[_ngcontent-ng-c1101195302], .shape-2[_ngcontent-ng-c1101195302], .shape-3[_ngcontent-ng-c1101195302], .shape-4[_ngcontent-ng-c1101195302], .shape-5[_ngcontent-ng-c1101195302] {
+    display: none;
+  }
+}
+.features[_ngcontent-ng-c1101195302], .products[_ngcontent-ng-c1101195302], .cta-section[_ngcontent-ng-c1101195302], .footer[_ngcontent-ng-c1101195302] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative;
+  z-index: 2;
+}
+.scroll-reveal[_ngcontent-ng-c1101195302] {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  visibility: visible !important;
+}
+.features[_ngcontent-ng-c1101195302] {
+  background: rgba(255, 255, 255, 0.95) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  min-height: auto;
+  padding: 80px 0;
+}
+.products[_ngcontent-ng-c1101195302] {
+  background: #faf9f5 !important;
+  min-height: auto;
+  padding: 80px 0;
+}
+.cta-section[_ngcontent-ng-c1101195302] {
+  background: #ffffff !important;
+  min-height: auto;
+  padding: 80px 0;
+}
+.footer[_ngcontent-ng-c1101195302] {
+  background: #1a1a1a !important;
+  min-height: auto;
+  padding: 60px 0 20px;
+}
+/*# sourceMappingURL=landing-page.component.css.map */</style></head>
+<body><!--nghm-->
+  <app-root _nghost-ng-c3984273398="" ng-version="17.3.12" ngh="3" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3984273398=""></router-outlet><app-public _nghost-ng-c861037777="" ngh="2"><app-public-navbar _ngcontent-ng-c861037777="" _nghost-ng-c151807199="" ngh="0"><div _ngcontent-ng-c151807199="" class="nav-wrapper"><nav _ngcontent-ng-c151807199="" class="navbar navbar-expand-lg"><div _ngcontent-ng-c151807199="" class="container"><a _ngcontent-ng-c151807199="" routerlink="/public" class="navbar-brand" ng-reflect-router-link="/public" href="/public"><img _ngcontent-ng-c151807199="" src="assets/images/logo.jpg" alt="Talentree Logo"></a><button _ngcontent-ng-c151807199="" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span _ngcontent-ng-c151807199="" class="navbar-toggler-icon"></span></button><div _ngcontent-ng-c151807199="" id="navbarSupportedContent" class="collapse navbar-collapse"><ul _ngcontent-ng-c151807199="" class="navbar-nav m-auto mb-2 mb-lg-0"><li _ngcontent-ng-c151807199="" class="nav-item"><a _ngcontent-ng-c151807199="" routerlink="/public" routerlinkactive="active" class="nav-link active" ng-reflect-router-link="/public" ng-reflect-router-link-active="active" href="/public">Home</a></li><li _ngcontent-ng-c151807199="" class="nav-item"><a _ngcontent-ng-c151807199="" routerlink="/public/about" routerlinkactive="active" class="nav-link" ng-reflect-router-link="/public/about" ng-reflect-router-link-active="active" href="/public/about">About</a></li><li _ngcontent-ng-c151807199="" class="nav-item"><a _ngcontent-ng-c151807199="" routerlink="/public/offer" routerlinkactive="active" class="nav-link" ng-reflect-router-link="/public/offer" ng-reflect-router-link-active="active" href="/public/offer">Offer</a></li><li _ngcontent-ng-c151807199="" class="nav-item"><a _ngcontent-ng-c151807199="" routerlink="/public/testimonial" routerlinkactive="active" class="nav-link" ng-reflect-router-link="/public/testimonial" ng-reflect-router-link-active="active" href="/public/testimonial">Testimonial</a></li><li _ngcontent-ng-c151807199="" class="nav-item"><a _ngcontent-ng-c151807199="" routerlink="/public/contact" routerlinkactive="active" class="nav-link" ng-reflect-router-link="/public/contact" ng-reflect-router-link-active="active" href="/public/contact">Contact</a></li></ul><div _ngcontent-ng-c151807199="" class="nav-buttons"><a _ngcontent-ng-c151807199="" routerlink="/auth/login" class="btn-login" ng-reflect-router-link="/auth/login" href="/auth/login">Sign In</a><a _ngcontent-ng-c151807199="" routerlink="/auth/register" class="btn-register" ng-reflect-router-link="/auth/register" href="/auth/register">Get Started</a></div></div></div></nav></div></app-public-navbar><router-outlet _ngcontent-ng-c861037777=""></router-outlet><app-landing-page _nghost-ng-c1101195302="" ngh="1">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<div _ngcontent-ng-c1101195302="" class="landing-page"><div _ngcontent-ng-c1101195302="" class="animated-bg"><div _ngcontent-ng-c1101195302="" class="gradient-bg"></div><div _ngcontent-ng-c1101195302="" class="gold-particles"></div><div _ngcontent-ng-c1101195302="" class="floating-shapes"><div _ngcontent-ng-c1101195302="" class="shape shape-1"></div><div _ngcontent-ng-c1101195302="" class="shape shape-2"></div><div _ngcontent-ng-c1101195302="" class="shape shape-3"></div><div _ngcontent-ng-c1101195302="" class="shape shape-4"></div><div _ngcontent-ng-c1101195302="" class="shape shape-5"></div></div><div _ngcontent-ng-c1101195302="" class="gold-lines"><div _ngcontent-ng-c1101195302="" class="line line-1"></div><div _ngcontent-ng-c1101195302="" class="line line-3"></div></div></div><section _ngcontent-ng-c1101195302="" class="hero-video-slider"><div _ngcontent-ng-c1101195302="" class="video-background"><video _ngcontent-ng-c1101195302="" autoplay="" muted="" loop="" playsinline="" class="bg-video"><source _ngcontent-ng-c1101195302="" type="video/mp4" src="../../../../../assets/videos/fashion.mp4"></video><div _ngcontent-ng-c1101195302="" class="video-overlay-dark"></div></div><div _ngcontent-ng-c1101195302="" class="slider-container"><div _ngcontent-ng-c1101195302="" class="slider" style="transform: translateX(-0%);"><div _ngcontent-ng-c1101195302="" class="slide"><div _ngcontent-ng-c1101195302="" class="slide-content"><div _ngcontent-ng-c1101195302="" class="slide-text"><span _ngcontent-ng-c1101195302="" class="slide-category">Fashion Collection</span><h1 _ngcontent-ng-c1101195302="" class="slide-title"> Elevate Your<br _ngcontent-ng-c1101195302=""><span _ngcontent-ng-c1101195302="" class="gold">Fashion Business</span></h1><p _ngcontent-ng-c1101195302="" class="slide-description"> Manage your fashion inventory, track seasonal trends, and showcase your collections with elegance. From haute couture to everyday wear, we've got you covered. </p><div _ngcontent-ng-c1101195302="" class="slide-buttons"><a _ngcontent-ng-c1101195302="" routerlink="/auth/register" class="btn-primary" ng-reflect-router-link="/auth/register" href="/auth/register">Start Selling</a><a _ngcontent-ng-c1101195302="" routerlink="/offer" class="btn-outline" ng-reflect-router-link="/offer" href="/offer">Explore Collections</a></div></div></div></div><div _ngcontent-ng-c1101195302="" class="slide"><div _ngcontent-ng-c1101195302="" class="slide-content"><div _ngcontent-ng-c1101195302="" class="slide-text"><span _ngcontent-ng-c1101195302="" class="slide-category">Luxury Bags</span><h1 _ngcontent-ng-c1101195302="" class="slide-title"> Showcase Your<br _ngcontent-ng-c1101195302=""><span _ngcontent-ng-c1101195302="" class="gold">Premium Bags</span></h1><p _ngcontent-ng-c1101195302="" class="slide-description"> From designer handbags to premium leather goods, manage your bag collection with sophistication. Track materials, suppliers, and inventory seamlessly. </p><div _ngcontent-ng-c1101195302="" class="slide-buttons"><a _ngcontent-ng-c1101195302="" routerlink="/auth/register" class="btn-primary" ng-reflect-router-link="/auth/register" href="/auth/register">Start Selling</a><a _ngcontent-ng-c1101195302="" routerlink="/offer" class="btn-outline" ng-reflect-router-link="/offer" href="/offer">View Collection</a></div></div></div></div><div _ngcontent-ng-c1101195302="" class="slide"><div _ngcontent-ng-c1101195302="" class="slide-content"><div _ngcontent-ng-c1101195302="" class="slide-text"><span _ngcontent-ng-c1101195302="" class="slide-category">Beauty &amp; Cosmetics</span><h1 _ngcontent-ng-c1101195302="" class="slide-title"> Transform Your<br _ngcontent-ng-c1101195302=""><span _ngcontent-ng-c1101195302="" class="gold">Beauty Business</span></h1><p _ngcontent-ng-c1101195302="" class="slide-description"> Manage skincare, makeup, and cosmetic products with precision. Track ingredients, expiry dates, and customer preferences all in one place. </p><div _ngcontent-ng-c1101195302="" class="slide-buttons"><a _ngcontent-ng-c1101195302="" routerlink="/auth/register" class="btn-primary" ng-reflect-router-link="/auth/register" href="/auth/register">Start Selling</a><a _ngcontent-ng-c1101195302="" routerlink="/offer" class="btn-outline" ng-reflect-router-link="/offer" href="/offer">Discover Products</a></div></div></div></div><div _ngcontent-ng-c1101195302="" class="slide"><div _ngcontent-ng-c1101195302="" class="slide-content"><div _ngcontent-ng-c1101195302="" class="slide-text"><span _ngcontent-ng-c1101195302="" class="slide-category">Fine Jewelry</span><h1 _ngcontent-ng-c1101195302="" class="slide-title"> Craft Your<br _ngcontent-ng-c1101195302=""><span _ngcontent-ng-c1101195302="" class="gold">Jewelry Collection</span></h1><p _ngcontent-ng-c1101195302="" class="slide-description"> Manage precious metals, gemstones, and finished pieces with unmatched precision. Track materials, suppliers, and showcase your masterpieces. </p><div _ngcontent-ng-c1101195302="" class="slide-buttons"><a _ngcontent-ng-c1101195302="" routerlink="/auth/register" class="btn-primary" ng-reflect-router-link="/auth/register" href="/auth/register">Start Selling</a><a _ngcontent-ng-c1101195302="" routerlink="/offer" class="btn-outline" ng-reflect-router-link="/offer" href="/offer">Explore Jewelry</a></div></div></div></div><div _ngcontent-ng-c1101195302="" class="slide"><div _ngcontent-ng-c1101195302="" class="slide-content"><div _ngcontent-ng-c1101195302="" class="slide-text"><span _ngcontent-ng-c1101195302="" class="slide-category">Handmade Crafts</span><h1 _ngcontent-ng-c1101195302="" class="slide-title"> Showcase Your<br _ngcontent-ng-c1101195302=""><span _ngcontent-ng-c1101195302="" class="gold">Handmade Creations</span></h1><p _ngcontent-ng-c1101195302="" class="slide-description"> From unique crafts to personalized gifts, manage your handmade business with care. Track materials, connect with customers, and share your artistic journey. </p><div _ngcontent-ng-c1101195302="" class="slide-buttons"><a _ngcontent-ng-c1101195302="" routerlink="/auth/register" class="btn-primary" ng-reflect-router-link="/auth/register" href="/auth/register">Start Selling</a><a _ngcontent-ng-c1101195302="" routerlink="/offer" class="btn-outline" ng-reflect-router-link="/offer" href="/offer">Explore Handmade</a></div></div></div></div></div><div _ngcontent-ng-c1101195302="" class="slider-dots"><button _ngcontent-ng-c1101195302="" class="dot active"></button><button _ngcontent-ng-c1101195302="" class="dot"></button><button _ngcontent-ng-c1101195302="" class="dot"></button><button _ngcontent-ng-c1101195302="" class="dot"></button><button _ngcontent-ng-c1101195302="" class="dot"></button><!--bindings={
+  "ng-reflect-ng-for-of": "0,1,2,3,4"
+}--></div><button _ngcontent-ng-c1101195302="" class="slider-arrow prev"><span _ngcontent-ng-c1101195302="">❮</span></button><button _ngcontent-ng-c1101195302="" class="slider-arrow next"><span _ngcontent-ng-c1101195302="">❯</span></button></div></section><section _ngcontent-ng-c1101195302="" class="features scroll-reveal"><div _ngcontent-ng-c1101195302="" class="container"><div _ngcontent-ng-c1101195302="" class="section-header"><span _ngcontent-ng-c1101195302="" class="section-badge gold-glow">Why Choose Us</span><h2 _ngcontent-ng-c1101195302="" class="section-title">Benefit Using<br _ngcontent-ng-c1101195302=""><span _ngcontent-ng-c1101195302="" class="gold">Talentree Platform</span></h2></div><div _ngcontent-ng-c1101195302="" class="features-grid"><div _ngcontent-ng-c1101195302="" class="feature-card card-hover"><div _ngcontent-ng-c1101195302="" class="feature-icon"><i _ngcontent-ng-c1101195302="" class="fa-solid fa-shirt"></i></div><h3 _ngcontent-ng-c1101195302="">Raw Materials</h3><p _ngcontent-ng-c1101195302="">Track inventory, pricing, and supplier information with precision and accuracy.</p></div><div _ngcontent-ng-c1101195302="" class="feature-card card-hover"><div _ngcontent-ng-c1101195302="" class="feature-icon"><i _ngcontent-ng-c1101195302="" class="fa-solid fa-boxes-packing"></i></div><h3 _ngcontent-ng-c1101195302="">Suppliers</h3><p _ngcontent-ng-c1101195302="">Build and manage strong supplier relationships for sustainable growth.</p></div><div _ngcontent-ng-c1101195302="" class="feature-card card-hover"><div _ngcontent-ng-c1101195302="" class="feature-icon"><i _ngcontent-ng-c1101195302="" class="fa-brands fa-product-hunt"></i></div><h3 _ngcontent-ng-c1101195302="">Products</h3><p _ngcontent-ng-c1101195302="">Showcase and manage your products with professional precision.</p></div><div _ngcontent-ng-c1101195302="" class="feature-card card-hover"><div _ngcontent-ng-c1101195302="" class="feature-icon"><i _ngcontent-ng-c1101195302="" class="fa-solid fa-chart-column"></i></div><h3 _ngcontent-ng-c1101195302="">Analytics</h3><p _ngcontent-ng-c1101195302="">Data-driven insights to help you make informed business decisions.</p></div></div></div></section><section _ngcontent-ng-c1101195302="" class="products scroll-reveal"><div _ngcontent-ng-c1101195302="" class="container"><div _ngcontent-ng-c1101195302="" class="section-header"><span _ngcontent-ng-c1101195302="" class="section-badge gold-glow">Our Solutions</span><h2 _ngcontent-ng-c1101195302="" class="section-title">Business Management<br _ngcontent-ng-c1101195302=""><span _ngcontent-ng-c1101195302="" class="gold">Made Simple</span></h2></div><div _ngcontent-ng-c1101195302="" class="products-grid"><div _ngcontent-ng-c1101195302="" class="product-card card-hover"><div _ngcontent-ng-c1101195302="" class="product-image"><div _ngcontent-ng-c1101195302="" class="product-icon"><i _ngcontent-ng-c1101195302="" class="fa-solid fa-industry"></i></div></div><h3 _ngcontent-ng-c1101195302="">Raw Materials Management</h3><p _ngcontent-ng-c1101195302="">Complete control over your inventory with real-time tracking and alerts.</p></div><div _ngcontent-ng-c1101195302="" class="product-card card-hover"><div _ngcontent-ng-c1101195302="" class="product-image"><div _ngcontent-ng-c1101195302="" class="product-icon"><i _ngcontent-ng-c1101195302="" class="fa-solid fa-handshake"></i></div></div><h3 _ngcontent-ng-c1101195302="">Supplier Relations</h3><p _ngcontent-ng-c1101195302="">Build lasting partnerships with our comprehensive supplier management tools.</p></div><div _ngcontent-ng-c1101195302="" class="product-card card-hover"><div _ngcontent-ng-c1101195302="" class="product-image"><div _ngcontent-ng-c1101195302="" class="product-icon"><i _ngcontent-ng-c1101195302="" class="fa-solid fa-gift"></i></div></div><h3 _ngcontent-ng-c1101195302="">Product Catalog</h3><p _ngcontent-ng-c1101195302="">Showcase your products beautifully with our professional catalog system.</p></div></div></div></section><section _ngcontent-ng-c1101195302="" class="cta-section scroll-reveal"><div _ngcontent-ng-c1101195302="" class="container"><div _ngcontent-ng-c1101195302="" class="cta-content"><h2 _ngcontent-ng-c1101195302="" class="gold-glow">Ready to Transform Your Business?</h2><p _ngcontent-ng-c1101195302="">Join thousands of businesses already using Talentree</p><div _ngcontent-ng-c1101195302="" class="cta-buttons"><a _ngcontent-ng-c1101195302="" routerlink="/auth/register" class="btn-primary-large btn-gold-animated" ng-reflect-router-link="/auth/register" href="/auth/register">Get Started Free</a><a _ngcontent-ng-c1101195302="" routerlink="/auth/login" class="btn-outline-large btn-gold-animated" ng-reflect-router-link="/auth/login" href="/auth/login">Sign In</a></div></div></div></section></div>
+=======
+<section _ngcontent-ng-c1101195302="" class="hero"><div _ngcontent-ng-c1101195302="" class="hero-text"><h1 _ngcontent-ng-c1101195302="" class="text-main">Empowering Local Egyptian Brands, Enriching Your Life</h1><h4 _ngcontent-ng-c1101195302="">Connecting Quality Products with Discerning Customers, Fostering National Growth</h4></div><div _ngcontent-ng-c1101195302="" class="image-stack"><div _ngcontent-ng-c1101195302="" id="img1" class="img-box"><img _ngcontent-ng-c1101195302="" src="../../../../../assets/images/access.jpg" alt=""></div><div _ngcontent-ng-c1101195302="" id="img3" class="img-box"><img _ngcontent-ng-c1101195302="" src="../../../../../assets/images/olive.jpg"></div><div _ngcontent-ng-c1101195302="" id="img4" class="img-box"><img _ngcontent-ng-c1101195302="" src="../../../../../assets/images/man.jpg"></div><div _ngcontent-ng-c1101195302="" id="img5" class="img-box"><img _ngcontent-ng-c1101195302="" src="../../../../../assets/images/blue.jpg"></div><div _ngcontent-ng-c1101195302="" id="img6" class="img-box"><img _ngcontent-ng-c1101195302="" src="../../../../../assets/images/candle2.jpg"></div></div></section> &gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/dev
+</app-landing-page><!--container--><app-public-footer _ngcontent-ng-c861037777="" _nghost-ng-c2361811811="" ngh="0"><footer _ngcontent-ng-c2361811811="" class="footer"><div _ngcontent-ng-c2361811811="" class="container"><div _ngcontent-ng-c2361811811="" class="footer-grid"><div _ngcontent-ng-c2361811811="" class="footer-brand"><h3 _ngcontent-ng-c2361811811="">TALENTREE</h3><p _ngcontent-ng-c2361811811="">Complete Business Management Platform</p><div _ngcontent-ng-c2361811811="" class="social-links"><a _ngcontent-ng-c2361811811="" href="#"><i _ngcontent-ng-c2361811811="" class="fab fa-instagram"></i></a><a _ngcontent-ng-c2361811811="" href="#"><i _ngcontent-ng-c2361811811="" class="fab fa-facebook-f"></i></a><a _ngcontent-ng-c2361811811="" href="#"><i _ngcontent-ng-c2361811811="" class="fab fa-twitter"></i></a><a _ngcontent-ng-c2361811811="" href="#"><i _ngcontent-ng-c2361811811="" class="fab fa-linkedin-in"></i></a></div></div><div _ngcontent-ng-c2361811811="" class="footer-links"><h4 _ngcontent-ng-c2361811811="">Company</h4><a _ngcontent-ng-c2361811811="" routerlink="/about" ng-reflect-router-link="/about" href="/about">About Us</a><a _ngcontent-ng-c2361811811="" routerlink="/offer" ng-reflect-router-link="/offer" href="/offer">Features</a><a _ngcontent-ng-c2361811811="" routerlink="/contact" ng-reflect-router-link="/contact" href="/contact">Contact</a></div><div _ngcontent-ng-c2361811811="" class="footer-links"><h4 _ngcontent-ng-c2361811811="">Resources</h4><a _ngcontent-ng-c2361811811="" href="#">Blog</a><a _ngcontent-ng-c2361811811="" href="#">Help Center</a><a _ngcontent-ng-c2361811811="" href="#">Support</a></div><div _ngcontent-ng-c2361811811="" class="footer-links"><h4 _ngcontent-ng-c2361811811="">Legal</h4><a _ngcontent-ng-c2361811811="" href="#">Privacy Policy</a><a _ngcontent-ng-c2361811811="" href="#">Terms of Service</a></div></div><div _ngcontent-ng-c2361811811="" class="footer-bottom"><p _ngcontent-ng-c2361811811="">© 2024 Talentree. All rights reserved.</p></div></div></footer></app-public-footer></app-public><!--container--></app-root>
+<script src="polyfills.js" type="module"></script><script src="scripts.js" defer=""></script><script src="main.js" type="module"></script>
+
+<script id="ng-state" type="application/json">{"__nghData__":[{},{"t":{"108":"t13"},"c":{"108":[{"i":"t13","r":1,"x":5}]}},{"c":{"1":[{"i":"c1101195302","r":1}]}},{"c":{"0":[{"i":"c861037777","r":1}]}}]}</script></body></html>

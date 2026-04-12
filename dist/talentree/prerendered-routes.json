@@ -18,7 +18,6 @@
     "/businessowner/businessChat",
     "/businessowner/notifications",
     "/businessowner/ownerAddProduct",
-    "/businessowner/ownerEditProduct",
     "/businessowner/ownerProduct",
     "/businessowner/rawmaterialcart",
     "/businessowner/rawmaterialcheckout",
