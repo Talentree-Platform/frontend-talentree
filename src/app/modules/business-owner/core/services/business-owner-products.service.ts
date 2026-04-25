@@ -12,7 +12,7 @@ import {
 type ApiOwnerProduct = Record<string, unknown>;
 
 /** Host for relative media paths returned by the API (same origin as Auth). */
-const API_MEDIA_ORIGIN = 'https://talentreeplateform.runasp.net';
+const API_MEDIA_ORIGIN = 'https://backtalentree.runasp.net/api';
 
 @Injectable({
   providedIn: 'root'
