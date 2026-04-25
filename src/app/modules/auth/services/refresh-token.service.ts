@@ -18,7 +18,7 @@ export interface RefreshTokenResponse {
   providedIn: 'root'
 })
 export class RefreshTokenService {
-  private apiUrl = 'https://talentreeplateform.runasp.net/api';
+  private apiUrl = 'https://backtalentree.runasp.net/api';
   private isRefreshing = false;
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
   private refreshResponseSubject = new BehaviorSubject<RefreshTokenResponse | null>(null);
