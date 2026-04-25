@@ -12,7 +12,7 @@ import { ApiResponse, PaginatedResponse, ProductionRequest } from '../interfaces
 })
 export class BoProductionRequestService {
 
-  private readonly baseUrl = '/api/BoProductionRequest';
+  private readonly baseUrl = 'https://backtalentree.runasp.net/api/BoProductionRequest';
 
   constructor(private http: HttpClient) {}
 
