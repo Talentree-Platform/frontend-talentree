@@ -99,6 +99,7 @@ export class RawMaterialHomeComponent {
   addMaterialToCart = (id: number, quantity: number) => {
   this._MaterialCartService.addMaterialToCart(id, quantity).subscribe({
     next:(res)=>{
+      this._MaterialCartService.loadCartCount();
       console.log('post res', res);
       this._ToastrService.success(res.message , 'Talentree' , {timeOut:2000 , closeButton:true})
     },

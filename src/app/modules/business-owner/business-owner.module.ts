@@ -20,12 +20,18 @@ import { SettingSecurityPrivacyComponent } from './pages/Setting/setting-securit
 import { OwnerProductsComponent } from './pages/Products/owner-products/owner-products.component';
 import { OwnerEditProductComponent } from './pages/Products/owner-edit-product/owner-edit-product.component';
 import { OwnerProductDetailsComponent } from './pages/Products/owner-product-details/owner-product-details.component';
+import { ProductionRequestDetailsComponent } from './pages/BO-Production-Request/production-request-details/production-request-details.component';
+import { ProductionRequestListComponent } from './pages/BO-Production-Request/production-request-list/production-request-list.component';
+import { CreateProductionRequestComponent } from './pages/BO-Production-Request/create-production-request/create-production-request.component';
 
 
 @NgModule({
   declarations: [],
 
   imports: [
+    ProductionRequestDetailsComponent,
+    ProductionRequestListComponent,
+    CreateProductionRequestComponent,
     BusinessChatComponent,
     OwnerProductsComponent,
     OwnerProductDetailsComponent,

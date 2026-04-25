@@ -1,6 +1,7 @@
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Component,  output,  Output } from '@angular/core';
 import { EventEmitter } from 'node:stream';
+import { MaterialCartService } from '../../core/services/material-cart.service';
 
 
 @Component({
@@ -12,13 +13,16 @@ import { EventEmitter } from 'node:stream';
 })
 
 export class OwnerTopNavComponent {
-  toggleSidebar =output<void>();
-  isOpen:boolean=false;
-  toggle(){
-    this.toggleSidebar.emit();
-    this.isOpen=!this.isOpen;
-  }
+  constructor(private _MaterialCartService: MaterialCartService) {}
 
+cartCount = 0;
+
+ngOnInit() {
+  this._MaterialCartService.loadCartCount();
+  this._MaterialCartService.count$.subscribe(count => {
+    this.cartCount = count;
+  });
+}
   
   
 }

@@ -1,0 +1,203 @@
+/* =========================================================
+   Production Request List — scoped styles
+   Prefix: pr-
+   Builds on global owner-products- design system
+   ========================================================= */
+
+.pr-list-page {
+  padding-top: 2rem;
+}
+
+/* ── Cards Grid ─────────────────────────────────────────── */
+.pr-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+/* ── Individual Card ────────────────────────────────────── */
+.pr-card {
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius-card);
+  padding: 1.35rem 1.5rem 1.1rem;
+  box-shadow: var(--ap-shadow-sm);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition:
+    transform var(--ap-transition),
+    box-shadow var(--ap-transition),
+    border-color var(--ap-transition);
+}
+
+.pr-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ap-shadow-card);
+  border-color: var(--ap-gold-ring);
+}
+
+/* ── Card Header ────────────────────────────────────────── */
+.pr-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.pr-card__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+  flex: 1;
+  min-width: 0;
+  /* clamp long titles */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Status Badges ──────────────────────────────────────── */
+.pr-status-badge {
+  flex-shrink: 0;
+}
+
+/* Reuse owner-products-badge data-status pattern + add PR statuses */
+.owner-products-badge[data-status='pending'] {
+  background: rgb(234 179 8 / 0.15);
+  color: #a16207;
+  border-color: rgb(234 179 8 / 0.3);
+}
+
+.owner-products-badge[data-status='approved'] {
+  background: rgb(59 130 246 / 0.12);
+  color: #1d4ed8;
+  border-color: rgb(59 130 246 / 0.25);
+}
+
+.owner-products-badge[data-status='rejected'] {
+  background: rgb(239 68 68 / 0.12);
+  color: #b91c1c;
+  border-color: rgb(239 68 68 / 0.25);
+}
+
+.owner-products-badge[data-status='completed'] {
+  background: rgb(34 197 94 / 0.12);
+  color: #15803d;
+  border-color: rgb(34 197 94 / 0.25);
+}
+
+/* ── Card Meta Row ──────────────────────────────────────── */
+.pr-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.1rem;
+}
+
+.pr-card__meta-item {
+  font-size: 0.82rem;
+  color: var(--ap-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* ── Card Footer ────────────────────────────────────────── */
+.pr-card__footer {
+  margin-top: auto;
+  padding-top: 0.25rem;
+}
+
+.pr-view-btn {
+  font-size: 0.83rem !important;
+  padding: 6px 16px !important;
+}
+
+/* ── Spinner ────────────────────────────────────────────── */
+.pr-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--ap-border);
+  border-top-color: var(--main-color);
+  border-radius: 50%;
+  animation: pr-spin 0.75s linear infinite;
+  margin: 0 auto 0.75rem;
+}
+
+@keyframes pr-spin {
+  to { transform: rotate(360deg); }
+}
+
+.owner-products-loading {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--ap-text-muted);
+  font-size: 0.9rem;
+}
+
+/* ── Error Banner ───────────────────────────────────────── */
+.pr-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgb(239 68 68 / 0.08);
+  border-color: rgb(239 68 68 / 0.3);
+  color: #b91c1c;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Pagination ─────────────────────────────────────────── */
+.pr-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--ap-border);
+}
+
+.pr-page-btn {
+  font-size: 0.85rem !important;
+  padding: 7px 20px !important;
+  min-width: 110px;
+}
+
+.pr-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pr-page-info {
+  font-size: 0.875rem;
+  color: var(--ap-text-muted);
+  min-width: 120px;
+  text-align: center;
+}
+
+.pr-page-info strong {
+  color: var(--text);
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .pr-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pr-pagination {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pr-page-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

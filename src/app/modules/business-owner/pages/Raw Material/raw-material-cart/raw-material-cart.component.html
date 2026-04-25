@@ -34,15 +34,19 @@
             </td>
             <td>
               <div class="qty">
-                <button aria-label="decrease" (click)="decreaseQuentity(item.id )">-</button>
-                <input type="number" [min]="item.minimumOrderQuantity" [value]="item.quantity" />
-                <button aria-label="increase" (click)="increaseQuentity(item.id)">+</button>
+                <button (click)="decreaseQuentity(item)">-</button>
+
+<input type="number"
+       [min]="item.minimumOrderQuantity"
+       [(ngModel)]="item.quantity" />
+
+<button (click)="increaseQuentity(item)">+</button>
               </div>
             </td>
             <td>{{item.unitPrice}} EGP / {{item.unit}}</td>
             <td>{{item.lineTotal}} EGP</td>
             <td class="actions-col">
-              <button class="btn-main btn-burgandy" aria-label="remove" (click)="removeItemFromCart(item.id)">Remove</button>
+              <button class="btn-main btn-border-burgandy" aria-label="remove" (click)="removeItemFromCart(item.id)">Remove</button>
             </td>
           </tr>
           }
@@ -108,7 +112,7 @@
       <span class="value">$62.00</span>
     </div>
 
-    <button class="btn-gold btn-main full">Proceed to Checkout</button>
+    <button class="btn-gold btn-main full" routerLink="/businessowner/rawmaterialcheckout">Proceed to Checkout</button>
     <button class="btn-main btn-border full" routerLink="/businessowner/rawmaterialhome">
       Continue Shopping
     </button>

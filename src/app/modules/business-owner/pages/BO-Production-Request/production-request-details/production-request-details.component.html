@@ -1,0 +1,276 @@
+<div class="page prd-page">
+
+  <!-- ── TOASTER ─────────────────────────────────────────────────────────── -->
+  @if(toaster) {
+    <div class="pr-toaster"
+         [class.pr-toaster--success]="toaster.type === 'success'"
+         [class.pr-toaster--error]="toaster.type === 'error'">
+      <span class="pr-toaster-icon">{{ toaster.type === 'success' ? '✔' : '✖' }}</span>
+      <span>{{ toaster.message }}</span>
+      <button class="pr-toaster-close" (click)="dismissToaster()">×</button>
+    </div>
+  }
+
+  <!-- ── CANCEL CONFIRM DIALOG ───────────────────────────────────────────── -->
+  @if(showCancelDialog) {
+    <div class="pr-overlay" (click)="closeCancelDialog()">
+      <div class="pr-confirm-dialog" (click)="$event.stopPropagation()">
+        <div class="pr-confirm-icon">🗑️</div>
+        <h3 class="pr-confirm-title">Cancel Request?</h3>
+        <p class="pr-confirm-msg">
+          This action cannot be undone. The production request
+          <strong>{{ request?.title }}</strong> will be permanently cancelled.
+        </p>
+        <div class="pr-confirm-actions">
+          <button class="btn-main btn-border" (click)="closeCancelDialog()">Keep It</button>
+          <button class="btn-main btn-burgandy" (click)="confirmCancel()">Yes, Cancel It</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ── CONFIRM REQUEST DIALOG ──────────────────────────────────────────── -->
+  @if(showConfirmDialog) {
+    <div class="pr-overlay" (click)="closeConfirmDialog()">
+      <div class="pr-confirm-dialog" (click)="$event.stopPropagation()">
+        <div class="pr-confirm-icon">✅</div>
+        <h3 class="pr-confirm-title">Confirm Request?</h3>
+        <p class="pr-confirm-msg">
+          Are you sure you want to confirm
+          <strong>{{ request?.title }}</strong>?
+          This will notify the admin to proceed with production.
+        </p>
+        @if(request?.quotedPrice != null) {
+          <p class="pr-confirm-price">
+            Quoted Price: <strong class="text-gold">{{ formatCurrency(request?.quotedPrice) }}</strong>
+          </p>
+        }
+        <div class="pr-confirm-actions">
+          <button class="btn-main btn-border" (click)="closeConfirmDialog()">Not Yet</button>
+          <button class="btn-main btn-success" (click)="submitConfirm()">Yes, Confirm</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ── SKELETON LOADER ──────────────────────────────────────────────────── -->
+  @if(loading) {
+    <ng-container>
+      <div class="prd-header-skeleton skeleton-block"></div>
+      <div class="card prd-skeleton-card">
+        <div class="skeleton-line w-60"></div>
+        <div class="skeleton-line w-40"></div>
+        <div class="skeleton-line w-80"></div>
+        <div class="skeleton-line w-50"></div>
+      </div>
+      <div class="prd-section-title skeleton-line w-30"></div>
+      <div class="prd-items-grid">
+        @for(s of skeletonItems; track $index) {
+          <div class="card prd-item-skeleton">
+            <div class="skeleton-line w-60"></div>
+            <div class="skeleton-line w-40"></div>
+            <div class="skeleton-line w-80"></div>
+          </div>
+        }
+      </div>
+    </ng-container>
+  }
+
+  <!-- ── ERROR STATE ───────────────────────────────────────────────────────── -->
+  @if(!loading && error) {
+    <div class="card prd-error-card">
+      <div class="prd-error-icon">⚠</div>
+      <h2 class="text-burgandy prd-error-title">Something Went Wrong</h2>
+      <p class="prd-error-msg">{{ errorMessage }}</p>
+      <button class="btn-main" onclick="history.back()">← Go Back</button>
+    </div>
+  }
+
+  <!-- ── EMPTY STATE ───────────────────────────────────────────────────────── -->
+  @if(!loading && !error && !request) {
+    <div class="card prd-empty-card">
+      <div class="prd-empty-icon">📋</div>
+      <h2 class="text-gold prd-empty-title">No Request Found</h2>
+      <p>The production request does not exist or was removed.</p>
+      <button class="btn-gold" onclick="history.back()">← Return to List</button>
+    </div>
+  }
+
+  <!-- ── MAIN CONTENT ──────────────────────────────────────────────────────── -->
+  @if(!loading && !error && request) {
+    <ng-container>
+
+      <!-- HEADER -->
+      <div class="prd-header">
+        <div class="prd-header-left">
+          <span class="prd-id-label"># {{ request?.id }}</span>
+          <h1 class="prd-title">{{ request?.title }}</h1>
+          <span class="prd-created">Created {{ formatDate(request?.createdAt) }}</span>
+        </div>
+
+        <div class="prd-header-right">
+          <span class="prd-status-badge" [ngClass]="getStatusClass(request?.status ?? 0)">
+            {{ getStatusLabel(request?.status ?? 0) }}
+          </span>
+
+          <!-- ✅ Confirm Button — only when quoted & status === 2 -->
+          @if(canConfirm) {
+            <button
+              class="btn-main btn-success prd-confirm-btn"
+              [disabled]="confirming"
+              title="Confirm this request"
+              (click)="openConfirmDialog()"
+            >
+              @if(confirming) {
+                <span class="pr-btn-spinner"></span>
+                Confirming…
+              } @else {
+                ✔ Confirm Request
+              }
+            </button>
+          }
+
+          <!-- 🗑 Cancel Button -->
+          <button
+            class="btn-main btn-burgandy prd-cancel-btn"
+            [disabled]="isCancelled || cancelling"
+            [title]="isCancelled ? 'This request is already cancelled' : 'Cancel this request'"
+            (click)="openCancelDialog()"
+          >
+            @if(cancelling) {
+              <span class="pr-btn-spinner"></span>
+              Cancelling…
+            } @else if(isCancelled) {
+              ✖ Cancelled
+            } @else {
+              🗑 Cancel Request
+            }
+          </button>
+        </div>
+      </div>
+
+      <!-- DETAILS CARD -->
+      <div class="card prd-details-card">
+        <h2 class="prd-section-heading text-gold">Request Details</h2>
+
+        @if(request?.notes) {
+          <div class="prd-detail-row prd-full">
+            <span class="prd-detail-label">Notes</span>
+            <span class="prd-detail-value">{{ request?.notes }}</span>
+          </div>
+        }
+
+        <div class="prd-details-grid">
+          @if(request?.quotedPrice != null) {
+            <div class="prd-detail-block">
+              <span class="prd-detail-label">Quoted Price</span>
+              <span class="prd-detail-value text-gold prd-price">
+                {{ formatCurrency(request?.quotedPrice) }}
+              </span>
+            </div>
+          }
+          @if(request?.estimatedCompletionDate) {
+            <div class="prd-detail-block">
+              <span class="prd-detail-label">Estimated Completion</span>
+              <span class="prd-detail-value">{{ formatDate(request?.estimatedCompletionDate) }}</span>
+            </div>
+          }
+          @if(request?.completedAt) {
+            <div class="prd-detail-block">
+              <span class="prd-detail-label">Completed On</span>
+              <span class="prd-detail-value">{{ formatDate(request?.completedAt) }}</span>
+            </div>
+          }
+        </div>
+
+        @if(request?.notes) {
+          <div class="prd-admin-notes">
+            <span class="prd-detail-label">Admin Notes</span>
+            <p class="prd-admin-notes-text text-burgandy">{{ request?.notes }}</p>
+          </div>
+        }
+      </div>
+
+      <!-- ITEMS -->
+      @if(request?.items?.length) {
+        <section class="prd-section">
+          <h2 class="prd-section-title text-gold">
+            <span class="prd-section-icon">📦</span>
+            Request Items
+            <span class="prd-count-badge">{{ request?.items?.length }}</span>
+          </h2>
+
+          <div class="prd-items-grid">
+            <div class="card prd-item-card"
+                 *ngFor="let item of request.items; let i = index">
+              <div class="prd-item-header">
+                <span class="prd-item-index">{{ i + 1 }}</span>
+                <span class="prd-item-type">{{ item.productType }}</span>
+                <span class="prd-item-qty">× {{ item.quantity }}</span>
+              </div>
+              @if(item?.specifications) {
+                <div class="prd-item-row">
+                  <span class="prd-item-label">Specifications</span>
+                  <span class="prd-item-val">{{ item.specifications }}</span>
+                </div>
+              }
+              @if(item?.preferredRawMaterialName) {
+                <div class="prd-item-row">
+                  <span class="prd-item-label">Raw Material</span>
+                  <span class="prd-item-val text-gold">{{ item.preferredRawMaterialName }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        </section>
+      }
+
+      <!-- EMPTY ITEMS -->
+      @if(request.items && request.items.length === 0) {
+        <div class="card prd-no-items">
+          <span class="prd-empty-icon">📭</span>
+          <p>No items attached to this request.</p>
+        </div>
+      }
+
+      <!-- TIMELINE -->
+      @if(request.statusHistory?.length) {
+        <section class="prd-section">
+          <h2 class="prd-section-title text-gold">
+            <span class="prd-section-icon">🕐</span>
+            Status History
+          </h2>
+
+          <div class="prd-timeline">
+            <div class="prd-timeline-entry"
+                 *ngFor="let entry of request.statusHistory; let last = last"
+                 [class.prd-timeline-last]="last">
+
+              <div class="prd-tl-indicator">
+                <div class="prd-tl-dot" [ngClass]="getStatusClass(+entry.status) + '-dot'"></div>
+                @if(!last) {
+                  <div class="prd-tl-line"></div>
+                }
+              </div>
+
+              <div class="card prd-tl-card">
+                <div class="prd-tl-header">
+                  <span class="prd-status-badge prd-status-badge--sm"
+                        [ngClass]="getStatusClass(+entry.status)">
+                    {{ getStatusLabel(+entry.status) }}
+                  </span>
+                  <span class="prd-tl-date">{{ formatDate(entry.changedAt) }}</span>
+                </div>
+                @if(entry?.notes) {
+                  <p class="prd-tl-notes">{{ entry.notes }}</p>
+                }
+              </div>
+            </div>
+          </div>
+        </section>
+      }
+
+    </ng-container>
+  }
+
+</div>

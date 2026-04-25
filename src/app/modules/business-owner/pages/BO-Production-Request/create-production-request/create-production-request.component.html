@@ -1,0 +1,215 @@
+<div class="cpr-page">
+
+  <!-- ── PAGE HEADER ─────────────────────────────────────────── -->
+  <header class="cpr-page-header">
+    <div class="cpr-page-header__left">
+      <span class="cpr-page-header__eyebrow">Manufacturing System</span>
+      <h1 class="cpr-page-header__title">
+        
+        New Production Request
+      </h1>
+    </div>
+  </header>
+
+  
+
+  
+
+  <!-- ── FORM ───────────────────────────────────────────────── -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
+
+    <!-- REQUEST DETAILS CARD -->
+    <section class="cpr-card">
+      <div class="cpr-card__header">
+        
+        <div>
+          <h2 class="cpr-card__title">Request Details</h2>
+          <p class="cpr-card__subtitle">Provide a clear title and optional context notes.</p>
+        </div>
+      </div>
+
+      <div class="cpr-card__body">
+
+        <!-- Title -->
+        <div class="cpr-field">
+          <label class="cpr-label" for="title">
+            Request Title
+            <span class="cpr-label__required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="title"
+            type="text"
+            class="cpr-input"
+            [class.cpr-input--error]="isFieldInvalid('title')"
+            formControlName="title"
+            placeholder="e.g. Q3 Batch Run — Hydraulic Seals"
+          />
+          @if (isFieldInvalid('title')) {
+            <span class="cpr-error" role="alert">
+              @if (form.get('title')?.errors?.['required']) {
+                Title is required.
+              } @else if (form.get('title')?.errors?.['minlength']) {
+                Title must be at least 3 characters.
+              }
+            </span>
+          }
+        </div>
+
+        <!-- Notes -->
+        <div class="cpr-field">
+          <label class="cpr-label" for="notes">
+            Notes <span class="cpr-label__optional">(optional)</span>
+          </label>
+          <textarea
+            id="notes"
+            class="cpr-textarea"
+            formControlName="notes"
+            rows="4"
+            placeholder="Add any additional context, special instructions, or constraints…"
+          ></textarea>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ITEMS CARD -->
+    <section class="cpr-card">
+      <div class="cpr-card__header">
+        
+        <div>
+          <h2 class="cpr-card__title">Production Items</h2>
+          <p class="cpr-card__subtitle">Define each product line item for this request.</p>
+        </div>
+        <button type="button" class="cpr-btn-add-top" (click)="addItem()">
+          ＋ Add Item
+        </button>
+      </div>
+
+      <div class="cpr-card__body" formArrayName="items">
+
+        @for (item of items.controls; track item; let i = $index) {
+          <div class="cpr-item-card" [formGroupName]="i">
+
+            <div class="cpr-item-card__header">
+              <div class="cpr-item-card__number">{{ i + 1 }}</div>
+              <span class="cpr-item-card__label">Item #{{ i + 1 }}</span>
+              @if (items.length > 1) {
+                <button
+                  type="button"
+                  class="cpr-btn-remove"
+                  (click)="removeItem(i)"
+                  [attr.aria-label]="'Remove item ' + (i + 1)"
+                >
+                  🗑 Remove
+                </button>
+              }
+            </div>
+
+            <div class="cpr-item-grid">
+
+              <!-- Product Type -->
+              <div class="cpr-field">
+                <label class="cpr-label" [for]="'productType-' + i">
+                  Product Type <span class="cpr-label__required">*</span>
+                </label>
+                <input
+                  [id]="'productType-' + i"
+                  type="text"
+                  class="cpr-input"
+                  [class.cpr-input--error]="isItemFieldInvalid(i, 'productType')"
+                  formControlName="productType"
+                  placeholder="e.g. Hydraulic Seal, O-Ring"
+                />
+                @if (isItemFieldInvalid(i, 'productType')) {
+                  <span class="cpr-error" role="alert">Product type is required.</span>
+                }
+              </div>
+
+              <!-- Quantity -->
+              <div class="cpr-field">
+                <label class="cpr-label" [for]="'quantity-' + i">
+                  Quantity <span class="cpr-label__required">*</span>
+                </label>
+                <input
+                  [id]="'quantity-' + i"
+                  type="number"
+                  class="cpr-input"
+                  [class.cpr-input--error]="isItemFieldInvalid(i, 'quantity')"
+                  formControlName="quantity"
+                  placeholder="e.g. 500"
+                  min="1"
+                />
+                @if (isItemFieldInvalid(i, 'quantity')) {
+                  <span class="cpr-error" role="alert">
+                    @if (getItemGroup(i).get('quantity')?.errors?.['required']) {
+                      Quantity is required.
+                    } @else if (getItemGroup(i).get('quantity')?.errors?.['min']) {
+                      Quantity must be at least 1.
+                    }
+                  </span>
+                }
+              </div>
+
+              <!-- Preferred Raw Material -->
+              <div class="cpr-field">
+                <label class="cpr-label" [for]="'rawMat-' + i">
+                  Raw Material ID <span class="cpr-label__optional">(optional)</span>
+                </label>
+                <input
+                  [id]="'rawMat-' + i"
+                  type="number"
+                  class="cpr-input"
+                  formControlName="preferredRawMaterialId"
+                  placeholder="e.g. 1042"
+                  min="1"
+                />
+              </div>
+
+              <!-- Specifications -->
+              <div class="cpr-field cpr-field--full">
+                <label class="cpr-label" [for]="'specs-' + i">
+                  Specifications <span class="cpr-label__optional">(optional)</span>
+                </label>
+                <input
+                  [id]="'specs-' + i"
+                  type="text"
+                  class="cpr-input"
+                  formControlName="specifications"
+                  placeholder="e.g. ISO 3601-1 Grade A, Shore 70A, black NBR"
+                />
+              </div>
+
+            </div>
+          </div>
+        }
+
+        <!-- Add item inline -->
+        <button type="button" class="cpr-btn-add-inline" (click)="addItem()">
+          <span class="cpr-btn-add-inline__icon">＋</span>
+          Add Another Item
+        </button>
+
+      </div>
+    </section>
+
+    <!-- FORM ACTIONS -->
+    <div class="cpr-actions">
+      <button type="button" class="cpr-btn-cancel">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="cpr-btn-submit"
+        [disabled]="isLoading()"
+      >
+        @if (isLoading()) {
+          <span class="cpr-spinner" aria-hidden="true"></span>
+          Submitting…
+        } @else {
+          🚀 Create Request
+        }
+      </button>
+    </div>
+
+  </form>
+</div>

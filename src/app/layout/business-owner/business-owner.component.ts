@@ -14,7 +14,7 @@ import { BusinessChatComponent } from "../../modules/business-owner/components/b
 export class BusinessOwnerComponent {
   title = 'talentree';
   isSidebarExpanded = false;
-
+  isExpanded = false;
   expandedItems: { [key: string]: boolean } = {
     'home': false,
     'products': false,

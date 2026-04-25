@@ -1,3 +1,4 @@
+
 import { BusinessChatComponent } from './components/business-chat/business-chat.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
 import { BusinessOwnerComponent } from './../../layout/business-owner/business-owner.component';
@@ -18,6 +19,9 @@ import { OwnerProductsComponent } from './pages/Products/owner-products/owner-pr
 import { OwnerAddProductComponent } from './pages/Products/owner-add-product/owner-add-product.component';
 import { OwnerEditProductComponent } from './pages/Products/owner-edit-product/owner-edit-product.component';
 import { OwnerProductDetailsComponent } from './pages/Products/owner-product-details/owner-product-details.component';
+import { ProductionRequestListComponent } from './pages/BO-Production-Request/production-request-list/production-request-list.component';
+import { CreateProductionRequestComponent } from './pages/BO-Production-Request/create-production-request/create-production-request.component';
+import { ProductionRequestDetailsComponent } from './pages/BO-Production-Request/production-request-details/production-request-details.component';
 
 const routes: Routes = [
   {
@@ -40,6 +44,9 @@ const routes: Routes = [
       { path: 'owner/products/:id', component: OwnerProductDetailsComponent },
       { path: 'ownerAddProduct', component: OwnerAddProductComponent },
       { path: 'ownerEditProduct/:id', component: OwnerEditProductComponent },
+      { path: 'ownerProductionRequestList', component: ProductionRequestListComponent },
+      { path: 'ownerProductionRequestCreate', component: CreateProductionRequestComponent },
+      { path: 'ownerProductionRequestdetails/:id', component:  ProductionRequestDetailsComponent},
       {path:'businessChat', component:BusinessChatComponent} //to be removed
     ]
   }

@@ -1,4 +1,6 @@
+
 <div class="owner-products-page">
+   
   <header class="owner-products-header">
     <div class="owner-products-header-text">
       <h1 class="owner-products-title">My Products</h1>
@@ -72,7 +74,7 @@
       [class.owner-products-stat-card--active]="isSummaryActive('all')"
       (click)="setSummaryFilter('all')"
       [attr.aria-pressed]="isSummaryActive('all')">
-      <span class="owner-products-stat-emoji" aria-hidden="true">🛍️</span>
+      <span class="owner-products-stat-emoji" aria-hidden="true"><i class="fa-solid fa-bag-shopping"></i></span>
       <div class="owner-products-stat-body">
         <span class="owner-products-stat-label">Total Products Listed</span>
         <span class="owner-products-stat-value">{{ totalListed }}</span>
@@ -85,7 +87,7 @@
       [class.owner-products-stat-card--active]="isSummaryActive('top_selling')"
       (click)="setSummaryFilter('top_selling')"
       [attr.aria-pressed]="isSummaryActive('top_selling')">
-      <span class="owner-products-stat-emoji" aria-hidden="true">📈</span>
+      <span class="owner-products-stat-emoji" aria-hidden="true"><i class="fa-solid fa-chart-simple"></i></span>
       <div class="owner-products-stat-body">
         <span class="owner-products-stat-label">Top-Selling Product</span>
         @if (topSellingProduct) {
@@ -112,7 +114,7 @@
       [class.owner-products-stat-card--active]="isSummaryActive('under_review')"
       (click)="setSummaryFilter('under_review')"
       [attr.aria-pressed]="isSummaryActive('under_review')">
-      <span class="owner-products-stat-emoji" aria-hidden="true">🕒</span>
+      <span class="owner-products-stat-emoji" aria-hidden="true"><i class="fa-solid fa-clock"></i></span>
       <div class="owner-products-stat-body">
         <span class="owner-products-stat-label">Products Under Review</span>
         <span class="owner-products-stat-value">{{ underReviewCount }}</span>
@@ -125,7 +127,7 @@
       [class.owner-products-stat-card--active]="isSummaryActive('low_stock')"
       (click)="setSummaryFilter('low_stock')"
       [attr.aria-pressed]="isSummaryActive('low_stock')">
-      <span class="owner-products-stat-emoji" aria-hidden="true">⚠️</span>
+      <span class="owner-products-stat-emoji" aria-hidden="true"><i class="fa-solid fa-triangle-exclamation"></i></span>
       <div class="owner-products-stat-body">
         <span class="owner-products-stat-label">Low-Stock Items</span>
         <span class="owner-products-stat-value">{{ lowStockCount }}</span>

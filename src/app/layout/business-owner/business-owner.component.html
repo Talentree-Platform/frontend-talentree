@@ -1,7 +1,12 @@
-<app-owner-top-nav (toggleSidebar)="toggleSidebar()"></app-owner-top-nav>
-<app-owner-side-nav [isExpanded]="isSidebarExpanded" [expandedItems]="expandedItems"  ></app-owner-side-nav>
-<app-business-chat></app-business-chat>
-<div class="setting">
-    <router-outlet></router-outlet>
-</div>
+<div class="layout" [class.expanded]="isExpanded">
+  <app-owner-top-nav></app-owner-top-nav>
 
+  <app-owner-side-nav
+    (expandedChange)="isExpanded = $event">
+  </app-owner-side-nav>
+
+  <div class="setting">
+    <app-business-chat></app-business-chat>
+    <router-outlet></router-outlet>
+  </div>
+</div>

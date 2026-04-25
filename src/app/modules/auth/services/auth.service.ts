@@ -75,7 +75,8 @@ export interface ExternalLoginData {
   providedIn: 'root'
 })
 export class AuthService {
-  public apiUrl = 'https://talentreeplateform.runasp.net/api';
+  // public apiUrl = 'https://talentreeplateform.runasp.net/api';
+  public apiUrl = '/api';
   private isBrowser: boolean;
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);
