@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class SocialAuthService {
-  private apiUrl = 'https://talentreeplateform.runasp.net';
+  private apiUrl = 'https://backtalentree.runasp.net/api';
 
   constructor(
     private http: HttpClient,
