@@ -2,7 +2,6 @@
   display: block;
   /* font-family: "Inter", system-ui, -apple-system, sans-serif; */
   color: #111827;
-  background: #f8f9fb;
 }
 
 .cart-layout {
@@ -47,9 +46,9 @@ td {
 }
 
 thead th {
-  background: var(--main-color);
+  background: #f4f4f5;
   font-weight: 700;
-  color: #fff;
+  color: var(--main-color);
   padding:15px 0 ;
 }
 

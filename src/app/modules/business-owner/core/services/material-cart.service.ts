@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, ObservableLike } from 'rxjs';
+import { BehaviorSubject, Observable, ObservableLike, catchError } from 'rxjs';
 import { ApiResponse } from '../interfaces/material';
 import { BasketData, BasketItem } from '../interfaces/imaterial-cart';
 
@@ -11,6 +11,21 @@ export class MaterialCartService {
 
   private readonly http =inject(HttpClient);
   public apiUrl='/api';
+    private countSubject = new BehaviorSubject<number>(0);
+  count$ = this.countSubject.asObservable();
+
+  loadCartCount(): void {
+  this.http.get<ApiResponse<BasketData<BasketItem>>>(`${this.apiUrl}/MaterialBasket`)
+    .subscribe({
+      next: (res) => {
+        const count = res.data.items.length;
+        this.countSubject.next(count);
+      },
+      error: () => {
+        this.countSubject.next(0);
+      }
+    });
+}
   getMaterialCart():Observable<ApiResponse<BasketData<BasketItem>>>{
     return this.http.get<ApiResponse<BasketData<BasketItem>>>(`${this.apiUrl}/MaterialBasket`);
   }
@@ -31,4 +46,13 @@ export class MaterialCartService {
     { quantity: quantity } // only quantity in body
   );
 }
+
+// for cart 
+setCount(value: number) {
+    this.countSubject.next(value);
+  }
+
+  updateCount(value: number) {
+    this.countSubject.next(value);
+  }
 }

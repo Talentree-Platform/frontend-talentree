@@ -8,13 +8,13 @@ body {
 
 a {
   text-decoration: none;
-  color: #1a1a1a;
+  /* color: #1a1a1a; */
   font-size: 13px;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
-a:hover {
+.nav-item a:hover {
   color: #d4af37;
 }
 
@@ -94,7 +94,7 @@ a:hover {
 }
 
 .nav-link {
-  color: #1a1a1a !important;
+  /* color: #1a1a1a !important; */
   font-size: 0.75rem;
   font-weight: 500;
   padding: 0.3rem 0.7rem !important;
@@ -117,7 +117,7 @@ a:hover {
   align-items: center;
 }
 
-.btn-login {
+/* .btn-login {
   padding: 0.3rem 0.9rem;
   background: transparent;
   color: #1a1a1a;
@@ -133,12 +133,12 @@ a:hover {
   background: rgba(212, 175, 55, 0.1);
   color: #d4af37;
   transform: translateY(-1px);
-}
+} */
 
-.btn-register {
+/* .btn-register {
   padding: 0.3rem 0.9rem;
   background: linear-gradient(135deg, #d4af37, #f5b042);
-  color: #1a1a1a;
+  color: white;
   border: none;
   border-radius: 30px;
   font-size: 0.7rem;
@@ -150,7 +150,7 @@ a:hover {
 .btn-register:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
-}
+} */
 
 /* Navbar Toggler (Mobile) */
 .navbar-toggler {

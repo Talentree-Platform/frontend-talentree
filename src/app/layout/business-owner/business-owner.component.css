@@ -1,5 +1,14 @@
 .setting{
-    padding-top: 150px;
-    padding-left: 110px;
+    padding-top: 90px;
+    padding-left: 80px;
     margin:auto;
+}
+
+.content {
+  margin-left: 80px;
+  transition: margin 0.3s ease;
+}
+
+.layout.expanded .content {
+  margin-left: 250px;
 }

@@ -4,11 +4,12 @@ import { Component } from '@angular/core';
 import { ApiResponse } from '../../../core/interfaces/material';
 import { BasketData, BasketItem } from '../../../core/interfaces/imaterial-cart';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-raw-material-cart',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive,FormsModule],
   templateUrl: './raw-material-cart.component.html',
   styleUrl: './raw-material-cart.component.css'
 })
@@ -20,6 +21,7 @@ export class RawMaterialCartComponent {
   cartData!:BasketData<BasketItem>;
   cartItems!:BasketItem[];
   quentity!:number;
+  cartItemsLength!:number;
   ngOnInit(){
     this.getMaterialCart();
   }
@@ -28,26 +30,34 @@ export class RawMaterialCartComponent {
       next:(res)=>{
         this.cartData=res.data;
         this.cartItems=res.data.items;
+        this.cartItemsLength=res.data.items.length;
         console.log(this.cartData);
+        // 🔥 هنا نبعث العدد للـ navbar
+      this._MaterialCartService.setCount(this.cartItemsLength);
       },
       error:(err)=>{console.log(err);
       }
     })
   }
 
-  increaseQuentity(id:number){
-    this.quentity=this.quentity+1;
-    this._MaterialCartService.updateQuantity(id,this.quentity).subscribe({
-      next:(res)=>{console.log(res)},
-      error:(err)=>{console.log(err)}
-      
-    })
-  }
-  decreaseQuentity(id: number) {
-  if(this.quentity > this.cartItems[id].minimumOrderQuantity) { // prevent going below min
-    this.quentity = this.quentity-1;
-    this._MaterialCartService.updateQuantity(id, this.quentity).subscribe({
-      next: (res) => console.log(res),
+  increaseQuentity(item: BasketItem) {
+  const newQty = item.quantity + 1;
+
+  this._MaterialCartService.updateQuantity(item.id, newQty).subscribe({
+    next: (res) => {
+      item.quantity = newQty; // update UI instantly
+    },
+    error: (err) => console.log(err)
+  });
+}
+  decreaseQuentity(item: BasketItem) {
+  if (item.quantity > item.minimumOrderQuantity) {
+    const newQty = item.quantity - 1;
+
+    this._MaterialCartService.updateQuantity(item.id, newQty).subscribe({
+      next: (res) => {
+        item.quantity = newQty;
+      },
       error: (err) => console.log(err)
     });
   }
@@ -67,6 +77,7 @@ export class RawMaterialCartComponent {
     this.removeAllSub= this._MaterialCartService.removeAll().subscribe({
       next:(res)=>{console.log(res);
       this.cartItems=[];
+      this._MaterialCartService.setCount(0);
       },
       error:(err)=>{console.log(err);
       }

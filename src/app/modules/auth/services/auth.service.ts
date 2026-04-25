@@ -227,7 +227,7 @@ verifyEmail(data: VerifyEmailData): Observable<{ message: string }> {
 
   console.log('📤 Request body:', JSON.stringify(requestBody, null, 2));
 
-  return this.http.post<{ message: string }>(`https://talentreeplateform.runasp.net/api/Auth/verify-email`, requestBody)
+  return this.http.post<{ message: string }>(`${this.apiUrl}/Auth/verify-email`, requestBody)
     .pipe(
       tap((response) => {
         console.log('✅ Email verified successfully!', response);

@@ -1,0 +1,513 @@
+/* =============================================================================
+   Create Production Request — (cpr-)
+   Inherits all variables from global styles.css
+   ============================================================================= */
+
+/* ── PAGE SHELL ─────────────────────────────────────────────────────────────── */
+.cpr-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.25rem 3rem;
+  font-family: var(--font-family);
+}
+
+/* ── PAGE HEADER ────────────────────────────────────────────────────────────── */
+.cpr-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.cpr-page-header__left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cpr-page-header__eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--main-color);
+}
+
+.cpr-page-header__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cpr-page-header__icon {
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+/* ── ALERT BANNERS ──────────────────────────────────────────────────────────── */
+.cpr-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--ap-radius-input);
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  border: 1px solid transparent;
+}
+
+.cpr-alert--success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #15803d;
+}
+
+.cpr-alert--error {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #b91c1c;
+}
+
+.cpr-alert__icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.cpr-alert strong {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.cpr-alert p {
+  margin: 0;
+  opacity: 0.85;
+  line-height: 1.45;
+}
+
+/* ── SECTION CARDS ──────────────────────────────────────────────────────────── */
+.cpr-card {
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius-card);
+  box-shadow: var(--ap-shadow-card);
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+
+.cpr-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid var(--ap-border);
+  background: var(--ap-bg);
+}
+
+.cpr-card__header-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.cpr-card__title {
+  margin: 0 0 0.1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.cpr-card__subtitle {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ap-text-muted);
+}
+
+.cpr-card__body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── FORM FIELDS ────────────────────────────────────────────────────────────── */
+.cpr-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.cpr-field--full {
+  grid-column: 1 / -1;
+}
+
+.cpr-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ap-text-muted);
+}
+
+.cpr-label__required {
+  color: var(--main-color);
+  margin-left: 0.15rem;
+}
+
+.cpr-label__optional {
+  color: var(--ap-text-light);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.7rem;
+}
+
+.cpr-input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: var(--ap-radius-input);
+  font-size: 0.875rem;
+  outline: none;
+  width: 100%;
+  font-family: var(--font-family);
+  color: var(--text);
+  background: #fff;
+  transition: border-color var(--ap-transition), box-shadow var(--ap-transition);
+  box-sizing: border-box;
+}
+
+.cpr-input::placeholder {
+  color: var(--ap-text-light);
+}
+
+.cpr-input:hover {
+  border-color: #b6bac2;
+}
+
+.cpr-input:focus {
+  border-color: var(--main-color);
+  box-shadow: 0 0 0 3px rgba(209, 163, 62, 0.18);
+}
+
+.cpr-input--error {
+  border-color: var(--ap-error) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+.cpr-textarea {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: var(--ap-radius-input);
+  font-size: 0.875rem;
+  font-family: var(--font-family);
+  color: var(--text);
+  background: #fff;
+  outline: none;
+  resize: vertical;
+  min-height: 96px;
+  width: 100%;
+  line-height: 1.55;
+  transition: border-color var(--ap-transition), box-shadow var(--ap-transition);
+  box-sizing: border-box;
+}
+
+.cpr-textarea::placeholder {
+  color: var(--ap-text-light);
+}
+
+.cpr-textarea:focus {
+  border-color: var(--main-color);
+  box-shadow: 0 0 0 3px rgba(209, 163, 62, 0.18);
+}
+
+.cpr-error {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ap-error);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.1rem;
+}
+
+.cpr-error::before {
+  content: '⚠';
+  font-size: 0.65rem;
+}
+
+/* ── ITEM CARDS ─────────────────────────────────────────────────────────────── */
+.cpr-item-card {
+  background: var(--ap-bg);
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius-card);
+  overflow: hidden;
+  box-shadow: var(--ap-shadow-sm);
+  transition: border-color var(--ap-transition), box-shadow var(--ap-transition);
+  animation: cpr-slide-in 0.2s ease-out;
+}
+
+@keyframes cpr-slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cpr-item-card:focus-within {
+  border-color: var(--ap-gold-ring);
+  box-shadow: var(--ap-shadow-sm), 0 0 0 2px var(--ap-gold-ring);
+}
+
+.cpr-item-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px solid var(--ap-border);
+  background: var(--ap-surface);
+}
+
+.cpr-item-card__number {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--main-color);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cpr-item-card__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ap-text-muted);
+  flex: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cpr-item-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.25rem;
+  padding: 1.1rem;
+}
+
+/* ── ADD INLINE BUTTON ──────────────────────────────────────────────────────── */
+.cpr-btn-add-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: var(--ap-radius-card);
+  border: 1.5px dashed var(--ap-border);
+  background: transparent;
+  color: var(--ap-text-muted);
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--ap-transition), color var(--ap-transition), background var(--ap-transition);
+  margin-top: 0.25rem;
+}
+
+.cpr-btn-add-inline:hover {
+  border-color: var(--main-color);
+  color: var(--main-color);
+  background: var(--ap-gold-light);
+}
+
+.cpr-btn-add-inline__icon {
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+/* ── BUTTONS ────────────────────────────────────────────────────────────────── */
+
+/* Add Item — outlined gold pill, mirrors .btn-border */
+.cpr-btn-add-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-family: var(--font-family);
+  border-radius: var(--ap-radius-pill);
+  border: 1.5px solid var(--main-color);
+  background: #fff;
+  color: var(--main-color);
+  cursor: pointer;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.cpr-btn-add-top:hover {
+  background: var(--main-color);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px -4px rgba(212, 175, 55, 0.4);
+}
+
+/* Remove — subtle danger */
+.cpr-btn-remove {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: transparent;
+  color: var(--ap-text-light);
+  border: 1px solid transparent;
+  font-family: var(--font-family);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--ap-radius-input);
+  cursor: pointer;
+  transition: background var(--ap-transition), color var(--ap-transition), border-color var(--ap-transition);
+}
+
+.cpr-btn-remove:hover {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: var(--burgandy-color);
+}
+
+/* Submit — gold filled pill, mirrors .btn-main + .btn-gold */
+.cpr-btn-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.75rem !important;
+  border: 1px solid transparent;
+  border-radius: var(--ap-radius-pill) !important;
+  background-color: var(--main-color);
+  color: #fff;
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--ap-shadow-sm);
+  transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+}
+
+.cpr-btn-submit:hover:not(:disabled) {
+  background-color: var(--ap-gold-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -4px rgba(212, 175, 55, 0.45);
+}
+
+.cpr-btn-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.cpr-btn-submit:disabled {
+  cursor: not-allowed;
+  background-color: #d1d5db;
+  box-shadow: none;
+}
+
+/* Cancel — neutral ghost */
+.cpr-btn-cancel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.35rem !important;
+  border: 1.5px solid var(--ap-border);
+  border-radius: var(--ap-radius-pill) !important;
+  background: var(--ap-surface);
+  color: var(--ap-text-muted);
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--ap-transition), color var(--ap-transition), border-color var(--ap-transition);
+}
+
+.cpr-btn-cancel:hover {
+  background: var(--ap-bg);
+  color: var(--text);
+  border-color: #b6bac2;
+}
+
+/* ── LOADING SPINNER ────────────────────────────────────────────────────────── */
+.cpr-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: cpr-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes cpr-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── ACTIONS BAR ────────────────────────────────────────────────────────────── */
+.cpr-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .cpr-page {
+    padding: 0 0.75rem 2rem;
+  }
+
+  .cpr-card__header {
+    flex-wrap: wrap;
+    padding: 0.9rem 1rem;
+  }
+
+  .cpr-card__body {
+    padding: 1rem;
+  }
+
+  .cpr-btn-add-top {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cpr-item-grid {
+    grid-template-columns: 1fr;
+    padding: 0.9rem;
+  }
+
+  .cpr-field--full {
+    grid-column: 1;
+  }
+
+  .cpr-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cpr-btn-submit,
+  .cpr-btn-cancel {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cpr-page-header {
+    flex-direction: column;
+  }
+}
