@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class MaterialService {
 
   constructor(private http:HttpClient) { }
-  public apiUrl = '/api';
+  public apiUrl = 'https://backtalentree.runasp.net/api';
   
   getMaterials(params?: {
   category?: string;
