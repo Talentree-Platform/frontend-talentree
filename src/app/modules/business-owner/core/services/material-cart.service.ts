@@ -10,7 +10,7 @@ import { BasketData, BasketItem } from '../interfaces/imaterial-cart';
 export class MaterialCartService {
 
   private readonly http =inject(HttpClient);
-  public apiUrl='/api';
+  public apiUrl='https://backtalentree.runasp.net/api';
     private countSubject = new BehaviorSubject<number>(0);
   count$ = this.countSubject.asObservable();
 
