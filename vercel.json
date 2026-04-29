@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npx ng build --configuration production --base-href=/ --optimization=false --source-map=false",
+  "outputDirectory": "dist/talentree/browser",
+  "framework": null,
+  "installCommand": "npm install --legacy-peer-deps"
+}

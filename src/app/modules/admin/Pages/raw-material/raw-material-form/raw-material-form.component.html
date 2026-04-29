@@ -1,0 +1,84 @@
+<div class="modal-overlay" (click)="onClose()"></div>
+
+<div class="modal-box large">
+  <div class="modal-header">
+    <h3>{{ isEditMode ? 'Edit Material' : 'Add New Material' }}</h3>
+    <button class="btn-close-modal" (click)="onClose()">✕</button>
+  </div>
+
+  <div class="modal-body">
+    <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>Name <span class="required">*</span></label>
+        <input type="text" [(ngModel)]="form.name" placeholder="e.g. Egyptian Cotton" />
+      </div>
+
+      <div class="form-group">
+        <label>Category <span class="required">*</span></label>
+        <select [(ngModel)]="form.category">
+          <option value="">Select category</option>
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+      </div>
+
+      <div class="form-group full-width">
+        <label>Description <span class="required">*</span></label>
+        <textarea [(ngModel)]="form.description" rows="3" placeholder="Material description..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Price (EGP) <span class="required">*</span></label>
+        <input type="number" [(ngModel)]="form.price" min="0.01" step="0.01" />
+      </div>
+
+      <div class="form-group">
+        <label>Unit <span class="required">*</span></label>
+        <input type="text" [(ngModel)]="form.unit" placeholder="e.g. kg, meter, piece" />
+      </div>
+
+      <div class="form-group">
+        <label>Min. Order Quantity <span class="required">*</span></label>
+        <input type="number" [(ngModel)]="form.minimumOrderQuantity" min="1" />
+      </div>
+
+      <div class="form-group">
+        <label>Stock Quantity <span class="required">*</span></label>
+        <input type="number" [(ngModel)]="form.stockQuantity" min="0" />
+      </div>
+
+      <div class="form-group">
+        <label>Supplier ID <span class="required">*</span></label>
+        <input type="number" [(ngModel)]="form.supplierId" min="1" />
+      </div>
+
+      <div class="form-group">
+        <label>Picture URL</label>
+        <input type="text" [(ngModel)]="form.pictureUrl" placeholder="https://..." />
+      </div>
+
+      <div class="form-group" *ngIf="isEditMode">
+        <label>Available</label>
+        <select [(ngModel)]="form.isAvailable">
+          <option [ngValue]="true">Yes</option>
+          <option [ngValue]="false">No</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn-cancel" (click)="onClose()">Cancel</button>
+    <button
+      class="btn-confirm"
+      (click)="submit()"
+      [disabled]="loading || !form.name || !form.category || !form.price || !form.unit"
+    >
+      <span *ngIf="loading" class="spinner"></span>
+      {{ loading ? 'Saving...' : (isEditMode ? 'Update' : 'Create') }}
+    </button>
+  </div>
+</div>

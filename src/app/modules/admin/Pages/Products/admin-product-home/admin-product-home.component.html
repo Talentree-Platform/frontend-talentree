@@ -1,0 +1,124 @@
+<div class="owner-products-page admin-product-home">
+  <header class="owner-products-header">
+    <div class="owner-products-header-text">
+      <div class="admin-product-home__title-row">
+        <h1 class="owner-products-title">Pending products</h1>
+        <span class="admin-product-home__queue-badge" role="status">PendingApproval</span>
+      </div>
+      <p class="owner-products-subtitle">
+        Review listings awaiting approval. Approve or reject each product when you are ready.
+      </p>
+    </div>
+  </header>
+
+  <p *ngIf="loadError" class="owner-products-banner" role="alert">{{ loadError }}</p>
+
+  <section class="owner-products-toolbar admin-product-home__toolbar-card" aria-label="Search pending products">
+    <div class="owner-products-search-wrap">
+      <label class="visually-hidden" for="admin-pending-products-search">Search pending products</label>
+      <input
+        id="admin-pending-products-search"
+        type="search"
+        class="input-main owner-products-search"
+        placeholder="Search by product name, category, or business"
+        [(ngModel)]="searchQuery"
+        autocomplete="off"
+      />
+    </div>
+  </section>
+
+  <div class="owner-products-main-head">
+    <h2 class="owner-products-section-title">Queue</h2>
+  </div>
+
+  <div *ngIf="loading" class="owner-products-loading admin-product-home__loading" role="status">
+    <span class="admin-product-home__spinner" aria-hidden="true"></span>
+    <span>Loading pending products…</span>
+  </div>
+
+  <div *ngIf="!loading && filteredProducts.length === 0" class="owner-products-empty">
+    <span class="owner-products-empty-icon" aria-hidden="true"></span>
+    <p class="owner-products-empty-title">No pending products found</p>
+    <p class="owner-products-empty-text">
+      There are no listings in the queue right now, or nothing matches your search.
+    </p>
+  </div>
+
+  <div *ngIf="!loading && filteredProducts.length > 0" class="owner-products-table-scroll">
+    <table class="owner-products-table">
+      <thead>
+        <tr>
+          <th scope="col">Image</th>
+          <th scope="col">Name</th>
+          <th scope="col">Category</th>
+          <th scope="col">Price</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Business name</th>
+          <th scope="col">Created</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredProducts; trackBy: trackByProductId">
+          <td>
+            <div class="owner-products-thumb-wrap">
+              <img
+                class="owner-products-thumb"
+                [src]="imageSrc(p)"
+                [alt]="pickName(p)"
+                loading="lazy"
+                (error)="onImageError($event)"
+              />
+            </div>
+          </td>
+          <td>
+            <div class="owner-products-cell-name">{{ pickName(p) }}</div>
+          </td>
+          <td>{{ pickCategory(p) }}</td>
+          <td>{{ formatMoney(pickPrice(p)) }}</td>
+          <td>{{ pickStock(p) }}</td>
+          <td>{{ pickBusinessName(p) }}</td>
+          <td>{{ timeAgo(pickCreatedAt(p)) }}</td>
+          <td>
+            <span class="admin-product-home__status-pill">PendingApproval</span>
+          </td>
+          <td>
+            <div class="owner-products-actions admin-product-home__actions">
+              <button
+                type="button"
+                class="btn-main btn-success admin-product-home__btn"
+                (click)="onApprove($event, p)"
+              >
+                Approve
+              </button>
+              <button
+                type="button"
+                class="btn-main btn-danger admin-product-home__btn"
+                (click)="onReject($event, p)"
+              >
+                Reject
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-approve-product-modal
+    *ngIf="selectedForApprove"
+    [productName]="pickName(selectedForApprove)"
+    [productId]="getNumericProductId(selectedForApprove)"
+    (approved)="onApproveSuccess()"
+    (closed)="onApproveModalClosed()"
+  />
+
+  <app-reject-product-modal
+    *ngIf="selectedForReject"
+    [productName]="pickName(selectedForReject)"
+    [productId]="getNumericProductId(selectedForReject)"
+    (rejected)="onRejectSuccess()"
+    (closed)="onRejectModalClosed()"
+  />
+</div>

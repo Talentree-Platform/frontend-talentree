@@ -1,0 +1,209 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h2>Create New Account</h2>
+      <p>Join us and start your journey</p>
+    </div>
+
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+    <div *ngIf="getFormError()" class="alert alert-warning">
+      {{ getFormError() }}
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" (input)="onInputChange()">
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              formControlName="firstName"
+              class="form-control"
+              [class.is-invalid]="isFieldInvalid('firstName')"
+              [class.is-valid]="isFieldValid('firstName')"
+              placeholder="First name"
+            />
+            <div *ngIf="isFieldInvalid('firstName')" class="invalid-feedback">
+              {{ getFieldError('firstName') }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              formControlName="lastName"
+              class="form-control"
+              [class.is-invalid]="isFieldInvalid('lastName')"
+              [class.is-valid]="isFieldValid('lastName')"
+              placeholder="Last name"
+            />
+            <div *ngIf="isFieldInvalid('lastName')" class="invalid-feedback">
+              {{ getFieldError('lastName') }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('email')"
+          [class.is-valid]="isFieldValid('email')"
+          placeholder="example@mail.com"
+        />
+        <div *ngIf="isFieldInvalid('email')" class="invalid-feedback">
+          {{ getFieldError('email') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input
+          type="tel"
+          id="phoneNumber"
+          formControlName="phoneNumber"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('phoneNumber')"
+          [class.is-valid]="isFieldValid('phoneNumber')"
+          placeholder="+966XXXXXXXXX"
+        />
+        <small class="form-text">Enter phone number with country code</small>
+        <div *ngIf="isFieldInvalid('phoneNumber')" class="invalid-feedback">
+          {{ getFieldError('phoneNumber') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input-group">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [class.is-invalid]="isFieldInvalid('password')"
+            [class.is-valid]="isFieldValid('password')"
+            placeholder="Password"
+          />
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="togglePasswordVisibility('password')"
+          >
+            {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+        <small class="form-text">
+          Must be at least 8 characters with uppercase, lowercase, number and special character
+        </small>
+        <div *ngIf="isFieldInvalid('password')" class="invalid-feedback">
+          {{ getFieldError('password') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="password-input-group">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            class="form-control"
+            [class.is-invalid]="isFieldInvalid('confirmPassword')"
+            [class.is-valid]="isFieldValid('confirmPassword')"
+            placeholder="Re-enter password"
+          />
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="togglePasswordVisibility('confirmPassword')"
+          >
+            {{ showConfirmPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+        <div *ngIf="isFieldInvalid('confirmPassword')" class="invalid-feedback">
+          {{ getFieldError('confirmPassword') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Account Type</label>
+        <select
+          id="role"
+          formControlName="role"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('role')"
+        >
+          <option value="Customer">Customer</option>
+          <option value="BusinessOwner">Business Owner</option>
+          <option value="Supplier">Supplier</option>
+          <option value="Admin">Admin</option>
+        </select>
+        <div *ngIf="isFieldInvalid('role')" class="invalid-feedback">
+          {{ getFieldError('role') }}
+        </div>
+      </div>
+
+      <div class="form-group form-check">
+        <input
+          type="checkbox"
+          id="acceptTerms"
+          formControlName="acceptTerms"
+          class="form-check-input"
+          [class.is-invalid]="isFieldInvalid('acceptTerms')"
+        />
+        <label for="acceptTerms" class="form-check-label">
+          I agree to the <a href="#" target="_blank">Terms & Conditions</a> and 
+          <a href="#" target="_blank">Privacy Policy</a>
+        </label>
+        <div *ngIf="isFieldInvalid('acceptTerms')" class="invalid-feedback">
+          {{ getFieldError('acceptTerms') }}
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        [disabled]="registerForm.invalid || isLoading"
+      >
+        <span *ngIf="!isLoading">Create Account</span>
+        <span *ngIf="isLoading">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Creating...
+        </span>
+      </button>
+    </form>
+
+    <!-- <div class="mt-4 p-3 test-section">
+      <h6>Quick Test</h6>
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-test" 
+                (click)="testRegistration()">Test Valid Data</button>
+        <button type="button" class="btn btn-sm btn-test"
+                (click)="testDifferentRoles()">Test Different Roles</button>
+      </div>
+    </div> -->
+
+    <div class="login-link">
+      <p>
+        Already have an account? <a (click)="goToLogin()" [routerLink]="['/auth/login']">Sign in</a>
+      </p>
+    </div>
+  </div>
+</div>

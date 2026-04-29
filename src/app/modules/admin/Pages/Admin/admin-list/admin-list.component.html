@@ -1,0 +1,41 @@
+<div class="pending-bo-container">
+
+  <!-- Top Cards -->
+  <div class="stats-cards">
+    <div class="stat-card total">
+      <span class="stat-number">{{ totalAdmins }}</span>
+      <span class="stat-label">Total Admins</span>
+    </div>
+    <div class="stat-card active">
+      <span class="stat-number">{{ activeAdmins }}</span>
+      <span class="stat-label">Active</span>
+    </div>
+    <div class="stat-card inactive">
+      <span class="stat-number">{{ inactiveAdmins }}</span>
+      <span class="stat-label">Inactive</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="section-header">
+    <h2 class="section-title">Admin Accounts</h2>
+    <button class="btn-create" (click)="openCreateModal()">+ New Admin</button>
+  </div>
+
+  <!-- Table -->
+  <app-table
+    [columns]="columns"
+    [data]="admins"
+    [hasActions]="true"
+    [actions]="actions"
+    (actionClick)="handleEvent($event)"
+  ></app-table>
+
+</div>
+
+<!-- Create Admin Modal -->
+<app-create-admin
+  *ngIf="isCreateOpen"
+  (close)="closeModal()"
+  (adminCreated)="onAdminCreated()"
+></app-create-admin>

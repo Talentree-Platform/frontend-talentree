@@ -1,0 +1,13 @@
+// src/app/modules/public/components/public-footer/public-footer.component.ts
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+@Component({
+  selector: 'app-public-footer',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  templateUrl: './public-footer.component.html',
+  styleUrls: ['./public-footer.component.css']
+})
+export class PublicFooterComponent { }

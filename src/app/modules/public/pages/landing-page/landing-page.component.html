@@ -1,0 +1,236 @@
+<div class="landing-page">
+
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="gradient-bg"></div>
+    <div class="gold-particles"></div>
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+      <div class="shape shape-5"></div>
+    </div>
+    <div class="gold-lines">
+      <div class="line line-1"></div>
+      <div class="line line-3"></div>
+    </div>
+  </div>
+
+  <!-- Hero Video Slider Section -->
+  <section class="hero-video-slider">
+
+    <!-- Video Background -->
+    <div class="video-background">
+      <video #heroVideo autoplay muted loop playsinline class="bg-video">
+        <source [src]="videos[currentSlide]" type="video/mp4">
+      </video>
+      <div class="video-overlay-dark"></div>
+    </div>
+
+    <!-- Slider Content -->
+    <div class="slider-container">
+      <div class="slider" [style.transform]="'translateX(-' + currentSlide * 100 + '%)'">
+
+        <!-- Slide 1: Fashion -->
+        <div class="slide">
+          <div class="slide-content">
+            <div class="slide-text">
+              <span class="slide-category">Fashion Collection</span>
+              <h1 class="slide-title">
+                Elevate Your<br>
+                <span class="gold">Fashion Business</span>
+              </h1>
+              <p class="slide-description">
+                Manage your fashion inventory, track seasonal trends, and showcase your collections
+                with elegance. From haute couture to everyday wear, we've got you covered.
+              </p>
+              <div class="slide-buttons">
+                <a routerLink="/auth/register" class="btn-primary">Start Selling</a>
+                <a routerLink="/auth/login" class="btn-outline">Explore Collections</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Bags -->
+        <div class="slide">
+          <div class="slide-content">
+            <div class="slide-text">
+              <span class="slide-category">Luxury Bags</span>
+              <h1 class="slide-title">
+                Showcase Your<br>
+                <span class="gold">Premium Bags</span>
+              </h1>
+              <p class="slide-description">
+                From designer handbags to premium leather goods, manage your bag collection
+                with sophistication. Track materials, suppliers, and inventory seamlessly.
+              </p>
+              <div class="slide-buttons">
+                <a routerLink="/auth/register" class="btn-primary">Start Selling</a>
+                <a routerLink="/auth/login" class="btn-outline">View Collection</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Beauty -->
+        <div class="slide">
+          <div class="slide-content">
+            <div class="slide-text">
+              <span class="slide-category">Beauty & Cosmetics</span>
+              <h1 class="slide-title">
+                Transform Your<br>
+                <span class="gold">Beauty Business</span>
+              </h1>
+              <p class="slide-description">
+                Manage skincare, makeup, and cosmetic products with precision. Track ingredients,
+                expiry dates, and customer preferences all in one place.
+              </p>
+              <div class="slide-buttons">
+                <a routerLink="/auth/register" class="btn-primary">Start Selling</a>
+                <a routerLink="/auth/login" class="btn-outline">Discover Products</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: Jewelry -->
+        <div class="slide">
+          <div class="slide-content">
+            <div class="slide-text">
+              <span class="slide-category">Fine Jewelry</span>
+              <h1 class="slide-title">
+                Craft Your<br>
+                <span class="gold">Jewelry Collection</span>
+              </h1>
+              <p class="slide-description">
+                Manage precious metals, gemstones, and finished pieces with unmatched precision.
+                Track materials, suppliers, and showcase your masterpieces.
+              </p>
+              <div class="slide-buttons">
+                <a routerLink="/auth/register" class="btn-primary">Start Selling</a>
+                <a routerLink="/auth/login" class="btn-outline">Explore Jewelry</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5: Home Decor -->
+        <!-- Slide 5: Handmade -->
+        <div class="slide">
+          <div class="slide-content">
+            <div class="slide-text">
+              <span class="slide-category">Handmade Crafts</span>
+              <h1 class="slide-title">
+                Showcase Your<br>
+                <span class="gold">Handmade Creations</span>
+              </h1>
+              <p class="slide-description">
+                From unique crafts to personalized gifts, manage your handmade business with care.
+                Track materials, connect with customers, and share your artistic journey.
+              </p>
+              <div class="slide-buttons">
+                <a routerLink="/auth/register" class="btn-primary">Start Selling</a>
+                <a routerLink="/auth/login" class="btn-outline">Explore Handmade</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slider Dots -->
+      <div class="slider-dots">
+        <button *ngFor="let slide of slides; let i = index" class="dot" [class.active]="currentSlide === i"
+          (click)="goToSlide(i)">
+        </button>
+      </div>
+
+      <!-- Slider Arrows -->
+      <button class="slider-arrow prev" (click)="prevSlide()">
+        <span>❮</span>
+      </button>
+      <button class="slider-arrow next" (click)="nextSlide()">
+        <span>❯</span>
+      </button>
+    </div>
+  </section>
+  <!-- Features Section -->
+  <section class="features scroll-reveal">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge gold-glow">Why Choose Us</span>
+        <h2 class="section-title">Benefit Using<br><span class="gold">Talentree Platform</span></h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card card-hover">
+          <div class="feature-icon"><i class="fa-solid fa-shirt"></i></div>
+          <h3>Raw Materials</h3>
+          <p>Track inventory, pricing, and supplier information with precision and accuracy.</p>
+        </div>
+        <div class="feature-card card-hover">
+          <div class="feature-icon"><i class="fa-solid fa-boxes-packing"></i></div>
+          <h3>Suppliers</h3>
+          <p>Build and manage strong supplier relationships for sustainable growth.</p>
+        </div>
+        <div class="feature-card card-hover">
+          <div class="feature-icon"><i class="fa-brands fa-product-hunt"></i></div>
+          <h3>Products</h3>
+          <p>Showcase and manage your products with professional precision.</p>
+        </div>
+        <div class="feature-card card-hover">
+          <div class="feature-icon"><i class="fa-solid fa-chart-column"></i></div>
+          <h3>Analytics</h3>
+          <p>Data-driven insights to help you make informed business decisions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products scroll-reveal">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge gold-glow">Our Solutions</span>
+        <h2 class="section-title">Business Management<br><span class="gold">Made Simple</span></h2>
+      </div>
+      <div class="products-grid">
+        <div class="product-card card-hover">
+          <div class="product-image">
+            <div class="product-icon"><i class="fa-solid fa-industry"></i></div>
+          </div>
+          <h3>Raw Materials Management</h3>
+          <p>Complete control over your inventory with real-time tracking and alerts.</p>
+        </div>
+        <div class="product-card card-hover">
+          <div class="product-image">
+            <div class="product-icon"><i class="fa-solid fa-handshake"></i></div>
+          </div>
+          <h3>Supplier Relations</h3>
+          <p>Build lasting partnerships with our comprehensive supplier management tools.</p>
+        </div>
+        <div class="product-card card-hover">
+          <div class="product-image">
+            <div class="product-icon"><i class="fa-solid fa-gift"></i></div>
+          </div>
+          <h3>Product Catalog</h3>
+          <p>Showcase your products beautifully with our professional catalog system.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section scroll-reveal">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="gold-glow">Ready to Transform Your Business?</h2>
+        <p>Join thousands of businesses already using Talentree</p>
+        <div class="cta-buttons">
+          <a routerLink="/auth/register" class="btn-primary-large btn-gold-animated">Get Started Free</a>
+          <a routerLink="/auth/login" class="btn-outline-large btn-gold-animated">Sign In</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

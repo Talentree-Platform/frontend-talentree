@@ -1,0 +1,359 @@
+<div class="orders-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h1>Orders Management</h1>
+      <p class="subtitle">Track and manage all customer orders</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-primary" (click)="exportOrders()">
+        <span class="btn-icon">📥</span> Export
+      </button>
+      <button class="btn btn-secondary" (click)="refreshOrders()">
+        <span class="btn-icon">🔄</span> Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon total">📦</div>
+      <div class="stat-content">
+        <span class="stat-label">Total Orders</span>
+        <span class="stat-value">{{getTotalOrdersCount()}}</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon pending">⏳</div>
+      <div class="stat-content">
+        <span class="stat-label">Pending</span>
+        <span class="stat-value">{{getPendingOrdersCount()}}</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon processing">🔄</div>
+      <div class="stat-content">
+        <span class="stat-label">Processing</span>
+        <span class="stat-value">{{getProcessingOrdersCount()}}</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon revenue">💰</div>
+      <div class="stat-content">
+        <span class="stat-label">Revenue</span>
+        <span class="stat-value">{{formatCurrency(getTotalRevenue())}}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        placeholder="Search by order number or customer name..." 
+        (keyup)="applyFilter($event)"
+        class="search-input">
+    </div>
+
+    <div class="filter-dropdown">
+      <select [(ngModel)]="selectedStatus" (change)="filterByStatus()" class="filter-select">
+        <option value="all">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="processing">Processing</option>
+        <option value="shipped">Shipped</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+
+    <div class="filter-dropdown">
+      <select [(ngModel)]="selectedDateRange" class="filter-select">
+        <option value="today">Today</option>
+        <option value="yesterday">Yesterday</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="table-card">
+    <div class="table-responsive">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Order #</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of getPaginatedOrders(); let i = index">
+            <td>
+              <div class="order-number">
+                <strong>{{order.orderNumber}}</strong>
+                <span *ngIf="order.trackingNumber" class="tracking-badge">
+                  Track: {{order.trackingNumber}}
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="customer-info">
+                <strong>{{order.customerName}}</strong>
+                <span class="customer-email">{{order.customerEmail}}</span>
+              </div>
+            </td>
+            <td>{{formatDate(order.date)}}</td>
+            <td>
+              <span class="items-count">{{order.items.length}} items</span>
+            </td>
+            <td>
+              <strong class="total-amount">{{formatCurrency(order.total)}}</strong>
+            </td>
+            <td>
+              <span class="status-badge status-{{order.status}}">
+                {{capitalizeFirst(order.status)}}
+              </span>
+            </td>
+            <td>
+              <span class="payment-badge payment-{{order.paymentStatus}}">
+                {{capitalizeFirst(order.paymentStatus)}}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button class="action-btn view-btn" (click)="viewOrderDetails(order)" 
+                        title="View Details">👁️</button>
+                <button class="action-btn edit-btn" (click)="openEditOrder(order)"
+                        title="Edit">✏️</button>
+                
+                <!-- Dropdown Menu -->
+                <div class="dropdown" [class.show]="openDropdownId === order.id">
+                  <button class="action-btn menu-btn" (click)="toggleDropdown(order.id)">
+                    ⋮
+                  </button>
+                  <div class="dropdown-menu" *ngIf="openDropdownId === order.id">
+                    <button (click)="updateOrderStatus(order, 'processing')">
+                      <span>🔄</span> Start Processing
+                    </button>
+                    <button (click)="updateOrderStatus(order, 'shipped')">
+                      <span>📦</span> Mark Shipped
+                    </button>
+                    <button (click)="updateOrderStatus(order, 'delivered')">
+                      <span>✅</span> Mark Delivered
+                    </button>
+                    <div class="dropdown-divider"></div>
+                    <button (click)="printInvoice(order)" class="print-btn">
+                      <span>🖨️</span> Print Invoice
+                    </button>
+                    <button (click)="contactCustomer(order)" class="contact-btn">
+                      <span>📧</span> Contact Customer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          
+          <!-- No Data Message -->
+          <tr *ngIf="getPaginatedOrders().length === 0">
+            <td colspan="8" class="no-data">
+              No orders to display
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <div class="pagination-info">
+        Showing {{(currentPage-1)*pageSize+1}} to 
+        {{currentPage*pageSize > filteredOrders.length ? filteredOrders.length : currentPage*pageSize}} 
+        of {{filteredOrders.length}} orders
+      </div>
+      <div class="pagination-controls">
+        <button [disabled]="currentPage === 1" (click)="changePage(currentPage-1)" class="page-btn">
+          ◀
+        </button>
+        <span *ngFor="let page of getPageNumbers()" 
+              class="page-number" 
+              [class.active]="page === currentPage"
+              (click)="changePage(page)">
+          {{page}}
+        </span>
+        <button [disabled]="currentPage === totalPages" (click)="changePage(currentPage+1)" class="page-btn">
+          ▶
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Order Details Modal -->
+<div class="modal" [class.show]="showOrderModal" (click)="closeModalOnOutside($event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Order Details - {{selectedOrder?.orderNumber}}</h2>
+      <button class="close-btn" (click)="closeModal()">✕</button>
+    </div>
+    
+    <div class="modal-body" *ngIf="selectedOrder">
+      <!-- Status Timeline -->
+      <div class="status-timeline">
+        <div class="status-step" [class.completed]="isStepCompleted('pending')">
+          <div class="step-icon">⏳</div>
+          <span>Pending</span>
+        </div>
+        <div class="status-step" [class.completed]="isStepCompleted('processing')">
+          <div class="step-icon">🔄</div>
+          <span>Processing</span>
+        </div>
+        <div class="status-step" [class.completed]="isStepCompleted('shipped')">
+          <div class="step-icon">📦</div>
+          <span>Shipped</span>
+        </div>
+        <div class="status-step" [class.completed]="isStepCompleted('delivered')">
+          <div class="step-icon">✅</div>
+          <span>Delivered</span>
+        </div>
+      </div>
+
+      <!-- Customer and Order Info -->
+      <div class="details-grid">
+        <div class="info-card">
+          <h3>Customer Information</h3>
+          <p><strong>Name:</strong> {{selectedOrder?.customerName}}</p>
+          <p><strong>Email:</strong> {{selectedOrder?.customerEmail}}</p>
+          <p><strong>Address:</strong> {{selectedOrder?.shippingAddress}}</p>
+        </div>
+
+        <div class="info-card">
+          <h3>Order Summary</h3>
+          <p><strong>Order Date:</strong> {{formatFullDate(selectedOrder?.date)}}</p>
+          <p><strong>Payment Status:</strong> 
+            <span class="payment-badge payment-{{selectedOrder?.paymentStatus}}">
+              {{capitalizeFirst(selectedOrder?.paymentStatus || '')}}
+            </span>
+          </p>
+          <p><strong>Tracking Number:</strong> {{selectedOrder?.trackingNumber || 'N/A'}}</p>
+        </div>
+      </div>
+
+      <!-- Items List -->
+      <div class="items-card">
+        <h3>Order Items</h3>
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of selectedOrder.items">
+              <td>{{item.productName}}</td>
+              <td>{{item.quantity}}</td>
+              <td>{{formatCurrency(item.price)}}</td>
+              <td>{{formatCurrency(item.total)}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" class="text-left">Total</td>
+              <td class="total">{{formatCurrency(selectedOrder.total)}}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+      <button class="btn btn-primary" (click)="printInvoice(selectedOrder)">
+        <span>🖨️</span> Print Invoice
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Order Modal -->
+<div class="modal" [class.show]="showEditModal" (click)="closeEditModalOnOutside($event)">
+  <div class="modal-content edit-modal">
+    <div class="modal-header">
+      <h2>Edit Order - {{editOrder?.orderNumber}}</h2>
+      <button class="close-btn" (click)="closeEditModal()">✕</button>
+    </div>
+    
+    <div class="modal-body" *ngIf="editOrder">
+      <form (ngSubmit)="saveOrderChanges()" #editForm="ngForm">
+        <div class="form-group">
+          <label>Order Status</label>
+          <select [(ngModel)]="editOrder.status" name="status" class="form-control">
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Payment Status</label>
+          <select [(ngModel)]="editOrder.paymentStatus" name="paymentStatus" class="form-control">
+            <option value="paid">Paid</option>
+            <option value="unpaid">Unpaid</option>
+            <option value="refunded">Refunded</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Tracking Number</label>
+          <input type="text" [(ngModel)]="editOrder.trackingNumber" name="trackingNumber" 
+                 class="form-control" placeholder="Enter tracking number">
+        </div>
+
+        <div class="form-group">
+          <label>Shipping Address</label>
+          <textarea [(ngModel)]="editOrder.shippingAddress" name="address" 
+                    class="form-control" rows="3"></textarea>
+        </div>
+
+        <h3 class="items-title">Products</h3>
+        <div class="edit-items">
+          <div *ngFor="let item of editOrder.items; let i = index" class="edit-item-row">
+            <input type="text" [(ngModel)]="item.productName" [name]="'prodName'+i" 
+                   class="form-control item-name" placeholder="Product name">
+            <input type="number" [(ngModel)]="item.quantity" [name]="'qty'+i" 
+                   class="form-control item-qty" placeholder="Qty">
+            <input type="number" [(ngModel)]="item.price" [name]="'price'+i" 
+                   class="form-control item-price" placeholder="Price" (input)="calculateOrderTotal()">
+            <button type="button" class="remove-item" (click)="removeItem(i)">✕</button>
+          </div>
+        </div>
+
+        <button type="button" class="btn-add-item" (click)="addItem()">
+          + Add Product
+        </button>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="saveOrderChanges()">Save Changes</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,166 @@
+<div class="sidebar" [class.expanded]="isExpanded">
+
+  <!-- Toggle Button -->
+  <button
+    class="sidebar-toggle-btn"
+    [class.collapsed]="!isExpanded"
+    (click)="toggleSidebar()">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <!-- Logo -->
+  @if (isExpanded) {
+    <div class="white-logo">
+      <img src="../../../../../assets/images/white logo 2.png" alt="Logo">
+    </div>
+  }
+
+  <!-- Navigation -->
+  <nav class="nav-menu">
+    <ul class="menu-list">
+
+      @for (item of navItems; track item.key) {
+
+        <li
+          class="menu-item"
+          [class.active]="activeItem === item.key"
+          (mouseenter)="onIconMouseEnter($event, item.key)"
+          (mouseleave)="onIconMouseLeave()">
+
+          <a
+            class="menu-link"
+            (click)="setActive(item.key); item.submenu?.length && toggleSubmenu(item.key)"
+            [routerLink]="item.route ? [item.route] : null" >
+
+            <span class="icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6">
+
+                <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="item.icon" />
+
+              </svg>
+            </span>
+
+            @if (isExpanded) {
+              <span class="text">
+                {{ item.label }}
+              </span>
+
+              @if (item.submenu?.length) {
+                <span class="arrow">
+                  {{ expandedItems[item.key] ? '▼' : '▶' }}
+                </span>
+              }
+            }
+
+          </a>
+
+
+          <!-- Expanded Submenu -->
+          @if (isExpanded && expandedItems[item.key] && item.submenu?.length) {
+
+            <ul class="submenu">
+
+              @for (sub of item.submenu; track sub.key) {
+
+                <li>
+                  <a
+                    (click)="setActive(sub.key)"
+                    [class.active]="activeItem === sub.key"
+                    [routerLink]="sub.route ? [sub.route] : null">
+
+                    {{ sub.label }}
+
+                  </a>
+                </li>
+
+              }
+
+            </ul>
+
+          }
+
+        </li>
+
+      }
+
+    </ul>
+
+
+    <!-- Profile Section -->
+    @if (isExpanded) {
+
+      <div class="profile-section">
+
+        <div class="profile-info">
+          <img
+            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=100&q=80"
+            alt="Profile"
+            class="profile-img"/>
+
+          <div class="profile-details">
+            <div class="profile-name">
+              John Doe
+            </div>
+
+            <div class="profile-role">
+              Business Owner
+            </div>
+          </div>
+        </div>
+
+        <button class="logout-btn" (click)="logout()">
+          <span>Logout</span>
+
+          <span class="icon">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </span>
+        </button>
+
+      </div>
+
+    }
+
+  </nav>
+
+</div>
+
+
+
+<!-- Floating Tooltip Portal -->
+@if (!isExpanded && hoveredItem) {
+
+  @for (item of navItems; track item.key) {
+
+    @if (item.key === hoveredItem) {
+
+      <div
+        class="nav-tooltip"
+        [style.top.px]="tooltipTop"
+        (mouseenter)="hoveredItem = item.key"
+        (mouseleave)="onIconMouseLeave()">
+
+        <div class="nav-tooltip-arrow"></div>
+
+        <div class="nav-tooltip-title">
+          {{ item.label }}
+        </div>
+
+        <div class="nav-tooltip-desc">
+          {{ item.description }}
+        </div>
+
+        
+
+      </div>
+
+    }
+
+  }
+
+}

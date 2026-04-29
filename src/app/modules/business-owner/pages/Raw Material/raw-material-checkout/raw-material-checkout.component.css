@@ -1,0 +1,231 @@
+:host {
+  display: block;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: #111827;
+  background: #f7f8fb;
+}
+
+.checkout-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* Cards */
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.card h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* Form grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+}
+
+.field.full {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.field input {
+  padding: 9px 11px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field input:focus {
+  border-color: #d1a33e;
+  box-shadow: 0 0 0 3px rgba(209, 163, 62, 0.2);
+}
+
+/* Checkbox row */
+.checkbox-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+}
+
+/* Payment */
+.payment-options {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.radio-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.payment-fields {
+  margin-top: 4px;
+}
+
+/* Order summary */
+.summary-card {
+  position: sticky;
+  top: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.summary-table th,
+.summary-table td {
+  padding: 8px 6px;
+  border-top: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.summary-table thead th {
+  background: #f9fafb;
+  font-weight: 700;
+  color: #374151;
+}
+
+.totals {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 8px;
+  display: grid;
+  gap: 4px;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #374151;
+}
+
+.value {
+  font-weight: 700;
+}
+
+.promo {
+  display: grid;
+  gap: 6px;
+}
+
+.promo label {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.promo-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.promo-row input {
+  padding: 9px 11px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.promo-row input:focus {
+  border-color: #d1a33e;
+  box-shadow: 0 0 0 3px rgba(209, 163, 62, 0.2);
+}
+
+.grand-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 15px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 8px;
+}
+
+/* Buttons */
+.btn {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 11px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  font-size: 14px;
+}
+
+.btn.primary {
+  background: #d1a33e;
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(209, 163, 62, 0.25);
+}
+
+.btn.ghost {
+  background: #fff;
+  color: #111827;
+  border-color: #e5e7eb;
+}
+
+.btn.full {
+  width: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+  .summary-card {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

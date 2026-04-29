@@ -1,0 +1,174 @@
+<div class="owner-products-page pr-list-page">
+
+  <!-- ── TOASTER ─────────────────────────────────────────────────────────── -->
+  @if(toaster) {
+    <div class="pr-toaster"
+         [class.pr-toaster--success]="toaster.type === 'success'"
+         [class.pr-toaster--error]="toaster.type === 'error'">
+      <span class="pr-toaster-icon">{{ toaster.type === 'success' ? '✔' : '✖' }}</span>
+      <span>{{ toaster.message }}</span>
+      <button class="pr-toaster-close" (click)="dismissToaster()">×</button>
+    </div>
+  }
+
+  <!-- ── CANCEL CONFIRM DIALOG ───────────────────────────────────────────── -->
+  @if(confirmDeleteId !== null) {
+    <div class="pr-overlay" (click)="closeConfirmDelete($event)">
+      <div class="pr-confirm-dialog" (click)="$event.stopPropagation()">
+        <div class="pr-confirm-icon">🗑️</div>
+        <h3 class="pr-confirm-title">Cancel Request?</h3>
+        <p class="pr-confirm-msg">
+          This action cannot be undone. The production request will be permanently cancelled.
+        </p>
+        <div class="pr-confirm-actions">
+          <button class="btn-main btn-border" (click)="closeConfirmDelete($event)">Keep It</button>
+          <button class="btn-main btn-burgandy" (click)="confirmCancel(confirmDeleteId!, $event)">
+            Yes, Cancel It
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ── CONFIRM REQUEST DIALOG ──────────────────────────────────────────── -->
+  @if(confirmDialogId !== null) {
+    <div class="pr-overlay" (click)="closeConfirmDialog($event)">
+      <div class="pr-confirm-dialog" (click)="$event.stopPropagation()">
+        <div class="pr-confirm-icon">✅</div>
+        <h3 class="pr-confirm-title">Confirm Request?</h3>
+        <p class="pr-confirm-msg">
+          Are you sure you want to confirm this request? This will notify the admin to proceed with production.
+        </p>
+        <div class="pr-confirm-actions">
+          <button class="btn-main btn-border" (click)="closeConfirmDialog($event)">Not Yet</button>
+          <button class="btn-main btn-success" (click)="submitConfirm(confirmDialogId!, $event)">
+            Yes, Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <div class="owner-products-header">
+    <div>
+      <h1 class="owner-products-title">Production Requests</h1>
+      <p class="owner-products-subtitle">
+        Track and manage all your production requests in one place.
+      </p>
+    </div>
+    <button class="btn-main btn-gold owner-products-btn-primary" (click)="navigateToCreate()">
+      <span class="owner-products-btn-icon">+</span>
+      Create New Request
+    </button>
+  </div>
+
+  <!-- ── Loading State ───────────────────────────────────────────────────── -->
+  <div class="owner-products-loading" *ngIf="loading">
+    <div class="pr-spinner"></div>
+    <p>Loading production requests…</p>
+  </div>
+
+  <!-- ── Error State ─────────────────────────────────────────────────────── -->
+  <div class="owner-products-banner pr-error-banner" *ngIf="error && !loading">
+    <span>⚠️</span> {{ error }}
+  </div>
+
+  <!-- ── Empty State ─────────────────────────────────────────────────────── -->
+  <div class="owner-products-empty" *ngIf="!loading && !error && requests.length === 0">
+    <span class="owner-products-empty-icon"></span>
+    <h3 class="owner-products-empty-title">No requests found</h3>
+    <p class="owner-products-empty-text">You haven't submitted any production requests yet.</p>
+    <button class="btn-main btn-gold" (click)="navigateToCreate()">Create Your First Request</button>
+  </div>
+
+  <!-- ── Request Cards ───────────────────────────────────────────────────── -->
+  <div class="pr-cards-grid" *ngIf="!loading && !error && requests.length > 0">
+    <div
+      class="pr-card"
+      *ngFor="let request of requests"
+      (click)="navigateToDetails(request.id)"
+    >
+      <div class="pr-card__header">
+        <h3 class="pr-card__title">{{ request.title }}</h3>
+      </div>
+
+      <div class="pr-card__meta">
+        <span class="pr-card__meta-item">
+          <i class="fa-regular fa-calendar"></i> {{ request.createdAt | date : 'mediumDate' }}
+        </span>
+        <span class="pr-card__meta-item">
+          <i class="fa-solid fa-box"></i> {{ request.items?.length ?? 0 }}
+          {{ (request.items?.length ?? 0) === 1 ? 'item' : 'items' }}
+        </span>
+      </div>
+
+      <div class="pr-card__footer">
+        <button
+          class="btn-main btn-border pr-view-btn"
+          (click)="navigateToDetails(request.id); $event.stopPropagation()"
+        >
+          View Details →
+        </button>
+
+        <!-- ✅ Confirm Button — only when quoted & status === 2 -->
+        @if(canConfirm(request)) {
+          <button
+            class="btn-main btn-success pr-confirm-btn"
+            [disabled]="confirmingId === request.id"
+            title="Confirm this request"
+            (click)="openConfirmDialog(request.id, $event)"
+          >
+            @if(confirmingId === request.id) {
+              <span class="pr-btn-spinner"></span>
+              Confirming…
+            } @else {
+              ✔ Confirm
+            }
+          </button>
+        }
+
+        <!-- 🗑 Cancel Button -->
+        <button
+          class="btn-main btn-border-burgandy pr-cancel-btn"
+          [disabled]="isCancelled(request.status) || cancellingId === request.id"
+          [title]="isCancelled(request.status) ? 'Already cancelled' : 'Cancel this request'"
+          (click)="openConfirmDelete(request.id, $event)"
+        >
+          @if(cancellingId === request.id) {
+            <span class="pr-btn-spinner"></span>
+            Cancelling…
+          } @else if(isCancelled(request.status)) {
+            Cancelled
+          } @else {
+            🗑 Cancel
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Pagination ──────────────────────────────────────────────────────── -->
+  <div class="pr-pagination" *ngIf="!loading && !error && totalPages > 1">
+    <button
+      class="btn-main btn-border pr-page-btn"
+      [disabled]="pageIndex === 1"
+      (click)="goToPage(pageIndex - 1)"
+    >
+      ← Previous
+    </button>
+
+    <span class="pr-page-info">
+      Page <strong>{{ pageIndex }}</strong> of <strong>{{ totalPages }}</strong>
+    </span>
+
+    <button
+      class="btn-main btn-border pr-page-btn"
+      [disabled]="pageIndex === totalPages"
+      (click)="goToPage(pageIndex + 1)"
+    >
+      Next →
+    </button>
+  </div>
+
+</div>

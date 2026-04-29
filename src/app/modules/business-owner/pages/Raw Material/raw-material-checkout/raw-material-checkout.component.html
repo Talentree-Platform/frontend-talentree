@@ -1,0 +1,162 @@
+<div class="checkout-layout">
+  <!-- Left side: Billing + Payment -->
+  <div class="left-column">
+    <!-- Billing Details -->
+    <section class="card">
+      <h2>Billing Details</h2>
+
+      <form class="form-grid">
+        <div class="field full">
+          <label for="fullName">Full Name</label>
+          <input id="fullName" type="text" placeholder="John Doe" />
+        </div>
+
+        <div class="field full">
+          <label for="email">Email Address</label>
+          <input id="email" type="email" placeholder="you@example.com" />
+        </div>
+
+        <div class="field full">
+          <label for="address1">Address Line 1</label>
+          <input id="address1" type="text" placeholder="Street address, P.O. box, company name" />
+        </div>
+
+        <div class="field full">
+          <label for="address2">Address Line 2</label>
+          <input id="address2" type="text" placeholder="Apartment, suite, unit, building, floor, etc." />
+        </div>
+
+        <div class="field">
+          <label for="city">City</label>
+          <input id="city" type="text" placeholder="New York" />
+        </div>
+
+        <div class="field">
+          <label for="state">State / Province</label>
+          <input id="state" type="text" placeholder="NY" />
+        </div>
+
+        <div class="field">
+          <label for="zip">ZIP / Postal Code</label>
+          <input id="zip" type="text" placeholder="10001" />
+        </div>
+
+        <div class="field">
+          <label for="country">Country</label>
+          <input id="country" type="text" placeholder="United States" />
+        </div>
+
+        <div class="field full checkbox-row">
+          <label>
+            <input type="checkbox" />
+            <span>Use same address for shipping</span>
+          </label>
+        </div>
+      </form>
+    </section>
+
+    <!-- Payment Method -->
+    <section class="card">
+      <h2>Payment Method</h2>
+
+      <div class="payment-options">
+        <label class="radio-row">
+          <input type="radio" name="payment" checked />
+          <span>Credit / Debit Card</span>
+        </label>
+        <label class="radio-row">
+          <input type="radio" name="payment" />
+          <span>Bank Transfer</span>
+        </label>
+        <label class="radio-row">
+          <input type="radio" name="payment" />
+          <span>PayPal</span>
+        </label>
+      </div>
+
+      <div class="form-grid payment-fields">
+        <div class="field full">
+          <label for="cardName">Cardholder Name</label>
+          <input id="cardName" type="text" placeholder="Name on card" />
+        </div>
+        <div class="field full">
+          <label for="cardNumber">Card Number</label>
+          <input id="cardNumber" type="text" placeholder="XXXX XXXX XXXX XXXX" />
+        </div>
+        <div class="field">
+          <label for="expiry">Expiry Date</label>
+          <input id="expiry" type="text" placeholder="MM / YY" />
+        </div>
+        <div class="field">
+          <label for="cvv">CVV</label>
+          <input id="cvv" type="password" placeholder="***" />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Right side: Order Summary -->
+  <aside class="card summary-card">
+    <h2>Order Summary</h2>
+
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Organic Soy Wax</td>
+          <td>3 kg</td>
+          <td>$18</td>
+          <td>$54</td>
+        </tr>
+        <tr>
+          <td>Premium Cotton Yarn</td>
+          <td>5 kg</td>
+          <td>$12</td>
+          <td>$60</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="totals">
+      <div class="line">
+        <span>Subtotal</span>
+        <span class="value">$114.00</span>
+      </div>
+      <div class="line">
+        <span>Shipping</span>
+        <span class="value">$10.00</span>
+      </div>
+      <div class="line">
+        <span>Tax</span>
+        <span class="value">$7.48</span>
+      </div>
+      <div class="line">
+        <span>Discount</span>
+        <span class="value">-$0.00</span>
+      </div>
+    </div>
+
+    <div class="promo">
+      <label for="promoCode">Promo Code</label>
+      <div class="promo-row">
+        <input id="promoCode" type="text" placeholder="Enter promo code" />
+        <button class="btn ghost">Apply</button>
+      </div>
+    </div>
+
+    <div class="grand-total">
+      <span>Total</span>
+      <span class="value">$131.48</span>
+    </div>
+
+    <button class="btn primary full">Pay Now</button>
+    <button class="btn ghost full">Continue Shopping</button>
+  </aside>
+</div>

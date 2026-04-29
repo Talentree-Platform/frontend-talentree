@@ -1,0 +1,226 @@
+<div class="ap-page">
+
+  <div class="ap-page-header">
+    <div class="ap-page-header__left">
+      <h1 class="ap-page-title">Edit Product</h1>
+      <p class="ap-page-subtitle">Update your product details and keep your store up to date.</p>
+    </div>
+    <div class="ap-page-header__actions">
+      <button class="btn-main btn-border" type="button" (click)="handleCancel()" [disabled]="isLoading || loading">
+        Cancel
+      </button>
+      <button class="btn-main btn-gold" type="button" (click)="handleSave()" [disabled]="isLoading || loading">
+        <i class="fa-solid fa-floppy-disk"></i> Save Product
+      </button>
+    </div>
+  </div>
+
+  @if (loading) {
+    <p class="ap-helper" style="padding: 1rem">Loading product…</p>
+  }
+
+  @if (loadError) {
+    <p class="ap-helper" style="padding: 1rem; color: var(--ap-error, #c00)">{{ loadError }}</p>
+  }
+
+  @if (!loading && !loadError) {
+    <input
+      #fileInput
+      id="fileInput"
+      type="file"
+      accept="image/*"
+      multiple
+      hidden
+      (change)="handleFileSelect($event)"
+    />
+
+    <div class="ap-grid">
+      <div class="ap-col ap-col--main">
+
+        <div class="ap-card">
+          <div class="ap-section-heading">
+            <i class="fa-regular fa-image"></i> Product Images
+          </div>
+
+          <div
+            class="ap-upload-zone"
+            id="uploadZone"
+            (click)="fileInput.click()"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)">
+            <div class="ap-upload-zone__icon">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <p class="ap-upload-zone__title">Add more images</p>
+            <p class="ap-upload-zone__sub">Drag &amp; drop files here, or <span class="ap-link">browse</span></p>
+            <p class="ap-upload-zone__hint">PNG, JPG, WEBP — max 10 MB each</p>
+          </div>
+
+          <div class="ap-preview-grid" id="previewGrid">
+            @for (img of existingImages; track img.url) {
+              <div class="ap-preview-item">
+                <img [src]="img.url" [alt]="'Product image'" />
+                <button type="button" class="ap-preview-item__remove" (click)="removeExistingImage(img)">✕</button>
+              </div>
+            }
+            @for (slot of newImageSlots; track slot.url) {
+              <div class="ap-preview-item">
+                <img [src]="slot.url" [alt]="slot.file.name" />
+                <button type="button" class="ap-preview-item__remove" (click)="removeNewImage(slot)">✕</button>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="ap-card">
+          <div class="ap-section-heading">
+            <i class="fa-solid fa-box"></i> Product Information
+          </div>
+
+          <div class="ap-form-group">
+            <label class="feild" for="productName">
+              Product Name <span class="ap-required">*</span>
+            </label>
+            <input
+              class="input-main mt-1 mb-1"
+              id="productName"
+              name="productName"
+              type="text"
+              placeholder="e.g. Classic Leather Sneakers"
+              [(ngModel)]="productName"
+            />
+            <span class="ap-error" id="err-productName"></span>
+          </div>
+
+          <div class="ap-form-group">
+            <label class="feild" for="description">
+              <span>Description</span>
+            </label>
+            <textarea
+              class="textarea-main mt-1 mb-1"
+              id="description"
+              name="description"
+              rows="5"
+              placeholder="Describe your product — materials, features, sizing..."
+              [(ngModel)]="description"
+            ></textarea>
+            <span class="ap-helper" id="charCount">{{ charCount }} / 1000 characters</span>
+          </div>
+
+          <div class="ap-form-group">
+            <label class="feild" for="category">
+              <span>Category</span>
+              <span class="ap-required">*</span>
+            </label>
+            <select
+              class="select-main mt-1 mb-1"
+              id="category"
+              name="category"
+              [(ngModel)]="categoryLabel">
+              <option value="">Select category…</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Clothing &amp; Apparel">Clothing &amp; Apparel</option>
+              <option value="Home &amp; Garden">Home &amp; Garden</option>
+              <option value="Sports &amp; Outdoors">Sports &amp; Outdoors</option>
+              <option value="Beauty &amp; Health">Beauty &amp; Health</option>
+              <option value="Books &amp; Media">Books &amp; Media</option>
+              <option value="Toys &amp; Games">Toys &amp; Games</option>
+              <option value="Food &amp; Beverages">Food &amp; Beverages</option>
+              <option value="Automotive">Automotive</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="ap-error" id="err-category"></span>
+          </div>
+
+          <div class="ap-row">
+            <div class="ap-form-group">
+              <label class="feild" for="costPrice">
+                Cost price (USD)
+              </label>
+              <div class="ap-input-prefix">
+                <span class="ap-input-prefix__symbol">$</span>
+                <input
+                  class="input-main mt-1 mb-1 ap-input--prefixed"
+                  id="costPrice"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                />
+              </div>
+            </div>
+            <div class="ap-form-group">
+              <label class="feild" for="sellingPrice">
+                selling price (USD) <span class="ap-required">*</span>
+              </label>
+              <div class="ap-input-prefix">
+                <span class="ap-input-prefix__symbol">$</span>
+                <input
+                  class="input-main mt-1 mb-1 ap-input--prefixed"
+                  id="sellingPrice"
+                  name="sellingPrice"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                  [(ngModel)]="price"
+                />
+              </div>
+              <span class="ap-error" id="err-price"></span>
+            </div>
+          </div>
+
+          <div class="ap-form-group">
+            <label class="feild" for="quantity">Available quentity</label>
+            <input
+              class="input-main mt-1 mb-1"
+              id="quantity"
+              name="quantity"
+              type="number"
+              min="0"
+              placeholder="e.g. 100"
+              [(ngModel)]="quantity"
+            />
+          </div>
+
+          <div class="ap-form-group" style="margin-top:8px">
+            <label class="feild">
+              <i class="fa-solid fa-tag" style="font-size:12px;margin-right:4px"></i>Tags
+            </label>
+            <div class="ap-tag-input-row">
+              <input
+                class="input-main mt-1 mb-1"
+                id="tagInput"
+                type="text"
+                placeholder="Add a tag and press Enter"
+                (keydown)="handleTagKey($event)"
+              />
+              <button class="ap-btn ap-btn--gold ap-btn--sm" type="button" (click)="addTag()">
+                <i class="fa-solid fa-plus"></i> Add
+              </button>
+            </div>
+            <div class="ap-chips" id="tagChips">
+              @for (tag of tags; track tag) {
+                <span class="ap-chip"
+                  >#{{ tag }}
+                  <button type="button" (click)="removeTag(tag)"><i class="fa-solid fa-xmark"></i></button>
+                </span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="ap-action-bar">
+          <button class="btn-main btn-border" type="button" (click)="handleCancel()" [disabled]="isLoading">
+            Cancel
+          </button>
+          <button class="btn-main btn-gold" type="button" (click)="handleSave()" [disabled]="isLoading">
+            <i class="fa-solid fa-floppy-disk"></i> Save Product
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>

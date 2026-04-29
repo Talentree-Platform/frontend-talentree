@@ -1,0 +1,90 @@
+<div class="rm-container">
+
+  <!-- Stats Cards -->
+  <div class="stats-cards">
+    <div class="stat-card total">
+      <span class="stat-number">{{ totalCount }}</span>
+      <span class="stat-label">Total Materials</span>
+    </div>
+    <div class="stat-card available">
+      <span class="stat-number">{{ availableCount }}</span>
+      <span class="stat-label">Available</span>
+    </div>
+    <div class="stat-card outofstock">
+      <span class="stat-number">{{ outOfStockCount }}</span>
+      <span class="stat-label">Out of Stock</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="section-header">
+    <h2 class="section-title">Raw Materials</h2>
+    <button class="btn-create" (click)="openCreateForm()">+ Add Material</button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <input
+      class="filter-input"
+      type="text"
+      placeholder="Search by name..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()"
+    />
+
+    <select class="filter-select" [(ngModel)]="selectedCategory" (change)="onFilterChange()">
+      <option value="">All Categories</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
+
+    <select class="filter-select" (change)="onAvailabilityChange($any($event.target).value)">
+      <option value="">All Status</option>
+      <option value="true">Available</option>
+      <option value="false">Out of Stock</option>
+    </select>
+
+    <button class="btn-clear" (click)="clearFilters()">✕ Clear</button>
+  </div>
+
+  <!-- Table -->
+  <app-table
+    [columns]="columns"
+    [data]="materials"
+    [hasActions]="true"
+    [actions]="actions"
+    (actionClick)="handleEvent($event)"
+  ></app-table>
+
+  <!-- Pagination -->
+  <app-pagination
+    *ngIf="totalPages > 1"
+    [pageIndex]="pageIndex"
+    [totalPages]="totalPages"
+    [hasNext]="hasNext"
+    [hasPrevious]="hasPrevious"
+    (pageChange)="pageChangeEvent($event)"
+  ></app-pagination>
+
+</div>
+
+<!-- Modals -->
+<app-raw-material-details
+  *ngIf="isDetailsOpen"
+  [material]="selectedMaterial"
+  (close)="closeModals()"
+></app-raw-material-details>
+
+<app-raw-material-form
+  *ngIf="isFormOpen"
+  [material]="isEditMode ? selectedMaterial : null"
+  [isEditMode]="isEditMode"
+  (close)="closeModals()"
+  (saved)="onFormSaved()"
+></app-raw-material-form>
+
+<app-restock-modal
+  *ngIf="isRestockOpen"
+  [material]="selectedMaterial"
+  (close)="closeModals()"
+  (restocked)="onRestocked()"
+></app-restock-modal>

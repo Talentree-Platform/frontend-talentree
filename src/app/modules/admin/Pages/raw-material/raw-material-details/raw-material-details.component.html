@@ -1,0 +1,88 @@
+<div class="modal-overlay" (click)="onOverlayClick()"></div>
+
+<div class="modal-box" *ngIf="material">
+
+  <div class="modal-header">
+    <h3>Material Details</h3>
+    <button class="btn-close-modal" (click)="onClose()">✕</button>
+  </div>
+
+  <div class="modal-body">
+
+    <!-- Image -->
+    <div class="material-image" *ngIf="material.pictureUrl">
+      <img [src]="material.pictureUrl" [alt]="material.name" />
+    </div>
+    <div class="no-image" *ngIf="!material.pictureUrl">No Image</div>
+
+    <!-- Info Grid -->
+    <div class="info-grid">
+
+      <div class="info-row">
+        <span class="info-label">Name</span>
+        <span class="info-value">{{ material.name }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Category</span>
+        <span class="info-value">
+          <span class="badge-category">{{ material.category }}</span>
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Description</span>
+        <span class="info-value">{{ material.description }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Price</span>
+        <span class="info-value fw-bold">{{ material.price | currency:'EGP':'symbol':'1.2-2' }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Unit</span>
+        <span class="info-value">{{ material.unit }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Min. Order Qty</span>
+        <span class="info-value">{{ material.minimumOrderQuantity }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Stock</span>
+        <span class="info-value">
+          <span class="stock-badge" [style.background]="getStockBadgeColor()">
+            {{ material.stockQuantity }} units
+          </span>
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Status</span>
+        <span class="info-value">
+          <span class="status-badge" [class.available]="material.isAvailable" [class.unavailable]="!material.isAvailable">
+            {{ material.isAvailable ? 'Available' : 'Unavailable' }}
+          </span>
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Supplier</span>
+        <span class="info-value">{{ material.supplierName }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Created At</span>
+        <span class="info-value">{{ formatDate(material.createdAt) }}</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn-cancel" (click)="onClose()">Close</button>
+  </div>
+
+</div>

@@ -1,0 +1,110 @@
+<!-- src/app/modules/auth/login/login.component.html -->
+
+<div class="login-container">
+  <div class="login-card">
+
+    <!-- Header -->
+    <div class="login-header">
+      <h2>Welcome Back</h2>
+      <p>Sign in to your account</p>
+    </div>
+
+    <!-- Error Alert with Verify Button -->
+    <div *ngIf="errorMessage" class="alert-danger">
+      {{ errorMessage }}
+
+      <!-- ✅ Show Verify Email button for 403 Forbidden -->
+      <div *ngIf="showVerifyButton" class="verify-action">
+        <p class="verify-message">Your email is not verified.</p>
+        <button class="btn-verify" (click)="goToVerifyEmail()">
+          <span class="verify-icon">📧</span>
+          Verify Email Now
+        </button>
+        <button class="btn-resend" (click)="resendVerification()" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Resend Verification Email</span>
+          <span *ngIf="isLoading">Sending...</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Success Alert -->
+    <div *ngIf="successMessage" class="alert-success">
+      {{ successMessage }}
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control"
+          [class.is-invalid]="isFieldInvalid('email')" [class.is-valid]="isFieldValid('email')"
+          placeholder="Enter your email">
+        <div *ngIf="isFieldInvalid('email')" class="invalid-feedback">
+          {{ getFieldError('email') }}
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input-group">
+          <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
+            class="form-control" [class.is-invalid]="isFieldInvalid('password')"
+            [class.is-valid]="isFieldValid('password')" placeholder="Enter your password">
+          <button type="button" class="btn-outline-secondary" (click)="togglePasswordVisibility()" tabindex="-1">
+            {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+        <div *ngIf="isFieldInvalid('password')" class="invalid-feedback">
+          {{ getFieldError('password') }}
+        </div>
+      </div>
+
+      <!-- Form Options -->
+      <div class="form-options">
+        <div class="form-check">
+          <input type="checkbox" id="rememberMe" formControlName="rememberMe" class="form-check-input">
+          <label for="rememberMe" class="form-check-label">
+            Remember me
+          </label>
+        </div>
+        <a class="forgot-password" (click)="goToForgotPassword()">
+          Forgot password?
+        </a>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn-primary" [disabled]="isLoading || loginForm.invalid">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm"></span>
+        <span *ngIf="!isLoading">Sign In</span>
+        <span *ngIf="isLoading">Signing in...</span>
+      </button>
+
+    </form>
+
+   
+    <!-- Social Login -->
+    <div class="social-login">
+      <div class="divider">or continue with</div>
+      <div class="social-buttons">
+        
+        <app-google-login (onSuccess)="onGoogleSuccess($event)" (onError)="onGoogleError($event)">
+        </app-google-login>
+
+        <app-facebook-login (onSuccess)="onFacebookSuccess($event)" (onError)="onFacebookError($event)">
+        </app-facebook-login>
+      </div>
+    </div>
+
+    <!-- Register Link -->
+    <div class="register-link">
+      <p>
+        Don't have an account?
+        <a (click)="goToRegister()">Sign up</a>
+      </p>
+    </div>
+
+  </div>
+</div>

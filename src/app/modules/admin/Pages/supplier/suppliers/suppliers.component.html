@@ -1,0 +1,76 @@
+<div class="supplier-container">
+
+  <!-- Stats Cards -->
+  <div class="stats-cards">
+    <div class="stat-card total">
+      <span class="stat-number">{{ totalCount }}</span>
+      <span class="stat-label">Total Suppliers</span>
+    </div>
+    <div class="stat-card active">
+      <span class="stat-number">{{ activeCount }}</span>
+      <span class="stat-label">Active</span>
+    </div>
+    <div class="stat-card inactive">
+      <span class="stat-number">{{ inactiveCount }}</span>
+      <span class="stat-label">Inactive</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="section-header">
+    <h2 class="section-title">Suppliers</h2>
+    <button class="btn-create" (click)="openCreateForm()">+ Add Supplier</button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <input
+      class="filter-input"
+      type="text"
+      placeholder="Search by name or email..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()"
+    />
+    <select class="filter-select" (change)="onActiveChange($any($event.target).value)">
+      <option value="">All Status</option>
+      <option value="true">Active</option>
+      <option value="false">Inactive</option>
+    </select>
+    <button class="btn-clear" (click)="clearFilters()">✕ Clear</button>
+  </div>
+
+  <!-- Table -->
+  <app-table
+    [columns]="columns"
+    [data]="suppliers"
+    [hasActions]="true"
+    [actions]="actions"
+    (actionClick)="handleEvent($event)"
+  ></app-table>
+
+  <!-- Pagination -->
+  <app-pagination
+    *ngIf="totalPages > 1"
+    [pageIndex]="pageIndex"
+    [totalPages]="totalPages"
+    [hasNext]="hasNext"
+    [hasPrevious]="hasPrevious"
+    (pageChange)="pageChangeEvent($event)"
+  ></app-pagination>
+
+</div>
+
+<!-- Modals -->
+<app-supplier-details
+  *ngIf="isDetailsOpen"
+  [supplier]="selectedSupplier"
+  (close)="closeModals()"
+></app-supplier-details>
+
+<app-supplier-form
+  *ngIf="isFormOpen"
+  [supplier]="isEditMode ? selectedSupplier : null"
+  [isEditMode]="isEditMode"
+  (close)="closeModals()"
+  (saved)="onFormSaved()"
+></app-supplier-form>

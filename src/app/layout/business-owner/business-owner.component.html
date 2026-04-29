@@ -1,0 +1,12 @@
+<div class="layout" [class.expanded]="isExpanded">
+  <app-owner-top-nav></app-owner-top-nav>
+
+  <app-owner-side-nav
+    (expandedChange)="isExpanded = $event">
+  </app-owner-side-nav>
+
+  <div class="setting">
+    <app-business-chat></app-business-chat>
+    <router-outlet></router-outlet>
+  </div>
+</div>

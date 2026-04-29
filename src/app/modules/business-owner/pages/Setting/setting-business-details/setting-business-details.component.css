@@ -1,0 +1,92 @@
+:root {
+  --primary: #d1a33e;
+  --bg: #f7f8fb;
+  --border: #e5e7eb;
+  --text: #111827;
+  --muted: #6b7280;
+}
+
+:host {
+  display: block;
+  background: #ffffff;
+}
+
+
+
+/* Header */
+
+
+.page-header p {
+  color: var(--muted);
+}
+
+
+
+
+.hint {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Form layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 14px;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.field.full {
+  grid-column: 1 / -1;
+}
+
+.field span {
+  color: var(--muted);
+}
+
+
+
+/* Cover Photo */
+.cover-box {
+  border-radius: 8px;
+  border: 1px dashed var(--border);
+  padding: 10px;
+  background: #f9fafb;
+  display: grid;
+  gap: 8px;
+}
+
+.cover-box img {
+  width: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+  max-height: 180px;
+}
+
+
+
+/* Bottom actions */
+.actions-row {
+  margin-top: 6px;
+  text-align: right;
+}
+
+
+/* Responsive */
+@media (max-width: 900px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .business-page {
+    padding-inline: 12px;
+  }
+}

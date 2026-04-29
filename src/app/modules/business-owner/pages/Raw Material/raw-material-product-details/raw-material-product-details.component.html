@@ -1,0 +1,139 @@
+<div class="page">
+  <!-- Top section -->
+  <section class="top">
+    <!-- Gallery -->
+    <div class="gallery">
+      <div class="hero-img">
+        <img [src]="materialDetails.pictureUrl" alt="Material main" />
+      </div>
+      <div class="thumbs">
+        <img src="https://i.pinimg.com/1200x/3a/be/7f/3abe7f96a9ac68e4422b04732d5bdb00.jpg" alt="thumb 1" />
+        <img src="https://i.pinimg.com/1200x/12/85/3f/12853f8448685fbceb510fe00b83fd17.jpg" alt="thumb 2" />
+        <img src="https://i.pinimg.com/1200x/12/85/3f/12853f8448685fbceb510fe00b83fd17.jpg" alt="thumb 3" />
+      </div>
+    </div>
+
+    <!-- Details -->
+    <div class="details">
+      <div class="title-row">
+        <h1>{{materialDetails.name}}</h1>
+        @if(materialDetails.isAvailable){
+          <span class="tag">In Stock</span>
+        }
+        @else {
+          <span class="tag">Out Of Stock</span>
+        }
+        
+      </div>
+      <p class="supplier">Supplier: <strong>{{materialDetails.supplierName}}</strong> · Rating: ⭐⭐⭐⭐☆ (4.2)</p>
+      <p class="desc">
+        {{materialDetails.description}}
+      </p>
+
+      <div class="price-block">
+        <div>
+          <p class="price">Price: <strong>${{materialDetails.price}} / {{materialDetails.unit}}</strong></p>
+          <p class="note">Bulk discounts apply based on quantity tiers.</p>
+        </div>
+        <div class="qty">
+          <label for="qtyInput">Quantity (meters)</label>
+          <div class="qty-row">
+            <button>-</button>
+            <input id="qtyInput" type="number" [min]="materialDetails.minimumOrderQuantity" [value]="quentity" [(ngModel)]="quentity" />
+            <button>+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-title">Bulk Discount</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Min Qty</th>
+              <th>Discount</th>
+              <th>Price / m</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Bronze</td>
+              <td>200 m</td>
+              <td>5%</td>
+              <td>$4.94</td>
+            </tr>
+            <tr>
+              <td>Silver</td>
+              <td>500 m</td>
+              <td>8%</td>
+              <td>$4.78</td>
+            </tr>
+            <tr>
+              <td>Gold</td>
+              <td>1000 m</td>
+              <td>12%</td>
+              <td>$4.58</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ship-review">
+        <div>
+          <p class="label">Shipping</p>
+          <p>Options: Air · Sea · Express</p>
+          <p>Delivery: 7–12 days (air), 22–28 days (sea)</p>
+        </div>
+        <div>
+          <p class="label">Reviews</p>
+          <p>Avg: 4.2 (128 reviews)</p>
+          <p>Recent: “Consistent quality, fast dispatch.”</p>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <button class="btn primary" (click)="addMaterialToCart()"   >Add to Cart</button>
+        <button class="btn ghost">Buy Now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product specification -->
+  <section class="specs">
+    <h2>Product Specification</h2>
+    <div class="spec-grid">
+      <div><span>Type:</span><strong>Knitted Fleece</strong></div>
+      <div><span>GSM:</span><strong>320</strong></div>
+      <div><span>Composition:</span><strong>65% Polyester / 35% Cotton</strong></div>
+      <div><span>Width:</span><strong>175 cm</strong></div>
+      <div><span>Finish:</span><strong>Anti-Pill, Brushed</strong></div>
+      <div><span>Colorfastness:</span><strong>4–5 Grade</strong></div>
+      <div><span>MOQ:</span><strong>200 m</strong></div>
+      <div><span>Dyeing:</span><strong>Reactive</strong></div>
+      <div><span>Care:</span><strong>Machine wash cold, tumble dry low</strong></div>
+      <div><span>Certifications:</span><strong>OEKO-TEX Standard 100</strong></div>
+    </div>
+  </section>
+
+  <!-- Description -->
+  <section class="description">
+    <h2>Description</h2>
+    <p>
+      Premium anti-pill fleece with soft handfeel and stable dimensions, ideal for hoodies,
+      jackets, and cold-weather layers. Excellent drape with minimal shrinkage post-wash.
+      Produced in audited facilities ensuring consistent dye lots and reliable bulk lead times.
+    </p>
+  </section>
+
+  <!-- Usage examples -->
+  <section class="usage">
+    <h2>Usage Examples</h2>
+    <div class="usage-grid">
+      <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80" alt="usage 1" />
+      <img src="https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?auto=format&fit=crop&w=400&q=80" alt="usage 2" />
+      <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=400&q=80" alt="usage 3" />
+      <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=400&q=80" alt="usage 4" />
+    </div>
+  </section>
+</div>

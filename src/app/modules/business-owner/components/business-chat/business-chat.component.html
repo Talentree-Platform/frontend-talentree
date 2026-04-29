@@ -1,0 +1,46 @@
+<!-- ICON BUTTON -->
+ <div class="icon-btn" (click)="openPopup()">
+  <i class="fa-solid fa-question gradient-text"></i>
+</div>
+
+<!-- POPUP -->
+ @if(isOpen){
+    <div class="overlay" (click)="closePopup()">
+  <div class="popup" (click)="$event.stopPropagation()">
+    <span class="close" (click)="closePopup()">×</span>
+    <div class="chat-box" #chatBox>
+    @for(msg of chatContent ;track $index){
+    <div class ="user-message">
+        <p> {{msg.content}}</p>
+        
+    </div>
+    <div class="bot-message">
+        <p> {{msg.aiResponse}}</p>
+    </div>
+    }
+ 
+    
+
+    <div class="chat-input-container">
+  <input 
+    class="input-main" 
+    [(ngModel)]="userInput" 
+    placeholder="Type message..." 
+    (keydown.enter)="sendMessage()" 
+    (input)="enableSendButton()"
+  />
+  
+  <button 
+    (click)="sendMessage()" 
+    [disabled]="!enableSend"
+  >
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+</div>
+
+    
+
+</div>
+  </div>
+</div>
+ }
