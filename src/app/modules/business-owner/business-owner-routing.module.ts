@@ -22,6 +22,7 @@ import { OwnerProductDetailsComponent } from './pages/Products/owner-product-det
 import { ProductionRequestListComponent } from './pages/BO-Production-Request/production-request-list/production-request-list.component';
 import { CreateProductionRequestComponent } from './pages/BO-Production-Request/create-production-request/create-production-request.component';
 import { ProductionRequestDetailsComponent } from './pages/BO-Production-Request/production-request-details/production-request-details.component';
+import { NotificationComponent } from './pages/notification/notification.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,7 @@ const routes: Routes = [
       { path: 'settingpaymentbilling', component: SettingPaymentBillingComponent },
       { path: 'settingpreference', component: SettingPrefernceNotificationsComponent },
       { path: 'settingsecurity', component: SettingSecurityPrivacyComponent },
-      { path: 'notifications', component: NotificationsComponent },
+      { path: 'notification', component: NotificationComponent },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'ownerProduct', component: OwnerProductsComponent },
       { path: 'owner/products/:id', component: OwnerProductDetailsComponent },

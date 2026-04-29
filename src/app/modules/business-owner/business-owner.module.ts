@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BusinessOwnerRoutingModule } from './business-owner-routing.module';
-import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { NotificationComponent } from './pages/notification/notification.component';
 import { RawMaterialCartComponent } from './pages/Raw Material/raw-material-cart/raw-material-cart.component';
 import { RawMaterialCheckoutComponent } from './pages/Raw Material/raw-material-checkout/raw-material-checkout.component';
 import { SettingBusinessDetailsComponent } from './pages/Setting/setting-business-details/setting-business-details.component';
@@ -47,7 +47,7 @@ import { CreateProductionRequestComponent } from './pages/BO-Production-Request/
     SettingPaymentBillingComponent,
     SettingPrefernceNotificationsComponent,
     SettingSecurityPrivacyComponent,
-    NotificationsComponent,
+    NotificationComponent,
     CommonModule,
     BusinessOwnerRoutingModule,
   
