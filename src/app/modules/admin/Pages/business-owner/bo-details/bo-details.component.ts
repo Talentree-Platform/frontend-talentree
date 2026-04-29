@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './bo-details.component.html',
-  styleUrl: './bo-details.component.css'
+  styleUrls: ['./bo-details.component.css','../modal shared.css']
 })
 export class BoDetailsComponent {
   @Input() businessOwner!: BusinessOwner | null;

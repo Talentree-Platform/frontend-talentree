@@ -1,35 +1,126 @@
 <div class="pending-bo-container">
 
-  <!-- Top Cards -->
+  <!-- Stats Cards -->
   <div class="stats-cards">
+
     <div class="stat-card total">
-      <span class="stat-number">{{ totalAdmins }}</span>
-      <span class="stat-label">Total Admins</span>
+      <div class="stat-icon purple">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6C63FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Total Admins</span>
+        <span class="stat-number">{{ totalAdmins }}</span>
+        <span class="stat-badge all">ALL</span>
+      </div>
     </div>
+
     <div class="stat-card active">
-      <span class="stat-number">{{ activeAdmins }}</span>
-      <span class="stat-label">Active</span>
+      <div class="stat-icon green">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Active</span>
+        <span class="stat-number">{{ activeAdmins }}</span>
+        <span class="stat-badge active">ACTIVE</span>
+      </div>
     </div>
+
     <div class="stat-card inactive">
-      <span class="stat-number">{{ inactiveAdmins }}</span>
-      <span class="stat-label">Inactive</span>
+      <div class="stat-icon gold">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C88010" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Inactive</span>
+        <span class="stat-number">{{ inactiveAdmins }}</span>
+        <span class="stat-badge inactive">INACTIVE</span>
+      </div>
     </div>
+
   </div>
 
-  <!-- Header -->
+  <!-- Section Header -->
   <div class="section-header">
-    <h2 class="section-title">Admin Accounts</h2>
-    <button class="btn-create" (click)="openCreateModal()">+ New Admin</button>
+    <div class="section-title-wrap">
+      <h2 class="section-title">Admin Accounts</h2>
+      <div class="title-underline"></div>
+    </div>
+    <button class="btn-create" (click)="openCreateModal()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      New Admin
+    </button>
   </div>
 
   <!-- Table -->
-  <app-table
-    [columns]="columns"
-    [data]="admins"
-    [hasActions]="true"
-    [actions]="actions"
-    (actionClick)="handleEvent($event)"
-  ></app-table>
+  <div class="table-wrapper">
+    <table class="admins-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th class="center">Status</th>
+          <th class="center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let admin of admins">
+
+          <td>
+            <div class="admin-name-cell">
+              <div class="admin-avatar">
+                {{ admin.fullName | slice:0:2 | uppercase }}
+              </div>
+              <div>
+                <div class="admin-name">{{ admin.fullName }}</div>
+              </div>
+            </div>
+          </td>
+
+          <td>{{ admin.email }}</td>
+          <td>{{ admin.phoneNumber || '—' }}</td>
+
+          <td class="center">
+            <span class="status-pill" [ngClass]="admin.isActive ? 'active' : 'inactive'">
+              {{ admin.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          <td>
+            <div class="actions-cell">
+              <button class="btn-view" (click)="handleEvent({ action: 'view', item: admin })">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                View
+              </button>
+              <button class="btn-edit" (click)="handleEvent({ action: 'edit', item: admin })">Edit</button>
+              <button class="btn-delete" (click)="handleEvent({ action: 'delete', item: admin })">Delete</button>
+            </div>
+          </td>
+
+        </tr>
+
+        <tr *ngIf="admins?.length === 0">
+          <td colspan="5">
+            <div class="empty-state">No admins found.</div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
 
 </div>
 

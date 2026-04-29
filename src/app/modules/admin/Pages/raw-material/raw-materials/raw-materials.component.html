@@ -1,25 +1,61 @@
 <div class="rm-container">
 
-  <!-- Stats Cards -->
+  <!-- Stat Cards -->
   <div class="stats-cards">
+
     <div class="stat-card total">
-      <span class="stat-number">{{ totalCount }}</span>
-      <span class="stat-label">Total Materials</span>
+      <div class="stat-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M20.25 7.5l-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Total Materials</span>
+        <span class="stat-number">{{ totalCount }}</span>
+        <span class="stat-badge badge-blue">All</span>
+      </div>
     </div>
+
     <div class="stat-card available">
-      <span class="stat-number">{{ availableCount }}</span>
-      <span class="stat-label">Available</span>
+      <div class="stat-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Available</span>
+        <span class="stat-number">{{ availableCount }}</span>
+        <span class="stat-badge badge-green">In Stock</span>
+      </div>
     </div>
+
     <div class="stat-card outofstock">
-      <span class="stat-number">{{ outOfStockCount }}</span>
-      <span class="stat-label">Out of Stock</span>
+      <div class="stat-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Out of Stock</span>
+        <span class="stat-number">{{ outOfStockCount }}</span>
+        <span class="stat-badge badge-red">Alert</span>
+      </div>
     </div>
+
   </div>
 
-  <!-- Header -->
+  <!-- Section Header -->
   <div class="section-header">
     <h2 class="section-title">Raw Materials</h2>
-    <button class="btn-create" (click)="openCreateForm()">+ Add Material</button>
+    <button class="btn-create" (click)="openCreateForm()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Add Material
+    </button>
   </div>
 
   <!-- Filters -->
@@ -27,33 +63,32 @@
     <input
       class="filter-input"
       type="text"
-      placeholder="Search by name..."
+      placeholder="Search by name…"
       [(ngModel)]="searchTerm"
       (input)="onSearch()"
     />
-
     <select class="filter-select" [(ngModel)]="selectedCategory" (change)="onFilterChange()">
       <option value="">All Categories</option>
       <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
     </select>
-
     <select class="filter-select" (change)="onAvailabilityChange($any($event.target).value)">
       <option value="">All Status</option>
       <option value="true">Available</option>
       <option value="false">Out of Stock</option>
     </select>
-
     <button class="btn-clear" (click)="clearFilters()">✕ Clear</button>
   </div>
 
   <!-- Table -->
-  <app-table
-    [columns]="columns"
-    [data]="materials"
-    [hasActions]="true"
-    [actions]="actions"
-    (actionClick)="handleEvent($event)"
-  ></app-table>
+  <div class="table-panel">
+    <app-table
+      [columns]="columns"
+      [data]="materials"
+      [hasActions]="true"
+      [actions]="actions"
+      (actionClick)="handleEvent($event)">
+    </app-table>
+  </div>
 
   <!-- Pagination -->
   <app-pagination
@@ -62,8 +97,8 @@
     [totalPages]="totalPages"
     [hasNext]="hasNext"
     [hasPrevious]="hasPrevious"
-    (pageChange)="pageChangeEvent($event)"
-  ></app-pagination>
+    (pageChange)="pageChangeEvent($event)">
+  </app-pagination>
 
 </div>
 
@@ -71,20 +106,20 @@
 <app-raw-material-details
   *ngIf="isDetailsOpen"
   [material]="selectedMaterial"
-  (close)="closeModals()"
-></app-raw-material-details>
+  (close)="closeModals()">
+</app-raw-material-details>
 
 <app-raw-material-form
   *ngIf="isFormOpen"
   [material]="isEditMode ? selectedMaterial : null"
   [isEditMode]="isEditMode"
   (close)="closeModals()"
-  (saved)="onFormSaved()"
-></app-raw-material-form>
+  (saved)="onFormSaved()">
+</app-raw-material-form>
 
 <app-restock-modal
   *ngIf="isRestockOpen"
   [material]="selectedMaterial"
   (close)="closeModals()"
-  (restocked)="onRestocked()"
-></app-restock-modal>
+  (restocked)="onRestocked()">
+</app-restock-modal>

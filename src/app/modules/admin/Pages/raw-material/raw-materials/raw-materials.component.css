@@ -1,96 +1,387 @@
-.rm-container {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:host {
+  --gold:        #B8860B;
+  --gold-light:  #C9952A;
+  --gold-pale:   #FBF3E2;
+  --gold-border: #E8D5A3;
+  --cream:       #FDFAF4;
+  --surface:     #FFFFFF;
+  --border:      #EDE8DF;
+  --border-soft: #F4EFE7;
+  --text-dark:   #18130A;
+  --text-mid:    #5C5244;
+  --text-soft:   #A09280;
+  --blue:        #3B6FE8;
+  --blue-pale:   #EEF3FF;
+  --green:       #27A06B;
+  --green-pale:  #EDFAF4;
+  --amber:       #C9952A;
+  --amber-pale:  #FFF8EC;
+  --red:         #D94040;
+  --red-pale:    #FEF2F2;
+  --purple:      #7C5CBF;
+  --purple-pale: #F3EEFF;
+  --shadow-sm:   0 1px 3px rgba(184,134,11,.07), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:   0 4px 20px rgba(184,134,11,.12), 0 2px 8px rgba(0,0,0,.06);
 }
 
-/* Stats */
+/* ══════════════════════════════════════
+   PAGE
+══════════════════════════════════════ */
+.rm-container {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  min-height: 100vh;
+  padding: 28px;
+  box-sizing: border-box;
+  animation: fadeUp .4s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════
+   STAT CARDS
+══════════════════════════════════════ */
 .stats-cards {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
 }
 
 .stat-card {
-  flex: 1;
-  min-width: 140px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .22s, transform .2s, border-color .22s;
+}
+.stat-card:hover {
+  border-color: var(--gold-light);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
 }
 
-.stat-card.total      { border-left: 4px solid #6c63ff; }
-.stat-card.available  { border-left: 4px solid #2ecc71; }
-.stat-card.outofstock { border-left: 4px solid #e74c3c; }
+/* Glow */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.stat-card.total::before    { background: radial-gradient(circle, rgba(59,111,232,.12) 0%, transparent 70%); }
+.stat-card.available::before { background: radial-gradient(circle, rgba(39,160,107,.12) 0%, transparent 70%); }
+.stat-card.outofstock::before { background: radial-gradient(circle, rgba(217,64,64,.12) 0%, transparent 70%); }
 
-.stat-number { font-size: 1.8rem; font-weight: 700; color: #1a1a2e; }
-.stat-label  { font-size: 0.82rem; color: #888; font-weight: 500; }
+/* Icon */
+.stat-card-icon {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+}
+.stat-card-icon svg { width: 22px; height: 22px; }
+.stat-card.total     .stat-card-icon { background: var(--blue-pale);   color: var(--blue); }
+.stat-card.available .stat-card-icon { background: var(--green-pale);  color: var(--green); }
+.stat-card.outofstock .stat-card-icon { background: var(--red-pale);   color: var(--red); }
 
-/* Header */
+.stat-body { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+
+.stat-number {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-size: .72rem;
+  color: var(--text-soft);
+  font-weight: 500;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.stat-badge {
+  font-size: .59rem; font-weight: 700;
+  padding: 3px 9px; border-radius: 99px;
+  letter-spacing: .05em; text-transform: uppercase;
+  align-self: flex-start;
+}
+.badge-blue   { background: var(--blue-pale);  color: #1A3A8B; border: 1px solid #C0D4FA; }
+.badge-green  { background: var(--green-pale); color: #145738; border: 1px solid #B8EACC; }
+.badge-red    { background: var(--red-pale);   color: #7A1A1A; border: 1px solid #FBB8B8; }
+
+/* ══════════════════════════════════════
+   SECTION HEADER
+══════════════════════════════════════ */
 .section-header {
   display: flex;
+  align-items: flex-end;
   justify-content: space-between;
-  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--gold-border);
+  position: relative;
+}
+.section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0;
+  width: 64px; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  border-radius: 2px;
 }
 
 .section-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #1a1a2e;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
   margin: 0;
+  line-height: 1;
+  letter-spacing: -.01em;
 }
 
 .btn-create {
-  padding: 9px 20px;
-  background: #6c63ff;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--green);
+  background: var(--green-pale);
+  color: var(--green);
+  font-size: .84rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all .18s;
+}
+.btn-create:hover {
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(39,160,107,.25);
+  transform: translateY(-1px);
 }
 
-.btn-create:hover { background: #574fd6; }
-
-/* Filters */
+/* ══════════════════════════════════════
+   FILTERS BAR
+══════════════════════════════════════ */
 .filters-bar {
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
   align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .filter-input,
 .filter-select {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 0.88rem;
+  height: 40px;
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: .84rem;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-dark);
+  background: var(--surface);
   outline: none;
-  background: #fff;
-  transition: border-color 0.2s;
+  box-shadow: var(--shadow-sm);
+  transition: border-color .2s, box-shadow .2s;
 }
+.filter-input { flex: 1; min-width: 180px; padding-left: 14px; }
+.filter-select { min-width: 160px; cursor: pointer; }
 
-.filter-input { min-width: 200px; }
+.filter-input::placeholder { color: var(--text-soft); }
 .filter-input:focus,
-.filter-select:focus { border-color: #6c63ff; }
+.filter-select:focus {
+  border-color: var(--gold-light);
+  box-shadow: 0 0 0 3px rgba(201,149,42,.12);
+}
 
 .btn-clear {
-  padding: 8px 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
-  color: #888;
-  font-size: 0.85rem;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text-mid);
+  font-size: .84rem;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.btn-clear:hover {
+  background: var(--red-pale);
+  border-color: var(--red);
+  color: var(--red);
 }
 
-.btn-clear:hover { border-color: #e74c3c; color: #e74c3c; }
+
+/* ══════════════════════════════════════
+   TABLE OVERRIDES — append to raw-materials.component.css
+══════════════════════════════════════ */
+
+/* ── Table shell ── */
+:host ::ng-deep app-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .84rem;
+}
+
+/* ── Header ── */
+:host ::ng-deep app-table thead tr {
+  background: linear-gradient(135deg, var(--cream) 0%, var(--surface) 100%);
+  border-bottom: 1px solid var(--gold-border);
+}
+
+:host ::ng-deep app-table thead th {
+  padding: 13px 16px;
+  text-align: left;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  white-space: nowrap;
+  border: none;
+}
+
+/* ── Body rows ── */
+:host ::ng-deep app-table tbody tr {
+  border-bottom: 1px solid var(--border-soft);
+  transition: background .15s;
+}
+:host ::ng-deep app-table tbody tr:last-child {
+  border-bottom: none;
+}
+:host ::ng-deep app-table tbody tr:hover {
+  background: var(--gold-pale);
+}
+
+:host ::ng-deep app-table tbody td {
+  padding: 13px 16px;
+  color: var(--text-dark);
+  font-size: .84rem;
+  border: none;
+  vertical-align: middle;
+}
+
+/* ── Actions cell — single row, no wrap ── */
+:host ::ng-deep app-table tbody td:last-child {
+  white-space: nowrap;
+}
+
+:host ::ng-deep app-table .action-buttons,
+:host ::ng-deep app-table td:last-child > div,
+:host ::ng-deep app-table td:last-child {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── Reset ALL buttons first ── */
+:host ::ng-deep app-table button {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: 7px;
+  border: 1px solid;
+  font-size: .71rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+  letter-spacing: .01em;
+  box-sizing: border-box;
+}
+
+/* ── View ── */
+:host ::ng-deep app-table button[class*="view"],
+:host ::ng-deep app-table button:nth-of-type(1) {
+  border-color: var(--border);
+  color: var(--text-mid);
+  background: transparent;
+}
+:host ::ng-deep app-table button[class*="view"]:hover,
+:host ::ng-deep app-table button:nth-of-type(1):hover {
+  background: var(--gold-pale);
+  border-color: var(--gold-border);
+  color: var(--gold);
+}
+
+/* ── Edit ── */
+:host ::ng-deep app-table button[class*="edit"],
+:host ::ng-deep app-table button:nth-of-type(2) {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: transparent;
+}
+:host ::ng-deep app-table button[class*="edit"]:hover,
+:host ::ng-deep app-table button:nth-of-type(2):hover {
+  background: var(--blue-pale);
+  box-shadow: 0 0 0 3px rgba(59,111,232,.1);
+}
+
+/* ── Restock ── */
+:host ::ng-deep app-table button[class*="restock"],
+:host ::ng-deep app-table button:nth-of-type(3) {
+  border-color: var(--amber);
+  color: var(--amber);
+  background: transparent;
+}
+:host ::ng-deep app-table button[class*="restock"]:hover,
+:host ::ng-deep app-table button:nth-of-type(3):hover {
+  background: var(--amber-pale);
+  box-shadow: 0 0 0 3px rgba(201,149,42,.1);
+}
+
+/* ── Delete ── */
+:host ::ng-deep app-table button[class*="delete"],
+:host ::ng-deep app-table button:nth-of-type(4) {
+  border-color: var(--red);
+  color: var(--red);
+  background: transparent;
+}
+:host ::ng-deep app-table button[class*="delete"]:hover,
+:host ::ng-deep app-table button:nth-of-type(4):hover {
+  background: var(--red-pale);
+  box-shadow: 0 0 0 3px rgba(217,64,64,.1);
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .stats-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 580px) {
+  .rm-container { padding: 18px; }
+  .stats-cards { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.6rem; }
+  .filters-bar { flex-direction: column; align-items: stretch; }
+  .filter-input, .filter-select, .btn-clear { width: 100%; }
+}

@@ -10,7 +10,7 @@ const MIN_REJECTION_REASON_LENGTH = 10;
   standalone: true,
   imports: [FormsModule],
   templateUrl: './reject-owner.component.html',
-  styleUrls: ['../approve-owner/approve-owner.component.css', './reject-owner.component.css']
+  styleUrls: ['../modal shared.css', './reject-owner.component.css']
 })
 export class RejectOwnerComponent implements OnChanges {
   rejectionReason = '';

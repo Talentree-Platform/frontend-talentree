@@ -2,24 +2,65 @@
 
   <!-- Stats Cards -->
   <div class="stats-cards">
+
     <div class="stat-card total">
-      <span class="stat-number">{{ totalCount }}</span>
-      <span class="stat-label">Total Suppliers</span>
+      <div class="stat-icon purple">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6C63FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Total Suppliers</span>
+        <span class="stat-number">{{ totalCount }}</span>
+        <span class="stat-badge all">ALL</span>
+      </div>
     </div>
+
     <div class="stat-card active">
-      <span class="stat-number">{{ activeCount }}</span>
-      <span class="stat-label">Active</span>
+      <div class="stat-icon green">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Active</span>
+        <span class="stat-number">{{ activeCount }}</span>
+        <span class="stat-badge instock">IN STOCK</span>
+      </div>
     </div>
-    <div class="stat-card inactive">
-      <span class="stat-number">{{ inactiveCount }}</span>
-      <span class="stat-label">Inactive</span>
+
+    <div class="stat-card alert">
+      <div class="stat-icon red">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Inactive</span>
+        <span class="stat-number">{{ inactiveCount }}</span>
+        <span class="stat-badge alert">ALERT</span>
+      </div>
     </div>
+
   </div>
 
-  <!-- Header -->
-  <div class="section-header">
-    <h2 class="section-title">Suppliers</h2>
-    <button class="btn-create" (click)="openCreateForm()">+ Add Supplier</button>
+  <!-- Page Title -->
+  <div>
+    <div class="page-title-row">
+      <div>
+        <h1 class="page-title">Suppliers</h1>
+        <div class="title-underline"></div>
+      </div>
+      <button class="btn-add" (click)="openCreateForm()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Add Supplier
+      </button>
+    </div>
   </div>
 
   <!-- Filters -->
@@ -27,36 +68,102 @@
     <input
       class="filter-input"
       type="text"
-      placeholder="Search by name or email..."
+      placeholder="Search by name…"
       [(ngModel)]="searchTerm"
       (input)="onSearch()"
     />
-    <select class="filter-select" (change)="onActiveChange($any($event.target).value)">
+    <select
+      class="filter-select"
+      (change)="onActiveChange($any($event.target).value)"
+    >
       <option value="">All Status</option>
       <option value="true">Active</option>
       <option value="false">Inactive</option>
     </select>
-    <button class="btn-clear" (click)="clearFilters()">✕ Clear</button>
+    <button class="btn-clear" (click)="clearFilters()">
+      ✕ Clear
+    </button>
   </div>
 
   <!-- Table -->
-  <app-table
-    [columns]="columns"
-    [data]="suppliers"
-    [hasActions]="true"
-    [actions]="actions"
-    (actionClick)="handleEvent($event)"
-  ></app-table>
+  <div class="table-wrapper">
+    <table class="suppliers-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th class="center">Status</th>
+          <th class="center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let supplier of suppliers">
+
+          <!-- Name + avatar -->
+          <td>
+            <div class="supplier-name-cell">
+              <div
+                class="supplier-avatar"
+                style="background: #6C63FF;"
+              >
+                {{ supplier.name | slice:0:2 | uppercase }}
+              </div>
+              <div>
+                <div class="supplier-name">{{ supplier.name }}</div>
+              </div>
+            </div>
+          </td>
+
+          <td>{{ supplier.email }}</td>
+          <td>{{ supplier.phone }}</td>
+
+          <!-- Status -->
+          <td class="center">
+            <span class="status-pill" [ngClass]="supplier.isActive ? 'active' : 'inactive'">
+              {{ supplier.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          <!-- Actions -->
+          <td>
+            <div class="actions-cell">
+              <button class="btn-view" (click)="handleEvent({ action: 'view', item: supplier })">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                View
+              </button>
+              <button class="btn-edit" (click)="handleEvent({ action: 'edit', item: supplier })">Edit</button>
+              <button class="btn-restock" (click)="handleEvent({ action: 'restock', item: supplier })">Restock</button>
+              <button class="btn-delete" (click)="handleEvent({ action: 'delete', item: supplier })">Delete</button>
+            </div>
+          </td>
+
+        </tr>
+
+        <!-- Empty state -->
+        <tr *ngIf="suppliers?.length === 0">
+          <td colspan="5">
+            <div class="empty-state">No suppliers found.</div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
 
   <!-- Pagination -->
-  <app-pagination
-    *ngIf="totalPages > 1"
-    [pageIndex]="pageIndex"
-    [totalPages]="totalPages"
-    [hasNext]="hasNext"
-    [hasPrevious]="hasPrevious"
-    (pageChange)="pageChangeEvent($event)"
-  ></app-pagination>
+  <div class="pagination-wrapper" *ngIf="totalPages > 1">
+    <app-pagination
+      [pageIndex]="pageIndex"
+      [totalPages]="totalPages"
+      [hasNext]="hasNext"
+      [hasPrevious]="hasPrevious"
+      (pageChange)="pageChangeEvent($event)"
+    ></app-pagination>
+  </div>
 
 </div>
 

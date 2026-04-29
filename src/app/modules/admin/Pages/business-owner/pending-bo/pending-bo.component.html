@@ -1,91 +1,155 @@
-<div class="table-container">
-  <div class="mt-5 mb-5 p-5">
-    <div class="row justify-content-center">
-      <div class="col-4">
-        <div
-          class="card bg-pink text-white stat-card-filter"
-          [class.stat-card-filter--active]="approvalFilter === 'all'"
-          role="button"
-          tabindex="0"
-          [attr.aria-pressed]="approvalFilter === 'all'"
-          aria-label="Show all pending owners"
-          (click)="setApprovalFilter('all')"
-          (keydown.enter)="setApprovalFilter('all')"
-          (keydown.space)="$event.preventDefault(); setApprovalFilter('all')">
-          <div class="card-body">
-            <h5 class="card-title">Total Pending</h5>
-            <p class="card-text">{{ totalPendingOwners }}</p>
-          </div>
-        </div>
-      </div>
+<div class="page">
 
-      <div class="col-4 overlap-card">
-        <div
-          class="card bg-terqwaz text-white stat-card-filter"
-          [class.stat-card-filter--active]="approvalFilter === 'auto'"
-          role="button"
-          tabindex="0"
-          [attr.aria-pressed]="approvalFilter === 'auto'"
-          aria-label="Filter table to auto-approval pending only"
-          (click)="setApprovalFilter('auto')"
-          (keydown.enter)="setApprovalFilter('auto')"
-          (keydown.space)="$event.preventDefault(); setApprovalFilter('auto')">
-          <div class="card-body">
-            <h5 class="card-title">Auto-Approval Pending</h5>
-            <p class="card-text">{{ AutoApprovalOwners }}</p>
-          </div>
-        </div>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Admin Panel
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+        Business Owners
       </div>
-
-      <div class="col-4 overlap-card">
-        <div
-          class="card bg-yellow text-white stat-card-filter"
-          [class.stat-card-filter--active]="approvalFilter === 'manual'"
-          role="button"
-          tabindex="0"
-          [attr.aria-pressed]="approvalFilter === 'manual'"
-          aria-label="Filter table to manual approval only"
-          (click)="setApprovalFilter('manual')"
-          (keydown.enter)="setApprovalFilter('manual')"
-          (keydown.space)="$event.preventDefault(); setApprovalFilter('manual')">
-          <div class="card-body">
-            <h5 class="card-title">Manual Approval Needed</h5>
-            <p class="card-text">{{ ManualApprovalOwners }}</p>
-          </div>
-        </div>
-      </div>
+      <h1 class="page-title">Pending Owners</h1>
     </div>
   </div>
 
-  <div class="px-3 mb-3">
+  <!-- Stat Filter Cards -->
+  <div class="stat-grid">
+
+    <!-- Total Pending -->
+    <div class="stat-card"
+      [class.active]="approvalFilter === 'all'"
+      role="button" tabindex="0"
+      [attr.aria-pressed]="approvalFilter === 'all'"
+      aria-label="Show all pending owners"
+      (click)="setApprovalFilter('all')"
+      (keydown.enter)="setApprovalFilter('all')"
+      (keydown.space)="$event.preventDefault(); setApprovalFilter('all')">
+      <div class="stat-glow glow-pink"></div>
+      <div class="stat-icon icon-pink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952
+               4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07
+               M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766
+               l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0
+               3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0
+               2.625 2.625 0 0 1 5.25 0Z"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Total Pending</span>
+        <span class="stat-value">{{ totalPendingOwners }}</span>
+        <span class="stat-badge badge-warn">Review</span>
+      </div>
+    </div>
+
+    <!-- Auto-Approval Pending -->
+    <div class="stat-card"
+      [class.active]="approvalFilter === 'auto'"
+      role="button" tabindex="0"
+      [attr.aria-pressed]="approvalFilter === 'auto'"
+      aria-label="Filter to auto-approval pending"
+      (click)="setApprovalFilter('auto')"
+      (keydown.enter)="setApprovalFilter('auto')"
+      (keydown.space)="$event.preventDefault(); setApprovalFilter('auto')">
+      <div class="stat-glow glow-teal"></div>
+      <div class="stat-icon icon-teal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Auto-Approval Pending</span>
+        <span class="stat-value">{{ AutoApprovalOwners }}</span>
+        <span class="stat-badge badge-info">Auto</span>
+      </div>
+    </div>
+
+    <!-- Manual Approval Needed -->
+    <div class="stat-card"
+      [class.active]="approvalFilter === 'manual'"
+      role="button" tabindex="0"
+      [attr.aria-pressed]="approvalFilter === 'manual'"
+      aria-label="Filter to manual approval needed"
+      (click)="setApprovalFilter('manual')"
+      (keydown.enter)="setApprovalFilter('manual')"
+      (keydown.space)="$event.preventDefault(); setApprovalFilter('manual')">
+      <div class="stat-glow glow-amber"></div>
+      <div class="stat-icon icon-amber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M10.05 4.575a1.575 1.575 0 1 0-3.15 0v3m3.15-3v-1.5a1.575
+               1.575 0 0 1 3.15 0v1.5m-3.15 0 .075 5.925m3.075.75V4.575m0 0a1.575
+               1.575 0 0 1 3.15 0V15M6.9 7.575a1.575 1.575 0 1 0-3.15 0v8.175a6.75
+               6.75 0 0 0 6.75 6.75h2.018a5.25 5.25 0 0 0 3.712-1.538l1.732-1.732
+               a5.25 5.25 0 0 0 1.538-3.712l.003-2.024a.668.668 0 0 1
+               .198-.471 1.575 1.575 0 1 0-2.228-2.228 3.818 3.818 0 0
+               0-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0 1
+               16.35 15m0 0a4.49 4.49 0 0 1 1.042-2.857M6.9 7.575a1.575
+               1.575 0 0 1 2.227 0"/>
+        </svg>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Manual Approval Needed</span>
+        <span class="stat-value">{{ ManualApprovalOwners }}</span>
+        <span class="stat-badge badge-warn">Manual</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/>
+      <path d="m21 21-4.35-4.35"/>
+    </svg>
     <label class="visually-hidden" for="pending-bo-search">Search pending owners</label>
     <input
       id="pending-bo-search"
       type="search"
-      class="form-control"
+      class="search-input"
       placeholder="Search by owner, business, email, phone, or category…"
       [(ngModel)]="searchQuery"
       autocomplete="off"
     />
   </div>
 
+  <!-- Loading -->
   @if (isLoadingPending) {
-    <p class="pending-loading text-center text-muted py-3" aria-live="polite">Loading pending owners…</p>
+    <div class="loading-row" aria-live="polite">
+      <div class="spinner"></div>
+      Loading pending owners…
+    </div>
   }
 
-  <app-table
-    [columns]="['ownerName', 'businessName', 'email', 'phoneNumber', 'businessCategory', 'submittedAt']"
-    [data]="filteredOwners"
-    [columnStyles]="tableColumnStyles"
-    [columnTypes]="tableColumnTypes"
-    [badgeColors]="tableBadgeColors"
-    [sortable]="true"
-    [hasActions]="true"
-    [actions]="['view', 'approve', 'reject']"
-    (actionClick)="handleEvent($event)"
-    (openDetails)="handleEvent($event)">
-  </app-table>
+  <!-- Table -->
+  <div class="table-panel">
+    <app-table
+      [columns]="['ownerName', 'businessName', 'email', 'phoneNumber', 'businessCategory', 'submittedAt']"
+      [data]="filteredOwners"
+      [columnStyles]="tableColumnStyles"
+      [columnTypes]="tableColumnTypes"
+      [badgeColors]="tableBadgeColors"
+      [sortable]="true"
+      [hasActions]="true"
+      [actions]="['view', 'approve', 'reject']"
+      (actionClick)="handleEvent($event)"
+      (openDetails)="handleEvent($event)">
+    </app-table>
+  </div>
 
+  <!-- Pagination -->
   <app-pagination
     [hasNext]="hasNext"
     [hasPrevious]="hasPrevious"
@@ -94,6 +158,7 @@
     (pageChange)="pageChangeEvent($event)">
   </app-pagination>
 
+  <!-- Modals -->
   @if (selectedBusinessOwner) {
     <app-bo-details
       [businessOwner]="selectedBusinessOwner"
@@ -121,4 +186,5 @@
     (reason)="onRejectReason($event)"
     (reject)="onReject(selectedBusinessOwner)">
   </app-reject-owner>
+
 </div>

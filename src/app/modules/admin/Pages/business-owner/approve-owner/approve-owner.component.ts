@@ -11,7 +11,10 @@ export interface ApproveOwnerSubmitEvent {
   standalone: true,
   imports: [FormsModule],
   templateUrl: './approve-owner.component.html',
-  styleUrl: './approve-owner.component.css'
+  styleUrls: [
+    './approve-owner.component.css',
+    '../modal shared.css'
+  ]
 })
 export class ApproveOwnerComponent {
   noteText = '';

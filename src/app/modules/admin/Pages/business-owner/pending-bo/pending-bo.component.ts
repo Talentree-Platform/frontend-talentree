@@ -1,5 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
-import { AdminService } from './../../../core/services/admin.service';
+import { AdminService } from '../../../core/services/admin.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TableComponent } from '../../../Components/table/table.component';
 import { Subscription, finalize } from 'rxjs';
