@@ -39,7 +39,7 @@ const routes: Routes = [
       { path: 'settingpaymentbilling', component: SettingPaymentBillingComponent },
       { path: 'settingpreference', component: SettingPrefernceNotificationsComponent },
       { path: 'settingsecurity', component: SettingSecurityPrivacyComponent },
-      { path: 'notification', component: NotificationComponent },
+      { path: 'notifications', component: NotificationComponent },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'ownerProduct', component: OwnerProductsComponent },
       { path: 'owner/products/:id', component: OwnerProductDetailsComponent },
