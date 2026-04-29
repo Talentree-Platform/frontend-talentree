@@ -76,7 +76,7 @@ export const PRIORITY_MAP: Record<number, { label: string; color: string }> = {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private readonly base = '/api/Notification';
+  private readonly base = 'https://backtalentree.runasp.net/api/Notification';
 
   constructor(private http: HttpClient) {}
 
