@@ -1,5 +1,4 @@
-// src/app/admin/core/services/admin-product.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseService } from './base.service';
@@ -9,37 +8,25 @@ import { BaseService } from './base.service';
 })
 export class AdminProductService extends BaseService {
   
-  constructor(http: HttpClient) {
-    super(http);
+  constructor(http: HttpClient, @Inject(PLATFORM_ID) platformId: Object) {
+    super(http, platformId);
   }
 
-  // جلب كل المنتجات
+  // جلب المنتجات المعلقة
   getProducts(params?: any): Observable<any> {
-    const url = this.getFullUrl('/api/BusinessOwnerProducts');
+    const url = this.getFullUrl('/api/AdminProduct/products/pending');
     return this.get(url, params);
   }
 
-  // جلب منتج واحد
-  getProductById(id: number): Observable<any> {
-    const url = this.getFullUrl(`/api/BusinessOwnerProducts/${id}`);
-    return this.get(url);
+  // موافقة على منتج
+  approveProduct(productId: number): Observable<any> {
+    const url = this.getFullUrl('/api/AdminProduct/products/approve');
+    return this.post(url, { productId });
   }
 
-  // إضافة منتج
-  createProduct(productData: any): Observable<any> {
-    const url = this.getFullUrl('/api/BusinessOwnerProducts');
-    return this.post(url, productData);
-  }
-
-  // تحديث منتج
-  updateProduct(id: number, productData: any): Observable<any> {
-    const url = this.getFullUrl(`/api/BusinessOwnerProducts/${id}`);
-    return this.put(url, productData);
-  }
-
-  // حذف منتج
-  deleteProduct(id: number): Observable<any> {
-    const url = this.getFullUrl(`/api/BusinessOwnerProducts/${id}`);
-    return this.delete(url);
+  // رفض منتج
+  rejectProduct(productId: number): Observable<any> {
+    const url = this.getFullUrl('/api/AdminProduct/products/reject');
+    return this.post(url, { productId });
   }
 }
