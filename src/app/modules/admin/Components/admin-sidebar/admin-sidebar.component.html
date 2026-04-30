@@ -1,133 +1,113 @@
 <div class="sidebar" [class.expanded]="isExpanded">
 
   <!-- Toggle Button -->
-  <button
-    class="sidebar-toggle-btn"
-    [class.collapsed]="!isExpanded"
-    (click)="toggleSidebar()">
+  <button class="sidebar-toggle-btn" [class.collapsed]="!isExpanded" (click)="toggleSidebar()">
     <i class="fa-solid fa-bars"></i>
   </button>
 
   <!-- Logo (expanded only) -->
   @if (isExpanded) {
-    <div class="nav-logo">
-      <img src="../../../../../assets/images/logo.jpg" alt="Logo">
-    </div>
+  <div class="nav-logo">
+    <img src="../../../../../assets/images/logo.jpg" alt="Logo">
+  </div>
   }
 
   <!-- Navigation -->
   <nav class="nav-menu">
     <ul class="menu-list">
       @for (item of navItems; track item.key) {
-        <li
-          class="menu-item"
-          [class.active]="activeItem === item.key"
-          (mouseenter)="onIconMouseEnter($event, item.key)"
-          (mouseleave)="onIconMouseLeave()">
+      <li class="menu-item" [class.active]="activeItem === item.key" (mouseenter)="onIconMouseEnter($event, item.key)"
+        (mouseleave)="onIconMouseLeave()">
 
-          <a
-            class="menu-link"
-            (click)="setActive(item.key); item.submenu?.length && toggleSubmenu(item.key)"
-            [routerLink]="item.route ? [item.route] : null">
+        <a class="menu-link" (click)="setActive(item.key); item.submenu?.length && toggleSubmenu(item.key)"
+          [routerLink]="item.route ? [item.route] : null">
 
-            <span class="icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="item.icon" />
-              </svg>
-            </span>
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="item.icon" />
+            </svg>
+          </span>
 
-            @if (isExpanded) {
-              <span class="text">{{ item.label }}</span>
+          @if (isExpanded) {
+          <span class="text">{{ item.label }}</span>
 
-              @if (item.badge) {
-                <span class="item-badge" [class]="'badge-' + (item.badgeColor ?? 'warn')">
-                  {{ item.badge }}
-                </span>
-              }
-
-              @if (item.submenu?.length) {
-                <span class="arrow">{{ expandedItems[item.key] ? '▼' : '▶' }}</span>
-              }
-            }
-          </a>
-
-          <!-- Badge dot on icon when collapsed -->
-          @if (!isExpanded && item.badge) {
-            <span class="icon-badge-dot" [class]="'dot-' + (item.badgeColor ?? 'warn')"></span>
+          @if (item.badge) {
+          <span class="item-badge" [class]="'badge-' + (item.badgeColor ?? 'warn')">
+            {{ item.badge }}
+          </span>
           }
 
-          <!-- Expanded Submenu -->
-          @if (isExpanded && expandedItems[item.key] && item.submenu?.length) {
-            <ul class="submenu">
-              @for (sub of item.submenu; track sub.key) {
-                <li>
-                  <a
-                    (click)="setActive(sub.key)"
-                    [class.active]="activeItem === sub.key"
-                    [routerLink]="sub.route ? [sub.route] : null">
-                    {{ sub.label }}
-                  </a>
-                </li>
-              }
-            </ul>
+          @if (item.submenu?.length) {
+          <span class="arrow">{{ expandedItems[item.key] ? '▼' : '▶' }}</span>
           }
-        </li>
+          }
+        </a>
+
+        <!-- Badge dot on icon when collapsed -->
+        @if (!isExpanded && item.badge) {
+        <span class="icon-badge-dot" [class]="'dot-' + (item.badgeColor ?? 'warn')"></span>
+        }
+
+        <!-- Expanded Submenu -->
+        @if (isExpanded && expandedItems[item.key] && item.submenu?.length) {
+        <ul class="submenu">
+          @for (sub of item.submenu; track sub.key) {
+          <li>
+            <a (click)="setActive(sub.key)" [class.active]="activeItem === sub.key"
+              [routerLink]="sub.route ? [sub.route] : null">
+              {{ sub.label }}
+            </a>
+          </li>
+          }
+        </ul>
+        }
+      </li>
       }
     </ul>
 
     <!-- Profile Section (expanded only) -->
     @if (isExpanded) {
-      <div class="profile-section">
-        <div class="profile-info">
-          <div class="profile-avatar">A</div>
-          <div class="profile-details">
-            <div class="profile-name">Super Admin</div>
-            <div class="profile-role">Administrator</div>
-          </div>
+    <div class="profile-section">
+      <div class="profile-info">
+        <div class="profile-avatar">A</div>
+        <div class="profile-details">
+          <div class="profile-name">Super Admin</div>
+          <div class="profile-role">Administrator</div>
         </div>
-        <button class="logout-btn">
-          <span>Sign out</span>
-          <span class="icon">
-            <i class="fa-solid fa-right-from-bracket"></i>
-          </span>
-        </button>
       </div>
+      <button class="logout-btn" (click)="signOut()">
+        <span>Sign out</span>
+        <span class="icon">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </span>
+      </button>
+    </div>
     }
   </nav>
 </div>
 
 <!-- Floating Tooltip Portal -->
 @if (!isExpanded && hoveredItem) {
-  @for (item of navItems; track item.key) {
-    @if (item.key === hoveredItem) {
-      <div
-        class="nav-tooltip"
-        [style.top.px]="tooltipTop"
-        (mouseenter)="hoveredItem = item.key"
-        (mouseleave)="onIconMouseLeave()">
-        <div class="nav-tooltip-arrow"></div>
-        <div class="nav-tooltip-title">{{ item.label }}</div>
-        <div class="nav-tooltip-desc">{{ item.description }}</div>
-        @if (item.submenu?.length) {
-          <div class="nav-tooltip-divider"></div>
-          <ul class="nav-tooltip-submenu">
-            @for (sub of item.submenu!; track sub.key) {
-              <li
-                [class.active]="activeItem === sub.key"
-                [routerLink]="sub.route ? [sub.route] : null"
-                (click)="setActive(sub.key); hoveredItem = null">
-                {{ sub.label }}
-              </li>
-            }
-          </ul>
-        }
-      </div>
+@for (item of navItems; track item.key) {
+@if (item.key === hoveredItem) {
+<div class="nav-tooltip" [style.top.px]="tooltipTop" (mouseenter)="hoveredItem = item.key"
+  (mouseleave)="onIconMouseLeave()">
+  <div class="nav-tooltip-arrow"></div>
+  <div class="nav-tooltip-title">{{ item.label }}</div>
+  <div class="nav-tooltip-desc">{{ item.description }}</div>
+  @if (item.submenu?.length) {
+  <div class="nav-tooltip-divider"></div>
+  <ul class="nav-tooltip-submenu">
+    @for (sub of item.submenu!; track sub.key) {
+    <li [class.active]="activeItem === sub.key" [routerLink]="sub.route ? [sub.route] : null"
+      (click)="setActive(sub.key); hoveredItem = null">
+      {{ sub.label }}
+    </li>
     }
+  </ul>
   }
+</div>
+}
+}
 }

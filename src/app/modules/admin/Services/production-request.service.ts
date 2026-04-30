@@ -61,6 +61,7 @@ export const STATUS_MAP: Record<number, { label: string; color: string; bg: stri
 @Injectable({ providedIn: 'root' })
 export class ProductionRequestService {
   private readonly base = 'https://backtalentree.runasp.net/api/AdminProductionRequest';
+  //  private readonly base ='/api/AdminProductionRequest'
 
   constructor(private http: HttpClient) {}
 

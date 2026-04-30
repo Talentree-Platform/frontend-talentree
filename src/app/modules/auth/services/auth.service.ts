@@ -76,6 +76,7 @@ export interface ExternalLoginData {
 })
 export class AuthService {
   public apiUrl = 'https://backtalentree.runasp.net/api';
+  // public apiUrl = '/api';
   private isBrowser: boolean;
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);

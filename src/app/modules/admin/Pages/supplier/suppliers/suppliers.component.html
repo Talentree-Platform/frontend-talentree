@@ -1,66 +1,63 @@
 <div class="supplier-container">
 
-  <!-- Stats Cards -->
+  <!-- Stat Cards -->
   <div class="stats-cards">
 
     <div class="stat-card total">
       <div class="stat-icon purple">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6C63FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
-          <path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
         </svg>
       </div>
       <div class="stat-body">
         <span class="stat-label">Total Suppliers</span>
         <span class="stat-number">{{ totalCount }}</span>
-        <span class="stat-badge all">ALL</span>
+        <span class="stat-badge badge-purple">All</span>
       </div>
     </div>
 
     <div class="stat-card active">
       <div class="stat-icon green">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-          <polyline points="22 4 12 14.01 9 11.01"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
         </svg>
       </div>
       <div class="stat-body">
         <span class="stat-label">Active</span>
         <span class="stat-number">{{ activeCount }}</span>
-        <span class="stat-badge instock">IN STOCK</span>
+        <span class="stat-badge badge-green">Active</span>
       </div>
     </div>
 
-    <div class="stat-card alert">
+    <div class="stat-card inactive">
       <div class="stat-icon red">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
         </svg>
       </div>
       <div class="stat-body">
         <span class="stat-label">Inactive</span>
         <span class="stat-number">{{ inactiveCount }}</span>
-        <span class="stat-badge alert">ALERT</span>
+        <span class="stat-badge badge-red">Alert</span>
       </div>
     </div>
 
   </div>
 
-  <!-- Page Title -->
-  <div>
-    <div class="page-title-row">
-      <div>
-        <h1 class="page-title">Suppliers</h1>
-        <div class="title-underline"></div>
-      </div>
-      <button class="btn-add" (click)="openCreateForm()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
-        Add Supplier
-      </button>
-    </div>
+  <!-- Section Header -->
+  <div class="section-header">
+    <h1 class="section-title">Suppliers</h1>
+    <button class="btn-add" (click)="openCreateForm()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Add Supplier
+    </button>
   </div>
 
   <!-- Filters -->
@@ -72,17 +69,12 @@
       [(ngModel)]="searchTerm"
       (input)="onSearch()"
     />
-    <select
-      class="filter-select"
-      (change)="onActiveChange($any($event.target).value)"
-    >
+    <select class="filter-select" (change)="onActiveChange($any($event.target).value)">
       <option value="">All Status</option>
       <option value="true">Active</option>
       <option value="false">Inactive</option>
     </select>
-    <button class="btn-clear" (click)="clearFilters()">
-      ✕ Clear
-    </button>
+    <button class="btn-clear" (click)="clearFilters()">✕ Clear</button>
   </div>
 
   <!-- Table -->
@@ -90,33 +82,38 @@
     <table class="suppliers-table">
       <thead>
         <tr>
-          <th>Name</th>
+          <th>Supplier</th>
           <th>Email</th>
           <th>Phone</th>
+          <th>City</th>
+          <th>Contact Person</th>
+          <th>Materials</th>
           <th class="center">Status</th>
           <th class="center">Actions</th>
         </tr>
       </thead>
       <tbody>
+
         <tr *ngFor="let supplier of suppliers">
 
           <!-- Name + avatar -->
           <td>
             <div class="supplier-name-cell">
-              <div
-                class="supplier-avatar"
-                style="background: #6C63FF;"
-              >
+              <div class="supplier-avatar">
                 {{ supplier.name | slice:0:2 | uppercase }}
               </div>
               <div>
                 <div class="supplier-name">{{ supplier.name }}</div>
+                <div class="supplier-sub">{{ supplier.country }}</div>
               </div>
             </div>
           </td>
 
           <td>{{ supplier.email }}</td>
           <td>{{ supplier.phone }}</td>
+          <td>{{ supplier.city }}</td>
+          <td>{{ supplier.contactPerson }}</td>
+          <td>{{ supplier.materialCount }}</td>
 
           <!-- Status -->
           <td class="center">
@@ -128,16 +125,38 @@
           <!-- Actions -->
           <td>
             <div class="actions-cell">
-              <button class="btn-view" (click)="handleEvent({ action: 'view', item: supplier })">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+              <button class="btn-action view"
+                (click)="handleEvent({ action: 'view', row: supplier })">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                   <circle cx="12" cy="12" r="3"/>
                 </svg>
                 View
               </button>
-              <button class="btn-edit" (click)="handleEvent({ action: 'edit', item: supplier })">Edit</button>
-              <button class="btn-restock" (click)="handleEvent({ action: 'restock', item: supplier })">Restock</button>
-              <button class="btn-delete" (click)="handleEvent({ action: 'delete', item: supplier })">Delete</button>
+
+              <button class="btn-action edit"
+                (click)="handleEvent({ action: 'edit', row: supplier })">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+                Edit
+              </button>
+
+              <button class="btn-action delete"
+                (click)="handleEvent({ action: 'delete', row: supplier })">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                  <path d="M10 11v6M14 11v6"/>
+                </svg>
+                Delete
+              </button>
+
             </div>
           </td>
 
@@ -145,8 +164,18 @@
 
         <!-- Empty state -->
         <tr *ngIf="suppliers?.length === 0">
-          <td colspan="5">
-            <div class="empty-state">No suppliers found.</div>
+          <td colspan="8">
+            <div class="empty-state">
+              <div class="empty-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72"/>
+                </svg>
+              </div>
+              <span>No suppliers found</span>
+              <span style="font-size:.72rem">Try adjusting your filters</span>
+            </div>
           </td>
         </tr>
 
@@ -161,8 +190,8 @@
       [totalPages]="totalPages"
       [hasNext]="hasNext"
       [hasPrevious]="hasPrevious"
-      (pageChange)="pageChangeEvent($event)"
-    ></app-pagination>
+      (pageChange)="pageChangeEvent($event)">
+    </app-pagination>
   </div>
 
 </div>
@@ -171,13 +200,13 @@
 <app-supplier-details
   *ngIf="isDetailsOpen"
   [supplier]="selectedSupplier"
-  (close)="closeModals()"
-></app-supplier-details>
+  (close)="closeModals()">
+</app-supplier-details>
 
 <app-supplier-form
   *ngIf="isFormOpen"
   [supplier]="isEditMode ? selectedSupplier : null"
   [isEditMode]="isEditMode"
   (close)="closeModals()"
-  (saved)="onFormSaved()"
-></app-supplier-form>
+  (saved)="onFormSaved()">
+</app-supplier-form>

@@ -32,6 +32,7 @@ export class AdminService {
 
   constructor(private _HttpClient:HttpClient) { }
   apiUrl = 'https://backtalentree.runasp.net/api/Admin';
+  // apiUrl='/api/Admin';
   private readonly adminProductApiUrl = '/api/AdminProduct';
 
   /**

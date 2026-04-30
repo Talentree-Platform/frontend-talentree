@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../../modules/auth/services/auth.service';
+
 
 export interface NavItem {
   key: string;
@@ -16,12 +18,12 @@ export interface NavItem {
 @Component({
   selector: 'app-admin-side-nav',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+ imports: [RouterLink, RouterLinkActive, CommonModule],  // ✅ Router removed
   templateUrl: './admin-sidebar.component.html',
   styleUrl: './admin-sidebar.component.css'
 })
 export class AdminSideNavComponent {
-
+  constructor(private router: Router,private authService: AuthService) {}  // ✅ injected here
   isExpanded: boolean = false;
   @Output() expandedChange = new EventEmitter<boolean>();
 
@@ -116,4 +118,11 @@ export class AdminSideNavComponent {
   onIconMouseLeave(): void {
     this.hoveredItem = null;
   }
+
+ signOut(): void {
+  this.authService.logout().subscribe({
+    next: () => console.log('✅ Logged out'),
+    error: (err) => console.warn('⚠️ Logout error:', err)
+  });
+}
 }

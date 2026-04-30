@@ -1,9 +1,11 @@
 <div class="owner-products-page admin-product-home">
+
+  <!-- Header -->
   <header class="owner-products-header">
     <div class="owner-products-header-text">
       <div class="admin-product-home__title-row">
-        <h1 class="owner-products-title">Pending products</h1>
-        <span class="admin-product-home__queue-badge" role="status">PendingApproval</span>
+        <h1 class="owner-products-title">Pending Products</h1>
+        <span class="admin-product-home__queue-badge" role="status">Pending Approval</span>
       </div>
       <p class="owner-products-subtitle">
         Review listings awaiting approval. Approve or reject each product when you are ready.
@@ -11,31 +13,36 @@
     </div>
   </header>
 
+  <!-- Error -->
   <p *ngIf="loadError" class="owner-products-banner" role="alert">{{ loadError }}</p>
 
-  <section class="owner-products-toolbar admin-product-home__toolbar-card" aria-label="Search pending products">
+  <!-- Search -->
+  <section class="owner-products-toolbar" aria-label="Search pending products">
     <div class="owner-products-search-wrap">
       <label class="visually-hidden" for="admin-pending-products-search">Search pending products</label>
       <input
         id="admin-pending-products-search"
         type="search"
-        class="input-main owner-products-search"
-        placeholder="Search by product name, category, or business"
+        class="owner-products-search"
+        placeholder="Search by product name, category, or business…"
         [(ngModel)]="searchQuery"
         autocomplete="off"
       />
     </div>
   </section>
 
+  <!-- Queue label -->
   <div class="owner-products-main-head">
     <h2 class="owner-products-section-title">Queue</h2>
   </div>
 
-  <div *ngIf="loading" class="owner-products-loading admin-product-home__loading" role="status">
+  <!-- Loading -->
+  <div *ngIf="loading" class="owner-products-loading" role="status">
     <span class="admin-product-home__spinner" aria-hidden="true"></span>
     <span>Loading pending products…</span>
   </div>
 
+  <!-- Empty -->
   <div *ngIf="!loading && filteredProducts.length === 0" class="owner-products-empty">
     <span class="owner-products-empty-icon" aria-hidden="true"></span>
     <p class="owner-products-empty-title">No pending products found</p>
@@ -44,6 +51,7 @@
     </p>
   </div>
 
+  <!-- Table -->
   <div *ngIf="!loading && filteredProducts.length > 0" class="owner-products-table-scroll">
     <table class="owner-products-table">
       <thead>
@@ -53,7 +61,7 @@
           <th scope="col">Category</th>
           <th scope="col">Price</th>
           <th scope="col">Stock</th>
-          <th scope="col">Business name</th>
+          <th scope="col">Business</th>
           <th scope="col">Created</th>
           <th scope="col">Status</th>
           <th scope="col">Actions</th>
@@ -61,6 +69,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let p of filteredProducts; trackBy: trackByProductId">
+
+          <!-- Image -->
           <td>
             <div class="owner-products-thumb-wrap">
               <img
@@ -72,6 +82,7 @@
               />
             </div>
           </td>
+
           <td>
             <div class="owner-products-cell-name">{{ pickName(p) }}</div>
           </td>
@@ -80,45 +91,59 @@
           <td>{{ pickStock(p) }}</td>
           <td>{{ pickBusinessName(p) }}</td>
           <td>{{ timeAgo(pickCreatedAt(p)) }}</td>
+
+          <!-- Status -->
           <td>
-            <span class="admin-product-home__status-pill">PendingApproval</span>
+            <span class="admin-product-home__status-pill">Pending</span>
           </td>
+
+          <!-- Actions -->
           <td>
             <div class="owner-products-actions admin-product-home__actions">
               <button
                 type="button"
-                class="btn-main btn-success admin-product-home__btn"
-                (click)="onApprove($event, p)"
-              >
+                class="btn-main btn-success"
+                (click)="onApprove($event, p)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
                 Approve
               </button>
               <button
                 type="button"
-                class="btn-main btn-danger admin-product-home__btn"
-                (click)="onReject($event, p)"
-              >
+                class="btn-main btn-danger"
+                (click)="onReject($event, p)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
                 Reject
               </button>
             </div>
           </td>
+
         </tr>
       </tbody>
     </table>
   </div>
 
+  <!-- Modals -->
   <app-approve-product-modal
     *ngIf="selectedForApprove"
     [productName]="pickName(selectedForApprove)"
     [productId]="getNumericProductId(selectedForApprove)"
     (approved)="onApproveSuccess()"
-    (closed)="onApproveModalClosed()"
-  />
+    (closed)="onApproveModalClosed()">
+  </app-approve-product-modal>
 
   <app-reject-product-modal
     *ngIf="selectedForReject"
     [productName]="pickName(selectedForReject)"
     [productId]="getNumericProductId(selectedForReject)"
     (rejected)="onRejectSuccess()"
-    (closed)="onRejectModalClosed()"
-  />
+    (closed)="onRejectModalClosed()">
+  </app-reject-product-modal>
+
 </div>
