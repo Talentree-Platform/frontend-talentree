@@ -8,25 +8,21 @@ import { BaseService } from './base.service';
 })
 export class AdminProductService extends BaseService {
   
+  private readonly adminBase = 'https://backtalentree.runasp.net/api/AdminProduct';
+
   constructor(http: HttpClient, @Inject(PLATFORM_ID) platformId: Object) {
     super(http, platformId);
   }
 
-  // جلب المنتجات المعلقة
   getProducts(params?: any): Observable<any> {
-    const url = this.getFullUrl('/api/AdminProduct/products/pending');
-    return this.get(url, params);
+    return this.get(`${this.adminBase}/products/pending`, params);
   }
 
-  // موافقة على منتج
   approveProduct(productId: number): Observable<any> {
-    const url = this.getFullUrl('/api/AdminProduct/products/approve');
-    return this.post(url, { productId });
+    return this.post(`${this.adminBase}/products/approve`, { productId });
   }
 
-  // رفض منتج
   rejectProduct(productId: number): Observable<any> {
-    const url = this.getFullUrl('/api/AdminProduct/products/reject');
-    return this.post(url, { productId });
+    return this.post(`${this.adminBase}/products/reject`, { productId });
   }
 }
