@@ -1,0 +1,60 @@
+.reviews-page { padding: 24px; }
+.page-header { margin-bottom: 24px; }
+.page-header h1 { font-size: 24px; font-weight: 700; }
+
+.analytics-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.06); display: flex; flex-direction: column; gap: 8px; }
+.card .label { font-size: 13px; color: #64748b; }
+.card .value { font-size: 22px; font-weight: 700; }
+
+.distribution { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.dist-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.star-label { width: 24px; font-size: 13px; color: #64748b; }
+.bar-wrap { flex: 1; background: #f1f5f9; border-radius: 999px; height: 8px; }
+.bar { background: #f59e0b; height: 8px; border-radius: 999px; transition: width .3s; }
+.count { width: 24px; font-size: 13px; color: #64748b; text-align: right; }
+
+.filters { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.filters input, .filters select { padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+.filters input { flex: 1; min-width: 200px; }
+
+.review-list { display: flex; flex-direction: column; gap: 16px; }
+.review-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.review-card.toxic { border-left: 4px solid #ef4444; }
+
+.review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.reviewer { display: flex; flex-direction: column; gap: 4px; }
+.name { font-weight: 600; font-size: 15px; }
+.product { font-size: 13px; color: #64748b; }
+.meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.stars span { color: #f59e0b; font-size: 16px; }
+.stars .empty { color: #e2e8f0; }
+.date { font-size: 12px; color: #94a3b8; }
+
+.review-text { color: #374151; line-height: 1.6; margin-bottom: 12px; }
+
+.sentiment { display: flex; gap: 8px; margin-bottom: 12px; }
+.sentiment-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+.sentiment-positive { background: #dcfce7; color: #166534; }
+.sentiment-negative { background: #fee2e2; color: #991b1b; }
+.sentiment-neutral  { background: #f1f5f9; color: #475569; }
+.toxic-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; background: #fee2e2; color: #991b1b; }
+
+.owner-response { background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+.response-label { font-size: 13px; font-weight: 600; color: #64748b; display: block; margin-bottom: 4px; }
+.edit-btn { margin-top: 8px; padding: 4px 12px; border: 1px solid #e2e8f0; border-radius: 6px; background: #fff; cursor: pointer; font-size: 13px; }
+
+.respond-form textarea { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; resize: vertical; box-sizing: border-box; }
+.form-actions { display: flex; gap: 8px; margin-top: 8px; }
+.submit-btn { padding: 8px 16px; background: #f59e0b; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.cancel-btn { padding: 8px 16px; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer; }
+.respond-btn { padding: 8px 16px; background: #fff; border: 1px solid #f59e0b; color: #f59e0b; border-radius: 8px; cursor: pointer; font-weight: 500; }
+
+.pagination { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 24px; }
+.pagination button { padding: 8px 16px; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; cursor: pointer; }
+.pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.loading { padding: 20px; text-align: center; color: #94a3b8; }
+.error   { padding: 20px; text-align: center; color: #dc2626; }
+.empty   { padding: 40px; text-align: center; color: #94a3b8; }

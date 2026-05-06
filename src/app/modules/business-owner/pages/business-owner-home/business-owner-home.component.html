@@ -1,1 +1,30 @@
-<p>business-owner-home works!</p>
+
+<div class="home-page">
+
+  <!-- Financial Summary -->
+  <div class="widget" *ngIf="!loading && summary">
+    <div class="widget-header">
+      <h3>Financial Summary</h3>
+      <button (click)="goToFinancial()">View All →</button>
+    </div>
+    <div class="widget-cards">
+      <div class="card green">
+        <span class="label">Revenue</span>
+        <span class="value">{{ summary.totalRevenue | currency }}</span>
+      </div>
+      <div class="card red">
+        <span class="label">Expenses</span>
+        <span class="value">{{ summary.totalExpenses | currency }}</span>
+      </div>
+      <div class="card blue">
+        <span class="label">Balance</span>
+        <span class="value">{{ summary.availableBalance | currency }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="loading" *ngIf="loading">Loading...</div>
+
+  <!-- KB Recommendations -->
+  <app-kb-recommendations></app-kb-recommendations>
+
+</div>
