@@ -11,7 +11,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class KnowledgeBaseService {
-  private readonly base = '/api/KnowledgeBase';
+  private readonly base = 'https://backtalentree.runasp.net/api/KnowledgeBase';
 
   constructor(private http: HttpClient) {}
 

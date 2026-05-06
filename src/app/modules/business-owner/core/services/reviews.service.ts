@@ -12,7 +12,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class ReviewsService {
-  private readonly base = '/api/BusinessOwnerReviews';
+  private readonly base = 'https://backtalentree.runasp.net/api/BusinessOwnerReviews';
 
   constructor(private http: HttpClient) {}
 

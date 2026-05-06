@@ -10,7 +10,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class FinancialService {
-  private readonly base = '/api/Financial';
+  private readonly base = 'https://backtalentree.runasp.net/api/Financial';
 
   constructor(private http: HttpClient) {}
 
