@@ -1,0 +1,76 @@
+<div class="kbbm-page">
+
+  <!-- Header -->
+  <div class="kbbm-header">
+    <div class="kbbm-header-inner">
+      <p class="kb-label">✦ Your Library</p>
+      <h1 class="kbbm-title">Saved Articles</h1>
+      <p *ngIf="!loading && items.length" class="kbbm-count">
+        {{ items.length }} article{{ items.length === 1 ? '' : 's' }} saved
+      </p>
+    </div>
+  </div>
+
+  <div class="kb-container">
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="kb-spinner-wrap">
+      <span class="kb-spinner"></span><span>Loading saved articles…</span>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error && !loading" class="kb-empty">
+      <div class="kb-empty-icon">⚠</div>
+      <h3>{{ error }}</h3>
+      <button class="kb-btn-gold" (click)="load()">Try again</button>
+    </div>
+
+    <!-- Empty -->
+    <div *ngIf="!loading && !error && items.length === 0" class="kb-empty">
+      <div class="kb-empty-icon">◈</div>
+      <h3>No saved articles yet</h3>
+      <p>Browse the knowledge base and bookmark items to see them here</p>
+      <a routerLink="/knowledge-base" class="kb-btn-gold" style="margin-top:1rem">Browse Articles</a>
+    </div>
+
+    <!-- Grid -->
+    <div *ngIf="!loading && items.length > 0" class="kb-grid">
+      <article class="kb-card" *ngFor="let item of items" (click)="goTo(item.id)">
+        <div class="kb-card-thumb">
+          <img *ngIf="item.thumbnailUrl" [src]="item.thumbnailUrl" [alt]="item.title" loading="lazy"/>
+          <div *ngIf="!item.thumbnailUrl" class="kb-card-placeholder">{{ item.contentType?.charAt(0) || '✦' }}</div>
+          <span class="kb-type-badge">{{ item.contentType }}</span>
+        </div>
+        <div class="kb-card-body">
+          <div class="kb-card-meta">
+            <span class="kb-category">{{ item.category }}</span>
+            <span class="kb-date">{{ item.createdAt | date:'MMM d, y' }}</span>
+          </div>
+          <h3 class="kb-card-title">{{ item.title }}</h3>
+          <p  class="kb-card-summary">{{ item.summary }}</p>
+          <div class="kb-tags" *ngIf="item.tags?.length">
+            <span class="kb-tag" *ngFor="let t of item.tags | slice:0:3">{{ t }}</span>
+          </div>
+        </div>
+        <div class="kb-card-footer">
+          <span class="kb-views">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+            {{ item.viewCount | number }}
+          </span>
+          <button class="kbbm-remove-btn"
+                  [disabled]="removingId === item.id"
+                  (click)="remove($event, item)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+            </svg>
+            Remove
+          </button>
+        </div>
+      </article>
+    </div>
+
+  </div>
+</div>

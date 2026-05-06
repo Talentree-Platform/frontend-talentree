@@ -1,0 +1,123 @@
+<div class="reviews-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <h1>Customer Reviews</h1>
+  </div>
+
+  <!-- Analytics Cards -->
+  <div class="analytics-cards" *ngIf="analytics">
+    <div class="card">
+      <span class="label">Avg Rating</span>
+      <span class="value">{{ analytics.averageRating | number:'1.1-1' }} ⭐</span>
+    </div>
+    <div class="card">
+      <span class="label">Total Reviews</span>
+      <span class="value">{{ analytics.totalReviews }}</span>
+    </div>
+    <div class="card">
+      <span class="label">Responded</span>
+      <span class="value">{{ analytics.totalResponded }}</span>
+    </div>
+    <div class="card">
+      <span class="label">Response Rate</span>
+      <span class="value">{{ analytics.responseRate | number:'1.0-0' }}%</span>
+    </div>
+  </div>
+
+  <!-- Distribution -->
+  <div class="distribution" *ngIf="analytics">
+    <div class="dist-row" *ngFor="let star of [5,4,3,2,1]">
+      <span class="star-label">{{ star }}★</span>
+      <div class="bar-wrap">
+        <div class="bar" [style.width.%]="analytics.totalReviews
+          ? (getStar(star) / analytics.totalReviews) * 100 : 0"></div>
+      </div>
+      <span class="count">{{ getStar(star) }}</span>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <input type="text" [(ngModel)]="search" (input)="onFilterChange()" placeholder="Search reviews..." />
+    <select [(ngModel)]="rating" (change)="onFilterChange()">
+      <option value="">All Ratings</option>
+      <option [value]="5">5 ★</option>
+      <option [value]="4">4 ★</option>
+      <option [value]="3">3 ★</option>
+      <option [value]="2">2 ★</option>
+      <option [value]="1">1 ★</option>
+    </select>
+    <select [(ngModel)]="sortBy" (change)="onFilterChange()">
+      <option value="createdAt">Latest</option>
+      <option value="rating">Rating</option>
+    </select>
+  </div>
+
+  <!-- Reviews List -->
+  <div class="loading" *ngIf="loadingReviews">Loading reviews...</div>
+  <div class="error"   *ngIf="errorReviews">{{ errorReviews }}</div>
+
+  <div class="review-list" *ngIf="!loadingReviews">
+    <div class="review-card" *ngFor="let review of reviews" [class.toxic]="review.flaggedToxic">
+
+      <div class="review-header">
+        <div class="reviewer">
+          <span class="name">{{ review.isAnonymous ? 'Anonymous' : review.customerName }}</span>
+          <span class="product">{{ review.productName }}</span>
+        </div>
+        <div class="meta">
+          <span class="stars">
+            <span *ngFor="let s of stars(review.rating)">★</span>
+            <span class="empty" *ngFor="let s of emptyStars(review.rating)">★</span>
+          </span>
+          <span class="date">{{ review.createdAt | date:'mediumDate' }}</span>
+        </div>
+      </div>
+
+      <p class="review-text">{{ review.reviewText }}</p>
+
+      <div class="sentiment">
+        <span class="sentiment-badge" [class]="'sentiment-' + review.sentimentLabel?.toLowerCase()">
+          {{ review.sentimentLabel }}
+        </span>
+        <span class="toxic-badge" *ngIf="review.flaggedToxic">⚠ Flagged</span>
+      </div>
+
+      <!-- Owner Response -->
+      <div class="owner-response" *ngIf="review.hasResponse && respondingId !== review.id">
+        <span class="response-label">Your Response:</span>
+        <p>{{ review.ownerResponse }}</p>
+        <button class="edit-btn" *ngIf="review.canEditResponse" (click)="openRespond(review)">Edit</button>
+      </div>
+
+      <!-- Respond Form -->
+      <div class="respond-form" *ngIf="respondingId === review.id">
+        <textarea [(ngModel)]="responseText" rows="3" placeholder="Write your response..."></textarea>
+        <div class="form-actions">
+          <button class="submit-btn" (click)="submitResponse(review)" [disabled]="respondBusy">
+            {{ respondBusy ? 'Saving...' : 'Submit' }}
+          </button>
+          <button class="cancel-btn" (click)="cancelRespond()">Cancel</button>
+        </div>
+      </div>
+
+      <button class="respond-btn"
+        *ngIf="!review.hasResponse && respondingId !== review.id"
+        (click)="openRespond(review)">
+        Respond
+      </button>
+
+    </div>
+
+    <div class="empty" *ngIf="!reviews.length">No reviews found.</div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="pagination && pagination.totalPages > 1">
+    <button (click)="prev()" [disabled]="!pagination.hasPrevious">← Prev</button>
+    <span>Page {{ page + 1 }} of {{ pagination.totalPages }}</span>
+    <button (click)="next()" [disabled]="!pagination.hasNext">Next →</button>
+  </div>
+
+</div>

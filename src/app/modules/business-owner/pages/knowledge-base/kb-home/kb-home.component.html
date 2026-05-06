@@ -1,0 +1,153 @@
+<div class="kb-page">
+
+  <!-- ── Hero / Search ─────────────────────────────── -->
+  <section class="kb-hero">
+    <p class="kb-label">✦ Knowledge Base</p>
+    <h1 class="kb-hero-title">Discover &amp; Learn</h1>
+    <p class="kb-hero-sub">Explore curated articles, guides &amp; resources</p>
+
+    <div class="kb-search-bar">
+      <svg class="kb-search-icon" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input
+        type="text"
+        placeholder="Search articles, topics…"
+        [(ngModel)]="search"
+        (ngModelChange)="onSearchInput()"
+        class="kb-search-input"
+        autocomplete="off"
+      />
+      <button *ngIf="search" class="kb-clear-x" (click)="clearAll()">✕</button>
+    </div>
+
+    <div class="kb-filters">
+      <select [(ngModel)]="category"    (ngModelChange)="onFilterChange()" class="kb-select">
+        <option value="">All Categories</option>
+        <option value="Technology">Technology</option>
+        <option value="Science">Science</option>
+        <option value="Business">Business</option>
+        <option value="Health">Health</option>
+        <option value="Design">Design</option>
+      </select>
+
+      <select [(ngModel)]="contentType" (ngModelChange)="onFilterChange()" class="kb-select">
+        <option value="">All Types</option>
+        <option value="Article">Article</option>
+        <option value="Video">Video</option>
+        <option value="PDF">PDF</option>
+        <option value="Guide">Guide</option>
+      </select>
+
+      <button *ngIf="hasFilter" class="kb-clear-btn" (click)="clearAll()">
+        Clear filters
+      </button>
+    </div>
+  </section>
+
+  <div class="kb-container">
+
+    <!-- ── Recommendations ───────────────────────────── -->
+    <app-kb-recommendations />
+
+    <!-- ── Section header ────────────────────────────── -->
+    <div class="kb-section-header">
+      <h2 class="kb-section-title">
+        {{ hasFilter ? 'Results' : 'All Articles' }}
+      </h2>
+      <span *ngIf="hasFilter && pagination" class="kb-count-badge">
+        {{ pagination.count }} found
+      </span>
+      <span class="kb-section-line"></span>
+    </div>
+
+    <!-- ── Loading ───────────────────────────────────── -->
+    <div *ngIf="loading" class="kb-spinner-wrap">
+      <span class="kb-spinner"></span>
+      <span>Loading articles…</span>
+    </div>
+
+    <!-- ── Error ─────────────────────────────────────── -->
+    <div *ngIf="error && !loading" class="kb-empty">
+      <div class="kb-empty-icon">⚠</div>
+      <h3>Something went wrong</h3>
+      <p>{{ error }}</p>
+      <button class="kb-btn-gold" (click)="fetch()">Try again</button>
+    </div>
+
+    <!-- ── Empty ─────────────────────────────────────── -->
+    <div *ngIf="!loading && !error && items.length === 0" class="kb-empty">
+      <div class="kb-empty-icon">◈</div>
+      <h3>No articles found</h3>
+      <p>Try adjusting your search or filters</p>
+      <button class="kb-btn-outline" (click)="clearAll()">Clear filters</button>
+    </div>
+
+    <!-- ── Grid ──────────────────────────────────────── -->
+    <div *ngIf="!loading && items.length > 0" class="kb-grid">
+      <article class="kb-card" *ngFor="let item of items" (click)="goTo(item.id)">
+
+        <!-- Thumbnail -->
+        <div class="kb-card-thumb">
+          <img *ngIf="item.thumbnailUrl" [src]="item.thumbnailUrl"
+               [alt]="item.title" loading="lazy" />
+          <div *ngIf="!item.thumbnailUrl" class="kb-card-placeholder">
+            {{ item.contentType?.charAt(0) || '✦' }}
+          </div>
+          <span class="kb-type-badge">{{ item.contentType }}</span>
+        </div>
+
+        <!-- Body -->
+        <div class="kb-card-body">
+          <div class="kb-card-meta">
+            <span class="kb-category">{{ item.category }}</span>
+            <span class="kb-date">{{ item.createdAt | date:'MMM d, y' }}</span>
+          </div>
+          <h3 class="kb-card-title">{{ item.title }}</h3>
+          <p  class="kb-card-summary">{{ item.summary }}</p>
+          <div class="kb-tags" *ngIf="item.tags?.length">
+            <span class="kb-tag" *ngFor="let t of item.tags | slice:0:3">{{ t }}</span>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="kb-card-footer">
+          <span class="kb-views">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" width="13" height="13">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            {{ item.viewCount | number }}
+          </span>
+          <button
+            class="kb-bm-btn"
+            [class.kb-bm-active]="item.isBookmarked"
+            [disabled]="bookmarkBusy.has(item.id)"
+            (click)="toggleBookmark($event, item)"
+            [title]="item.isBookmarked ? 'Remove bookmark' : 'Save'"
+          >
+            <svg viewBox="0 0 24 24"
+                 [attr.fill]="item.isBookmarked ? 'currentColor' : 'none'"
+                 stroke="currentColor" stroke-width="2" width="15" height="15">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <!-- ── Pagination ─────────────────────────────────── -->
+    <div *ngIf="pagination && pagination.totalPages > 1 && !loading" class="kb-pagination">
+      <button class="kb-page-btn" [disabled]="!pagination.hasPrevious" (click)="prev()">
+        ← Previous
+      </button>
+      <span class="kb-page-info">{{ page + 1 }} / {{ pagination.totalPages }}</span>
+      <button class="kb-page-btn" [disabled]="!pagination.hasNext" (click)="next()">
+        Next →
+      </button>
+    </div>
+
+  </div>
+</div>

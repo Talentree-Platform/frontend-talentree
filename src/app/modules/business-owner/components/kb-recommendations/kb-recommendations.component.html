@@ -1,0 +1,25 @@
+<section *ngIf="!loading && items.length > 0" class="kbrec-section">
+
+  <div class="kb-section-header">
+    <h2 class="kb-section-title">Recommended for You</h2>
+    <span class="kb-section-line"></span>
+  </div>
+
+  <div class="kbrec-scroll-wrap">
+    <div class="kbrec-scroll">
+      <div class="kbrec-card" *ngFor="let rec of items" (click)="goTo(rec.id)">
+        <div class="kbrec-thumb">
+          <img *ngIf="rec.thumbnailUrl" [src]="rec.thumbnailUrl" [alt]="rec.title" loading="lazy"/>
+          <div *ngIf="!rec.thumbnailUrl" class="kbrec-placeholder">✦</div>
+        </div>
+        <div class="kbrec-body">
+          <span class="kb-tag">{{ rec.reasonLabel }}</span>
+          <h3 class="kbrec-title">{{ rec.title }}</h3>
+          <p  class="kbrec-meta">{{ rec.category }} · {{ rec.contentType }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="kbrec-fade-right"></div>
+  </div>
+
+</section>

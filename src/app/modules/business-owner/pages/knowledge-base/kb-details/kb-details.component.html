@@ -1,0 +1,100 @@
+<div class="kbd-page">
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="kb-spinner-wrap" style="padding:8rem 2rem">
+    <span class="kb-spinner"></span><span>Loading…</span>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="kb-empty" style="padding-top:8rem">
+    <div class="kb-empty-icon">⚠</div>
+    <h3>{{ error }}</h3>
+    <button class="kb-btn-gold" (click)="back()">← Back</button>
+  </div>
+
+  <!-- Content -->
+  <ng-container *ngIf="item && !loading">
+
+    <!-- Banner -->
+    <div class="kbd-banner">
+      <img *ngIf="item.thumbnailUrl" [src]="item.thumbnailUrl" [alt]="item.title" class="kbd-banner-img"/>
+      <div *ngIf="!item.thumbnailUrl" class="kbd-banner-placeholder">✦</div>
+      <div class="kbd-banner-veil"></div>
+      <button class="kbd-back-btn" (click)="back()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back
+      </button>
+    </div>
+
+    <div class="kbd-container">
+
+      <!-- Meta -->
+      <div class="kbd-meta">
+        <span class="kb-tag">{{ item.category }}</span>
+        <span class="kb-tag">{{ item.contentType }}</span>
+        <span class="kbd-date">{{ item.createdAt | date:'MMMM d, y' }}</span>
+        <span class="kbd-views">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+          {{ item.viewCount | number }}
+        </span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="kbd-title">{{ item.title }}</h1>
+
+      <!-- Summary -->
+      <p *ngIf="item.summary" class="kbd-summary">{{ item.summary }}</p>
+
+      <!-- Ornament -->
+      <div class="kbd-ornament"><span>✦</span></div>
+
+      <!-- Content -->
+      <div class="kbd-content" [innerHTML]="item.content"></div>
+
+      <!-- Tags -->
+      <div *ngIf="item.tags?.length" class="kbd-tags-row">
+        <span class="kbd-tags-label">Topics:</span>
+        <span class="kb-tag" *ngFor="let t of item.tags">{{ t }}</span>
+      </div>
+
+      <!-- Actions -->
+      <div class="kbd-actions">
+        <a *ngIf="item.externalUrl" [href]="item.externalUrl"
+           target="_blank" rel="noopener" class="kb-btn-gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          Visit Source
+        </a>
+
+        <a *ngIf="item.fileUrl" [href]="item.fileUrl"
+           target="_blank" rel="noopener" class="kb-btn-outline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download
+        </a>
+
+        <button class="kbd-bm-btn"
+                [class.kbd-bm-saved]="item.isBookmarked"
+                [disabled]="bkLoading"
+                (click)="toggleBookmark()">
+          <svg viewBox="0 0 24 24"
+               [attr.fill]="item.isBookmarked ? 'currentColor' : 'none'"
+               stroke="currentColor" stroke-width="2" width="15" height="15">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          {{ item.isBookmarked ? 'Saved' : 'Save Article' }}
+          <span *ngIf="bkFlash" class="kbd-bk-flash">✓</span>
+        </button>
+      </div>
+    </div>
+
+  </ng-container>
+</div>

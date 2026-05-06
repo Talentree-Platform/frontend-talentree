@@ -23,12 +23,17 @@ import { OwnerProductDetailsComponent } from './pages/Products/owner-product-det
 import { ProductionRequestDetailsComponent } from './pages/BO-Production-Request/production-request-details/production-request-details.component';
 import { ProductionRequestListComponent } from './pages/BO-Production-Request/production-request-list/production-request-list.component';
 import { CreateProductionRequestComponent } from './pages/BO-Production-Request/create-production-request/create-production-request.component';
-
+import { KbHomeComponent } from './pages/knowledge-base/kb-home/kb-home.component';
+import { KbDetailsComponent } from './pages/knowledge-base/kb-details/kb-details.component';
+import { KbBookmarksComponent } from './pages/knowledge-base/kb-bookmarks/kb-bookmarks.component';
+import { FinancialComponent } from './pages/financial/financial.component';
+import { ReviewsComponent } from './pages/reviews/reviews.component';
 
 @NgModule({
   declarations: [],
 
   imports: [
+    
     ProductionRequestDetailsComponent,
     ProductionRequestListComponent,
     CreateProductionRequestComponent,
@@ -50,8 +55,11 @@ import { CreateProductionRequestComponent } from './pages/BO-Production-Request/
     NotificationComponent,
     CommonModule,
     BusinessOwnerRoutingModule,
-  
-    
+    KbHomeComponent,
+    KbDetailsComponent,
+    KbBookmarksComponent,
+    FinancialComponent,
+    ReviewsComponent,
 
   ]
 })

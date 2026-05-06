@@ -14,7 +14,6 @@ import { SettingBusinessDetailsComponent } from './pages/Setting/setting-busines
 import { SettingPaymentBillingComponent } from './pages/Setting/setting-payment-billing/setting-payment-billing.component';
 import { SettingPrefernceNotificationsComponent } from './pages/Setting/setting-prefernce-notifications/setting-prefernce-notifications.component';
 import { SettingSecurityPrivacyComponent } from './pages/Setting/setting-security-privacy/setting-security-privacy.component';
-import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { OwnerProductsComponent } from './pages/Products/owner-products/owner-products.component';
 import { OwnerAddProductComponent } from './pages/Products/owner-add-product/owner-add-product.component';
 import { OwnerEditProductComponent } from './pages/Products/owner-edit-product/owner-edit-product.component';
@@ -23,6 +22,11 @@ import { ProductionRequestListComponent } from './pages/BO-Production-Request/pr
 import { CreateProductionRequestComponent } from './pages/BO-Production-Request/create-production-request/create-production-request.component';
 import { ProductionRequestDetailsComponent } from './pages/BO-Production-Request/production-request-details/production-request-details.component';
 import { NotificationComponent } from './pages/notification/notification.component';
+import { KbHomeComponent } from './pages/knowledge-base/kb-home/kb-home.component';
+import { KbDetailsComponent } from './pages/knowledge-base/kb-details/kb-details.component';
+import { KbBookmarksComponent } from './pages/knowledge-base/kb-bookmarks/kb-bookmarks.component';
+import { FinancialComponent } from './pages/financial/financial.component';
+import { ReviewsComponent } from './pages/reviews/reviews.component';
 
 const routes: Routes = [
   {
@@ -47,8 +51,13 @@ const routes: Routes = [
       { path: 'ownerEditProduct/:id', component: OwnerEditProductComponent },
       { path: 'ownerProductionRequestList', component: ProductionRequestListComponent },
       { path: 'ownerProductionRequestCreate', component: CreateProductionRequestComponent },
-      { path: 'ownerProductionRequestdetails/:id', component:  ProductionRequestDetailsComponent},
-      {path:'businessChat', component:BusinessChatComponent} //to be removed
+      { path: 'ownerProductionRequestdetails/:id', component: ProductionRequestDetailsComponent },
+      { path: 'businessChat', component: BusinessChatComponent }, //to be removed
+      { path: 'knowledge-base', component: KbHomeComponent },
+      { path: 'knowledge-base/bookmarks', component: KbBookmarksComponent },
+      { path: 'knowledge-base/:id', component: KbDetailsComponent },
+      { path: 'financial', component: FinancialComponent },
+      { path: 'reviews', component: ReviewsComponent },
     ]
   }
 

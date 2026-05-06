@@ -1,7 +1,7 @@
 export default [
   {
     context: ['/api'],
-    target: 'https://talentreeplateform.runasp.net',
+    target: 'https://backtalentree.runasp.net',
     secure: false,
     changeOrigin: true,
     logLevel: 'debug',
