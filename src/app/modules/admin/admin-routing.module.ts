@@ -25,7 +25,7 @@ const routes: Routes = [
       { path: 'rawmaterials',   component: RawMaterialListComponent },
       { path: 'suppliers', component: SupplierListComponent }, 
       { path: 'production-requests', component: ProductionRequestComponent },
-      {path: 'AdminUserManagment', component: AdminUserManagementComponent},
+      // {path: 'AdminUserManagment', component: AdminUserManagementComponent},
       {path: 'AdminSupportComplaint', component: AdminComplaintsSupportComponent}
       //{path: 'notification', component:NotificationComponent} // ← جديد
     ]
