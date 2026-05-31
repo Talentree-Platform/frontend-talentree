@@ -11,7 +11,8 @@ import { DashboardComponent } from './Pages/Dashboeard/admin-dashboard/admin-das
 import { AdminProductHomeComponent } from './Pages/Products/admin-product-home/admin-product-home.component';
 import { RawMaterialListComponent } from './Pages/raw-material/raw-materials/raw-materials.component';
 import { SupplierListComponent } from './Pages/supplier/suppliers/suppliers.component';
-
+import { AdminUserManagementComponent } from './Pages/admin-user-management/admin-user-management.component';
+import { AdminComplaintsSupportComponent } from './Pages/admin-complaints-support/admin-complaints-support.component';
 //import { NotificationComponent } from '../business-owner/pages/notification/notification.component';
 
 @NgModule({
@@ -28,7 +29,9 @@ import { SupplierListComponent } from './Pages/supplier/suppliers/suppliers.comp
     AdminProductHomeComponent,
     RawMaterialListComponent, 
     SupplierListComponent, 
-    ProductionRequestComponent 
+    ProductionRequestComponent,
+    AdminUserManagementComponent, 
+    AdminComplaintsSupportComponent
     //NotificationComponent// ← جديد
   ]
 })

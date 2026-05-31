@@ -1472,3 +1472,40 @@ textarea.textarea-main:focus {
   flex-wrap: wrap;
   align-items: center;
 }
+
+/* ── Admin Complaints & Support — Modal Fix ─── */
+app-admin-complaints-support .overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(26,18,8,0.45) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+app-admin-complaints-support .modal {
+  position: relative !important;
+  z-index: 10000 !important;
+}
+app-admin-complaints-support .btn-success {
+  background-color: #ffffff !important;
+  border: 1px solid #86EFAC !important;
+  color: #15803d !important;
+}
+app-admin-complaints-support .btn-success:hover {
+  background-color: #F0FDF4 !important;
+  filter: none !important;
+}
+app-admin-complaints-support .btn-danger {
+  background-color: #ffffff !important;
+  border: 1px solid #FCA5A5 !important;
+  color: #dc2626 !important;
+}
+app-admin-complaints-support .btn-danger:hover {
+  background-color: #FEE2E2 !important;
+  filter: none !important;
+}
+app-admin-complaints-support .btn-danger:disabled {
+  opacity: .4 !important;
+  cursor: not-allowed !important;
+}

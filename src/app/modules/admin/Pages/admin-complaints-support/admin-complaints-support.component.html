@@ -1,0 +1,434 @@
+<!-- SVG Icon Templates -->
+<ng-template #iconEye><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></ng-template>
+<ng-template #iconCheck><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></ng-template>
+<ng-template #iconX><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></ng-template>
+<ng-template #iconSwitch><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></ng-template>
+<ng-template #iconFlag><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></ng-template>
+<ng-template #iconSearch><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></ng-template>
+<ng-template #iconFilter><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></ng-template>
+<ng-template #iconDownload><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></ng-template>
+<ng-template #iconSave><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></ng-template>
+<ng-template #iconAlert><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></ng-template>
+<ng-template #iconHeadset><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></ng-template>
+<ng-template #iconChevLeft><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></ng-template>
+<ng-template #iconChevRight><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></ng-template>
+
+<div class="content">
+
+  <!-- ERROR BANNER -->
+  <div class="error-banner" *ngIf="errorMsg">
+    <span>{{ errorMsg }}</span>
+    <button (click)="errorMsg = null"><ng-container *ngTemplateOutlet="iconX"></ng-container></button>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card gold">
+      <div class="label">Total Complaints</div>
+      <div class="value">{{ stats.totalComplaints | number }}</div>
+      <div class="sub">All time</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Pending</div>
+      <div class="value">{{ stats.pendingComplaints }}</div>
+      <div class="sub">Awaiting review</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Open Tickets</div>
+      <div class="value">{{ stats.openTickets }}</div>
+      <div class="sub">Support tickets</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Unread</div>
+      <div class="value" [style.color]="stats.unreadTickets > 0 ? '#dc2626' : 'var(--text)'">
+        {{ stats.unreadTickets }}
+      </div>
+      <div class="sub">Unread messages</div>
+    </div>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="table-card">
+    <div class="table-header">
+      <div class="tabs">
+        <button class="tab" [class.active]="activeTab === 'complaints'" (click)="switchTab('complaints')">
+          <ng-container *ngTemplateOutlet="iconAlert"></ng-container> Complaints
+        </button>
+        <button class="tab" [class.active]="activeTab === 'tickets'" (click)="switchTab('tickets')">
+          <ng-container *ngTemplateOutlet="iconHeadset"></ng-container> Support Tickets
+        </button>
+      </div>
+      <button class="btn-gold">
+        <ng-container *ngTemplateOutlet="iconDownload"></ng-container> Export
+      </button>
+    </div>
+
+    <!-- ══ COMPLAINTS FILTERS ══ -->
+    <div class="filters" *ngIf="activeTab === 'complaints'">
+      <div class="search-wrap">
+        <span class="search-icon"><ng-container *ngTemplateOutlet="iconSearch"></ng-container></span>
+        <input type="text" placeholder="Search by user or description..."
+          [ngModel]="searchText" (ngModelChange)="onSearchChange($event)"/>
+      </div>
+      <select class="filter-select" [(ngModel)]="statusFilter">
+        <option value="">All Status</option>
+        <option value="1">Pending</option>
+        <option value="2">Under Review</option>
+        <option value="3">Resolved</option>
+        <option value="4">Rejected</option>
+      </select>
+      <select class="filter-select" [(ngModel)]="violationFilter">
+        <option value="">All Violations</option>
+        <option *ngFor="let v of violationTypes" [value]="v.value">{{ v.label }}</option>
+      </select>
+      <button class="btn-gold-outline" (click)="applyFilters()">
+        <ng-container *ngTemplateOutlet="iconFilter"></ng-container> Filter
+      </button>
+      <button class="btn-clear" *ngIf="statusFilter || violationFilter || searchText" (click)="clearFilters()">Clear</button>
+    </div>
+
+    <!-- ══ TICKETS FILTERS ══ -->
+    <div class="filters" *ngIf="activeTab === 'tickets'">
+      <div class="search-wrap">
+        <span class="search-icon"><ng-container *ngTemplateOutlet="iconSearch"></ng-container></span>
+        <input type="text" placeholder="Search by ticket number or subject..."
+          [ngModel]="searchText" (ngModelChange)="onSearchChange($event)"/>
+      </div>
+      <select class="filter-select" [(ngModel)]="statusFilter">
+        <option value="">All Status</option>
+        <option *ngFor="let s of ticketStatuses" [value]="s.value">{{ s.label }}</option>
+      </select>
+      <select class="filter-select" [(ngModel)]="priorityFilter">
+        <option value="">All Priorities</option>
+        <option *ngFor="let p of ticketPriorities" [value]="p.value">{{ p.label }}</option>
+      </select>
+      <button class="btn-gold-outline" (click)="applyFilters()">
+        <ng-container *ngTemplateOutlet="iconFilter"></ng-container> Filter
+      </button>
+      <button class="btn-clear" *ngIf="statusFilter || priorityFilter || searchText" (click)="clearFilters()">Clear</button>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading-row" *ngIf="isLoading">
+      <span class="spinner"></span> Loading...
+    </div>
+
+    <!-- ══ COMPLAINTS TABLE ══ -->
+    <div class="table-wrap" *ngIf="activeTab === 'complaints' && !isLoading">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Reported User</th>
+            <th>Reported By</th>
+            <th>Violation</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="complaints.length === 0">
+            <td colspan="7" class="empty-cell">No complaints found.</td>
+          </tr>
+          <tr *ngFor="let c of complaints" (click)="openComplaintModal(c)">
+            <td style="font-weight:500;color:var(--text-muted)">#{{ c.id }}</td>
+            <td>
+              <div class="user-cell">
+                <div class="avatar av-red">{{ c.reportedUserName | slice:0:2 | uppercase }}</div>
+                <div>
+                  <div class="user-name">{{ c.reportedUserName }}</div>
+                  <div class="user-email">{{ c.reportedUserEmail }}</div>
+                </div>
+              </div>
+            </td>
+            <td><span style="font-size:12px;color:var(--text-muted)">{{ c.reportedByName }}</span></td>
+            <td><span class="violation-tag">{{ c.violationTypeText }}</span></td>
+            <td>
+              <span class="badge" [ngClass]="COMPLAINT_STATUS[c.status]?.badge">
+                <span class="dot"></span>{{ COMPLAINT_STATUS[c.status]?.label }}
+              </span>
+            </td>
+            <td style="color:var(--text-muted);font-size:12px">{{ c.createdAt | date:'MMM d, y' }}</td>
+            <td (click)="$event.stopPropagation()">
+              <div class="actions">
+                <button class="act-btn" title="View" (click)="openComplaintModal(c)">
+                  <ng-container *ngTemplateOutlet="iconEye"></ng-container>
+                </button>
+                <button class="act-btn success" title="Resolve"
+                  *ngIf="c.status === 1 || c.status === 2"
+                  (click)="openComplaintModal(c)">
+                  <ng-container *ngTemplateOutlet="iconCheck"></ng-container>
+                </button>
+                <button class="act-btn danger" title="Reject"
+                  *ngIf="c.status === 1 || c.status === 2"
+                  (click)="$event.stopPropagation(); selectedComplaint = c; rejectComplaint()">
+                  <ng-container *ngTemplateOutlet="iconX"></ng-container>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══ TICKETS TABLE ══ -->
+    <div class="table-wrap" *ngIf="activeTab === 'tickets' && !isLoading">
+      <table>
+        <thead>
+          <tr>
+            <th>Ticket #</th>
+            <th>Subject</th>
+            <th>Category</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Messages</th>
+            <th>Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="tickets.length === 0">
+            <td colspan="8" class="empty-cell">No tickets found.</td>
+          </tr>
+          <tr *ngFor="let t of tickets" (click)="openTicketModal(t)">
+            <td style="font-weight:500;color:var(--gold)">{{ t.ticketNumber }}</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-size:13px;font-weight:500">{{ t.subject }}</span>
+                <span class="unread-dot" *ngIf="t.hasUnreadMessages"></span>
+              </div>
+            </td>
+            <td><span style="font-size:12px;color:var(--text-muted)">{{ t.categoryText }}</span></td>
+            <td>
+              <span [ngClass]="TICKET_PRIORITY[t.priority]?.badge">
+                {{ TICKET_PRIORITY[t.priority]?.label }}
+              </span>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="TICKET_STATUS[t.status]?.badge">
+                <span class="dot"></span>{{ TICKET_STATUS[t.status]?.label }}
+              </span>
+            </td>
+            <td style="font-size:12px;color:var(--text-muted)">{{ t.messageCount }} msgs</td>
+            <td style="color:var(--text-muted);font-size:12px">{{ t.timeAgo }}</td>
+            <td (click)="$event.stopPropagation()">
+              <div class="actions">
+                <button class="act-btn" title="View" (click)="openTicketModal(t, 'status')">
+                  <ng-container *ngTemplateOutlet="iconEye"></ng-container>
+                </button>
+                <button class="act-btn" title="Change Status" (click)="openTicketModal(t, 'status')">
+                  <ng-container *ngTemplateOutlet="iconSwitch"></ng-container>
+                </button>
+               <button class="act-btn" title="Change Priority" (click)="openTicketModal(t, 'priority')">
+                  <ng-container *ngTemplateOutlet="iconFlag"></ng-container>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination" *ngIf="!isLoading">
+      <span *ngIf="activeTab === 'complaints'">
+        Showing {{ complaintPagination.firstItemIndex }}–{{ complaintPagination.lastItemIndex }}
+        of {{ complaintPagination.count | number }} results
+      </span>
+      <span *ngIf="activeTab === 'tickets'">
+        Showing {{ ticketPagination.firstItemIndex }}–{{ ticketPagination.lastItemIndex }}
+        of {{ ticketPagination.count | number }} results
+      </span>
+      <div class="page-btns">
+        <button class="page-btn"
+          [disabled]="activeTab === 'complaints' ? !complaintPagination.hasPrevious : !ticketPagination.hasPrevious"
+          (click)="goToPage((activeTab === 'complaints' ? complaintPagination.pageIndex : ticketPagination.pageIndex) - 1)">
+          <ng-container *ngTemplateOutlet="iconChevLeft"></ng-container>
+        </button>
+        <button class="page-btn"
+          *ngFor="let p of (activeTab === 'complaints' ? complaintPages : ticketPages)"
+          [class.active]="p === (activeTab === 'complaints' ? complaintPagination.pageIndex : ticketPagination.pageIndex)"
+          (click)="goToPage(p)">{{ p }}</button>
+        <button class="page-btn"
+          [disabled]="activeTab === 'complaints' ? !complaintPagination.hasNext : !ticketPagination.hasNext"
+          (click)="goToPage((activeTab === 'complaints' ? complaintPagination.pageIndex : ticketPagination.pageIndex) + 1)">
+          <ng-container *ngTemplateOutlet="iconChevRight"></ng-container>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ COMPLAINT MODAL ══════════════ -->
+<div class="admin-cs-overlay" *ngIf="isComplaintModalOpen" (click)="closeComplaintModal()">
+  <div class="admin-cs-modal" (click)="$event.stopPropagation()">
+    <ng-container *ngIf="selectedComplaint as c">
+      <div class="admin-cs-modal-head">
+        <div class="admin-cs-modal-head-left">
+          <div class="admin-cs-modal-title">Complaint #{{ c.id }}</div>
+          <div class="admin-cs-modal-meta">
+            <span class="badge" [ngClass]="COMPLAINT_STATUS[c.status]?.badge">
+              <span class="dot"></span>{{ COMPLAINT_STATUS[c.status]?.label }}
+            </span>
+            <span class="violation-tag">{{ c.violationTypeText }}</span>
+            <span style="color:var(--text-muted)">{{ c.createdAt | date:'MMM d, y' }}</span>
+          </div>
+        </div>
+        <button class="admin-cs-modal-close" (click)="closeComplaintModal()">
+          <ng-container *ngTemplateOutlet="iconX"></ng-container>
+        </button>
+      </div>
+      <div class="admin-cs-modal-body">
+        <div class="info-grid">
+          <div class="info-item"><label>Reported User</label><p>{{ c.reportedUserName }}</p></div>
+          <div class="info-item"><label>Email</label><p>{{ c.reportedUserEmail }}</p></div>
+          <div class="info-item"><label>Reported By</label><p>{{ c.reportedByName }}</p></div>
+          <div class="info-item"><label>Related Order</label><p>{{ c.relatedOrderId || '—' }}</p></div>
+          <div class="info-item" *ngIf="c.relatedProductId">
+            <label>Related Product</label><p>{{ c.relatedProductId }}</p>
+          </div>
+          <div class="info-item" *ngIf="c.reviewedBy">
+            <label>Reviewed By</label><p>{{ c.reviewedBy }}</p>
+          </div>
+        </div>
+        <div class="description-box" *ngIf="c.description">{{ c.description }}</div>
+        <ng-container *ngIf="c.status === 3 || c.status === 4">
+          <div class="section-title">Resolution</div>
+          <div class="description-box" style="border-left-color:#86EFAC">{{ c.resolution || '—' }}</div>
+          <div class="description-box" *ngIf="c.adminNotes" style="border-left-color:var(--gold-border)">
+            <strong>Admin Notes:</strong> {{ c.adminNotes }}
+          </div>
+        </ng-container>
+        <ng-container *ngIf="c.status === 1 || c.status === 2">
+          <div class="section-title">Resolve Complaint</div>
+          <div class="textarea-wrap">
+            <label>Resolution <span style="color:#dc2626">*</span></label>
+            <textarea [(ngModel)]="resolveText" placeholder="Describe the resolution taken (min 10 characters)..."></textarea>
+          </div>
+          <div class="textarea-wrap">
+            <label>Admin Notes <span style="color:var(--text-muted)">(optional)</span></label>
+            <textarea [(ngModel)]="adminNotes" placeholder="Internal notes for the admin team..."></textarea>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" id="blockUserCheck" [(ngModel)]="blockUser"/>
+            <label for="blockUserCheck">Also block the reported user's account</label>
+          </div>
+          <div class="section-title">Reject Complaint</div>
+          <div class="textarea-wrap">
+            <label>Rejection Reason <span style="color:var(--text-muted)">(optional)</span></label>
+            <textarea [(ngModel)]="rejectReason" placeholder="Reason for rejecting this complaint..."></textarea>
+          </div>
+          <div class="action-row">
+            <button class="btn-success" (click)="resolveComplaint()">
+              <ng-container *ngTemplateOutlet="iconCheck"></ng-container> Resolve
+            </button>
+            <button class="btn-danger" (click)="rejectComplaint()">
+              <ng-container *ngTemplateOutlet="iconX"></ng-container> Reject
+            </button>
+            <button class="btn-outline" (click)="closeComplaintModal()">Cancel</button>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- ══════════════ REJECT MODAL ══════════════ -->
+<div class="admin-cs-overlay" *ngIf="isRejectModalOpen" (click)="closeRejectModal()">
+  <div class="admin-cs-modal" style="max-width:480px" (click)="$event.stopPropagation()">
+    <ng-container *ngIf="selectedComplaint as c">
+      <div class="admin-cs-modal-head">
+        <div class="admin-cs-modal-head-left">
+          <div class="admin-cs-modal-title">Reject Complaint #{{ c.id }}</div>
+          <div class="admin-cs-modal-meta">
+            <span class="violation-tag">{{ c.violationTypeText }}</span>
+            <span style="color:var(--text-muted)">{{ c.reportedUserName }}</span>
+          </div>
+        </div>
+        <button class="admin-cs-modal-close" (click)="closeRejectModal()">
+          <ng-container *ngTemplateOutlet="iconX"></ng-container>
+        </button>
+      </div>
+      <div class="admin-cs-modal-body">
+        <div class="textarea-wrap">
+          <label>Rejection Reason <span style="color:#dc2626">*</span></label>
+          <textarea [(ngModel)]="rejectReason"
+            placeholder="Enter the reason for rejecting this complaint..."
+            rows="4"></textarea>
+        </div>
+        <div class="action-row">
+          <button class="btn-danger"
+            [disabled]="!rejectReason.trim()"
+            (click)="rejectComplaint()">
+            <ng-container *ngTemplateOutlet="iconX"></ng-container> Confirm Reject
+          </button>
+          <button class="btn-outline" (click)="closeRejectModal()">Cancel</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- ══════════════ TICKET MODAL ══════════════ -->
+<div class="admin-cs-overlay" *ngIf="isTicketModalOpen" (click)="closeTicketModal()">
+  <div class="admin-cs-modal" (click)="$event.stopPropagation()">
+    <ng-container *ngIf="selectedTicket as t">
+      <div class="admin-cs-modal-head">
+        <div class="admin-cs-modal-head-left">
+          <div class="admin-cs-modal-title">{{ t.ticketNumber }} — {{ t.subject }}</div>
+          <div class="admin-cs-modal-meta">
+            <span class="badge" [ngClass]="TICKET_STATUS[t.status]?.badge">
+              <span class="dot"></span>{{ TICKET_STATUS[t.status]?.label }}
+            </span>
+            <span [ngClass]="TICKET_PRIORITY[t.priority]?.badge">{{ TICKET_PRIORITY[t.priority]?.label }}</span>
+            <span style="color:var(--text-muted)">{{ t.timeAgo }} · {{ t.messageCount }} messages</span>
+          </div>
+        </div>
+        <button class="admin-cs-modal-close" (click)="closeTicketModal()">
+          <ng-container *ngTemplateOutlet="iconX"></ng-container>
+        </button>
+      </div>
+      <div class="admin-cs-modal-body">
+        <div class="info-grid">
+          <div class="info-item"><label>Category</label><p>{{ t.categoryText }}</p></div>
+          <div class="info-item"><label>Created</label><p>{{ t.createdAt | date:'MMM d, y' }}</p></div>
+          <div class="info-item"><label>Last Updated</label><p>{{ t.updatedAt | date:'MMM d, y' }}</p></div>
+          <div class="info-item"><label>Messages</label><p>{{ t.messageCount }}</p></div>
+        </div>
+        <div class="section-title" *ngIf="activeModalSection === 'status'">Update Status</div>
+        <div class="select-wrap" *ngIf="activeModalSection === 'status'">
+          <label>New Status</label>
+          <select [(ngModel)]="ticketNewStatus">
+            <option *ngFor="let s of ticketStatuses" [value]="s.value">{{ s.label }}</option>
+          </select>
+        </div>
+        <div class="textarea-wrap" *ngIf="activeModalSection === 'status'">
+          <label>Note <span style="color:var(--text-muted)">(optional)</span></label>
+          <textarea [(ngModel)]="ticketStatusNote" placeholder="Add a note about this status change..."></textarea>
+        </div>
+        <div class="section-title" *ngIf="activeModalSection === 'priority'">Update Priority</div>
+        <div class="select-wrap" *ngIf="activeModalSection === 'priority'" >
+          <label>Priority</label>
+          <select [(ngModel)]="ticketNewPriority">
+            <option *ngFor="let p of ticketPriorities" [value]="p.value">{{ p.label }}</option>
+          </select>
+        </div>
+        <div class="section-title"  *ngIf="activeModalSection === 'assign'">Assign Ticket</div>
+        <div class="select-wrap"  *ngIf="activeModalSection === 'assign'">
+          <label>Assign to Admin</label>
+          <select [(ngModel)]="ticketAssignAdminId">
+            <option value="">— Select Admin —</option>
+            <option *ngFor="let a of admins" [value]="a.id">{{ a.fullName }}</option>
+          </select>
+        </div>
+        <div class="action-row">
+          <button class="btn-gold" (click)="saveTicketChanges()">
+            <ng-container *ngTemplateOutlet="iconSave"></ng-container> Save Changes
+          </button>
+          <button class="btn-outline" (click)="closeTicketModal()">Cancel</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
