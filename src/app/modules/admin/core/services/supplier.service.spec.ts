@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RawMaterialService } from './raw-material.service';
+import { SupplierService } from '../supplier.service';
 
-describe('RawMaterialService', () => {
-  let service: RawMaterialService;
+describe('SupplierService', () => {
+  let service: SupplierService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RawMaterialService);
+    service = TestBed.inject(SupplierService);
   });
 
   it('should be created', () => {

@@ -1,14 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse, PaginatedResponse } from '../core/Interfaces/ibusiness-owner';
+import { ApiResponse, PaginatedResponse } from '../Interfaces/ibusiness-owner';
 import {
   RawMaterial,
   CreateRawMaterialDto,
   UpdateRawMaterialDto,
   RestockMaterialDto,
   RawMaterialFilterParams
-} from '../core/Interfaces/iraw-material';
+} from '../Interfaces/iraw-material';
 
 @Injectable({ providedIn: 'root' })
 export class RawMaterialService {
