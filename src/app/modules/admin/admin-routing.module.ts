@@ -26,7 +26,7 @@ const routes: Routes = [
       { path: 'suppliers', component: SupplierListComponent }, 
       { path: 'production-requests', component: ProductionRequestComponent },
       // {path: 'AdminUserManagment', component: AdminUserManagementComponent},
-      {path: 'AdminSupportComplaint', component: AdminComplaintsSupportComponent}
+      {path: 'adminsupportcomplaint', component: AdminComplaintsSupportComponent}
       //{path: 'notification', component:NotificationComponent} // ← جديد
     ]
   }
