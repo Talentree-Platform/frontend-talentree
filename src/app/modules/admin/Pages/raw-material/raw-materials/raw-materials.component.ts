@@ -1,5 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
-import { RawMaterialService } from '../../../Services/raw-material.service';
+import { RawMaterialService } from '../../../services/raw-material.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TableComponent } from '../../../Components/table/table.component';
 import { FormsModule } from '@angular/forms';

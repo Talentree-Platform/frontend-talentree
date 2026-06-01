@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { SupplierService } from '../../../Services/supplier.service';
+import { SupplierService } from '../../../services/supplier.service';
 import { Supplier, CreateSupplierDto, UpdateSupplierDto } from '../../../core/Interfaces/isupplier';
 
 @Component({

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { RawMaterialService } from '../../../Services/raw-material.service';
+import { RawMaterialService } from '../../../services/raw-material.service';
 import { RawMaterial, CreateRawMaterialDto, UpdateRawMaterialDto } from '../../../core/Interfaces/iraw-material';
 
 @Component({

@@ -1,5 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
-import { SupplierService } from '../../../Services/supplier.service';
+import { SupplierService } from '../../../services/supplier.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

@@ -8,7 +8,7 @@ import {
   ProductionRequest,
   PagedList,
   STATUS_MAP,
-} from '../../Services/production-request.service';
+} from '../../services/production-request.service';
 
 type ModalMode = 'quote' | 'complete' | 'reject' | 'detail' | null;
 
