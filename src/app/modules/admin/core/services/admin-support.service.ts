@@ -65,7 +65,7 @@ export interface AssignTicketDto {
 @Injectable({ providedIn: 'root' })
 export class AdminSupportService {
 
-  private readonly apiUrl = '/api/admin/support/tickets';
+  private readonly apiUrl = 'https://backtalentree.runasp.net/api/admin/support/tickets';
 
   constructor(private _HttpClient: HttpClient) {}
 
