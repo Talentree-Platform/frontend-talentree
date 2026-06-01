@@ -67,7 +67,7 @@ export interface ResolveComplaintDto {
 @Injectable({ providedIn: 'root' })
 export class AdminComplaintService {
 
-  private readonly apiUrl = '/api/admin/complaints';
+  private readonly apiUrl = 'https://backtalentree.runasp.net/api/admin/complaints';
 
   constructor(private _HttpClient: HttpClient) {}
 
