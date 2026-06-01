@@ -1,13 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse, PaginatedResponse } from '../core/Interfaces/ibusiness-owner';
+import { ApiResponse, PaginatedResponse } from '../Interfaces/ibusiness-owner';
 import {
   Supplier,
   CreateSupplierDto,
   UpdateSupplierDto,
   SupplierFilterParams
-} from '../core/Interfaces/isupplier';
+} from '../Interfaces/isupplier';
 
 @Injectable({ providedIn: 'root' })
 export class SupplierService {
