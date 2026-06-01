@@ -1,21 +1,22 @@
 // src/app/admin/core/services/admin-product.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseService } from './base.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminProductService extends BaseService {
   
-  constructor(http: HttpClient) {
-    super(http);
-  }
+ constructor(http: HttpClient, @Inject(PLATFORM_ID) platformId: Object) {
+  super(http, platformId);
+}
 
   // جلب كل المنتجات
   getProducts(params?: any): Observable<any> {
-    const url = this.getFullUrl('/api/BusinessOwnerProducts');
+    const url = this.getFullUrl('https://backtalentree.runasp.net/api/BusinessOwnerProducts');
     return this.get(url, params);
   }
 
