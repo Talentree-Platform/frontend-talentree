@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
@@ -15,6 +15,8 @@ import {
 import {
   AdminSupportService,
   SupportTicketListItem,
+  TicketDetails,
+  TicketMessage,
   TicketFilterParams,
   UpdateTicketStatusDto,
   AssignTicketDto,
@@ -32,10 +34,13 @@ import { PaginatedResponse } from '../../core/Interfaces/ibusiness-owner';
   templateUrl: './admin-complaints-support.component.html',
   styleUrls: ['./admin-complaints-support.component.css'],
 })
-export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
+export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, AfterViewChecked {
+
+  @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
 
   private destroy$ = new Subject<void>();
   private searchChange$ = new Subject<string>();
+  private shouldScrollToBottom = false;
 
   activeTab: 'complaints' | 'tickets' = 'complaints';
   isLoading = false;
@@ -46,7 +51,7 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
   TICKET_STATUS    = TICKET_STATUS;
   TICKET_PRIORITY  = TICKET_PRIORITY;
 
-  // ── Complaints ─────────────────────────────────────────────────────────────
+  // ── Complaints ──────────────────────────────────────────────────────────────
   complaints: ComplaintListItem[] = [];
   complaintPagination: Omit<PaginatedResponse<unknown>, 'data'> = {
     pageIndex: 1, pageSize: 20, count: 0,
@@ -56,14 +61,13 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
   complaintFilters: ComplaintFilterParams = { pageIndex: 1, pageSize: 20 };
 
   isComplaintModalOpen = false;
-  isRejectModalOpen    = false;
   selectedComplaint: ComplaintListItem | null = null;
   resolveText  = '';
   adminNotes   = '';
   blockUser    = false;
   rejectReason = '';
 
-  // ── Support Tickets ────────────────────────────────────────────────────────
+  // ── Support Tickets ─────────────────────────────────────────────────────────
   tickets: SupportTicketListItem[] = [];
   ticketPagination: Omit<PaginatedResponse<unknown>, 'data'> = {
     pageIndex: 1, pageSize: 20, count: 0,
@@ -72,14 +76,23 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
   };
   ticketFilters: TicketFilterParams = { pageIndex: 1, pageSize: 20 };
 
-  isTicketModalOpen   = false;
+  isTicketModalOpen  = false;
+  isTicketLoading    = false;
   selectedTicket: SupportTicketListItem | null = null;
-  activeModalSection: 'status' | 'priority' | 'assign' = 'status';
+  ticketDetails: TicketDetails | null = null;
+  activeModalTab: 'messages' | 'manage' = 'messages';
+
+  // manage fields
   ticketNewStatus: 1|2|3|4|5 = 1;
   ticketStatusNote    = '';
   ticketNewPriority: 1|2|3|4 = 1;
   ticketAssignAdminId = '';
 
+  // messages
+  newMessage = '';
+  isSending  = false;
+
+  // ── Filters ─────────────────────────────────────────────────────────────────
   searchText      = '';
   statusFilter    = '';
   violationFilter = '';
@@ -112,11 +125,27 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  ngAfterViewChecked(): void {
+    if (this.shouldScrollToBottom) {
+      this.scrollToBottom();
+      this.shouldScrollToBottom = false;
+    }
+  }
+
+  private scrollToBottom(): void {
+    try {
+      if (this.messagesContainer) {
+        this.messagesContainer.nativeElement.scrollTop =
+          this.messagesContainer.nativeElement.scrollHeight;
+      }
+    } catch {}
+  }
+
   loadAdmins(): void {
     this.adminService.getAllAdmins()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res) => { if (res.success) this.admins = res.data.filter(a => a.isActive); },
+        next: (res) => { if (res.success) this.admins = res.data.filter((a: any) => a.isActive); },
         error: () => {},
       });
   }
@@ -209,7 +238,7 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
     }
   }
 
-  // ── Complaint Modal ────────────────────────────────────────────────────────
+  // ── Complaint Modal ──────────────────────────────────────────────────────────
 
   openComplaintModal(c: ComplaintListItem): void {
     this.selectedComplaint    = c;
@@ -224,14 +253,6 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
     this.isComplaintModalOpen = false;
     this.selectedComplaint    = null;
   }
-
-  openRejectModal(c: ComplaintListItem): void {
-    this.selectedComplaint = c;
-    this.rejectReason      = '';
-    this.isRejectModalOpen = true;
-  }
-
-  closeRejectModal(): void { this.isRejectModalOpen = false; }
 
   resolveComplaint(): void {
     if (!this.selectedComplaint) return;
@@ -254,30 +275,80 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
 
   rejectComplaint(): void {
     if (!this.selectedComplaint) return;
-    if (!this.rejectReason.trim()) return;
+    if (!this.rejectReason.trim()) { alert('Please enter a rejection reason.'); return; }
     this.complaintSvc.rejectComplaint(this.selectedComplaint.id, this.rejectReason.trim())
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => { this.closeRejectModal(); this.closeComplaintModal(); this.loadComplaints(); },
+        next: () => { this.closeComplaintModal(); this.loadComplaints(); },
         error: (e) => { this.errorMsg = e.message; },
       });
   }
 
-  // ── Ticket Modal ───────────────────────────────────────────────────────────
+  // ── Ticket Modal ─────────────────────────────────────────────────────────────
 
-  openTicketModal(t: SupportTicketListItem, section: 'status' | 'priority' | 'assign' = 'status'): void {
+  openTicketModal(t: SupportTicketListItem, tab: 'messages' | 'manage' = 'messages'): void {
     this.selectedTicket      = t;
+    this.ticketDetails       = null;
     this.ticketNewStatus     = t.status;
     this.ticketNewPriority   = t.priority;
     this.ticketStatusNote    = '';
     this.ticketAssignAdminId = '';
-    this.activeModalSection  = section;
+    this.activeModalTab      = tab;
+    this.newMessage          = '';
     this.isTicketModalOpen   = true;
+    this.isTicketLoading     = true;
+
+    // جيب التفاصيل + الرسائل في call واحد
+    this.supportSvc.getTicketById(t.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.ticketDetails   = res?.data ?? (res as any);
+          this.isTicketLoading = false;
+          this.shouldScrollToBottom = true;
+        },
+        error: () => { this.isTicketLoading = false; },
+      });
   }
 
   closeTicketModal(): void {
     this.isTicketModalOpen = false;
     this.selectedTicket    = null;
+    this.ticketDetails     = null;
+    this.newMessage        = '';
+  }
+
+  // messages من ticketDetails مباشرة
+  get messages(): TicketMessage[] {
+    return this.ticketDetails?.messages ?? [];
+  }
+
+  sendMessage(): void {
+    if (!this.selectedTicket || !this.newMessage.trim()) return;
+    this.isSending = true;
+    this.supportSvc.sendMessage(this.selectedTicket.id, this.newMessage.trim())
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          const msg = res?.data ?? (res as any);
+          // أضف الرسالة للـ ticketDetails محلياً
+          if (msg && this.ticketDetails) {
+            this.ticketDetails.messages = [...this.ticketDetails.messages, msg];
+          }
+          this.newMessage = '';
+          this.isSending  = false;
+          this.shouldScrollToBottom = true;
+          this.loadTickets();
+        },
+        error: (e) => { this.errorMsg = e.message; this.isSending = false; },
+      });
+  }
+
+  onMessageKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
   }
 
   saveTicketChanges(): void {
@@ -286,12 +357,11 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
     const calls: any[] = [];
 
     if (Number(this.ticketNewStatus) !== this.selectedTicket.status) {
-      const dto: UpdateTicketStatusDto = {
+      calls.push(this.supportSvc.updateTicketStatus({
         ticketId: id,
         status:   Number(this.ticketNewStatus),
         note:     this.ticketStatusNote || undefined,
-      };
-      calls.push(this.supportSvc.updateTicketStatus(dto));
+      }));
     }
 
     if (Number(this.ticketNewPriority) !== this.selectedTicket.priority) {
@@ -299,8 +369,7 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
     }
 
     if (this.ticketAssignAdminId) {
-      const dto: AssignTicketDto = { ticketId: id, adminId: this.ticketAssignAdminId };
-      calls.push(this.supportSvc.assignTicket(dto));
+      calls.push(this.supportSvc.assignTicket({ ticketId: id, adminId: this.ticketAssignAdminId }));
     }
 
     if (calls.length === 0) { this.closeTicketModal(); return; }
@@ -308,10 +377,7 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy {
     let done = 0;
     calls.forEach(call => {
       call.pipe(takeUntil(this.destroy$)).subscribe({
-        next: () => {
-          done++;
-          if (done === calls.length) { this.closeTicketModal(); this.loadTickets(); }
-        },
+        next: () => { if (++done === calls.length) { this.closeTicketModal(); this.loadTickets(); } },
         error: (e: any) => { this.errorMsg = e.message; },
       });
     });

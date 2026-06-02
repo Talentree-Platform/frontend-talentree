@@ -12,6 +12,9 @@
 <ng-template #iconHeadset><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></ng-template>
 <ng-template #iconChevLeft><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></ng-template>
 <ng-template #iconChevRight><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></ng-template>
+<ng-template #iconSend><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></ng-template>
+<ng-template #iconMsg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></ng-template>
+<ng-template #iconSettings><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></ng-template>
 
 <div class="content">
 
@@ -63,7 +66,7 @@
       </button>
     </div>
 
-    <!-- ══ COMPLAINTS FILTERS ══ -->
+    <!-- COMPLAINTS FILTERS -->
     <div class="filters" *ngIf="activeTab === 'complaints'">
       <div class="search-wrap">
         <span class="search-icon"><ng-container *ngTemplateOutlet="iconSearch"></ng-container></span>
@@ -87,7 +90,7 @@
       <button class="btn-clear" *ngIf="statusFilter || violationFilter || searchText" (click)="clearFilters()">Clear</button>
     </div>
 
-    <!-- ══ TICKETS FILTERS ══ -->
+    <!-- TICKETS FILTERS -->
     <div class="filters" *ngIf="activeTab === 'tickets'">
       <div class="search-wrap">
         <span class="search-icon"><ng-container *ngTemplateOutlet="iconSearch"></ng-container></span>
@@ -113,7 +116,7 @@
       <span class="spinner"></span> Loading...
     </div>
 
-    <!-- ══ COMPLAINTS TABLE ══ -->
+    <!-- COMPLAINTS TABLE -->
     <div class="table-wrap" *ngIf="activeTab === 'complaints' && !isLoading">
       <table>
         <thead>
@@ -160,11 +163,6 @@
                   (click)="openComplaintModal(c)">
                   <ng-container *ngTemplateOutlet="iconCheck"></ng-container>
                 </button>
-                <button class="act-btn danger" title="Reject"
-                  *ngIf="c.status === 1 || c.status === 2"
-                  (click)="$event.stopPropagation(); selectedComplaint = c; rejectComplaint()">
-                  <ng-container *ngTemplateOutlet="iconX"></ng-container>
-                </button>
               </div>
             </td>
           </tr>
@@ -172,7 +170,7 @@
       </table>
     </div>
 
-    <!-- ══ TICKETS TABLE ══ -->
+    <!-- TICKETS TABLE -->
     <div class="table-wrap" *ngIf="activeTab === 'tickets' && !isLoading">
       <table>
         <thead>
@@ -191,7 +189,7 @@
           <tr *ngIf="tickets.length === 0">
             <td colspan="8" class="empty-cell">No tickets found.</td>
           </tr>
-          <tr *ngFor="let t of tickets" (click)="openTicketModal(t)">
+          <tr *ngFor="let t of tickets" (click)="openTicketModal(t, 'messages')">
             <td style="font-weight:500;color:var(--gold)">{{ t.ticketNumber }}</td>
             <td>
               <div style="display:flex;align-items:center;gap:6px">
@@ -200,11 +198,7 @@
               </div>
             </td>
             <td><span style="font-size:12px;color:var(--text-muted)">{{ t.categoryText }}</span></td>
-            <td>
-              <span [ngClass]="TICKET_PRIORITY[t.priority]?.badge">
-                {{ TICKET_PRIORITY[t.priority]?.label }}
-              </span>
-            </td>
+            <td><span [ngClass]="TICKET_PRIORITY[t.priority]?.badge">{{ TICKET_PRIORITY[t.priority]?.label }}</span></td>
             <td>
               <span class="badge" [ngClass]="TICKET_STATUS[t.status]?.badge">
                 <span class="dot"></span>{{ TICKET_STATUS[t.status]?.label }}
@@ -214,14 +208,11 @@
             <td style="color:var(--text-muted);font-size:12px">{{ t.timeAgo }}</td>
             <td (click)="$event.stopPropagation()">
               <div class="actions">
-                <button class="act-btn" title="View" (click)="openTicketModal(t, 'status')">
-                  <ng-container *ngTemplateOutlet="iconEye"></ng-container>
+                <button class="act-btn" title="Read Messages" (click)="openTicketModal(t, 'messages')">
+                  <ng-container *ngTemplateOutlet="iconMsg"></ng-container>
                 </button>
-                <button class="act-btn" title="Change Status" (click)="openTicketModal(t, 'status')">
-                  <ng-container *ngTemplateOutlet="iconSwitch"></ng-container>
-                </button>
-               <button class="act-btn" title="Change Priority" (click)="openTicketModal(t, 'priority')">
-                  <ng-container *ngTemplateOutlet="iconFlag"></ng-container>
+                <button class="act-btn" title="Manage" (click)="openTicketModal(t, 'manage')">
+                  <ng-container *ngTemplateOutlet="iconSettings"></ng-container>
                 </button>
               </div>
             </td>
@@ -285,12 +276,8 @@
           <div class="info-item"><label>Email</label><p>{{ c.reportedUserEmail }}</p></div>
           <div class="info-item"><label>Reported By</label><p>{{ c.reportedByName }}</p></div>
           <div class="info-item"><label>Related Order</label><p>{{ c.relatedOrderId || '—' }}</p></div>
-          <div class="info-item" *ngIf="c.relatedProductId">
-            <label>Related Product</label><p>{{ c.relatedProductId }}</p>
-          </div>
-          <div class="info-item" *ngIf="c.reviewedBy">
-            <label>Reviewed By</label><p>{{ c.reviewedBy }}</p>
-          </div>
+          <div class="info-item" *ngIf="c.relatedProductId"><label>Related Product</label><p>{{ c.relatedProductId }}</p></div>
+          <div class="info-item" *ngIf="c.reviewedBy"><label>Reviewed By</label><p>{{ c.reviewedBy }}</p></div>
         </div>
         <div class="description-box" *ngIf="c.description">{{ c.description }}</div>
         <ng-container *ngIf="c.status === 3 || c.status === 4">
@@ -316,7 +303,7 @@
           </div>
           <div class="section-title">Reject Complaint</div>
           <div class="textarea-wrap">
-            <label>Rejection Reason <span style="color:var(--text-muted)">(optional)</span></label>
+            <label>Rejection Reason</label>
             <textarea [(ngModel)]="rejectReason" placeholder="Reason for rejecting this complaint..."></textarea>
           </div>
           <div class="action-row">
@@ -334,101 +321,147 @@
   </div>
 </div>
 
-<!-- ══════════════ REJECT MODAL ══════════════ -->
-<div class="admin-cs-overlay" *ngIf="isRejectModalOpen" (click)="closeRejectModal()">
-  <div class="admin-cs-modal" style="max-width:480px" (click)="$event.stopPropagation()">
-    <ng-container *ngIf="selectedComplaint as c">
-      <div class="admin-cs-modal-head">
-        <div class="admin-cs-modal-head-left">
-          <div class="admin-cs-modal-title">Reject Complaint #{{ c.id }}</div>
-          <div class="admin-cs-modal-meta">
-            <span class="violation-tag">{{ c.violationTypeText }}</span>
-            <span style="color:var(--text-muted)">{{ c.reportedUserName }}</span>
-          </div>
-        </div>
-        <button class="admin-cs-modal-close" (click)="closeRejectModal()">
-          <ng-container *ngTemplateOutlet="iconX"></ng-container>
-        </button>
-      </div>
-      <div class="admin-cs-modal-body">
-        <div class="textarea-wrap">
-          <label>Rejection Reason <span style="color:#dc2626">*</span></label>
-          <textarea [(ngModel)]="rejectReason"
-            placeholder="Enter the reason for rejecting this complaint..."
-            rows="4"></textarea>
-        </div>
-        <div class="action-row">
-          <button class="btn-danger"
-            [disabled]="!rejectReason.trim()"
-            (click)="rejectComplaint()">
-            <ng-container *ngTemplateOutlet="iconX"></ng-container> Confirm Reject
-          </button>
-          <button class="btn-outline" (click)="closeRejectModal()">Cancel</button>
-        </div>
-      </div>
-    </ng-container>
-  </div>
-</div>
-
 <!-- ══════════════ TICKET MODAL ══════════════ -->
 <div class="admin-cs-overlay" *ngIf="isTicketModalOpen" (click)="closeTicketModal()">
-  <div class="admin-cs-modal" (click)="$event.stopPropagation()">
+  <div class="admin-cs-modal ticket-modal" (click)="$event.stopPropagation()">
     <ng-container *ngIf="selectedTicket as t">
+
+      <!-- MODAL HEAD -->
       <div class="admin-cs-modal-head">
         <div class="admin-cs-modal-head-left">
-          <div class="admin-cs-modal-title">{{ t.ticketNumber }} — {{ t.subject }}</div>
+          <div class="admin-cs-modal-title">
+            {{ t.ticketNumber }}
+            <span class="unread-dot" *ngIf="t.hasUnreadMessages" style="margin-left:4px;vertical-align:middle"></span>
+          </div>
           <div class="admin-cs-modal-meta">
             <span class="badge" [ngClass]="TICKET_STATUS[t.status]?.badge">
               <span class="dot"></span>{{ TICKET_STATUS[t.status]?.label }}
             </span>
             <span [ngClass]="TICKET_PRIORITY[t.priority]?.badge">{{ TICKET_PRIORITY[t.priority]?.label }}</span>
-            <span style="color:var(--text-muted)">{{ t.timeAgo }} · {{ t.messageCount }} messages</span>
+            <span style="color:var(--text-muted)">{{ t.messageCount }} messages · {{ t.timeAgo }}</span>
           </div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:2px">{{ t.subject }}</div>
         </div>
         <button class="admin-cs-modal-close" (click)="closeTicketModal()">
           <ng-container *ngTemplateOutlet="iconX"></ng-container>
         </button>
       </div>
-      <div class="admin-cs-modal-body">
-        <div class="info-grid">
-          <div class="info-item"><label>Category</label><p>{{ t.categoryText }}</p></div>
-          <div class="info-item"><label>Created</label><p>{{ t.createdAt | date:'MMM d, y' }}</p></div>
-          <div class="info-item"><label>Last Updated</label><p>{{ t.updatedAt | date:'MMM d, y' }}</p></div>
-          <div class="info-item"><label>Messages</label><p>{{ t.messageCount }}</p></div>
-        </div>
-        <div class="section-title" *ngIf="activeModalSection === 'status'">Update Status</div>
-        <div class="select-wrap" *ngIf="activeModalSection === 'status'">
-          <label>New Status</label>
-          <select [(ngModel)]="ticketNewStatus">
-            <option *ngFor="let s of ticketStatuses" [value]="s.value">{{ s.label }}</option>
-          </select>
-        </div>
-        <div class="textarea-wrap" *ngIf="activeModalSection === 'status'">
-          <label>Note <span style="color:var(--text-muted)">(optional)</span></label>
-          <textarea [(ngModel)]="ticketStatusNote" placeholder="Add a note about this status change..."></textarea>
-        </div>
-        <div class="section-title" *ngIf="activeModalSection === 'priority'">Update Priority</div>
-        <div class="select-wrap" *ngIf="activeModalSection === 'priority'" >
-          <label>Priority</label>
-          <select [(ngModel)]="ticketNewPriority">
-            <option *ngFor="let p of ticketPriorities" [value]="p.value">{{ p.label }}</option>
-          </select>
-        </div>
-        <div class="section-title"  *ngIf="activeModalSection === 'assign'">Assign Ticket</div>
-        <div class="select-wrap"  *ngIf="activeModalSection === 'assign'">
-          <label>Assign to Admin</label>
-          <select [(ngModel)]="ticketAssignAdminId">
-            <option value="">— Select Admin —</option>
-            <option *ngFor="let a of admins" [value]="a.id">{{ a.fullName }}</option>
-          </select>
-        </div>
-        <div class="action-row">
-          <button class="btn-gold" (click)="saveTicketChanges()">
-            <ng-container *ngTemplateOutlet="iconSave"></ng-container> Save Changes
-          </button>
-          <button class="btn-outline" (click)="closeTicketModal()">Cancel</button>
-        </div>
+
+      <!-- MODAL TABS -->
+      <div class="modal-tabs">
+        <button class="modal-tab" [class.active]="activeModalTab === 'messages'"
+          (click)="activeModalTab = 'messages'">
+          <ng-container *ngTemplateOutlet="iconMsg"></ng-container> Messages
+        </button>
+        <button class="modal-tab" [class.active]="activeModalTab === 'manage'"
+          (click)="activeModalTab = 'manage'">
+          <ng-container *ngTemplateOutlet="iconSettings"></ng-container> Manage
+        </button>
       </div>
+
+      <!-- MESSAGES TAB -->
+      <ng-container *ngIf="activeModalTab === 'messages'">
+
+        <!-- Loading messages -->
+        <div class="messages-loading" *ngIf="isTicketLoading">
+          <span class="spinner"></span> Loading messages...
+        </div>
+
+        <!-- Chat area -->
+        <div class="messages-container" #messagesContainer *ngIf="!isTicketLoading">
+
+          <!-- Empty state -->
+          <div class="messages-empty" *ngIf="messages.length === 0">
+            <ng-container *ngTemplateOutlet="iconMsg"></ng-container>
+            <p>No messages yet</p>
+          </div>
+
+          <!-- Messages list -->
+          <div *ngFor="let msg of messages"
+            class="message-row"
+            [class.admin-msg]="msg.isAdminMessage"
+            [class.user-msg]="!msg.isAdminMessage">
+
+            <div class="msg-bubble" [class.admin-bubble]="msg.isAdminMessage" [class.user-bubble]="!msg.isAdminMessage">
+              <div class="msg-sender">
+                {{ msg.senderName }}
+                <span class="msg-role" *ngIf="msg.isAdminMessage">Admin</span>
+                <span class="msg-role user-role" *ngIf="!msg.isAdminMessage">User</span>
+              </div>
+              <div class="msg-text">{{ msg.content }}</div>
+              <div class="msg-time">{{ msg.createdAt | date:'MMM d, y · h:mm a' }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reply box -->
+        <div class="reply-box">
+          <textarea
+            [(ngModel)]="newMessage"
+            (keydown)="onMessageKeydown($event)"
+            placeholder="Type your reply... (Enter to send, Shift+Enter for new line)"
+            rows="3"
+            [disabled]="isSending">
+          </textarea>
+          <div class="reply-actions">
+            <span style="font-size:11px;color:var(--text-muted)">Enter to send · Shift+Enter for new line</span>
+            <button class="btn-send" (click)="sendMessage()" [disabled]="!newMessage.trim() || isSending">
+              <span class="spinner" *ngIf="isSending" style="width:12px;height:12px;border-width:2px"></span>
+              <ng-container *ngIf="!isSending"><ng-container *ngTemplateOutlet="iconSend"></ng-container></ng-container>
+              {{ isSending ? 'Sending...' : 'Send' }}
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- MANAGE TAB -->
+      <ng-container *ngIf="activeModalTab === 'manage'">
+        <div class="admin-cs-modal-body">
+          <div class="info-grid">
+            <div class="info-item"><label>Category</label><p>{{ t.categoryText }}</p></div>
+            <div class="info-item"><label>Created</label><p>{{ t.createdAt | date:'MMM d, y' }}</p></div>
+            <div class="info-item"><label>Last Updated</label><p>{{ t.updatedAt | date:'MMM d, y' }}</p></div>
+            <div class="info-item"><label>Messages</label><p>{{ t.messageCount }}</p></div>
+          </div>
+
+          <div class="section-title">Update Status</div>
+          <div class="select-wrap">
+            <label>New Status</label>
+            <select [(ngModel)]="ticketNewStatus">
+              <option *ngFor="let s of ticketStatuses" [value]="s.value">{{ s.label }}</option>
+            </select>
+          </div>
+          <div class="textarea-wrap">
+            <label>Note <span style="color:var(--text-muted)">(optional)</span></label>
+            <textarea [(ngModel)]="ticketStatusNote" placeholder="Add a note about this status change..."></textarea>
+          </div>
+
+          <div class="section-title">Update Priority</div>
+          <div class="select-wrap">
+            <label>Priority</label>
+            <select [(ngModel)]="ticketNewPriority">
+              <option *ngFor="let p of ticketPriorities" [value]="p.value">{{ p.label }}</option>
+            </select>
+          </div>
+
+          <div class="section-title">Assign Ticket</div>
+          <div class="select-wrap">
+            <label>Assign to Admin</label>
+            <select [(ngModel)]="ticketAssignAdminId">
+              <option value="">— Select Admin —</option>
+              <option *ngFor="let a of admins" [value]="a.id">{{ a.fullName }}</option>
+            </select>
+          </div>
+
+          <div class="action-row">
+            <button class="btn-gold" (click)="saveTicketChanges()">
+              <ng-container *ngTemplateOutlet="iconSave"></ng-container> Save Changes
+            </button>
+            <button class="btn-outline" (click)="closeTicketModal()">Cancel</button>
+          </div>
+        </div>
+      </ng-container>
+
     </ng-container>
   </div>
 </div>
