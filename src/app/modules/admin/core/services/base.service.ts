@@ -10,7 +10,7 @@ import { environment } from '../environments/envioronments';
   providedIn: 'root'
 })
 export class BaseService {
-  protected apiUrl = environment.apiUrl;
+  protected apiUrl = 'https://backtalentree.runasp.net';
 
   constructor(
     protected http: HttpClient,
