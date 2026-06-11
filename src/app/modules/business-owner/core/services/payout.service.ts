@@ -7,7 +7,7 @@ import { Payout, PayoutHistoryResponse, PayoutRequest, WalletSummary } from '../
   providedIn: 'root',
 })
 export class PayoutService {
-  private readonly baseUrl = '/api/Payout';
+  private readonly baseUrl = 'https://backtalentree.runasp.net/api/Payout';
 
   constructor(private http: HttpClient) {}
 
