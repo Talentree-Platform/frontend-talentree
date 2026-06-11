@@ -19,7 +19,7 @@ const API_MEDIA_ORIGIN = 'https://backtalentree.runasp.net/api';
   providedIn: 'root'
 })
 export class BusinessOwnerProductsService {
-  private readonly baseUrl = '/api/BusinessOwnerProducts';
+  private readonly baseUrl = 'https://backtalentree.runasp.net/api/BusinessOwnerProducts';
 
   constructor(private readonly http: HttpClient) {}
 
