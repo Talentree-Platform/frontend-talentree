@@ -6,7 +6,7 @@ import { Payout, PayoutListResponse } from '../Interfaces/iadmin-payout';
 @Injectable({ providedIn: 'root' })
 export class PayoutAdminService {
   private readonly http = inject(HttpClient);
-  private readonly base = '/api/Payout/admin';
+  private readonly base = 'https://backtalentree.runasp.net/api/Payout/admin';
 
   getPayouts(
     pageIndex: number,
