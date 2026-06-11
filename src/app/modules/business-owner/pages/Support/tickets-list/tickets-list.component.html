@@ -1,0 +1,170 @@
+<div class="page">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <app-toast-container></app-toast-container>
+
+  <!-- ══ HERO ══════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-left">
+      <svg class="hero-illus" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="hg1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F0D080"/><stop offset="100%" stop-color="#C9A84C"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="110" cy="188" rx="72" ry="8" fill="rgba(201,168,76,.15)"/>
+        <rect x="28" y="24" width="164" height="140" rx="18" fill="rgba(255,252,240,.06)" stroke="rgba(201,168,76,.4)" stroke-width="1.5"/>
+        <rect x="28" y="24" width="164" height="36" rx="18" fill="rgba(201,168,76,.2)"/>
+        <rect x="28" y="42" width="164" height="18" rx="0" fill="rgba(201,168,76,.2)"/>
+        <circle cx="48" cy="42" r="8" fill="rgba(201,168,76,.5)"/>
+        <circle cx="68" cy="42" r="8" fill="rgba(255,252,240,.2)"/>
+        <circle cx="88" cy="42" r="8" fill="rgba(255,252,240,.15)"/>
+        <rect x="44" y="80"  width="130" height="12" rx="6" fill="rgba(240,208,128,.35)"/>
+        <rect x="44" y="100" width="90"  height="10" rx="5" fill="rgba(255,252,240,.15)"/>
+        <rect x="44" y="118" width="110" height="10" rx="5" fill="rgba(255,252,240,.1)"/>
+        <rect x="44" y="136" width="70"  height="10" rx="5" fill="rgba(255,252,240,.08)"/>
+        <rect x="44" y="155" width="50" height="18" rx="9" fill="rgba(201,168,76,.4)"/>
+        <rect x="104" y="155" width="40" height="18" rx="9" fill="rgba(255,252,240,.12)"/>
+        <rect x="4"   y="90" width="48" height="36" rx="10" fill="rgba(255,252,240,.06)" stroke="rgba(201,168,76,.35)" stroke-width="1"/>
+        <rect x="12"  y="100" width="30" height="6" rx="3" fill="rgba(240,208,128,.4)"/>
+        <rect x="12"  y="110" width="20" height="5" rx="2.5" fill="rgba(255,252,240,.2)"/>
+        <rect x="168" y="60" width="46" height="36" rx="10" fill="rgba(255,252,240,.06)" stroke="rgba(201,168,76,.35)" stroke-width="1"/>
+        <rect x="175" y="70" width="28" height="6" rx="3" fill="rgba(240,208,128,.4)"/>
+        <rect x="175" y="80" width="20" height="5" rx="2.5" fill="rgba(255,252,240,.2)"/>
+        <circle cx="22"  cy="30"  r="3"   fill="rgba(240,208,128,.7)"/>
+        <circle cx="196" cy="28"  r="2"   fill="rgba(240,208,128,.5)"/>
+        <circle cx="12"  cy="155" r="2.5" fill="rgba(201,168,76,.5)"/>
+        <circle cx="206" cy="140" r="2"   fill="rgba(240,208,128,.6)"/>
+        <circle cx="110" cy="12"  r="3"   fill="rgba(240,208,128,.4)"/>
+      </svg>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-badge">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="5" cy="5" r="1.5" fill="currentColor"/>
+        </svg>
+        Support Center
+      </div>
+      <h1 class="hero-title">How can we help<br><span>you today?</span></h1>
+      
+    </div>
+  </section>
+
+  <!-- ══ CATEGORIES ════════════════════════════════════ -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Browse categories</h2>
+      <p class="section-sub">Choose a category to quickly find the right support area.</p>
+    </div>
+    <div class="cats-grid">
+      <div class="cat-card" *ngFor="let c of categoryCards" (click)="setCategory(c.value)">
+        <div class="cat-icon">{{ c.icon }}</div>
+        <div class="cat-body">
+          <div class="cat-name">{{ c.name }}</div>
+          <div class="cat-desc">{{ c.desc }}</div>
+        </div>
+        <span class="cat-arrow">›</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TICKETS ════════════════════════════════════════ -->
+  <section class="section">
+    <div class="tickets-header">
+      <div class="section-head">
+        <h2 class="section-title">Your support tickets</h2>
+        <p class="section-sub">Track conversations and monitor ticket progress.</p>
+      </div>
+      <button class="new-ticket-btn" (click)="createTicket()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        New Ticket
+      </button>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="chips-row">
+      <button
+        class="chip"
+        *ngFor="let s of statusChips"
+        [class.active]="activeStatus === s.value"
+        (click)="setStatus(s.value)"
+      >{{ s.label }}</button>
+    </div>
+
+    <!-- Skeleton -->
+    <ng-container *ngIf="loading">
+      <div class="skel-card" *ngFor="let r of skeletonRows">
+        <div class="skel" style="width:44px;height:44px;border-radius:12px;flex-shrink:0"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:9px">
+          <div class="skel" style="width:60%;height:13px"></div>
+          <div class="skel" style="width:85%;height:16px"></div>
+          <div class="skel" style="width:45%;height:11px"></div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Error -->
+    <div class="empty-state" *ngIf="!loading && error">
+      <div class="empty-icon">⚠️</div>
+      <h3>Something went wrong</h3>
+      <p>Failed to load tickets. Please refresh and try again.</p>
+    </div>
+
+    <!-- Empty -->
+    <div class="empty-state" *ngIf="!loading && !error && tickets.length === 0">
+      <div class="empty-icon">🎫</div>
+      <h3>No support tickets yet</h3>
+      <p>Create your first support request and our team will help you.</p>
+      <button class="new-ticket-btn" (click)="createTicket()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Create Ticket
+      </button>
+    </div>
+
+    <!-- Ticket list -->
+    <div class="ticket-list" *ngIf="!loading && !error && tickets.length > 0">
+      <div
+        class="ticket-card"
+        *ngFor="let t of tickets; let i = index"
+        [style.animation-delay]="i * 0.06 + 's'"
+        (click)="openTicket(t.id)"
+      >
+        <div class="ticket-icon">{{ categoryIcon(t.categoryText) }}</div>
+
+        <div class="ticket-body">
+          <div class="ticket-meta">
+            <span class="ticket-num">#{{ t.ticketNumber }}</span>
+            <app-status-badge [label]="t.statusText"   [variant]="'status'"   [value]="t.status"></app-status-badge>
+            <app-status-badge [label]="t.priorityText" [variant]="'priority'" [value]="t.priority"></app-status-badge>
+            <span class="unread-badge" *ngIf="t.unreadCount > 0">{{ t.unreadCount }}</span>
+          </div>
+          <div class="ticket-subject">{{ t.subject }}</div>
+          <div class="ticket-foot">
+            <span>📁 {{ t.categoryText }}</span>
+            <span>💬 {{ t.messageCount }}</span>
+            <span>🕐 {{ t.timeAgo }}</span>
+          </div>
+        </div>
+
+        <span class="ticket-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="pagination && pagination.totalPages > 1">
+      <button
+        class="pg-btn"
+        *ngFor="let p of pages"
+        [class.active]="p === pagination.pageIndex"
+        (click)="goToPage(p)"
+      >{{ p }}</button>
+    </div>
+  </section>
+</div>

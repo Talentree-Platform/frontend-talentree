@@ -1,0 +1,281 @@
+// ── Wrapper ───────────────────────────────────────────────────────────────
+.order-details-wrapper {
+  max-width: 860px;
+  padding: 1.5rem 0 3rem;
+  font-family: var(--font-sans, system-ui, sans-serif);
+}
+
+// ── Back link ─────────────────────────────────────────────────────────────
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+  transition: color 0.15s;
+
+  i { font-size: 14px; }
+
+  &:hover { color: var(--color-text-primary); }
+}
+
+// ── Page header ───────────────────────────────────────────────────────────
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  h2 {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 0 0 4px;
+  }
+}
+
+.mono {
+  font-family: var(--font-mono, monospace);
+  font-size: 18px;
+}
+
+.created-date {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.header-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+// ── Info cards ────────────────────────────────────────────────────────────
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 1.75rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-card {
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-lg, 12px);
+  border: 0.5px solid var(--color-border-tertiary);
+  padding: 14px 16px;
+
+  &.highlight {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-secondary);
+  }
+}
+
+.info-card-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+
+  i { font-size: 13px; }
+}
+
+.info-card-primary {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0 0 3px;
+}
+
+.info-card-secondary {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.info-card-amount {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0 0 3px;
+  line-height: 1.2;
+}
+
+.currency {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+// ── Section label ─────────────────────────────────────────────────────────
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+  margin-bottom: 10px;
+}
+
+// ── Table card ────────────────────────────────────────────────────────────
+.table-wrap {
+  background: var(--color-background-primary);
+  border-radius: var(--border-radius-lg, 12px);
+  border: 0.5px solid var(--color-border-tertiary);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 540px;
+}
+
+th {
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--color-background-secondary);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  white-space: nowrap;
+}
+
+td {
+  padding: 12px 16px;
+  color: var(--color-text-primary);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background 0.1s;
+  &:hover td { background: var(--color-background-secondary); }
+}
+
+// ── Cell variants ─────────────────────────────────────────────────────────
+.row-index {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono, monospace);
+  width: 36px;
+}
+
+.material-name {
+  font-weight: 500;
+}
+
+.unit-cell {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.qty-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 0 8px;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md, 8px);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.price-cell {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.total-cell {
+  font-weight: 500;
+}
+
+// ── Footer row ────────────────────────────────────────────────────────────
+tfoot tr {
+  background: var(--color-background-secondary);
+}
+
+.foot-label {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+  border-top: 0.5px solid var(--color-border-tertiary);
+  text-align: right;
+}
+
+.foot-total {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  border-top: 0.5px solid var(--color-border-tertiary);
+}
+
+// ── Status badges ─────────────────────────────────────────────────────────
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+
+  i { font-size: 11px; }
+
+  &.badge-pending    { background: #faeeda; color: #854f0b; }
+  &.badge-processing { background: #e6f1fb; color: #185fa5; }
+  &.badge-delivered  { background: #eaf3de; color: #3b6d11; }
+  &.badge-cancelled  { background: #fcebeb; color: #a32d2d; }
+  &.badge-unpaid     { background: #faeeda; color: #854f0b; }
+  &.badge-paid       { background: #eaf3de; color: #3b6d11; }
+}
+
+// ── Loading state ─────────────────────────────────────────────────────────
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 3rem 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+
+  i {
+    font-size: 18px;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

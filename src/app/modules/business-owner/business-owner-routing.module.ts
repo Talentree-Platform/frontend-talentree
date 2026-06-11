@@ -27,6 +27,13 @@ import { KbDetailsComponent } from './pages/knowledge-base/kb-details/kb-details
 import { KbBookmarksComponent } from './pages/knowledge-base/kb-bookmarks/kb-bookmarks.component';
 import { FinancialComponent } from './pages/financial/financial.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { MaterialOrderComponent } from './pages/Order/material-order/material-order.component';
+import { MaterialOrderDetailsComponent } from './pages/Order/order-details/order-details.component';
+import { PayoutHistoryComponent } from './pages/Payout/payout-history/payout-history.component';
+import { TicketsListComponent } from './pages/Support/tickets-list/tickets-list.component';
+import { TicketDetailsComponent } from './pages/Support/ticket-details/ticket-details.component';
+import { FaqComponent } from './pages/Support/faq/faq.component';
+import { TicketCreateComponent } from './pages/Support/ticket-create/ticket-create.component';
 
 const routes: Routes = [
   {
@@ -38,6 +45,8 @@ const routes: Routes = [
       { path: 'rawmaerialproductdetails/:id', component: RawMaterialProductDetailsComponent },
       { path: 'rawmaterialcart', component: RawMaterialCartComponent },
       { path: 'rawmaterialcheckout', component: RawMaterialCheckoutComponent },
+      { path: 'materialOrder' , component : MaterialOrderComponent},
+      {path: 'material-order/:id',component: MaterialOrderDetailsComponent},
       { path: 'settingmain', component: SettingMainComponent },
       { path: 'settingbusinessdetails', component: SettingBusinessDetailsComponent },
       { path: 'settingpaymentbilling', component: SettingPaymentBillingComponent },
@@ -58,6 +67,13 @@ const routes: Routes = [
       { path: 'knowledge-base/:id', component: KbDetailsComponent },
       { path: 'financial', component: FinancialComponent },
       { path: 'reviews', component: ReviewsComponent },
+      { path: 'ownerProductionRequestdetails/:id', component:  ProductionRequestDetailsComponent},
+      { path: 'payouthistory', component:  PayoutHistoryComponent},
+      { path: 'tickets',        component: TicketsListComponent },
+      { path: 'tickets/create', component: TicketCreateComponent },
+  { path: 'tickets/:id',    component: TicketDetailsComponent },
+  { path: 'faq',            component: FaqComponent },
+      {path:'businessChat', component:BusinessChatComponent} //to be removed
     ]
   }
 

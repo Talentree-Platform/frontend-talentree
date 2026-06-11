@@ -35,7 +35,8 @@
 
 body {
   font-family: var(--font-family) !important;
-  background: white ;
+  background: #FDFAF4 !important;
+
   /* background: #faf2d9;
 background: linear-gradient(90deg, rgba(250, 242, 217, 1) 0%, rgba(250, 247, 240, 1) 33%, rgba(251, 234, 253, 1) 72%, rgba(255, 255, 255, 1) 100%); */
 
@@ -56,7 +57,7 @@ background: linear-gradient(90deg, rgba(252, 233, 225, 1) 0%, rgba(255, 247, 242
 
 .page{
   width:80%;
-  padding-top: 120px;
+  padding-top: 40px;
   margin:auto;
 }
 
@@ -150,6 +151,13 @@ a:hover {
 .btn-burgandy:hover{
   background-color: #bc2621;
 }
+.btn-terquaz{
+  background-color:#12706A ;
+}
+.btn-terquaz:hover{
+  background-color: #299790;
+}
+
 
 /* Admin / confirmations — align with owner dashboard actions */
 .btn-success {

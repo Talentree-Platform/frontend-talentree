@@ -433,4 +433,15 @@ export class OwnerProductsComponent implements OnInit, OnDestroy {
       }
     ];
   }
+  get activeCount(): number {
+  return this.products.filter(p => p.status === 'active').length;
+}
+
+get totalSalesCount(): number {
+  return this.products.reduce((sum, p) => sum + p.sales, 0);
+}
+
+getCategoryCount(category: string): number {
+  return this.products.filter(p => p.category === category).length;
+}
 }

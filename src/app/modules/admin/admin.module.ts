@@ -13,6 +13,8 @@ import { RawMaterialListComponent } from './Pages/raw-material/raw-materials/raw
 import { SupplierListComponent } from './Pages/supplier/suppliers/suppliers.component';
 // import { AdminUserManagementComponent } from './Pages/admin-user-management/admin-user-management.component';
 import { AdminComplaintsSupportComponent } from './Pages/admin-complaints-support/admin-complaints-support.component';
+import { PayoutDashboardComponent } from './Pages/Payout/payout-dashboard/payout-dashboard.component';
+
 //import { NotificationComponent } from '../business-owner/pages/notification/notification.component';
 
 @NgModule({
@@ -31,7 +33,8 @@ import { AdminComplaintsSupportComponent } from './Pages/admin-complaints-suppor
     SupplierListComponent, 
     ProductionRequestComponent,
     // AdminUserManagementComponent, 
-    AdminComplaintsSupportComponent
+    AdminComplaintsSupportComponent,
+    PayoutDashboardComponent
     //NotificationComponent// ← جديد
   ]
 })

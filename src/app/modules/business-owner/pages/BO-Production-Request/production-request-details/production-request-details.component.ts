@@ -9,7 +9,7 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
   standalone: true,
   imports: [NgClass, NgFor, NgIf],
   templateUrl: './production-request-details.component.html',
-  styleUrl: './production-request-details.component.css'
+  styleUrl: './production-request-details.component.scss'
 })
 export class ProductionRequestDetailsComponent implements OnInit, OnDestroy {
   request: ProductionRequest | null = null;

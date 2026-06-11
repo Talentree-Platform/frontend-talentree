@@ -1,51 +1,140 @@
 <div class="cpr-page">
 
-  <!-- ── PAGE HEADER ─────────────────────────────────────────── -->
-  <header class="cpr-page-header">
-    <div class="cpr-page-header__left">
-      <span class="cpr-page-header__eyebrow">Manufacturing System</span>
-      <h1 class="cpr-page-header__title">
-        
-        New Production Request
-      </h1>
+  <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+  <section class="cpr-hero">
+    <div class="cpr-hero__blob cpr-hero__blob--1"></div>
+    <div class="cpr-hero__blob cpr-hero__blob--2"></div>
+    <div class="cpr-hero__blob cpr-hero__blob--3"></div>
+
+    <div class="cpr-hero__inner">
+      <div class="cpr-hero__left">
+        <span class="cpr-hero__badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Manufacturing Request
+        </span>
+        <h1 class="cpr-hero__title">Create Production Request</h1>
+        <p class="cpr-hero__subtitle">
+          Submit your product specifications and manufacturing requirements. Our team will review and respond with a detailed quote.
+        </p>
+        <!-- Summary pills -->
+        <div class="cpr-hero__metrics">
+          <div class="cpr-hero-metric">
+            <span class="cpr-hero-metric__label">Total Items</span>
+            <span class="cpr-hero-metric__value">{{ items.length }}</span>
+          </div>
+          <div class="cpr-hero-metric cpr-hero-metric--gold">
+            <span class="cpr-hero-metric__label">Est. Quantity</span>
+            <span class="cpr-hero-metric__value">{{ totalQuantity() }}</span>
+          </div>
+          <div class="cpr-hero-metric">
+            <span class="cpr-hero-metric__label">Progress</span>
+            <span class="cpr-hero-metric__value">{{ formProgress() }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cpr-hero__right" aria-hidden="true">
+        <svg class="cpr-hero__illustration" viewBox="0 0 220 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Factory building -->
+          <rect x="30" y="90" width="160" height="95" rx="4" fill="rgba(201,168,76,0.12)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+          <!-- Chimneys -->
+          <rect x="50" y="55" width="18" height="40" rx="3" fill="rgba(201,168,76,0.18)" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+          <rect x="82" y="65" width="16" height="30" rx="3" fill="rgba(201,168,76,0.12)" stroke="rgba(201,168,76,0.28)" stroke-width="1.5"/>
+          <rect x="114" y="58" width="18" height="37" rx="3" fill="rgba(201,168,76,0.18)" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+          <!-- Smoke puffs -->
+          <circle cx="59" cy="49" r="6" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+          <circle cx="65" cy="42" r="4.5" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.22)" stroke-width="1"/>
+          <circle cx="123" cy="51" r="5.5" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+          <!-- Windows -->
+          <rect x="45" y="105" width="22" height="16" rx="2" fill="rgba(201,168,76,0.22)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+          <rect x="80" y="105" width="22" height="16" rx="2" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.28)" stroke-width="1"/>
+          <rect x="115" y="105" width="22" height="16" rx="2" fill="rgba(201,168,76,0.22)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+          <rect x="150" y="105" width="22" height="16" rx="2" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.28)" stroke-width="1"/>
+          <!-- Door -->
+          <rect x="90" y="145" width="28" height="40" rx="3" fill="rgba(201,168,76,0.16)" stroke="rgba(201,168,76,0.38)" stroke-width="1.5"/>
+          <!-- Gear icon -->
+          <circle cx="170" cy="75" r="14" fill="rgba(201,168,76,0.12)" stroke="rgba(201,168,76,0.38)" stroke-width="1.5"/>
+          <circle cx="170" cy="75" r="6" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="1.5"/>
+          <!-- Ground line -->
+          <line x1="20" y1="185" x2="200" y2="185" stroke="rgba(201,168,76,0.2)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        </svg>
+      </div>
     </div>
-  </header>
+  </section>
 
-  
+  <!-- ── PROGRESS STEPPER ──────────────────────────────────────────────────── -->
+  <div class="cpr-stepper">
+    <div class="cpr-step" [class.cpr-step--done]="isTitleValid()" [class.cpr-step--active]="!isTitleValid()">
+      <div class="cpr-step__dot">
+        @if(isTitleValid()) {
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        } @else {
+          <span>1</span>
+        }
+      </div>
+      <div class="cpr-step__label">Request Info</div>
+    </div>
+    <div class="cpr-step__line" [class.cpr-step__line--done]="isTitleValid()"></div>
+    <div class="cpr-step" [class.cpr-step--done]="hasValidItems()" [class.cpr-step--active]="isTitleValid() && !hasValidItems()">
+      <div class="cpr-step__dot">
+        @if(hasValidItems()) {
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        } @else {
+          <span>2</span>
+        }
+      </div>
+      <div class="cpr-step__label">Production Items</div>
+    </div>
+    <div class="cpr-step__line" [class.cpr-step__line--done]="hasValidItems()"></div>
+    <div class="cpr-step" [class.cpr-step--active]="isTitleValid() && hasValidItems()">
+      <div class="cpr-step__dot"><span>3</span></div>
+      <div class="cpr-step__label">Submit</div>
+    </div>
+  </div>
 
-  
-
-  <!-- ── FORM ───────────────────────────────────────────────── -->
+  <!-- ── FORM ───────────────────────────────────────────────────────────────── -->
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
 
-    <!-- REQUEST DETAILS CARD -->
+    <!-- REQUEST DETAILS CARD ─────────────────────────────────────────────── -->
     <section class="cpr-card">
+      <div class="cpr-card__strip"></div>
       <div class="cpr-card__header">
-        
+        <div class="cpr-card__header-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
         <div>
-          <h2 class="cpr-card__title">Request Details</h2>
-          <p class="cpr-card__subtitle">Provide a clear title and optional context notes.</p>
+          <h2 class="cpr-card__title">Request Information</h2>
+          <p class="cpr-card__subtitle">Provide a clear title and optional context notes for your manufacturing request.</p>
         </div>
       </div>
 
       <div class="cpr-card__body">
 
         <!-- Title -->
-        <div class="cpr-field">
+        <div class="cpr-field" [class.cpr-field--error]="isFieldInvalid('title')" [class.cpr-field--success]="isFieldValid('title')">
           <label class="cpr-label" for="title">
             Request Title
             <span class="cpr-label__required" aria-hidden="true">*</span>
           </label>
-          <input
-            id="title"
-            type="text"
-            class="cpr-input"
-            [class.cpr-input--error]="isFieldInvalid('title')"
-            formControlName="title"
-            placeholder="e.g. Q3 Batch Run — Hydraulic Seals"
-          />
+          <div class="cpr-input-wrap">
+            <input
+              id="title"
+              type="text"
+              class="cpr-input"
+              formControlName="title"
+              placeholder="e.g. Q3 Batch Run — Hydraulic Seals"
+            />
+            <span class="cpr-input-icon">
+              @if(isFieldValid('title')) {
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              } @else {
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              }
+            </span>
+          </div>
           @if (isFieldInvalid('title')) {
             <span class="cpr-error" role="alert">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               @if (form.get('title')?.errors?.['required']) {
                 Title is required.
               } @else if (form.get('title')?.errors?.['minlength']) {
@@ -53,6 +142,7 @@
               }
             </span>
           }
+          <span class="cpr-helper">A descriptive title helps the production team identify your request quickly.</span>
         </div>
 
         <!-- Notes -->
@@ -60,29 +150,37 @@
           <label class="cpr-label" for="notes">
             Notes <span class="cpr-label__optional">(optional)</span>
           </label>
-          <textarea
-            id="notes"
-            class="cpr-textarea"
-            formControlName="notes"
-            rows="4"
-            placeholder="Add any additional context, special instructions, or constraints…"
-          ></textarea>
+          <div class="cpr-input-wrap cpr-input-wrap--textarea">
+            <textarea
+              id="notes"
+              class="cpr-textarea"
+              formControlName="notes"
+              rows="4"
+              placeholder="Add any additional context, special instructions, deadline constraints, or material preferences…"
+              maxlength="500"
+            ></textarea>
+          </div>
+          <div class="cpr-field-footer">
+            <span class="cpr-helper">Include any special instructions, constraints, or deadline requirements.</span>
+            <span class="cpr-char-count">{{ form.get('notes')?.value?.length ?? 0 }} / 500</span>
+          </div>
         </div>
 
       </div>
     </section>
 
-    <!-- ITEMS CARD -->
+    <!-- ITEMS CARD ───────────────────────────────────────────────────────── -->
     <section class="cpr-card">
+      <div class="cpr-card__strip"></div>
       <div class="cpr-card__header">
-        
+        <div class="cpr-card__header-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
         <div>
           <h2 class="cpr-card__title">Production Items</h2>
-          <p class="cpr-card__subtitle">Define each product line item for this request.</p>
+          <p class="cpr-card__subtitle">Configure each product line item for this manufacturing request.</p>
         </div>
-        <button type="button" class="cpr-btn-add-top" (click)="addItem()">
-          ＋ Add Item
-        </button>
+        <span class="cpr-item-count-pill">{{ items.length }} {{ items.length === 1 ? 'item' : 'items' }}</span>
       </div>
 
       <div class="cpr-card__body" formArrayName="items">
@@ -91,8 +189,28 @@
           <div class="cpr-item-card" [formGroupName]="i">
 
             <div class="cpr-item-card__header">
+              <div class="cpr-item-card__strip"></div>
               <div class="cpr-item-card__number">{{ i + 1 }}</div>
-              <span class="cpr-item-card__label">Item #{{ i + 1 }}</span>
+              <div class="cpr-item-card__meta">
+                <span class="cpr-item-card__label">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                  Production Item #{{ i + 1 }}
+                </span>
+                <div class="cpr-item-badges">
+                  @if(getItemGroup(i).get('quantity')?.value) {
+                    <span class="cpr-item-badge cpr-item-badge--qty">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      Qty: {{ getItemGroup(i).get('quantity')?.value }}
+                    </span>
+                  }
+                  @if(getItemGroup(i).get('preferredRawMaterialId')?.value) {
+                    <span class="cpr-item-badge cpr-item-badge--mat">Material Set</span>
+                  }
+                  @if(getItemGroup(i).get('specifications')?.value) {
+                    <span class="cpr-item-badge cpr-item-badge--spec">Specs Added</span>
+                  }
+                </div>
+              </div>
               @if (items.length > 1) {
                 <button
                   type="button"
@@ -100,7 +218,8 @@
                   (click)="removeItem(i)"
                   [attr.aria-label]="'Remove item ' + (i + 1)"
                 >
-                  🗑 Remove
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                  Remove
                 </button>
               }
             </div>
@@ -108,39 +227,59 @@
             <div class="cpr-item-grid">
 
               <!-- Product Type -->
-              <div class="cpr-field">
+              <div class="cpr-field" [class.cpr-field--error]="isItemFieldInvalid(i, 'productType')" [class.cpr-field--success]="isItemFieldValid(i, 'productType')">
                 <label class="cpr-label" [for]="'productType-' + i">
                   Product Type <span class="cpr-label__required">*</span>
                 </label>
-                <input
-                  [id]="'productType-' + i"
-                  type="text"
-                  class="cpr-input"
-                  [class.cpr-input--error]="isItemFieldInvalid(i, 'productType')"
-                  formControlName="productType"
-                  placeholder="e.g. Hydraulic Seal, O-Ring"
-                />
+                <div class="cpr-input-wrap">
+                  <input
+                    [id]="'productType-' + i"
+                    type="text"
+                    class="cpr-input"
+                    formControlName="productType"
+                    placeholder="e.g. Hydraulic Seal, O-Ring"
+                  />
+                  <span class="cpr-input-icon">
+                    @if(isItemFieldValid(i, 'productType')) {
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    } @else {
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    }
+                  </span>
+                </div>
                 @if (isItemFieldInvalid(i, 'productType')) {
-                  <span class="cpr-error" role="alert">Product type is required.</span>
+                  <span class="cpr-error" role="alert">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    Product type is required.
+                  </span>
                 }
               </div>
 
               <!-- Quantity -->
-              <div class="cpr-field">
+              <div class="cpr-field" [class.cpr-field--error]="isItemFieldInvalid(i, 'quantity')" [class.cpr-field--success]="isItemFieldValid(i, 'quantity')">
                 <label class="cpr-label" [for]="'quantity-' + i">
                   Quantity <span class="cpr-label__required">*</span>
                 </label>
-                <input
-                  [id]="'quantity-' + i"
-                  type="number"
-                  class="cpr-input"
-                  [class.cpr-input--error]="isItemFieldInvalid(i, 'quantity')"
-                  formControlName="quantity"
-                  placeholder="e.g. 500"
-                  min="1"
-                />
+                <div class="cpr-input-wrap">
+                  <input
+                    [id]="'quantity-' + i"
+                    type="number"
+                    class="cpr-input"
+                    formControlName="quantity"
+                    placeholder="e.g. 500"
+                    min="1"
+                  />
+                  <span class="cpr-input-icon">
+                    @if(isItemFieldValid(i, 'quantity')) {
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    } @else {
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    }
+                  </span>
+                </div>
                 @if (isItemFieldInvalid(i, 'quantity')) {
                   <span class="cpr-error" role="alert">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     @if (getItemGroup(i).get('quantity')?.errors?.['required']) {
                       Quantity is required.
                     } @else if (getItemGroup(i).get('quantity')?.errors?.['min']) {
@@ -150,19 +289,24 @@
                 }
               </div>
 
-              <!-- Preferred Raw Material -->
+              <!-- Raw Material -->
               <div class="cpr-field">
                 <label class="cpr-label" [for]="'rawMat-' + i">
                   Raw Material ID <span class="cpr-label__optional">(optional)</span>
                 </label>
-                <input
-                  [id]="'rawMat-' + i"
-                  type="number"
-                  class="cpr-input"
-                  formControlName="preferredRawMaterialId"
-                  placeholder="e.g. 1042"
-                  min="1"
-                />
+                <div class="cpr-input-wrap">
+                  <input
+                    [id]="'rawMat-' + i"
+                    type="number"
+                    class="cpr-input"
+                    formControlName="preferredRawMaterialId"
+                    placeholder="e.g. 1042"
+                    min="1"
+                  />
+                  <span class="cpr-input-icon">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+                  </span>
+                </div>
               </div>
 
               <!-- Specifications -->
@@ -170,43 +314,55 @@
                 <label class="cpr-label" [for]="'specs-' + i">
                   Specifications <span class="cpr-label__optional">(optional)</span>
                 </label>
-                <input
-                  [id]="'specs-' + i"
-                  type="text"
-                  class="cpr-input"
-                  formControlName="specifications"
-                  placeholder="e.g. ISO 3601-1 Grade A, Shore 70A, black NBR"
-                />
+                <div class="cpr-input-wrap">
+                  <input
+                    [id]="'specs-' + i"
+                    type="text"
+                    class="cpr-input"
+                    formControlName="specifications"
+                    placeholder="e.g. ISO 3601-1 Grade A, Shore 70A, black NBR"
+                  />
+                  <span class="cpr-input-icon">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                  </span>
+                </div>
               </div>
 
             </div>
           </div>
         }
 
-        <!-- Add item inline -->
-        <button type="button" class="cpr-btn-add-inline" (click)="addItem()">
-          <span class="cpr-btn-add-inline__icon">＋</span>
-          Add Another Item
+        <!-- Add Item Card -->
+        <button type="button" class="cpr-add-card" (click)="addItem()">
+          <div class="cpr-add-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <div class="cpr-add-card__text">
+            <span class="cpr-add-card__title">Add Production Item</span>
+            <span class="cpr-add-card__sub">Add another product to this manufacturing request</span>
+          </div>
         </button>
 
       </div>
     </section>
 
-    <!-- FORM ACTIONS -->
-    <div class="cpr-actions">
-      <button type="button" class="cpr-btn-cancel">
+    <!-- FORM ACTIONS ─────────────────────────────────────────────────────── -->
+    <div class="cpr-actions mt-3">
+      <button type="button" class="btn-border-burgandy btn-main" routerLink="/production-requests">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         Cancel
       </button>
       <button
         type="submit"
-        class="cpr-btn-submit"
+        class="btn-main btn-gold"
         [disabled]="isLoading()"
       >
         @if (isLoading()) {
           <span class="cpr-spinner" aria-hidden="true"></span>
-          Submitting…
+          Creating Request…
         } @else {
-          🚀 Create Request
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Create Production Request
         }
       </button>
     </div>

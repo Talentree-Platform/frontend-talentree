@@ -1,4 +1,4 @@
-<div class="page prd-page">
+<div class="prd-page">
 
   <!-- ── TOASTER ─────────────────────────────────────────────────────────── -->
   @if(toaster) {
@@ -11,266 +11,371 @@
     </div>
   }
 
-  <!-- ── CANCEL CONFIRM DIALOG ───────────────────────────────────────────── -->
+  <!-- ── CANCEL DIALOG ──────────────────────────────────────────────────── -->
   @if(showCancelDialog) {
     <div class="pr-overlay" (click)="closeCancelDialog()">
-      <div class="pr-confirm-dialog" (click)="$event.stopPropagation()">
-        <div class="pr-confirm-icon">🗑️</div>
-        <h3 class="pr-confirm-title">Cancel Request?</h3>
-        <p class="pr-confirm-msg">
-          This action cannot be undone. The production request
-          <strong>{{ request?.title }}</strong> will be permanently cancelled.
+      <div class="prd-confirm-dialog" (click)="$event.stopPropagation()">
+        <div class="prd-confirm-icon-wrap prd-confirm-icon-wrap--danger">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        </div>
+        <h3 class="prd-confirm-title">Cancel Request?</h3>
+        <p class="prd-confirm-msg">
+          This action cannot be undone. <strong>{{ request?.title }}</strong> will be permanently cancelled.
         </p>
-        <div class="pr-confirm-actions">
-          <button class="btn-main btn-border" (click)="closeCancelDialog()">Keep It</button>
-          <button class="btn-main btn-burgandy" (click)="confirmCancel()">Yes, Cancel It</button>
+        <div class="prd-confirm-actions">
+          <button class="prd-btn prd-btn--ghost" (click)="closeCancelDialog()">Keep It</button>
+          <button class="prd-btn prd-btn--danger" (click)="confirmCancel()">Yes, Cancel It</button>
         </div>
       </div>
     </div>
   }
 
-  <!-- ── CONFIRM REQUEST DIALOG ──────────────────────────────────────────── -->
+  <!-- ── CONFIRM DIALOG ─────────────────────────────────────────────────── -->
   @if(showConfirmDialog) {
     <div class="pr-overlay" (click)="closeConfirmDialog()">
-      <div class="pr-confirm-dialog" (click)="$event.stopPropagation()">
-        <div class="pr-confirm-icon">✅</div>
-        <h3 class="pr-confirm-title">Confirm Request?</h3>
-        <p class="pr-confirm-msg">
-          Are you sure you want to confirm
-          <strong>{{ request?.title }}</strong>?
-          This will notify the admin to proceed with production.
+      <div class="prd-confirm-dialog" (click)="$event.stopPropagation()">
+        <div class="prd-confirm-icon-wrap prd-confirm-icon-wrap--success">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 class="prd-confirm-title">Confirm Request?</h3>
+        <p class="prd-confirm-msg">
+          Confirm <strong>{{ request?.title }}</strong>? This will notify the admin to proceed with production.
         </p>
         @if(request?.quotedPrice != null) {
-          <p class="pr-confirm-price">
-            Quoted Price: <strong class="text-gold">{{ formatCurrency(request?.quotedPrice) }}</strong>
-          </p>
-        }
-        <div class="pr-confirm-actions">
-          <button class="btn-main btn-border" (click)="closeConfirmDialog()">Not Yet</button>
-          <button class="btn-main btn-success" (click)="submitConfirm()">Yes, Confirm</button>
-        </div>
-      </div>
-    </div>
-  }
-
-  <!-- ── SKELETON LOADER ──────────────────────────────────────────────────── -->
-  @if(loading) {
-    <ng-container>
-      <div class="prd-header-skeleton skeleton-block"></div>
-      <div class="card prd-skeleton-card">
-        <div class="skeleton-line w-60"></div>
-        <div class="skeleton-line w-40"></div>
-        <div class="skeleton-line w-80"></div>
-        <div class="skeleton-line w-50"></div>
-      </div>
-      <div class="prd-section-title skeleton-line w-30"></div>
-      <div class="prd-items-grid">
-        @for(s of skeletonItems; track $index) {
-          <div class="card prd-item-skeleton">
-            <div class="skeleton-line w-60"></div>
-            <div class="skeleton-line w-40"></div>
-            <div class="skeleton-line w-80"></div>
+          <div class="prd-confirm-price-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Quoted Price: <strong>{{ formatCurrency(request?.quotedPrice) }}</strong>
           </div>
         }
+        <div class="prd-confirm-actions">
+          <button class="prd-btn prd-btn--ghost" (click)="closeConfirmDialog()">Not Yet</button>
+          <button class="prd-btn prd-btn--confirm" (click)="submitConfirm()">Yes, Confirm</button>
+        </div>
       </div>
-    </ng-container>
+    </div>
   }
 
-  <!-- ── ERROR STATE ───────────────────────────────────────────────────────── -->
+  <!-- ── SKELETON ────────────────────────────────────────────────────────── -->
+  @if(loading) {
+    <div class="prd-skeleton-hero">
+      <div class="prd-sk-blob prd-sk-blob--1"></div>
+      <div class="prd-sk-blob prd-sk-blob--2"></div>
+      <div class="prd-sk-line prd-sk-line--badge"></div>
+      <div class="prd-sk-line prd-sk-line--title"></div>
+      <div class="prd-sk-line prd-sk-line--subtitle"></div>
+      <div class="prd-sk-metrics">
+        <div class="prd-sk-metric"></div>
+        <div class="prd-sk-metric"></div>
+        <div class="prd-sk-metric"></div>
+        <div class="prd-sk-metric"></div>
+      </div>
+    </div>
+    <div class="prd-sk-action-bar">
+      <div class="prd-sk-line prd-sk-line--btn"></div>
+      <div class="prd-sk-line prd-sk-line--badge"></div>
+      <div class="prd-sk-action-bar__right">
+        <div class="prd-sk-line prd-sk-line--btn"></div>
+        <div class="prd-sk-line prd-sk-line--btn"></div>
+      </div>
+    </div>
+    <div class="prd-sk-card">
+      <div class="prd-sk-line prd-sk-line--section"></div>
+      <div class="prd-sk-grid">
+        <div class="prd-sk-block"></div>
+        <div class="prd-sk-block"></div>
+        <div class="prd-sk-block"></div>
+      </div>
+    </div>
+    <div class="prd-sk-card">
+      <div class="prd-sk-line prd-sk-line--section"></div>
+      <div class="prd-sk-items">
+        @for(s of skeletonItems; track $index) {
+          <div class="prd-sk-item"></div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- ── ERROR STATE ─────────────────────────────────────────────────────── -->
   @if(!loading && error) {
-    <div class="card prd-error-card">
-      <div class="prd-error-icon">⚠</div>
-      <h2 class="text-burgandy prd-error-title">Something Went Wrong</h2>
-      <p class="prd-error-msg">{{ errorMessage }}</p>
-      <button class="btn-main" onclick="history.back()">← Go Back</button>
+    <div class="prd-state-card prd-state-card--error">
+      <div class="prd-state-icon prd-state-icon--error">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <h2 class="prd-state-title">Something Went Wrong</h2>
+      <p class="prd-state-msg">{{ errorMessage }}</p>
+      <div class="prd-state-actions">
+        <button class="prd-btn prd-btn--ghost" onclick="history.back()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Go Back
+        </button>
+      </div>
     </div>
   }
 
-  <!-- ── EMPTY STATE ───────────────────────────────────────────────────────── -->
+  <!-- ── EMPTY STATE ─────────────────────────────────────────────────────── -->
   @if(!loading && !error && !request) {
-    <div class="card prd-empty-card">
-      <div class="prd-empty-icon">📋</div>
-      <h2 class="text-gold prd-empty-title">No Request Found</h2>
-      <p>The production request does not exist or was removed.</p>
-      <button class="btn-gold" onclick="history.back()">← Return to List</button>
+    <div class="prd-state-card">
+      <div class="prd-state-illustration" aria-hidden="true">
+        <svg viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="50" width="120" height="60" rx="6" fill="rgba(201,168,76,0.07)" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
+          <rect x="40" y="30" width="16" height="25" rx="3" fill="rgba(201,168,76,0.09)" stroke="rgba(201,168,76,0.22)" stroke-width="1.5"/>
+          <rect x="72" y="38" width="14" height="17" rx="3" fill="rgba(201,168,76,0.07)" stroke="rgba(201,168,76,0.18)" stroke-width="1.5"/>
+          <rect x="104" y="33" width="16" height="22" rx="3" fill="rgba(201,168,76,0.09)" stroke="rgba(201,168,76,0.22)" stroke-width="1.5"/>
+          <rect x="33" y="63" width="18" height="13" rx="2" fill="rgba(201,168,76,0.14)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+          <rect x="71" y="63" width="18" height="13" rx="2" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.22)" stroke-width="1"/>
+          <rect x="109" y="63" width="18" height="13" rx="2" fill="rgba(201,168,76,0.14)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+          <rect x="68" y="85" width="24" height="25" rx="3" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.28)" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <h2 class="prd-state-title">No Production Request Found</h2>
+      <p class="prd-state-msg">The production request does not exist or has been removed.</p>
+      <div class="prd-state-actions">
+        <button class="prd-btn prd-btn--gold" onclick="history.back()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Return to Requests
+        </button>
+      </div>
     </div>
   }
 
-  <!-- ── MAIN CONTENT ──────────────────────────────────────────────────────── -->
+  <!-- ── MAIN CONTENT ────────────────────────────────────────────────────── -->
   @if(!loading && !error && request) {
-    <ng-container>
 
-      <!-- HEADER -->
-      <div class="prd-header">
-        <div class="prd-header-left">
-          <span class="prd-id-label"># {{ request?.id }}</span>
-          <h1 class="prd-title">{{ request?.title }}</h1>
-          <span class="prd-created">Created {{ formatDate(request?.createdAt) }}</span>
+    <!-- HERO: title, meta, metrics only ──────────────────────────────────── -->
+    <section class="prd-hero">
+      <div class="prd-hero__blob prd-hero__blob--1"></div>
+      <div class="prd-hero__blob prd-hero__blob--2"></div>
+      <div class="prd-hero__blob prd-hero__blob--3"></div>
+
+      <div class="prd-hero__inner">
+        <span class="prd-hero__badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Production Request
+        </span>
+
+        <h1 class="prd-hero__title">{{ request.title }}</h1>
+
+        <div class="prd-hero__meta">
+          <span class="prd-hero__meta-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            {{ formatDate(request.createdAt) }}
+          </span>
+          <span class="prd-hero__meta-sep">·</span>
+          <span class="prd-hero__meta-item">Request #{{ request.id }}</span>
         </div>
 
-        <div class="prd-header-right">
-          <span class="prd-status-badge" [ngClass]="getStatusClass(request?.status ?? 0)">
-            {{ getStatusLabel(request?.status ?? 0) }}
-          </span>
-
-          <!-- ✅ Confirm Button — only when quoted & status === 2 -->
-          @if(canConfirm) {
-            <button
-              class="btn-main btn-success prd-confirm-btn"
-              [disabled]="confirming"
-              title="Confirm this request"
-              (click)="openConfirmDialog()"
-            >
-              @if(confirming) {
-                <span class="pr-btn-spinner"></span>
-                Confirming…
-              } @else {
-                ✔ Confirm Request
-              }
-            </button>
+        <div class="prd-hero__metrics">
+          <div class="prd-hero-metric">
+            <span class="prd-hero-metric__label">Items</span>
+            <span class="prd-hero-metric__value">{{ request.items?.length ?? 0 }}</span>
+          </div>
+          @if(request.quotedPrice != null) {
+            <div class="prd-hero-metric prd-hero-metric--gold">
+              <span class="prd-hero-metric__label">Quoted Price</span>
+              <span class="prd-hero-metric__value">{{ formatCurrency(request.quotedPrice) }}</span>
+            </div>
           }
+          @if(request.estimatedCompletionDate) {
+            <div class="prd-hero-metric">
+              <span class="prd-hero-metric__label">Est. Completion</span>
+              <span class="prd-hero-metric__value">{{ formatDate(request.estimatedCompletionDate) }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
 
-          <!-- 🗑 Cancel Button -->
-          <button
-            class="btn-main btn-burgandy prd-cancel-btn"
-            [disabled]="isCancelled || cancelling"
-            [title]="isCancelled ? 'This request is already cancelled' : 'Cancel this request'"
-            (click)="openCancelDialog()"
-          >
-            @if(cancelling) {
-              <span class="pr-btn-spinner"></span>
-              Cancelling…
-            } @else if(isCancelled) {
-              ✖ Cancelled
+    <!-- ACTION BAR: back + status + action buttons ────────────────────────── -->
+    <div class="prd-action-bar">
+      <div class="prd-action-bar__left">
+        <button class="prd-btn prd-btn--back" onclick="history.back()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <div class="prd-action-bar__div"></div>
+        <span class="prd-status-badge prd-status-badge--md" [ngClass]="getStatusClass(request.status ?? 0)">
+          <span class="prd-status-dot"></span>
+          {{ getStatusLabel(request.status ?? 0) }}
+        </span>
+      </div>
+
+      <div class="prd-action-bar__right">
+        @if(canConfirm) {
+          <button class="prd-btn prd-btn--confirm" [disabled]="confirming" (click)="openConfirmDialog()">
+            @if(confirming) {
+              <span class="prd-btn-spinner"></span> Confirming…
             } @else {
-              🗑 Cancel Request
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Confirm Request
             }
           </button>
-        </div>
-      </div>
-
-      <!-- DETAILS CARD -->
-      <div class="card prd-details-card">
-        <h2 class="prd-section-heading text-gold">Request Details</h2>
-
-        @if(request?.notes) {
-          <div class="prd-detail-row prd-full">
-            <span class="prd-detail-label">Notes</span>
-            <span class="prd-detail-value">{{ request?.notes }}</span>
-          </div>
         }
+        <button
+          class="prd-btn prd-btn--danger-outline"
+          [disabled]="isCancelled || cancelling"
+          (click)="openCancelDialog()"
+        >
+          @if(cancelling) {
+            <span class="prd-btn-spinner prd-btn-spinner--red"></span> Cancelling…
+          } @else if(isCancelled) {
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            Cancelled
+          } @else {
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+            Cancel Request
+          }
+        </button>
+      </div>
+    </div>
+
+    <!-- DETAILS CARD ──────────────────────────────────────────────────────── -->
+    <section class="prd-section">
+      <div class="prd-card">
+        <div class="prd-card__strip"></div>
+        <h2 class="prd-section-heading">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Request Details
+        </h2>
 
         <div class="prd-details-grid">
-          @if(request?.quotedPrice != null) {
-            <div class="prd-detail-block">
-              <span class="prd-detail-label">Quoted Price</span>
-              <span class="prd-detail-value text-gold prd-price">
-                {{ formatCurrency(request?.quotedPrice) }}
+          @if(request.quotedPrice != null) {
+            <div class="prd-detail-metric prd-detail-metric--gold">
+              <span class="prd-detail-metric__icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
               </span>
+              <span class="prd-detail-metric__label">Quoted Price</span>
+              <span class="prd-detail-metric__value">{{ formatCurrency(request.quotedPrice) }}</span>
             </div>
           }
-          @if(request?.estimatedCompletionDate) {
-            <div class="prd-detail-block">
-              <span class="prd-detail-label">Estimated Completion</span>
-              <span class="prd-detail-value">{{ formatDate(request?.estimatedCompletionDate) }}</span>
+          @if(request.estimatedCompletionDate) {
+            <div class="prd-detail-metric">
+              <span class="prd-detail-metric__icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </span>
+              <span class="prd-detail-metric__label">Est. Completion</span>
+              <span class="prd-detail-metric__value">{{ formatDate(request.estimatedCompletionDate) }}</span>
             </div>
           }
-          @if(request?.completedAt) {
-            <div class="prd-detail-block">
-              <span class="prd-detail-label">Completed On</span>
-              <span class="prd-detail-value">{{ formatDate(request?.completedAt) }}</span>
+          @if(request.completedAt) {
+            <div class="prd-detail-metric prd-detail-metric--green">
+              <span class="prd-detail-metric__icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="prd-detail-metric__label">Completed On</span>
+              <span class="prd-detail-metric__value">{{ formatDate(request.completedAt) }}</span>
             </div>
           }
+          <div class="prd-detail-metric">
+            <span class="prd-detail-metric__icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </span>
+            <span class="prd-detail-metric__label">Items Count</span>
+            <span class="prd-detail-metric__value">{{ request.items?.length ?? 0 }}</span>
+          </div>
         </div>
 
-        @if(request?.notes) {
-          <div class="prd-admin-notes">
-            <span class="prd-detail-label">Admin Notes</span>
-            <p class="prd-admin-notes-text text-burgandy">{{ request?.notes }}</p>
+        <!-- Notes -->
+        @if(request.notes) {
+          <div class="prd-notes-block">
+            <div class="prd-notes-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Admin Notes
+            </div>
+            <p class="prd-notes-text">{{ request.notes }}</p>
           </div>
         }
       </div>
+    </section>
 
-      <!-- ITEMS -->
-      @if(request?.items?.length) {
-        <section class="prd-section">
-          <h2 class="prd-section-title text-gold">
-            <span class="prd-section-icon">📦</span>
-            Request Items
-            <span class="prd-count-badge">{{ request?.items?.length }}</span>
-          </h2>
+    <!-- ITEMS ─────────────────────────────────────────────────────────────── -->
+    @if(request.items && request.items.length > 0) {
+      <section class="prd-section">
+        <h2 class="prd-section-title">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Request Items
+          <span class="prd-count-pill">{{ request.items.length }}</span>
+        </h2>
 
-          <div class="prd-items-grid">
-            <div class="card prd-item-card"
-                 *ngFor="let item of request.items; let i = index">
-              <div class="prd-item-header">
-                <span class="prd-item-index">{{ i + 1 }}</span>
-                <span class="prd-item-type">{{ item.productType }}</span>
-                <span class="prd-item-qty">× {{ item.quantity }}</span>
-              </div>
-              @if(item?.specifications) {
-                <div class="prd-item-row">
-                  <span class="prd-item-label">Specifications</span>
-                  <span class="prd-item-val">{{ item.specifications }}</span>
-                </div>
-              }
-              @if(item?.preferredRawMaterialName) {
-                <div class="prd-item-row">
-                  <span class="prd-item-label">Raw Material</span>
-                  <span class="prd-item-val text-gold">{{ item.preferredRawMaterialName }}</span>
-                </div>
-              }
+        <div class="prd-items-grid">
+          <div class="prd-item-card"
+               *ngFor="let item of request.items; let i = index">
+            <div class="prd-item-card__strip"></div>
+
+            <div class="prd-item-card__header">
+              <span class="prd-item-num">{{ i + 1 }}</span>
+              <span class="prd-item-type">{{ item.productType }}</span>
+              <span class="prd-item-qty">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                {{ item.quantity }}
+              </span>
             </div>
-          </div>
-        </section>
-      }
 
-      <!-- EMPTY ITEMS -->
-      @if(request.items && request.items.length === 0) {
-        <div class="card prd-no-items">
-          <span class="prd-empty-icon">📭</span>
-          <p>No items attached to this request.</p>
+            @if(item.preferredRawMaterialName) {
+              <div class="prd-item-row">
+                <span class="prd-item-label">Raw Material</span>
+                <span class="prd-item-chip prd-item-chip--gold">{{ item.preferredRawMaterialName }}</span>
+              </div>
+            }
+
+            @if(item.specifications) {
+              <div class="prd-item-row">
+                <span class="prd-item-label">Specifications</span>
+                <p class="prd-item-spec">{{ item.specifications }}</p>
+              </div>
+            }
+          </div>
         </div>
-      }
+      </section>
+    }
 
-      <!-- TIMELINE -->
-      @if(request.statusHistory?.length) {
-        <section class="prd-section">
-          <h2 class="prd-section-title text-gold">
-            <span class="prd-section-icon">🕐</span>
-            Status History
-          </h2>
+    @if(request.items && request.items.length === 0) {
+      <div class="prd-card prd-empty-items">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:rgba(201,168,76,0.4)"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        <p>No items attached to this request.</p>
+      </div>
+    }
 
-          <div class="prd-timeline">
-            <div class="prd-timeline-entry"
-                 *ngFor="let entry of request.statusHistory; let last = last"
-                 [class.prd-timeline-last]="last">
+    <!-- TIMELINE ──────────────────────────────────────────────────────────── -->
+    @if(request.statusHistory?.length) {
+      <section class="prd-section">
+        <h2 class="prd-section-title">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Status History
+        </h2>
 
-              <div class="prd-tl-indicator">
-                <div class="prd-tl-dot" [ngClass]="getStatusClass(+entry.status) + '-dot'"></div>
-                @if(!last) {
-                  <div class="prd-tl-line"></div>
-                }
-              </div>
+        <div class="prd-timeline">
+          <div class="prd-tl-entry"
+               *ngFor="let entry of request.statusHistory; let last = last; let first = first"
+               [class.prd-tl-entry--last]="last"
+               [class.prd-tl-entry--first]="first">
 
-              <div class="card prd-tl-card">
-                <div class="prd-tl-header">
-                  <span class="prd-status-badge prd-status-badge--sm"
-                        [ngClass]="getStatusClass(+entry.status)">
-                    {{ getStatusLabel(+entry.status) }}
-                  </span>
-                  <span class="prd-tl-date">{{ formatDate(entry.changedAt) }}</span>
-                </div>
-                @if(entry?.notes) {
-                  <p class="prd-tl-notes">{{ entry.notes }}</p>
-                }
-              </div>
+            <div class="prd-tl-rail">
+              <div class="prd-tl-dot" [ngClass]="getStatusClass(+entry.status)"></div>
+              @if(!last) { <div class="prd-tl-line"></div> }
             </div>
-          </div>
-        </section>
-      }
 
-    </ng-container>
+            <div class="prd-tl-card" [class.prd-tl-card--current]="first">
+              <div class="prd-tl-card__header">
+                <span class="prd-status-badge prd-status-badge--sm" [ngClass]="getStatusClass(+entry.status)">
+                  <span class="prd-status-dot"></span>
+                  {{ getStatusLabel(+entry.status) }}
+                </span>
+                <span class="prd-tl-date">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  {{ formatDate(entry.changedAt) }}
+                </span>
+              </div>
+              @if(entry.notes) {
+                <p class="prd-tl-notes">{{ entry.notes }}</p>
+              }
+            </div>
+
+          </div>
+        </div>
+      </section>
+    }
+
   }
 
 </div>

@@ -2,12 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductionRequest } from '../../../core/interfaces/i-production-request';
 import { BoProductionRequestService } from '../../../core/services/bo-production-request.service';
 import { Router } from '@angular/router';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-production-request-list',
   standalone: true,
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule, DatePipe, DecimalPipe],
   templateUrl: './production-request-list.component.html',
   styleUrl: './production-request-list.component.css'
 })
@@ -30,8 +30,8 @@ export class ProductionRequestListComponent implements OnInit, OnDestroy {
   confirmDeleteId: number | null = null;
 
   // ── Confirm state ─────────────────────────────────────────────────────────
-  confirmingId: number | null = null;       // tracks loading state per card
-  confirmDialogId: number | null = null;    // tracks which card shows the confirm dialog
+  confirmingId: number | null = null;
+  confirmDialogId: number | null = null;
 
   constructor(
     private productionRequestService: BoProductionRequestService,
@@ -81,8 +81,51 @@ export class ProductionRequestListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/businessowner/ownerProductionRequestCreate']);
   }
 
-  // ── Cancel flow ──────────────────────────────────────────────────────────
+  // ── Stats computed ────────────────────────────────────────────────────────
+  get pendingCount(): number {
+    return this.requests.filter(r => r.status === 0 || r.status === 1).length;
+  }
 
+  get awaitingConfirmCount(): number {
+    return this.requests.filter(r => r.status === 2).length;
+  }
+
+  get inProductionCount(): number {
+    return this.requests.filter(r => r.status === 3).length;
+  }
+
+  // ── Status helpers ────────────────────────────────────────────────────────
+  getStatusLabel(status: number): string {
+    const labels: Record<number, string> = {
+      0: 'Pending Review',
+      1: 'Under Review',
+      2: 'Quoted',
+      3: 'In Production',
+      4: 'Awaiting Confirm',
+      5: 'Completed',
+      6: 'Delivered',
+      7: 'Cancelled',
+    };
+    return labels[status] ?? 'Unknown';
+  }
+
+  // ── Pagination helpers ────────────────────────────────────────────────────
+  getPageNumbers(): number[] {
+    const pages: number[] = [];
+    const delta = 2;
+    const left = Math.max(1, this.pageIndex - delta);
+    const right = Math.min(this.totalPages, this.pageIndex + delta);
+
+    if (left > 1) { pages.push(1); if (left > 2) pages.push(-1); }
+    for (let i = left; i <= right; i++) pages.push(i);
+    if (right < this.totalPages) {
+      if (right < this.totalPages - 1) pages.push(-1);
+      pages.push(this.totalPages);
+    }
+    return pages;
+  }
+
+  // ── Cancel flow ──────────────────────────────────────────────────────────
   openConfirmDelete(id: number, event: Event): void {
     event.stopPropagation();
     this.confirmDeleteId = id;
@@ -116,8 +159,6 @@ export class ProductionRequestListComponent implements OnInit, OnDestroy {
   }
 
   // ── Confirm flow ──────────────────────────────────────────────────────────
-
-  /** Only show Confirm button when quoted and awaiting client confirmation */
   canConfirm(request: ProductionRequest): boolean {
     return request.quotedPrice != null && request.status === 2;
   }
@@ -139,10 +180,9 @@ export class ProductionRequestListComponent implements OnInit, OnDestroy {
 
     this.productionRequestService.confirmRequest(id).subscribe({
       next: (res) => {
-        // Optimistic update: patch status directly in the list
         const target = this.requests.find(r => r.id === id);
         if (target) {
-          target.status = res.data?.status ?? 3; // 3 = In Progress (post-confirm)
+          target.status = res.data?.status ?? 3;
         }
         this.confirmingId = null;
         this.showToaster('Request confirmed successfully.', 'success');
@@ -155,7 +195,6 @@ export class ProductionRequestListComponent implements OnInit, OnDestroy {
   }
 
   // ── Toaster ──────────────────────────────────────────────────────────────
-
   showToaster(message: string, type: 'success' | 'error'): void {
     clearTimeout(this.toasterTimer);
     this.toaster = { message, type };

@@ -35,6 +35,7 @@ export class MaterialService {
     { params: httpParams }
   );
 }
+
   getMaterialById(Id:number):Observable<ApiResponse<Material>>{
     return this.http.get<ApiResponse<Material>>(`${this.apiUrl}/RawMaterial/${Id}`);
   }

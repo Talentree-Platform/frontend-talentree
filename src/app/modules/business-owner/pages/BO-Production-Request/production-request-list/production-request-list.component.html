@@ -15,7 +15,9 @@
   @if(confirmDeleteId !== null) {
     <div class="pr-overlay" (click)="closeConfirmDelete($event)">
       <div class="pr-confirm-dialog" (click)="$event.stopPropagation()">
-        <div class="pr-confirm-icon">🗑️</div>
+        <div class="pr-confirm-icon-wrap pr-confirm-icon-wrap--danger">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        </div>
         <h3 class="pr-confirm-title">Cancel Request?</h3>
         <p class="pr-confirm-msg">
           This action cannot be undone. The production request will be permanently cancelled.
@@ -34,7 +36,9 @@
   @if(confirmDialogId !== null) {
     <div class="pr-overlay" (click)="closeConfirmDialog($event)">
       <div class="pr-confirm-dialog" (click)="$event.stopPropagation()">
-        <div class="pr-confirm-icon">✅</div>
+        <div class="pr-confirm-icon-wrap pr-confirm-icon-wrap--success">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
         <h3 class="pr-confirm-title">Confirm Request?</h3>
         <p class="pr-confirm-msg">
           Are you sure you want to confirm this request? This will notify the admin to proceed with production.
@@ -49,126 +53,291 @@
     </div>
   }
 
-  <!-- ── Header ──────────────────────────────────────────────────────────── -->
-  <div class="owner-products-header">
-    <div>
-      <h1 class="owner-products-title">Production Requests</h1>
-      <p class="owner-products-subtitle">
-        Track and manage all your production requests in one place.
-      </p>
-    </div>
-    <button class="btn-main btn-gold owner-products-btn-primary" (click)="navigateToCreate()">
-      <span class="owner-products-btn-icon">+</span>
-      Create New Request
-    </button>
-  </div>
+  <!-- ── HERO SECTION ────────────────────────────────────────────────────── -->
+  <section class="pr-hero">
+    <!-- Blurred background blobs -->
+    <div class="pr-hero__blob pr-hero__blob--1"></div>
+    <div class="pr-hero__blob pr-hero__blob--2"></div>
+    <div class="pr-hero__blob pr-hero__blob--3"></div>
 
-  <!-- ── Loading State ───────────────────────────────────────────────────── -->
-  <div class="owner-products-loading" *ngIf="loading">
-    <div class="pr-spinner"></div>
-    <p>Loading production requests…</p>
-  </div>
+    <div class="pr-hero__content">
+      <div class="pr-hero__left">
+        <span class="pr-hero__badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+          Manufacturing Requests
+        </span>
+
+        <h1 class="pr-hero__heading">Manage Your<br><span class="pr-hero__heading-accent">Production Requests</span></h1>
+
+        <p class="pr-hero__subtitle">
+          Track quotations, confirmations, production progress, and communication with manufacturers — all in one powerful dashboard.
+        </p>
+
+        <button class="pr-hero__cta btn-main btn-gold" (click)="navigateToCreate()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Create New Request
+        </button>
+      </div>
+
+      <div class="pr-hero__illustration" aria-hidden="true">
+        <svg viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg" class="pr-hero__svg">
+          <!-- Factory building -->
+          <rect x="60" y="120" width="260" height="130" rx="4" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+          <!-- Chimneys -->
+          <rect x="90" y="70" width="28" height="55" rx="3" fill="rgba(201,168,76,0.12)" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+          <rect x="140" y="85" width="22" height="40" rx="3" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+          <rect x="200" y="75" width="26" height="50" rx="3" fill="rgba(201,168,76,0.12)" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+          <!-- Smoke puffs -->
+          <circle cx="104" cy="60" r="10" fill="rgba(255,255,255,0.06)"/>
+          <circle cx="116" cy="52" r="8" fill="rgba(255,255,255,0.04)"/>
+          <circle cx="126" cy="58" r="7" fill="rgba(255,255,255,0.05)"/>
+          <circle cx="151" cy="76" r="8" fill="rgba(255,255,255,0.05)"/>
+          <circle cx="162" cy="68" r="7" fill="rgba(255,255,255,0.03)"/>
+          <circle cx="213" cy="66" r="9" fill="rgba(255,255,255,0.06)"/>
+          <circle cx="224" cy="58" r="8" fill="rgba(255,255,255,0.04)"/>
+          <!-- Windows row -->
+          <rect x="80" y="140" width="30" height="22" rx="3" fill="rgba(201,168,76,0.18)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+          <rect x="125" y="140" width="30" height="22" rx="3" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+          <rect x="170" y="140" width="30" height="22" rx="3" fill="rgba(201,168,76,0.18)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+          <rect x="215" y="140" width="30" height="22" rx="3" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+          <rect x="260" y="140" width="40" height="22" rx="3" fill="rgba(201,168,76,0.14)" stroke="rgba(201,168,76,0.35)" stroke-width="1"/>
+          <!-- Door -->
+          <rect x="155" y="195" width="36" height="55" rx="3" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+          <!-- Gear icon -->
+          <g transform="translate(290, 95) scale(0.8)" opacity="0.5">
+            <circle cx="18" cy="18" r="6" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="2"/>
+            <path d="M18 2v4M18 32v4M2 18h4M32 18h4M6.34 6.34l2.83 2.83M27.66 27.66l2.83 2.83M27.66 6.34l-2.83 2.83M6.34 27.66l2.83-2.83" stroke="rgba(201,168,76,0.6)" stroke-width="2" stroke-linecap="round"/>
+          </g>
+          <!-- Clipboard icon floating -->
+          <g transform="translate(30, 90)" opacity="0.45">
+            <rect x="2" y="4" width="20" height="20" rx="3" fill="none" stroke="rgba(201,168,76,0.7)" stroke-width="1.5"/>
+            <line x1="8" y1="12" x2="16" y2="12" stroke="rgba(201,168,76,0.7)" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="8" y1="16" x2="14" y2="16" stroke="rgba(201,168,76,0.7)" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="8" y="2" width="8" height="4" rx="1" fill="none" stroke="rgba(201,168,76,0.7)" stroke-width="1.5"/>
+          </g>
+          <!-- Ground line -->
+          <line x1="40" y1="250" x2="340" y2="250" stroke="rgba(201,168,76,0.2)" stroke-width="1.5" stroke-dasharray="4 4"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="pr-hero__stats">
+      <div class="pr-stat">
+        <span class="pr-stat__value">{{ requests.length }}</span>
+        <span class="pr-stat__label">Total Requests</span>
+      </div>
+      <div class="pr-stat-divider"></div>
+      <div class="pr-stat">
+        <span class="pr-stat__value">{{ pendingCount }}</span>
+        <span class="pr-stat__label">Pending Review</span>
+      </div>
+      <div class="pr-stat-divider"></div>
+      <div class="pr-stat">
+        <span class="pr-stat__value">{{ awaitingConfirmCount }}</span>
+        <span class="pr-stat__label">Awaiting Confirmation</span>
+      </div>
+      <div class="pr-stat-divider"></div>
+      <div class="pr-stat">
+        <span class="pr-stat__value">{{ inProductionCount }}</span>
+        <span class="pr-stat__label">In Production</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Loading State — Skeleton Cards ─────────────────────────────────── -->
+  @if(loading) {
+    <div class="pr-skeleton-grid">
+      @for(i of [1,2,3,4,5,6]; track i) {
+        <div class="pr-skeleton-card">
+          <div class="pr-skeleton-card__strip"></div>
+          <div class="pr-skeleton-line pr-skeleton-line--sm" style="width:30%"></div>
+          <div class="pr-skeleton-line pr-skeleton-line--lg" style="width:75%"></div>
+          <div class="pr-skeleton-line" style="width:55%"></div>
+          <div class="pr-skeleton-metrics">
+            <div class="pr-skeleton-metric"></div>
+            <div class="pr-skeleton-metric"></div>
+            <div class="pr-skeleton-metric"></div>
+          </div>
+          <div class="pr-skeleton-footer">
+            <div class="pr-skeleton-btn" style="width:40%"></div>
+            <div class="pr-skeleton-btn" style="width:30%"></div>
+          </div>
+        </div>
+      }
+    </div>
+  }
 
   <!-- ── Error State ─────────────────────────────────────────────────────── -->
-  <div class="owner-products-banner pr-error-banner" *ngIf="error && !loading">
-    <span>⚠️</span> {{ error }}
-  </div>
+  @if(error && !loading) {
+    <div class="owner-products-banner pr-error-banner">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      {{ error }}
+    </div>
+  }
 
   <!-- ── Empty State ─────────────────────────────────────────────────────── -->
-  <div class="owner-products-empty" *ngIf="!loading && !error && requests.length === 0">
-    <span class="owner-products-empty-icon"></span>
-    <h3 class="owner-products-empty-title">No requests found</h3>
-    <p class="owner-products-empty-text">You haven't submitted any production requests yet.</p>
-    <button class="btn-main btn-gold" (click)="navigateToCreate()">Create Your First Request</button>
-  </div>
+  @if(!loading && !error && requests.length === 0) {
+    <div class="pr-empty">
+      <div class="pr-empty__illustration" aria-hidden="true">
+        <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="70" width="140" height="75" rx="6" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
+          <rect x="55" y="45" width="20" height="30" rx="3" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
+          <rect x="90" y="52" width="16" height="23" rx="3" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.2)" stroke-width="1.5"/>
+          <rect x="125" y="48" width="18" height="27" rx="3" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
+          <rect x="48" y="85" width="22" height="16" rx="2" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.35)" stroke-width="1"/>
+          <rect x="82" y="85" width="22" height="16" rx="2" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.25)" stroke-width="1"/>
+          <rect x="116" y="85" width="22" height="16" rx="2" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.35)" stroke-width="1"/>
+          <rect x="82" y="115" width="36" height="30" rx="3" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+          <circle cx="158" cy="38" r="14" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.2)" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <line x1="154" y1="38" x2="162" y2="38" stroke="rgba(201,168,76,0.5)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="158" y1="34" x2="158" y2="42" stroke="rgba(201,168,76,0.5)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="pr-empty__title">No Production Requests Yet</h3>
+      <p class="pr-empty__text">Start by submitting your first production request. Our network of manufacturers is ready to quote and deliver.</p>
+      <button class="btn-main btn-gold pr-empty__cta" (click)="navigateToCreate()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Create Your First Request
+      </button>
+    </div>
+  }
 
   <!-- ── Request Cards ───────────────────────────────────────────────────── -->
-  <div class="pr-cards-grid" *ngIf="!loading && !error && requests.length > 0">
-    <div
-      class="pr-card"
-      *ngFor="let request of requests"
-      (click)="navigateToDetails(request.id)"
-    >
-      <div class="pr-card__header">
-        <h3 class="pr-card__title">{{ request.title }}</h3>
-      </div>
-
-      <div class="pr-card__meta">
-        <span class="pr-card__meta-item">
-          <i class="fa-regular fa-calendar"></i> {{ request.createdAt | date : 'mediumDate' }}
-        </span>
-        <span class="pr-card__meta-item">
-          <i class="fa-solid fa-box"></i> {{ request.items?.length ?? 0 }}
-          {{ (request.items?.length ?? 0) === 1 ? 'item' : 'items' }}
-        </span>
-      </div>
-
-      <div class="pr-card__footer">
-        <button
-          class="btn-main btn-border pr-view-btn"
-          (click)="navigateToDetails(request.id); $event.stopPropagation()"
+  @if(!loading && !error && requests.length > 0) {
+    <div class="pr-cards-grid">
+      @for(request of requests; track request.id) {
+        <div
+          class="pr-card"
+          [attr.data-status]="request.status"
+          (click)="navigateToDetails(request.id)"
         >
-          View Details →
-        </button>
+          <!-- Gradient accent strip -->
+          <div class="pr-card__strip"></div>
 
-        <!-- ✅ Confirm Button — only when quoted & status === 2 -->
-        @if(canConfirm(request)) {
-          <button
-            class="btn-main btn-success pr-confirm-btn"
-            [disabled]="confirmingId === request.id"
-            title="Confirm this request"
-            (click)="openConfirmDialog(request.id, $event)"
-          >
-            @if(confirmingId === request.id) {
-              <span class="pr-btn-spinner"></span>
-              Confirming…
-            } @else {
-              ✔ Confirm
+          <!-- Card Header -->
+          <div class="pr-card__header">
+            <span class="pr-status-badge" [attr.data-status]="request.status">
+              <span class="pr-status-badge__dot"></span>
+              {{ getStatusLabel(request.status) }}
+            </span>
+            <span class="pr-card__id">#{{ request.id }}</span>
+          </div>
+
+          <!-- Card Body -->
+          <div class="pr-card__body">
+            <h3 class="pr-card__title">{{ request.title }}</h3>
+          </div>
+
+          <!-- Metrics Grid -->
+          <div class="pr-card__metrics">
+            <div class="pr-metric">
+              <span class="pr-metric__icon">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </span>
+              <span class="pr-metric__value">{{ request.createdAt | date : 'MMM d, y' }}</span>
+            </div>
+            <div class="pr-metric">
+              <span class="pr-metric__icon">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              </span>
+              <span class="pr-metric__value">{{ request.items?.length ?? 0 }} {{ (request.items?.length ?? 0) === 1 ? 'item' : 'items' }}</span>
+            </div>
+            @if(request.quotedPrice != null) {
+              <div class="pr-metric pr-metric--gold">
+                <span class="pr-metric__icon">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </span>
+                <span class="pr-metric__value">{{ request.quotedPrice | number:'1.2-2' }}</span>
+              </div>
             }
-          </button>
-        }
+          </div>
 
-        <!-- 🗑 Cancel Button -->
-        <button
-          class="btn-main btn-border-burgandy pr-cancel-btn"
-          [disabled]="isCancelled(request.status) || cancellingId === request.id"
-          [title]="isCancelled(request.status) ? 'Already cancelled' : 'Cancel this request'"
-          (click)="openConfirmDelete(request.id, $event)"
-        >
-          @if(cancellingId === request.id) {
-            <span class="pr-btn-spinner"></span>
-            Cancelling…
-          } @else if(isCancelled(request.status)) {
-            Cancelled
-          } @else {
-            🗑 Cancel
-          }
-        </button>
-      </div>
+          <!-- Card Footer -->
+          <div class="pr-card__footer">
+            <button
+              class="pr-btn pr-btn--view"
+              (click)="navigateToDetails(request.id); $event.stopPropagation()"
+            >
+              View Details
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+
+            <!-- ✅ Confirm Button -->
+            @if(canConfirm(request)) {
+              <button
+                class="pr-btn pr-btn--confirm"
+                [disabled]="confirmingId === request.id"
+                (click)="openConfirmDialog(request.id, $event)"
+              >
+                @if(confirmingId === request.id) {
+                  <span class="pr-btn-spinner"></span>
+                  Confirming…
+                } @else {
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Confirm
+                }
+              </button>
+            }
+
+            <!-- 🗑 Cancel Button -->
+            <button
+              class="pr-btn pr-btn--cancel"
+              [disabled]="isCancelled(request.status) || cancellingId === request.id"
+              (click)="openConfirmDelete(request.id, $event)"
+            >
+              @if(cancellingId === request.id) {
+                <span class="pr-btn-spinner"></span>
+                Cancelling…
+              } @else if(isCancelled(request.status)) {
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                Cancelled
+              } @else {
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                Cancel
+              }
+            </button>
+          </div>
+        </div>
+      }
     </div>
-  </div>
+  }
 
   <!-- ── Pagination ──────────────────────────────────────────────────────── -->
-  <div class="pr-pagination" *ngIf="!loading && !error && totalPages > 1">
-    <button
-      class="btn-main btn-border pr-page-btn"
-      [disabled]="pageIndex === 1"
-      (click)="goToPage(pageIndex - 1)"
-    >
-      ← Previous
-    </button>
+  @if(!loading && !error && totalPages > 1) {
+    <div class="pr-pagination">
+      <button
+        class="pr-page-btn"
+        [disabled]="pageIndex === 1"
+        (click)="goToPage(pageIndex - 1)"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Previous
+      </button>
 
-    <span class="pr-page-info">
-      Page <strong>{{ pageIndex }}</strong> of <strong>{{ totalPages }}</strong>
-    </span>
+      <div class="pr-page-numbers">
+        @for(p of getPageNumbers(); track p) {
+          @if(p === -1) {
+            <span class="pr-page-ellipsis">…</span>
+          } @else {
+            <button
+              class="pr-page-num"
+              [class.pr-page-num--active]="p === pageIndex"
+              (click)="goToPage(p)"
+            >{{ p }}</button>
+          }
+        }
+      </div>
 
-    <button
-      class="btn-main btn-border pr-page-btn"
-      [disabled]="pageIndex === totalPages"
-      (click)="goToPage(pageIndex + 1)"
-    >
-      Next →
-    </button>
-  </div>
+      <button
+        class="pr-page-btn"
+        [disabled]="pageIndex === totalPages"
+        (click)="goToPage(pageIndex + 1)"
+      >
+        Next
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  }
 
 </div>

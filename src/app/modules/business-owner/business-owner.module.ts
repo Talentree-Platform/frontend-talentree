@@ -28,12 +28,27 @@ import { KbDetailsComponent } from './pages/knowledge-base/kb-details/kb-details
 import { KbBookmarksComponent } from './pages/knowledge-base/kb-bookmarks/kb-bookmarks.component';
 import { FinancialComponent } from './pages/financial/financial.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { MaterialOrderComponent } from './pages/Order/material-order/material-order.component';
+import { MaterialOrderDetailsComponent } from './pages/Order/order-details/order-details.component';
+import { PayoutHistoryComponent } from './pages/Payout/payout-history/payout-history.component';
+import { TicketsListComponent } from './pages/Support/tickets-list/tickets-list.component';
+import { TicketCreateComponent } from './pages/Support/ticket-create/ticket-create.component';
+import { TicketDetailsComponent } from './pages/Support/ticket-details/ticket-details.component';
+import { FaqComponent } from './pages/Support/faq/faq.component';
+import { ToastContainerComponent } from './components/toast-container/toast-container.component';
+import { SkeletonComponent } from './components/skeleton/skeleton.component';
+import { StatusBadgeComponent } from '../admin/Components/status-badge/status-badge.component';
+
+
 
 @NgModule({
   declarations: [],
 
   imports: [
     
+    PayoutHistoryComponent,
+    MaterialOrderDetailsComponent,
+    MaterialOrderComponent,
     ProductionRequestDetailsComponent,
     ProductionRequestListComponent,
     CreateProductionRequestComponent,
@@ -60,6 +75,16 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
     KbBookmarksComponent,
     FinancialComponent,
     ReviewsComponent,
+    TicketsListComponent,
+    TicketCreateComponent,
+    TicketDetailsComponent,
+    FaqComponent,
+    ToastContainerComponent,
+    SkeletonComponent,
+    StatusBadgeComponent
+
+  
+    
 
   ]
 })

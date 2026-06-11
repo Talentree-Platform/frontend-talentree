@@ -1,0 +1,340 @@
+<!-- Toast -->
+@if (toast) {
+  <div
+    class="toast-wrapper"
+    [class.toast-success]="toast.type === 'success'"
+    [class.toast-error]="toast.type === 'error'">
+    <span>{{ toast.message }}</span>
+  </div>
+}
+
+<div class="page history-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Payout History</h1>
+      <p class="text-ap-muted page-subtitle">
+        Manage your earnings and track all withdrawal requests
+      </p>
+    </div>
+
+    <button
+      class="btn-main"
+      (click)="openModal()">
+      <span class="btn-icon">↑</span>
+      Request Payout
+    </button>
+  </div>
+
+  <!-- Summary Cards -->
+  <section class="balance-grid">
+
+    <div class="card balance-card balance-card--main">
+      <div class="balance-card__icon">💳</div>
+      <div class="balance-card__label">Available Balance</div>
+      <div class="balance-card__amount">
+        {{ currency }} {{ availableBalance | number:'1.2-2' }}
+      </div>
+      <div class="balance-card__hint">
+        Ready to withdraw
+      </div>
+    </div>
+
+    <div class="card balance-card balance-card--pending">
+      <div class="balance-card__icon">⏳</div>
+      <div class="balance-card__label">Pending Balance</div>
+      <div class="balance-card__amount">
+        {{ currency }} {{ pendingBalance | number:'1.2-2' }}
+      </div>
+      <div class="balance-card__hint">
+        Being processed
+      </div>
+    </div>
+
+    <div class="card balance-card balance-card--earnings">
+      <div class="balance-card__icon">📈</div>
+      <div class="balance-card__label">Total Earnings</div>
+      <div class="balance-card__amount">
+        {{ currency }} {{ totalEarnings | number:'1.2-2' }}
+      </div>
+      <div class="balance-card__hint">
+        All time
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Filters -->
+  <div class="card filters-card">
+    <div class="filters-row">
+
+      <div class="filter-group">
+        <label class="filter-label">Status</label>
+        <select
+          class="select-main"
+          [value]="selectedStatus"
+          (change)="onStatusChange($any($event.target).value)">
+
+          @for (opt of statusOptions; track opt.value) {
+            <option [value]="opt.value">
+              {{ opt.label }}
+            </option>
+          }
+
+        </select>
+      </div>
+
+      <div class="filter-group filter-group--grow">
+        <label class="filter-label">Search</label>
+
+        <div class="search-wrapper">
+          <span class="search-icon">🔍</span>
+
+          <input
+            type="text"
+            class="input-main search-input"
+            placeholder="Search by amount or bank name..."
+            [value]="searchQuery"
+            (input)="onSearch($any($event.target).value)" />
+        </div>
+      </div>
+
+      @if (!isLoading) {
+        <div class="filter-count">
+          <span class="count-badge">
+            {{ filteredPayouts.length }}
+          </span>
+          <span class="text-ap-muted count-label">
+            results
+          </span>
+        </div>
+      }
+
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card table-card">
+
+    @if (isLoading) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading payout history...</p>
+      </div>
+    }
+
+    @if (!isLoading && errorMsg) {
+      <div class="error-state">
+        <div class="error-icon">⚠️</div>
+        <p>{{ errorMsg }}</p>
+        <button
+          class="btn-main"
+          (click)="fetchHistory()">
+          Retry
+        </button>
+      </div>
+    }
+
+    @if (!isLoading && !errorMsg && filteredPayouts.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <h3>No payouts found</h3>
+        <p class="text-ap-muted">
+          Your payout requests will appear here.
+        </p>
+      </div>
+    }
+
+    @if (!isLoading && !errorMsg && filteredPayouts.length > 0) {
+      <div class="table-wrapper">
+
+        <table class="payout-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Amount</th>
+              <th>Bank</th>
+              <th>Account</th>
+              <th>Status</th>
+              <th>Created At</th>
+              <th>Processed At</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (p of filteredPayouts; track p.id) {
+              <tr>
+
+                <td>#{{ p.id }}</td>
+
+                <td>
+                  <strong>
+                    {{ p.currency }}
+                    {{ p.amount | number:'1.2-2' }}
+                  </strong>
+                </td>
+
+                <td>
+                  {{ p.bankName }}
+                </td>
+
+                <td>
+                  {{ maskAccount(p.maskedAccountIdentifier) }}
+                </td>
+
+                <td>
+                  <span
+                    class="status-badge"
+                    [ngClass]="getStatusClass(p.status)">
+                    {{ getStatusLabel(p.status) }}
+                  </span>
+                </td>
+
+                <td>
+                  {{ p.createdAt | date:'MMM d, y · h:mm a' }}
+                </td>
+
+                <td>
+                  @if (p.processedAt) {
+                    {{ p.processedAt | date:'MMM d, y' }}
+                  } @else {
+                    —
+                  }
+                </td>
+
+              </tr>
+            }
+
+          </tbody>
+        </table>
+
+      </div>
+    }
+
+    @if (!isLoading && totalPages > 1) {
+      <div class="pagination">
+
+        <button
+          class="page-btn"
+          [disabled]="pageIndex === 1"
+          (click)="goToPage(pageIndex - 1)">
+          ‹
+        </button>
+
+        @for (page of getPages(); track page) {
+          <button
+            class="page-btn"
+            [class.page-btn--active]="page === pageIndex"
+            (click)="goToPage(page)">
+            {{ page }}
+          </button>
+        }
+
+        <button
+          class="page-btn"
+          [disabled]="pageIndex === totalPages"
+          (click)="goToPage(pageIndex + 1)">
+          ›
+        </button>
+
+      </div>
+    }
+
+  </div>
+  
+</div>
+
+<!-- Modal -->
+@if (isModalOpen) {
+  <div
+    class="modal-overlay"
+    (click)="closeModal()">
+
+    <div
+      class="modal-box"
+      (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <h2 class="modal-title">
+          Request Payout
+        </h2>
+
+        <button
+          class="modal-close"
+          (click)="closeModal()">
+          ✕
+        </button>
+      </div>
+
+      <p class="modal-hint text-ap-muted">
+        Available:
+        <strong>
+          {{ currency }}
+          {{ availableBalance | number:'1.2-2' }}
+        </strong>
+      </p>
+
+      <form
+        [formGroup]="payoutForm"
+        (ngSubmit)="submitPayout()"
+        class="modal-form">
+
+        <input
+          type="number"
+          formControlName="amount"
+          class="input-main"
+          placeholder="Amount" />
+
+        <input
+          type="text"
+          formControlName="bankName"
+          class="input-main"
+          placeholder="Bank Name" />
+
+        <input
+          type="text"
+          formControlName="accountHolderName"
+          class="input-main"
+          placeholder="Account Holder Name" />
+
+        <input
+          type="text"
+          formControlName="accountIdentifier"
+          class="input-main"
+          placeholder="Account Number / IBAN" />
+
+        <input
+          type="text"
+          formControlName="routingSwiftCode"
+          class="input-main"
+          placeholder="Routing / SWIFT Code" />
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="btn-border"
+            (click)="closeModal()">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="btn-main"
+            [disabled]="isSubmitting">
+
+            @if (isSubmitting) {
+              Processing...
+            } @else {
+              Confirm Payout
+            }
+
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+}

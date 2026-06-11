@@ -1,1 +1,71 @@
-<p>setting-prefernce-notifications works!</p>
+<div class="page">
+
+  <header class="page-header pb-1">
+    <h2 class="text-center text-gold">Preferences </h2>
+    <p class="text-center">Customize your dashboard experience and settings.</p>
+  </header>
+
+  <!-- ================= PREFERENCES ================= -->
+  <section class="card">
+
+    <h5 class="text-burgandy pb-2">System Preferences</h5>
+
+    <form class="form-grid" [formGroup]="form">
+
+      <!-- Timezone -->
+      <label class="field full">
+        <span>Timezone</span>
+        <input class="input-main" formControlName="timezone" placeholder="e.g. UTC+2" />
+      </label>
+
+      <!-- Date Format -->
+      <label class="field">
+        <span>Date Format</span>
+        <select class="select-main" formControlName="dateFormat">
+          <option value="dd/MM/yyyy">DD/MM/YYYY</option>
+          <option value="MM/dd/yyyy">MM/DD/YYYY</option>
+          <option value="yyyy-MM-dd">YYYY-MM-DD</option>
+        </select>
+      </label>
+
+      <!-- Currency -->
+      <label class="field">
+        <span>Currency Display</span>
+        <select class="select-main" formControlName="currencyDisplay">
+          <option value="USD">$ USD</option>
+          <option value="EUR">€ EUR</option>
+          <option value="EGP">EGP</option>
+        </select>
+      </label>
+
+      <!-- Layout -->
+      <label class="field full">
+        <span>Dashboard Layout</span>
+        <select class="select-main" formControlName="dashboardLayout">
+          <option value="default">Default</option>
+          <option value="compact">Compact</option>
+          <option value="analytics">Analytics Focused</option>
+        </select>
+      </label>
+
+    </form>
+
+    <div class="actions-row mt-4 m-auto w-50">
+      <button
+        class="btn-main btn-gold w-50"
+        (click)="save()"
+        [disabled]="form.invalid">
+
+        Save Preferences
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= ACTION ================= -->
+  
+
+    
+
+  
+
+</div>

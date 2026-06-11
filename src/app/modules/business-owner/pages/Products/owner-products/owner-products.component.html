@@ -1,73 +1,119 @@
+<div class="owner-products-page pr-list-page">
 
-<div class="owner-products-page">
-   
-  <header class="owner-products-header">
-    <div class="owner-products-header-text">
-      <h1 class="owner-products-title">My Products</h1>
-      <p class="owner-products-subtitle">Manage all your listed items and track performance.</p>
+  <!-- ═══════════════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════════════ -->
+  <section class="owner-products-hero">
+    <!-- Blobs -->
+    <div class="owner-products-hero__blob owner-products-hero__blob--1" aria-hidden="true"></div>
+    <div class="owner-products-hero__blob owner-products-hero__blob--2" aria-hidden="true"></div>
+    <div class="owner-products-hero__blob owner-products-hero__blob--3" aria-hidden="true"></div>
+
+    <div class="owner-products-hero__content">
+      <div class="owner-products-hero__left">
+        <span class="owner-products-hero__badge">✦ Business Owner Dashboard</span>
+        <h1 class="owner-products-hero__heading">
+          Manage Your<br>
+          <span class="owner-products-hero__heading-accent">Products</span> Like a Pro
+        </h1>
+        <p class="owner-products-hero__subtitle">
+          Your complete inventory command centre — track performance, manage listings,
+          and grow your store from one beautiful dashboard.
+        </p>
+        <button type="button" class="btn-main btn-gold owner-products-btn-primary" (click)="addProduct()">
+          <span class="owner-products-btn-icon" aria-hidden="true">+</span>
+          Add New Product
+        </button>
+      </div>
+
+      <div class="owner-products-hero__illustration" aria-hidden="true">
+        <svg class="owner-products-hero__svg" viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+          <!-- Dashboard window -->
+          <rect x="20" y="20" width="300" height="200" rx="16" fill="rgba(255,253,247,0.06)" stroke="rgba(201,168,76,0.3)" stroke-width="1.2"/>
+          <!-- Window dots -->
+          <circle cx="40" cy="36" r="5" fill="rgba(239,68,68,0.6)"/>
+          <circle cx="56" cy="36" r="5" fill="rgba(245,158,11,0.6)"/>
+          <circle cx="72" cy="36" r="5" fill="rgba(16,185,129,0.6)"/>
+          <!-- Divider line -->
+          <line x1="20" y1="50" x2="320" y2="50" stroke="rgba(201,168,76,0.18)" stroke-width="1"/>
+          <!-- Stat cards row -->
+          <rect x="32" y="62" width="68" height="44" rx="10" fill="rgba(201,168,76,0.18)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+          <rect x="108" y="62" width="68" height="44" rx="10" fill="rgba(59,130,246,0.12)" stroke="rgba(59,130,246,0.25)" stroke-width="1"/>
+          <rect x="184" y="62" width="68" height="44" rx="10" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.25)" stroke-width="1"/>
+          <rect x="260" y="62" width="48" height="44" rx="10" fill="rgba(239,68,68,0.12)" stroke="rgba(239,68,68,0.25)" stroke-width="1"/>
+          <!-- Stat numbers -->
+          <text x="66" y="82" text-anchor="middle" font-size="14" font-weight="700" fill="#e2c675" font-family="Georgia,serif">48</text>
+          <text x="66" y="96" text-anchor="middle" font-size="7" fill="rgba(245,240,232,0.45)">PRODUCTS</text>
+          <text x="142" y="82" text-anchor="middle" font-size="14" font-weight="700" fill="#93c5fd" font-family="Georgia,serif">32</text>
+          <text x="142" y="96" text-anchor="middle" font-size="7" fill="rgba(245,240,232,0.45)">ACTIVE</text>
+          <text x="218" y="82" text-anchor="middle" font-size="14" font-weight="700" fill="#fcd34d" font-family="Georgia,serif">3</text>
+          <text x="218" y="96" text-anchor="middle" font-size="7" fill="rgba(245,240,232,0.45)">REVIEW</text>
+          <text x="284" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#fca5a5" font-family="Georgia,serif">5</text>
+          <text x="284" y="96" text-anchor="middle" font-size="7" fill="rgba(245,240,232,0.45)">LOW</text>
+          <!-- Product cards grid -->
+          <rect x="32" y="116" width="82" height="90" rx="10" fill="rgba(255,253,247,0.07)" stroke="rgba(201,168,76,0.22)" stroke-width="1"/>
+          <rect x="32" y="116" width="82" height="36" rx="10" fill="rgba(201,168,76,0.14)"/>
+          <rect x="38" y="158" width="50" height="6" rx="3" fill="rgba(245,240,232,0.3)"/>
+          <rect x="38" y="168" width="35" height="5" rx="2.5" fill="rgba(201,168,76,0.45)"/>
+          <rect x="38" y="178" width="60" height="20" rx="6" fill="rgba(201,168,76,0.18)" stroke="rgba(201,168,76,0.3)" stroke-width="0.8"/>
+          <text x="68" y="192" text-anchor="middle" font-size="7" fill="#e2c675" font-weight="600">View Details</text>
+
+          <rect x="124" y="116" width="82" height="90" rx="10" fill="rgba(255,253,247,0.07)" stroke="rgba(59,130,246,0.22)" stroke-width="1"/>
+          <rect x="124" y="116" width="82" height="36" rx="10" fill="rgba(59,130,246,0.14)"/>
+          <rect x="130" y="158" width="50" height="6" rx="3" fill="rgba(245,240,232,0.3)"/>
+          <rect x="130" y="168" width="35" height="5" rx="2.5" fill="rgba(93,132,246,0.6)"/>
+          <rect x="130" y="178" width="60" height="20" rx="6" fill="rgba(59,130,246,0.18)" stroke="rgba(59,130,246,0.3)" stroke-width="0.8"/>
+          <text x="160" y="192" text-anchor="middle" font-size="7" fill="#93c5fd" font-weight="600">View Details</text>
+
+          <rect x="216" y="116" width="92" height="90" rx="10" fill="rgba(255,253,247,0.07)" stroke="rgba(201,168,76,0.22)" stroke-width="1"/>
+          <rect x="216" y="116" width="92" height="36" rx="10" fill="rgba(16,185,129,0.14)"/>
+          <rect x="222" y="158" width="55" height="6" rx="3" fill="rgba(245,240,232,0.3)"/>
+          <rect x="222" y="168" width="38" height="5" rx="2.5" fill="rgba(16,185,129,0.6)"/>
+          <rect x="222" y="178" width="68" height="20" rx="6" fill="rgba(16,185,129,0.18)" stroke="rgba(16,185,129,0.3)" stroke-width="0.8"/>
+          <text x="256" y="192" text-anchor="middle" font-size="7" fill="#6ee7b7" font-weight="600">View Details</text>
+
+          <!-- Gold glow sparkle -->
+          <circle cx="290" cy="60" r="3" fill="rgba(201,168,76,0.7)"/>
+          <circle cx="50" cy="110" r="2" fill="rgba(201,168,76,0.5)"/>
+          <circle cx="170" cy="108" r="2.5" fill="rgba(59,130,246,0.5)"/>
+        </svg>
+      </div>
     </div>
-    <button type="button" class="btn-main btn-gold owner-products-btn-primary" (click)="addProduct()">
-      <span class="owner-products-btn-icon" aria-hidden="true">+</span>
-      Add New Product
-    </button>
-  </header>
 
-  @if (loadError) {
-    <p class="owner-products-banner" role="status">{{ loadError }}</p>
-  }
-
-  <section class="owner-products-toolbar" aria-label="Search and filters">
-    <div class="owner-products-search-wrap">
-      <label class="visually-hidden" for="owner-products-search">Search products</label>
-      <input
-        id="owner-products-search"
-        type="search"
-        class="input-main owner-products-search"
-        placeholder="Search products by name, SKU, or category"
-        [(ngModel)]="searchQuery"
-        autocomplete="off"
-      />
-    </div>
-    <div class="owner-products-filters">
-      <div class="owner-products-filter-group">
-        <label class="owner-products-filter-label" for="filter-status">Status</label>
-        <select id="filter-status" class="select-main owner-products-select" [(ngModel)]="statusFilter">
-          @for (opt of statusOptions; track opt.value) {
-            <option [ngValue]="opt.value">{{ opt.label }}</option>
-          }
-        </select>
+    <!-- Stats bar -->
+    <div class="owner-products-hero__stats">
+      <div class="owner-products-hero__stat">
+        <span class="owner-products-hero__stat-value">{{ totalListed }}</span>
+        <span class="owner-products-hero__stat-label">Total Products</span>
       </div>
-      <div class="owner-products-filter-group">
-        <label class="owner-products-filter-label" for="filter-category">Category</label>
-        <select id="filter-category" class="select-main owner-products-select" [(ngModel)]="categoryFilter">
-          @for (c of categories; track c) {
-            <option [ngValue]="c">{{ c === 'all' ? 'All categories' : c }}</option>
-          }
-        </select>
+      <div class="owner-products-hero__stat-divider" aria-hidden="true"></div>
+      <div class="owner-products-hero__stat">
+        <span class="owner-products-hero__stat-value">{{ activeCount }}</span>
+        <span class="owner-products-hero__stat-label">Active Listings</span>
       </div>
-      <div class="owner-products-filter-group">
-        <label class="owner-products-filter-label" for="filter-price">Price range</label>
-        <select id="filter-price" class="select-main owner-products-select" [(ngModel)]="priceRange">
-          <option value="all">Any price</option>
-          <option value="under25">Under $25</option>
-          <option value="25-100">$25 – $100</option>
-          <option value="100-500">$100 – $500</option>
-          <option value="500plus">Over $500</option>
-        </select>
+      <div class="owner-products-hero__stat-divider" aria-hidden="true"></div>
+      <div class="owner-products-hero__stat">
+        <span class="owner-products-hero__stat-value">{{ totalSalesCount | number }}</span>
+        <span class="owner-products-hero__stat-label">Total Sales</span>
       </div>
-      <div class="owner-products-filter-group">
-        <label class="owner-products-filter-label" for="filter-sort">Sort by</label>
-        <select id="filter-sort" class="select-main owner-products-select" [(ngModel)]="sortBy">
-          <option value="date">Date added</option>
-          <option value="sales">Sales</option>
-          <option value="priceAsc">Price (low to high)</option>
-          <option value="priceDesc">Price (high to low)</option>
-        </select>
+      <div class="owner-products-hero__stat-divider" aria-hidden="true"></div>
+      <div class="owner-products-hero__stat">
+        <span class="owner-products-hero__stat-value">{{ lowStockCount }}</span>
+        <span class="owner-products-hero__stat-label">Low Stock</span>
       </div>
     </div>
   </section>
 
+  <!-- Error banner -->
+  @if (loadError) {
+    <p class="owner-products-banner" role="status">⚠️ {{ loadError }}</p>
+  }
+
+  <!-- ═══════════════════════════════════════════════════
+       SUMMARY STAT CARDS
+  ═══════════════════════════════════════════════════ -->
   <section class="owner-products-summary" aria-label="Overview">
+
     <button
       type="button"
       class="owner-products-stat-card"
@@ -95,10 +141,7 @@
             <img
               class="owner-products-stat-thumb"
               [src]="topSellingProduct.imageUrl"
-              width="40"
-              height="40"
-              alt=""
-              loading="lazy"
+              width="38" height="38" alt="" loading="lazy"
             />
             <span class="owner-products-stat-value owner-products-stat-value--sm">{{ topSellingProduct.name }}</span>
           </div>
@@ -133,40 +176,224 @@
         <span class="owner-products-stat-value">{{ lowStockCount }}</span>
       </div>
     </button>
+
   </section>
 
+  <!-- ═══════════════════════════════════════════════════
+       TOOLBAR — search + filters
+  ═══════════════════════════════════════════════════ -->
+  <section class="owner-products-toolbar" aria-label="Search and filters">
+
+    <!-- Search -->
+    <div class="owner-products-search-wrap">
+      <label class="visually-hidden" for="owner-products-search">Search products</label>
+      <input
+        id="owner-products-search"
+        type="search"
+        class="owner-products-search"
+        placeholder="Search by name, SKU, or category…"
+        [(ngModel)]="searchQuery"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="owner-products-filters">
+
+      <!-- STATUS chips -->
+      <div class="owner-products-filter-group">
+        <span class="owner-products-filter-label">Status</span>
+        <div class="owner-products-status-chips" role="group" aria-label="Filter by status">
+          @for (opt of statusOptions; track opt.value) {
+            <button
+              type="button"
+              class="owner-products-chip"
+              [class.owner-products-chip--active]="statusFilter === opt.value"
+              (click)="statusFilter = opt.value">
+              {{ opt.label }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- CATEGORY gallery -->
+      <div class="owner-products-filter-group">
+        <span class="owner-products-filter-label">Category</span>
+        <div class="owner-products-category-gallery" role="group" aria-label="Filter by category">
+          @for (c of categories; track c) {
+            <button
+              type="button"
+              class="owner-products-cat-card"
+              [class.owner-products-cat-card--active]="categoryFilter === c"
+              (click)="categoryFilter = c">
+              <span class="owner-products-cat-icon" aria-hidden="true">
+                @switch (c) {
+                  @case ('all')        { 🛍️ }
+                  @case ('Apparel')    { 👕 }
+                  @case ('Home')       { 🏠 }
+                  @case ('Beauty')     { 💄 }
+                  @case ('Electronics'){ 💻 }
+                  @case ('Food')       { 🍎 }
+                  @case ('Sports')     { 🏃 }
+                  @default             { 📦 }
+                }
+              </span>
+              <span class="owner-products-cat-name">{{ c === 'all' ? 'All' : c }}</span>
+              @if (c !== 'all') {
+                <span class="owner-products-cat-count">
+                  {{ getCategoryCount(c) }}
+                </span>
+              }
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- PRICE chips -->
+      <div class="owner-products-filter-group">
+        <span class="owner-products-filter-label">Price range</span>
+        <div class="owner-products-price-chips" role="group" aria-label="Filter by price">
+          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="priceRange === 'all'"      (click)="priceRange = 'all'">Any Price</button>
+          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="priceRange === 'under25'"  (click)="priceRange = 'under25'">Under $25</button>
+          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="priceRange === '25-100'"  (click)="priceRange = '25-100'">$25 – $100</button>
+          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="priceRange === '100-500'" (click)="priceRange = '100-500'">$100 – $500</button>
+          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="priceRange === '500plus'" (click)="priceRange = '500plus'">$500+</button>
+        </div>
+      </div>
+
+      <!-- SORT chips -->
+      <div class="owner-products-filter-group">
+        <span class="owner-products-filter-label">Sort by</span>
+        <div class="owner-products-sort-chips" role="group" aria-label="Sort products">
+          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="sortBy === 'date'"     (click)="sortBy = 'date'">📅 Newest</button>
+          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="sortBy === 'sales'"    (click)="sortBy = 'sales'">🏆 Top Sales</button>
+          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="sortBy === 'priceAsc'" (click)="sortBy = 'priceAsc'">Price ↑</button>
+          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="sortBy === 'priceDesc'"(click)="sortBy = 'priceDesc'">Price ↓</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION HEADER
+  ═══════════════════════════════════════════════════ -->
   <div class="owner-products-main-head">
     <h2 class="owner-products-section-title">Your products</h2>
     <div class="owner-products-view-toggle" role="group" aria-label="View mode">
       <button
         type="button"
         class="owner-products-toggle-btn"
-        [class.owner-products-toggle-btn--active]="viewMode === 'table'"
-        (click)="viewMode = 'table'">
-        Table view
+        [class.owner-products-toggle-btn--active]="viewMode === 'grid'"
+        (click)="viewMode = 'grid'">
+        ⊞ Grid
       </button>
       <button
         type="button"
         class="owner-products-toggle-btn"
-        [class.owner-products-toggle-btn--active]="viewMode === 'grid'"
-        (click)="viewMode = 'grid'">
-        Grid view
+        [class.owner-products-toggle-btn--active]="viewMode === 'table'"
+        (click)="viewMode = 'table'">
+        ☰ List
       </button>
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════════
+       LOADING SKELETON
+  ═══════════════════════════════════════════════════ -->
   @if (loading) {
-    <p class="owner-products-loading">Loading products…</p>
+    <div class="owner-products-skeleton-grid" aria-label="Loading products">
+      @for (_ of [1,2,3,4,5,6]; track $index) {
+        <div class="owner-products-skeleton-card">
+          <div class="owner-products-skeleton-strip"></div>
+          <div class="owner-products-skeleton-img"></div>
+          <div class="owner-products-skeleton-line owner-products-skeleton-line--lg"></div>
+          <div class="owner-products-skeleton-line owner-products-skeleton-line--sm"></div>
+          <div class="owner-products-skeleton-metrics">
+            <div class="owner-products-skeleton-metric"></div>
+            <div class="owner-products-skeleton-metric"></div>
+            <div class="owner-products-skeleton-metric"></div>
+          </div>
+          <div class="owner-products-skeleton-footer">
+            <div class="owner-products-skeleton-btn"></div>
+            <div class="owner-products-skeleton-btn"></div>
+            <div class="owner-products-skeleton-btn"></div>
+          </div>
+        </div>
+      }
+    </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       EMPTY STATE
+  ═══════════════════════════════════════════════════ -->
   } @else if (filteredProducts.length === 0) {
     <div class="owner-products-empty">
-      <span class="owner-products-empty-icon" aria-hidden="true"></span>
+      <span class="owner-products-empty-icon" aria-hidden="true">📭</span>
       <p class="owner-products-empty-title">No products match your filters</p>
-      <p class="owner-products-empty-text">Try clearing search or choosing a different summary card.</p>
-      <button type="button" class="btn-main btn-border" (click)="searchQuery = ''; statusFilter = 'all'; categoryFilter = 'all'; priceRange = 'all'; setSummaryFilter('all')">
-        Reset filters
+      <p class="owner-products-empty-text">
+        Try clearing your search query or choosing a different category, status, or price range.
+      </p>
+      <button
+        type="button"
+        class="btn-main btn-gold"
+        (click)="searchQuery = ''; statusFilter = 'all'; categoryFilter = 'all'; priceRange = 'all'; setSummaryFilter('all')">
+        ✕ Reset all filters
       </button>
     </div>
-  } @else if (viewMode === 'table') {
+
+  <!-- ═══════════════════════════════════════════════════
+       GRID VIEW
+  ═══════════════════════════════════════════════════ -->
+  } @else if (viewMode === 'grid') {
+    <div class="owner-products-grid">
+      @for (p of filteredProducts; track p.id) {
+        <article class="owner-products-grid-card" (click)="goToDetails(p)">
+
+          <!-- Image + overlay -->
+          <div class="owner-products-grid-img-wrap">
+            <img class="owner-products-grid-img" [src]="p.imageUrl || 'https://picsum.photos/seed/placeholder/400/300'" [alt]="p.name" loading="lazy" />
+            <span class="owner-products-badge" [attr.data-status]="p.status">{{ statusLabel(p.status) }}</span>
+            <div class="owner-products-grid-overlay" (click)="$event.stopPropagation()">
+              <button type="button" class="owner-products-overlay-btn" (click)="goToDetails(p)">View</button>
+              <button type="button" class="owner-products-overlay-btn" (click)="editProduct(p)">Edit</button>
+              <button type="button" class="owner-products-overlay-btn" (click)="openStatsModal(p)">Stats</button>
+              <button type="button" class="owner-products-overlay-btn owner-products-overlay-btn--danger" (click)="openDeleteModal(p)">Delete</button>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="owner-products-grid-body">
+            <h3 class="owner-products-grid-name">{{ p.name }}</h3>
+            <p class="owner-products-grid-price">{{ formatMoney(p.price) }}</p>
+
+            <!-- Metrics row -->
+            <div class="owner-products-grid-metrics">
+              <span class="owner-products-grid-metric">🛒 {{ p.sales | number }}</span>
+              @if (p.rating > 0) {
+                <span class="owner-products-grid-metric">⭐ {{ p.rating | number:'1.1-1' }}</span>
+              }
+              <span class="owner-products-grid-metric">📦 {{ p.stock }}</span>
+              @if (p.views) {
+                <span class="owner-products-grid-metric">👁 {{ p.views | number }}</span>
+              }
+            </div>
+
+            <!-- Action buttons -->
+            <div class="owner-products-grid-actions" (click)="$event.stopPropagation()">
+              <button type="button" class="owner-products-grid-btn" (click)="goToDetails(p)">View</button>
+              <button type="button" class="owner-products-grid-btn" (click)="editProduct(p)">✏️ Edit</button>
+              <button type="button" class="owner-products-grid-btn" (click)="duplicateProduct(p)">📋</button>
+              <button type="button" class="owner-products-grid-btn owner-products-grid-btn--danger" (click)="openDeleteModal(p)">🗑️</button>
+            </div>
+          </div>
+
+        </article>
+      }
+    </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       TABLE/LIST VIEW — horizontal product cards
+  ═══════════════════════════════════════════════════ -->
+  } @else {
     <div class="owner-products-table-scroll">
       <table class="owner-products-table">
         <thead>
@@ -185,111 +412,120 @@
         <tbody>
           @for (p of filteredProducts; track p.id) {
             <tr class="owner-products-row-clickable" (click)="goToDetails(p)">
+
+              <!-- Thumbnail — ticket icon style -->
               <td>
                 <div class="owner-products-thumb-wrap">
-                  <img class="owner-products-thumb" [src]="p.imageUrl" [alt]="p.name" loading="lazy" />
+                  <img class="owner-products-thumb"
+                       [src]="p.imageUrl || 'https://picsum.photos/seed/placeholder/120/120'"
+                       [alt]="p.name" loading="lazy" />
                 </div>
               </td>
-              <td>
+
+              <!-- Body — name, sku, foot meta -->
+              <td style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;">
+                <!-- Meta row: ticket number + badges -->
+                <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">
+                  <span class="owner-products-cell-sku">SKU {{ p.sku }}</span>
+                  <span class="owner-products-badge" [attr.data-status]="p.status">{{ statusLabel(p.status) }}</span>
+                  @if (p.stock <= 5 && p.stock >= 0) {
+                    <span style="background:rgba(239,68,68,.1);color:#b91c1c;border:1px solid rgba(239,68,68,.25);border-radius:20px;font-size:10px;font-weight:700;padding:2px 7px;">Low Stock</span>
+                  }
+                </div>
+                <!-- Subject -->
                 <div class="owner-products-cell-name">{{ p.name }}</div>
-                <div class="owner-products-cell-sku">SKU {{ p.sku }}</div>
-              </td>
-              <td>{{ p.category }}</td>
-              <td>{{ formatMoney(p.price) }}</td>
-              <td>{{ p.stock }}</td>
-              <td>
-                <span class="owner-products-badge" [attr.data-status]="p.status">{{ statusLabel(p.status) }}</span>
-              </td>
-              <td>{{ p.sales | number }}</td>
-              <td>
-                @if (p.rating > 0) {
-                  <span class="rating-color">{{ p.rating | number: '1.1-1' }}</span>
-                  <span class="owner-products-rating-star" aria-hidden="true">★</span>
-                } @else {
-                  <span class="owner-products-muted">—</span>
-                }
-              </td>
-              <td>
-                <div class="owner-products-actions">
-                  <button type="button" class="owner-products-icon-btn" title="Edit" (click)="editProduct(p); stopRowClick($event)">✏️</button>
-                  <button type="button" class="owner-products-icon-btn" title="Delete" (click)="openDeleteModal(p); stopRowClick($event)">🗑️</button>
-                  <button type="button" class="owner-products-icon-btn" title="View stats" (click)="openStatsModal(p); stopRowClick($event)">📊</button>
-                  <button type="button" class="owner-products-icon-btn" title="Duplicate" (click)="duplicateProduct(p); stopRowClick($event)">📋</button>
+                <!-- Footer meta -->
+                <div style="display:flex;align-items:center;gap:14px;font-size:12px;color:#8A7A60;flex-wrap:wrap;margin-top:1px;">
+                  <span>📁 {{ p.category }}</span>
+                  <span>💰 {{ formatMoney(p.price) }}</span>
+                  <span>📦 {{ p.stock }} in stock</span>
+                  <span>🛒 {{ p.sales | number }} sold</span>
+                  @if (p.rating > 0) {
+                    <span>⭐ {{ p.rating | number:'1.1-1' }}</span>
+                  }
                 </div>
               </td>
+
+              <!-- Status — hidden, folded into body above -->
+              <td style="display:none"></td>
+              <td style="display:none"></td>
+              <td style="display:none"></td>
+              <td style="display:none"></td>
+              <td style="display:none"></td>
+              <td style="display:none"></td>
+
+              <!-- Actions -->
+              <td>
+                <div class="owner-products-actions" (click)="stopRowClick($event)">
+                  <button type="button" class="owner-products-icon-btn" title="Edit"       (click)="editProduct(p);      stopRowClick($event)">✏️</button>
+                  <button type="button" class="owner-products-icon-btn" title="Delete"     (click)="openDeleteModal(p);  stopRowClick($event)">🗑️</button>
+                  <button type="button" class="owner-products-icon-btn" title="View stats" (click)="openStatsModal(p);   stopRowClick($event)">📊</button>
+                  <button type="button" class="owner-products-icon-btn" title="Duplicate"  (click)="duplicateProduct(p); stopRowClick($event)">📋</button>
+                </div>
+              </td>
+
             </tr>
           }
         </tbody>
       </table>
     </div>
-  } @else {
-    <div class="owner-products-grid">
-      @for (p of filteredProducts; track p.id) {
-        <article class="owner-products-grid-card owner-products-grid-card--clickable" (click)="goToDetails(p)">
-          <div class="owner-products-grid-img-wrap">
-            <img class="owner-products-grid-img" [src]="p.imageUrl" [alt]="p.name" loading="lazy" />
-            <div class="owner-products-grid-overlay" (click)="$event.stopPropagation()">
-              <button type="button" class="owner-products-overlay-btn" (click)="goToDetails(p)">View</button>
-              <button type="button" class="owner-products-overlay-btn" (click)="editProduct(p)">Edit</button>
-              <button type="button" class="owner-products-overlay-btn owner-products-overlay-btn--danger" (click)="openDeleteModal(p)">Delete</button>
-              <button type="button" class="owner-products-overlay-btn" (click)="shareProduct(p)">Share</button>
-            </div>
-          </div>
-          <div class="owner-products-grid-body">
-            <h3 class="owner-products-grid-name">{{ p.name }}</h3>
-            <p class="owner-products-grid-price">{{ formatMoney(p.price) }}</p>
-            <span class="owner-products-badge" [attr.data-status]="p.status">{{ statusLabel(p.status) }}</span>
-          </div>
-        </article>
-      }
+  }
+
+  <!-- ═══════════════════════════════════════════════════
+       DELETE MODAL
+  ═══════════════════════════════════════════════════ -->
+  @if (productPendingDelete) {
+    <div class="owner-products-modal-backdrop" (click)="closeDeleteModal()" role="presentation"></div>
+    <div class="owner-products-modal" role="dialog" aria-modal="true" aria-labelledby="del-title">
+      <div class="owner-products-modal-icon-wrap" aria-hidden="true">🗑️</div>
+      <h3 id="del-title" class="owner-products-modal-title">Delete product?</h3>
+      <p class="owner-products-modal-text">
+        Remove <strong>{{ productPendingDelete.name }}</strong> from your catalog?
+        This action cannot be undone from this screen.
+      </p>
+      <div class="owner-products-modal-actions">
+        <button type="button" class="btn-main btn-border"    (click)="closeDeleteModal()" [disabled]="isDeleting">Cancel</button>
+        <button type="button" class="btn-main btn-burgandy"  (click)="confirmDelete()"    [disabled]="isDeleting">
+          @if (isDeleting) { Deleting… } @else { Delete }
+        </button>
+      </div>
     </div>
   }
 
-@if (productPendingDelete) {
-  <div class="owner-products-modal-backdrop" (click)="closeDeleteModal()" role="presentation"></div>
-  <div class="owner-products-modal" role="dialog" aria-modal="true" aria-labelledby="del-title">
-    <h3 id="del-title" class="owner-products-modal-title">Delete product?</h3>
-    <p class="owner-products-modal-text">
-      Remove <strong>{{ productPendingDelete.name }}</strong> from your catalog? This cannot be undone from this screen.
-    </p>
-    <div class="owner-products-modal-actions">
-      <button type="button" class="btn-main btn-border" (click)="closeDeleteModal()">Cancel</button>
-      <button type="button" class="btn-main btn-burgandy" (click)="confirmDelete()">Delete</button>
-    </div>
-  </div>
-}
-
-@if (productStats) {
-  <div class="owner-products-modal-backdrop" (click)="closeStatsModal()" role="presentation"></div>
-  <div class="owner-products-modal owner-products-modal--wide" role="dialog" aria-modal="true" aria-labelledby="stats-title">
-    <h3 id="stats-title" class="owner-products-modal-title">Analytics — {{ productStats.name }}</h3>
-    <div class="owner-products-stats-grid">
-      <div class="owner-products-stat-block">
-        <span class="owner-products-stat-block-label">Total views</span>
-        <span class="owner-products-stat-block-value">{{ productStats.views | number }}</span>
+  <!-- ═══════════════════════════════════════════════════
+       ANALYTICS MODAL
+  ═══════════════════════════════════════════════════ -->
+  @if (productStats) {
+    <div class="owner-products-modal-backdrop" (click)="closeStatsModal()" role="presentation"></div>
+    <div class="owner-products-modal owner-products-modal--wide" role="dialog" aria-modal="true" aria-labelledby="stats-title">
+      <h3 id="stats-title" class="owner-products-modal-title">📊 Analytics — {{ productStats.name }}</h3>
+      <div class="owner-products-stats-grid">
+        <div class="owner-products-stat-block">
+          <span class="owner-products-stat-block-label">Total Views</span>
+          <span class="owner-products-stat-block-value">{{ productStats.views | number }}</span>
+        </div>
+        <div class="owner-products-stat-block">
+          <span class="owner-products-stat-block-label">Units Sold</span>
+          <span class="owner-products-stat-block-value">{{ productStats.sales | number }}</span>
+        </div>
+        <div class="owner-products-stat-block">
+          <span class="owner-products-stat-block-label">Revenue (est.)</span>
+          <span class="owner-products-stat-block-value">{{ formatMoney(productStats.price * productStats.sales) }}</span>
+        </div>
       </div>
-      <div class="owner-products-stat-block">
-        <span class="owner-products-stat-block-label">Units sold</span>
-        <span class="owner-products-stat-block-value">{{ productStats.sales | number }}</span>
+      <p class="owner-products-trend-note">Sales trend: steady growth over the last 30 days</p>
+      <div class="owner-products-trend-bars" aria-hidden="true">
+        <span class="owner-products-trend-bar owner-products-trend-bar--1"></span>
+        <span class="owner-products-trend-bar owner-products-trend-bar--2"></span>
+        <span class="owner-products-trend-bar owner-products-trend-bar--3"></span>
+        <span class="owner-products-trend-bar owner-products-trend-bar--4"></span>
+        <span class="owner-products-trend-bar owner-products-trend-bar--5"></span>
+        <span class="owner-products-trend-bar owner-products-trend-bar--6"></span>
       </div>
-      <div class="owner-products-stat-block">
-        <span class="owner-products-stat-block-label">Revenue (est.)</span>
-        <span class="owner-products-stat-block-value">{{ formatMoney(productStats.price * productStats.sales) }}</span>
+      <div class="owner-products-modal-actions">
+        <button type="button" class="btn-main btn-gold" (click)="closeStatsModal()">Close</button>
       </div>
     </div>
-    <p class="owner-products-modal-text owner-products-trend-note">Sales trend: steady growth over the last 30 days (sample insight).</p>
-    <div class="owner-products-trend-bars" aria-hidden="true">
-      <span class="owner-products-trend-bar owner-products-trend-bar--1"></span>
-      <span class="owner-products-trend-bar owner-products-trend-bar--2"></span>
-      <span class="owner-products-trend-bar owner-products-trend-bar--3"></span>
-      <span class="owner-products-trend-bar owner-products-trend-bar--4"></span>
-      <span class="owner-products-trend-bar owner-products-trend-bar--5"></span>
-      <span class="owner-products-trend-bar owner-products-trend-bar--6"></span>
-    </div>
-    <div class="owner-products-modal-actions">
-      <button type="button" class="btn-main btn-gold" (click)="closeStatsModal()">Close</button>
-    </div>
-  </div>
-}
+  }
 
 </div>

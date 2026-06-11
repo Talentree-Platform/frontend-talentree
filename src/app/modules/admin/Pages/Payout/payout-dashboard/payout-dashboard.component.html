@@ -1,0 +1,344 @@
+<!-- ── Toast Stack ─────────────────────────────────────────── -->
+<div class="toast-stack">
+  @for (t of toasts(); track t.id) {
+    <div class="toast" [class.toast--success]="t.type === 'success'" [class.toast--error]="t.type === 'error'">
+      <span class="toast__icon">{{ t.type === 'success' ? '✓' : '✕' }}</span>
+      <span class="toast__msg">{{ t.message }}</span>
+    </div>
+  }
+</div>
+
+<!-- ── Page ────────────────────────────────────────────────── -->
+<div class="pa-page">
+
+  <!-- Header -->
+  <header class="pa-header">
+    <div class="pa-header__left">
+      <div class="pa-header__eyebrow">Admin · Finance</div>
+      <h1 class="pa-header__title">Payout Requests</h1>
+    </div>
+    <div class="pa-header__meta">
+      <span class="pa-header__count">{{ totalCount() | number }} total</span>
+    </div>
+  </header>
+
+  <!-- Summary Cards -->
+  <section class="summary-grid">
+
+    <div class="summary-card summary-card--pending">
+      <div class="summary-card__track"></div>
+      <div class="summary-card__body">
+        <div class="summary-card__label">Pending</div>
+        <div class="summary-card__value">{{ summary().pending }}</div>
+      </div>
+      <div class="summary-card__icon">⏳</div>
+    </div>
+
+    <div class="summary-card summary-card--approved">
+      <div class="summary-card__track"></div>
+      <div class="summary-card__body">
+        <div class="summary-card__label">Approved</div>
+        <div class="summary-card__value">{{ summary().approved }}</div>
+      </div>
+      <div class="summary-card__icon">✓</div>
+    </div>
+
+    <div class="summary-card summary-card--completed">
+      <div class="summary-card__track"></div>
+      <div class="summary-card__body">
+        <div class="summary-card__label">Completed</div>
+        <div class="summary-card__value">{{ summary().completed }}</div>
+      </div>
+      <div class="summary-card__icon">⚡</div>
+    </div>
+
+    <div class="summary-card summary-card--rejected">
+      <div class="summary-card__track"></div>
+      <div class="summary-card__body">
+        <div class="summary-card__label">Rejected</div>
+        <div class="summary-card__value">{{ summary().rejected }}</div>
+      </div>
+      <div class="summary-card__icon">✕</div>
+    </div>
+
+  </section>
+
+  <!-- Filters -->
+  <div class="filters">
+
+    <div class="filters__search">
+      <span class="filters__search-icon">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M10 10l2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <input
+        class="filters__input"
+        type="text"
+        placeholder="Search ID or account holder…"
+        (input)="onSearch($any($event.target).value)" />
+    </div>
+
+    <div class="filters__status">
+      <select
+        class="filters__select"
+        [ngModel]="selectedStatus()"
+        (ngModelChange)="onStatusChange($event)">
+        @for (opt of statusOptions; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+    </div>
+
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+
+    <!-- Loading skeleton -->
+    @if (isLoading()) {
+      <div class="skeleton-rows">
+        @for (i of [1,2,3,4,5,6,7]; track i) {
+          <div class="skeleton-row">
+            <div class="skel skel--sm"></div>
+            <div class="skel skel--md"></div>
+            <div class="skel skel--md"></div>
+            <div class="skel skel--lg"></div>
+            <div class="skel skel--sm"></div>
+            <div class="skel skel--badge"></div>
+            <div class="skel skel--actions"></div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Table -->
+    @if (!isLoading() && filteredPayouts().length > 0) {
+      <div class="table-wrap">
+        <table class="pa-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Amount</th>
+              <th>Bank</th>
+              <th>Account Holder</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of filteredPayouts(); track p.id; let even = $even) {
+              <tr class="pa-row" [class.pa-row--even]="even">
+
+                <td class="cell--id">
+                  <span class="id-chip">#{{ p.id }}</span>
+                </td>
+
+                <td class="cell--amount">
+                  <strong>{{ p.amount | number:'1.2-2' }}</strong>
+                  <span class="currency-tag">{{ p.currency }}</span>
+                </td>
+
+                <td class="cell--bank">
+                  <div class="bank-name">{{ p.bankName }}</div>
+                  <div class="account-id">{{ p.maskedAccountIdentifier }}</div>
+                </td>
+
+                <td class="cell--holder">{{ p.accountHolderName }}</td>
+
+                <td class="cell--date">{{ p.createdAt | date:'MMM d, y' }}</td>
+
+                <td class="cell--status">
+                  <span class="status-badge" [ngClass]="getStatusClass(p.status)">
+                    <span class="badge-dot"></span>
+                    {{ getStatusLabel(p.status) }}
+                  </span>
+                </td>
+
+                <td class="cell--actions">
+                  <!-- Loading indicator for this row -->
+                  @if (actionLoading()[p.id]) {
+                    <span class="row-spinner"></span>
+                  }
+
+                  <!-- Pending → Approve + Reject -->
+                  @if (!actionLoading()[p.id] && p.status === PayoutStatus.Pending) {
+                    <button class="act-btn act-btn--approve" (click)="approve(p); $event.stopPropagation()" title="Approve">
+                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                        <path d="M2 6.5l3.5 3.5L11 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      Approve
+                    </button>
+                    <!-- FIX: stopPropagation prevents the click from bubbling and accidentally closing the modal -->
+                    <button class="act-btn act-btn--reject" (click)="openRejectModal(p); $event.stopPropagation()" title="Reject">
+                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                        <path d="M3 3l7 7M10 3l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                      </svg>
+                      Reject
+                    </button>
+                  }
+
+                  <!-- Approved → Complete -->
+                  @if (!actionLoading()[p.id] && p.status === PayoutStatus.Approved) {
+                    <button class="act-btn act-btn--complete" (click)="complete(p); $event.stopPropagation()" title="Mark Complete">
+                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                        <path d="M6.5 1v5.5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                      </svg>
+                      Complete
+                    </button>
+                  }
+
+                  <!-- Completed → nothing -->
+                  @if (!actionLoading()[p.id] && p.status === PayoutStatus.Completed) {
+                    <span class="no-action">—</span>
+                  }
+
+                  <!-- Rejected → show reason -->
+                  @if (!actionLoading()[p.id] && p.status === PayoutStatus.Rejected) {
+                    @if (p.rejectionReason) {
+                      <span class="rejection-reason" [title]="p.rejectionReason">
+                        {{ p.rejectionReason | slice:0:30 }}{{ p.rejectionReason.length > 30 ? '…' : '' }}
+                      </span>
+                    } @else {
+                      <span class="no-action">No reason</span>
+                    }
+                  }
+
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <!-- Empty -->
+    @if (!isLoading() && filteredPayouts().length === 0) {
+      <div class="empty-state">
+        <div class="empty-state__icon">📭</div>
+        <h3>No payouts found</h3>
+        <p>Try adjusting your filters or search query.</p>
+      </div>
+    }
+
+    <!-- Pagination -->
+    @if (!isLoading() && totalPages() > 1) {
+      <div class="pagination">
+        <button class="pg-btn" [disabled]="pageIndex() === 1" (click)="goToPage(pageIndex() - 1)">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M7.5 2L3.5 6l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        @for (p of pages(); track p) {
+          <button class="pg-btn" [class.pg-btn--active]="p === pageIndex()" (click)="goToPage(p)">{{ p }}</button>
+        }
+
+        <button class="pg-btn" [disabled]="pageIndex() === totalPages()" (click)="goToPage(pageIndex() + 1)">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M4.5 2l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <span class="pg-info">Page {{ pageIndex() }} of {{ totalPages() }}</span>
+      </div>
+    }
+
+  </div>
+
+  <!-- ── Reject Modal ──────────────────────────────────────────── -->
+  <!--
+    FIX: Modal is now INSIDE .pa-page so it shares the same Angular
+    reactive context and change detection tree as the rest of the template.
+    Placing it outside caused @if(rejectTargetId()) to not re-evaluate reliably.
+  -->
+  <!-- Reject Modal Overlay -->
+<div
+  class="modal-overlay"
+  [class.modal-overlay--visible]="rejectTargetId() !== null"
+  (click)="closeRejectModal()"
+>
+  @if (rejectTargetId() !== null) {
+
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <!-- Header -->
+      <div class="modal__header">
+        <div class="modal__header-left">
+
+          <div class="modal__icon modal__icon--danger">✕</div>
+
+          <div>
+            <h2 class="modal__title">Reject Payout</h2>
+
+            <p class="modal__sub">
+              Payout #{{ getSelectedPayout()?.id }}
+              · {{ getSelectedPayout()?.currency }}
+              {{ getSelectedPayout()?.amount | number:'1.2-2' }}
+            </p>
+
+          </div>
+        </div>
+
+        <button class="modal__close" (click)="closeRejectModal()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path
+              d="M2 2l10 10M12 2L2 12"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal__body">
+
+        <label class="modal__label">
+          Rejection Reason <span class="required">*</span>
+        </label>
+
+        <textarea
+          class="modal__textarea"
+          rows="4"
+          placeholder="Explain why this payout is being rejected…"
+          [(ngModel)]="rejectReason"
+        ></textarea>
+
+        <p class="modal__hint">
+          This reason will be visible to the business owner.
+        </p>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="modal__footer">
+
+        <button class="btn-ghost" (click)="closeRejectModal()">
+          Cancel
+        </button>
+
+        <button
+          class="btn-danger"
+          [disabled]="!rejectReason().trim() || isRejecting()"
+          (click)="submitReject()"
+        >
+          @if (isRejecting()) {
+            <span class="btn-spinner"></span>
+            Rejecting…
+          } @else {
+            Confirm Rejection
+          }
+        </button>
+
+      </div>
+
+    </div>
+
+  }
+</div>
+
+</div>

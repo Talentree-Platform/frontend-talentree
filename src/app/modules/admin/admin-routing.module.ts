@@ -12,6 +12,8 @@ import { SupplierListComponent} from './Pages/supplier/suppliers/suppliers.compo
 import { ProductionRequestComponent } from './Pages/production-request/production-request.component';
 //import { AdminUserManagementComponent } from './Pages/admin-user-management/admin-user-management.component';
 import { AdminComplaintsSupportComponent } from './Pages/admin-complaints-support/admin-complaints-support.component';
+import { PayoutDashboardComponent } from './Pages/Payout/payout-dashboard/payout-dashboard.component';
+
 //import { NotificationComponent } from '../business-owner/pages/notification/notification.component';
 const routes: Routes = [
   {
@@ -26,7 +28,8 @@ const routes: Routes = [
       { path: 'suppliers', component: SupplierListComponent }, 
       { path: 'production-requests', component: ProductionRequestComponent },
       // {path: 'AdminUserManagment', component: AdminUserManagementComponent},
-      {path: 'adminsupportcomplaint', component: AdminComplaintsSupportComponent}
+      {path: 'adminsupportcomplaint', component: AdminComplaintsSupportComponent},
+      { path: 'payout', component: PayoutDashboardComponent},
       //{path: 'notification', component:NotificationComponent} // ← جديد
     ]
   }

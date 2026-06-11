@@ -60,6 +60,7 @@ export class OwnerSideNavComponent {
       key: 'orders',
       label: 'Orders',
       description: 'Track and manage all orders',
+      route: '/businessowner/materialOrder',
       icon: `M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z`,
       submenu: [
         { key: 'all-orders', label: 'All Orders' },
@@ -114,24 +115,21 @@ export class OwnerSideNavComponent {
     {
       key: 'support',
       label: 'Support & Services',
+      route: '/businessowner/tickets',
       description: 'Help center and tickets',
       icon: `M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z`,
       submenu: [
-        { key: 'my-tickets', label: 'My Tickets' },
-        { key: 'service', label: 'Service' },
-        { key: 'help-center', label: 'Help Center' }
+        { key: 'my-tickets', label: 'My Tickets' ,  route: '/businessowner/tickets' },
+        { key: 'help-center', label: 'Help Center' , route: '/businessowner/faq'}
       ]
     },
     {
-      key: 'ai-tool',
-      label: 'Smart AI Tool',
-      description: 'AI-powered business assistant',
-      icon: `m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z`,
-      submenu: [
-        { key: 'business-assistant', label: 'Business Assistant' },
-        { key: 'price-agent', label: 'Price Agent' },
-        { key: 'marketing-plan', label: 'Marketing Plan' }
-      ]
+      key: 'Payout',
+      label: 'Payout',
+      route: '/businessowner/payouthistory',
+      description: 'Request and track payout status',
+      icon: `M21 12a2.25 2.25 0 0 0-2.25-2.25H15a3 3 0 1 1-6 0H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 9m18 0V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v3`,
+      
     },
     {
       key: 'settings',
@@ -143,8 +141,8 @@ export class OwnerSideNavComponent {
         { key: 'profile', label: 'Profile Information', route: '/businessowner/settingmain' },
         { key: 'business-details', label: 'Business Details', route: '/businessowner/settingbusinessdetails' },
         { key: 'payment-billing', label: 'Payment & Billing', route: '/businessowner/settingpaymentbilling' },
-        { key: 'security-privacy', label: 'Security & Privacy', route: '/businessowner/settingpreference' },
-        { key: 'preferences', label: 'Preferences & Notifications', route: '/businessowner/settingsecurity' }
+        { key: 'security-privacy', label: 'Security & Privacy', route: '/businessowner/settingsecurity' },
+        { key: 'preferences', label: 'Preferences ', route: '/businessowner/settingpreference' }
       ]
     }
   ];

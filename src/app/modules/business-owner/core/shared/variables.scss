@@ -1,0 +1,18 @@
+// shared/_variables.scss
+// Design tokens for the Support Module
+
+$color-primary:       #1a73e8;
+$color-primary-light: #e8f0fe;
+$color-border:        #e0e0e0;
+$color-text-primary:  #202124;
+$color-text-secondary:#5f6368;
+$color-bg:            #f8f9fa;
+
+:root {
+  --color-primary:        #{$color-primary};
+  --color-primary-light:  #{$color-primary-light};
+  --color-border:         #{$color-border};
+  --color-text-primary:   #{$color-text-primary};
+  --color-text-secondary: #{$color-text-secondary};
+  --color-bg:             #{$color-bg};
+}

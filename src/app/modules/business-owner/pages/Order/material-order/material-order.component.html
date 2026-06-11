@@ -1,0 +1,96 @@
+<div class="table-wrapper">
+
+  <div class="table-header mb-4">
+    <h2>My Orders</h2>
+  </div>
+
+  <div class="table-responsive">
+
+    <table class="table product-table">
+
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Date</th>
+          <th>Total Amount</th>
+          <th>Items</th>
+          <th>Delivery Location</th>
+          <th>Order Status</th>
+          <th>Payment Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @for (order of orders; track order.id) {
+
+          <tr [routerLink]="['/businessowner/material-order', order.id]">
+
+            <!-- Order ID -->
+            <td class="product-id">
+              #{{ order.id }}
+            </td>
+
+            <!-- Date -->
+            <td>
+              {{ order.createdAt | date:'medium' }}
+            </td>
+
+            <!-- Total -->
+            <td class="price">
+              {{ order.totalAmount }} EGP
+            </td>
+
+            <!-- Items -->
+            <td>
+              {{ order.itemCount }}
+            </td>
+
+            <!-- Location -->
+            <td>
+              {{ order.deliveryLocation }}
+            </td>
+
+            <!-- Order Status -->
+            <td class="status">
+
+              <span
+                class="status-badge"
+                [ngClass]="{
+                  'status-pending': order.status === 0,
+                  'status-approved': order.status === 1,
+                  'status-delivered': order.status === 2,
+                  'status-rejected': order.status === 3
+                }"
+              >
+                {{ getStatus(order.status) }}
+              </span>
+
+            </td>
+
+            <!-- Payment Status -->
+            <td>
+
+              <span
+                class="status-badge"
+                [ngClass]="{
+                  'status-pending': order.paymentStatus === 0,
+                  'status-approved': order.paymentStatus === 1
+                }"
+              >
+                {{ getPaymentStatus(order.paymentStatus) }}
+              </span>
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
