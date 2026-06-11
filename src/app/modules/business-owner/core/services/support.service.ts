@@ -14,7 +14,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class SupportService {
-  private readonly base = '/api/Support';
+  private readonly base = 'https://backtalentree.runasp.net/api/Support';
 
   constructor(private http: HttpClient) {}
 
