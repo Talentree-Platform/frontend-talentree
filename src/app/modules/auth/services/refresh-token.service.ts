@@ -6,6 +6,7 @@ import { catchError, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { filter } from 'rxjs/operators';
+import { environment } from '../../../core/environment/envirinment';
 
 export interface RefreshTokenResponse {
   token: string;
@@ -18,7 +19,7 @@ export interface RefreshTokenResponse {
   providedIn: 'root'
 })
 export class RefreshTokenService {
-  private apiUrl = 'https://backtalentree.runasp.net/api';
+  private apiUrl = `${environment.baseUrl}/api`;
   private isRefreshing = false;
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
   private refreshResponseSubject = new BehaviorSubject<RefreshTokenResponse | null>(null);

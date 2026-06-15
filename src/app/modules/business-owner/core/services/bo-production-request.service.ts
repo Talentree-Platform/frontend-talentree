@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ApiResponse, PaginatedResponse, ProductionRequest } from '../interfaces/i-production-request';
+import { environment } from '../../../../core/environment/envirinment';
 
 
 
@@ -12,7 +13,7 @@ import { ApiResponse, PaginatedResponse, ProductionRequest } from '../interfaces
 })
 export class BoProductionRequestService {
 
-  private readonly baseUrl = 'https://backtalentree.runasp.net/api/BoProductionRequest';
+  private readonly baseUrl = `${environment.baseUrl}/api/BoProductionRequest`;
 
   constructor(private http: HttpClient) {}
 

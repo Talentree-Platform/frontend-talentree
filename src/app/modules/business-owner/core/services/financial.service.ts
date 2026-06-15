@@ -7,10 +7,11 @@ import {
   FinancialPaginatedTransactions,
   FinancialApiResponse,
 } from './financial.models';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({ providedIn: 'root' })
 export class FinancialService {
-  private readonly base = 'https://backtalentree.runasp.net/api/Financial';
+  private readonly base = `${environment.baseUrl}/api/Financial`;
 
   constructor(private http: HttpClient) {}
 

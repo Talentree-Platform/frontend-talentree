@@ -11,10 +11,11 @@ import {
   FaqCategory,
   TicketListParams,
 } from '../interfaces/i-support';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({ providedIn: 'root' })
 export class SupportService {
-  private readonly base = '/api/Support';
+  private readonly base = `${environment.baseUrl}/api/Support`;
 
   constructor(private http: HttpClient) {}
 

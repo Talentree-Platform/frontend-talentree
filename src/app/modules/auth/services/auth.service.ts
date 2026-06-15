@@ -7,6 +7,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 import { isPlatformBrowser } from '@angular/common';
+import { environment } from '../../../core/environment/envirinment';
 
 // =============== 📦 INTERFACES ===============
 export interface RegisterData {
@@ -75,9 +76,7 @@ export interface ExternalLoginData {
   providedIn: 'root'
 })
 export class AuthService {
-  public apiUrl = 'https://backtalentree.runasp.net/api';
-  // public apiUrl = '/api';
-  // public apiUrl = '/api';
+  public apiUrl = `${environment.baseUrl}/api`;
   private isBrowser: boolean;
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);

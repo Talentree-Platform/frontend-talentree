@@ -8,11 +8,12 @@ import {
   OwnerProductImageRef,
   OwnerProductStatus
 } from '../interfaces/owner-product';
+import { environment } from '../../../../core/environment/envirinment';
 
 type ApiOwnerProduct = Record<string, unknown>;
 
 /** Host for relative media paths returned by the API (same origin as Auth). */
-const API_MEDIA_ORIGIN = 'https://backtalentree.runasp.net/api';
+const API_MEDIA_ORIGIN = `${environment.baseUrl}/api`;
 // const API_MEDIA_ORIGIN = '/api';
 
 @Injectable({

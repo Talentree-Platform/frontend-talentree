@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse, PaginatedResponse } from '../Interfaces/ibusiness-owner';
+import { environment } from '../../../../core/environment/envirinment';
 
 // ── Enums ─────────────────────────────────────────────────────────────────────
 
@@ -67,7 +68,7 @@ export interface ResolveComplaintDto {
 @Injectable({ providedIn: 'root' })
 export class AdminComplaintService {
 
-  private readonly apiUrl = 'https://backtalentree.runasp.net/api/admin/complaints';
+  private readonly apiUrl = `${environment.baseUrl}/api/admin/complaints`;
 
   constructor(private _HttpClient: HttpClient) {}
 

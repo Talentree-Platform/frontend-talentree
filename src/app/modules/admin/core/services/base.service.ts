@@ -4,13 +4,14 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../environments/envioronments';
+import { environment } from '../../../../core/environment/envirinment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaseService {
-  protected apiUrl = 'https://backtalentree.runasp.net';
+  protected apiUrl = environment.baseUrl;
 
   constructor(
     protected http: HttpClient,

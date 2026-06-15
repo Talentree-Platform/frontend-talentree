@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../../../core/environment/envirinment';
 
 export interface Notification {
   id: number;
@@ -76,7 +77,7 @@ export const PRIORITY_MAP: Record<number, { label: string; color: string }> = {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private readonly base = 'https://backtalentree.runasp.net/api/Notification';
+  private readonly base = `${environment.baseUrl}/api/Notification`;
   // private readonly base = '/api/Notification';
 
   constructor(private http: HttpClient) {}

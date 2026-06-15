@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginationQuery } from '../Interfaces/PaginationQuery';
 import { ApiResponse, BusinessOwner, PaginatedResponse } from '../Interfaces/ibusiness-owner';
+import { environment } from '../../../../core/environment/envirinment';
 
 // ── Admin DTOs ────────────────────────────────────────────────────────────────
 
@@ -31,7 +32,7 @@ export interface CreateAdminDto {
 export class AdminService {
 
   constructor(private _HttpClient:HttpClient) { }
-  apiUrl = 'https://backtalentree.runasp.net/api/Admin';
+  apiUrl = `${environment.baseUrl}/api/Admin`;
   // apiUrl='/api/Admin';
   private readonly adminProductApiUrl = '/api/AdminProduct';
 

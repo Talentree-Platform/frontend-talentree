@@ -9,13 +9,14 @@ import {
   RevokeSessionsRequest,
   Preferences
 } from '../interfaces/i-setting';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OwnerSettingService {
 
-  private baseUrl = '/api/BusinessOwnerAccountSettings';
+  private baseUrl = `${environment.baseUrl}/api/BusinessOwnerAccountSettings`;
 
   constructor(private http: HttpClient) {}
 

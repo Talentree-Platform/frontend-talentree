@@ -8,10 +8,11 @@ import {
   KbApiResponse,
   KbFilters,
 } from './kb.models';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({ providedIn: 'root' })
 export class KnowledgeBaseService {
-  private readonly base = 'https://backtalentree.runasp.net/api/KnowledgeBase';
+  private readonly base = `${environment.baseUrl}/api/KnowledgeBase`;
 
   constructor(private http: HttpClient) {}
 

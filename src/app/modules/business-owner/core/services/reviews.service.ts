@@ -9,10 +9,11 @@ import {
   ReviewApiResponse,
   RespondToReviewRequest,
 } from './reviews.models';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({ providedIn: 'root' })
 export class ReviewsService {
-  private readonly base = 'https://backtalentree.runasp.net/api/BusinessOwnerReviews';
+  private readonly base = `${environment.baseUrl}/api/BusinessOwnerReviews`;
 
   constructor(private http: HttpClient) {}
 

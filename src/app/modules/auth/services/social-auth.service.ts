@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { environment } from '../../../core/environment/envirinment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocialAuthService {
-  private apiUrl = 'https://backtalentree.runasp.net/api';
+  private apiUrl = `${environment.baseUrl}/api`;
 
   constructor(
     private http: HttpClient,

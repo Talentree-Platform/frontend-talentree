@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, ObservableLike, catchError } from 'rxjs';
 import { ApiResponse } from '../interfaces/material';
 import { BasketData, BasketItem } from '../interfaces/imaterial-cart';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { BasketData, BasketItem } from '../interfaces/imaterial-cart';
 export class MaterialCartService {
 
   private readonly http =inject(HttpClient);
-  public apiUrl='/api';
+  public apiUrl=`${environment.baseUrl}/api`;
     private countSubject = new BehaviorSubject<number>(0);
   count$ = this.countSubject.asObservable();
 

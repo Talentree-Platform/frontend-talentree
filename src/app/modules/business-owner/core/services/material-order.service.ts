@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ApiResponse, PaginatedOrders } from '../interfaces/i-material-order';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class MaterialOrderService {
 
   private http = inject(HttpClient);
 
-  private readonly baseUrl = '/api';
+  private readonly baseUrl = `${environment.baseUrl}/api`;
 
   getOrders(pageIndex: number = 1, pageSize: number = 20):
     Observable<ApiResponse<PaginatedOrders>> {

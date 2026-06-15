@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Payout, PayoutHistoryResponse, PayoutRequest, WalletSummary } from '../interfaces/i-payout';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PayoutService {
-  private readonly baseUrl = '/api/Payout';
+  private readonly baseUrl = `${environment.baseUrl}/api/Payout`;
 
   constructor(private http: HttpClient) {}
 

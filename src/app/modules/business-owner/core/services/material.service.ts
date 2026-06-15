@@ -2,6 +2,7 @@ import { ApiResponse, Material, PaginatedMaterialResponse } from './../interface
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 export class MaterialService {
 
   constructor(private http:HttpClient) { }
-  public apiUrl = 'https://backtalentree.runasp.net/api';
+  public apiUrl = `${environment.baseUrl}/api`;
   
   getMaterials(params?: {
   category?: string;

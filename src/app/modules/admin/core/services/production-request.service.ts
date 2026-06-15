@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../../../core/environment/envirinment';
 
 export interface ProductionRequest {
   id: number;
@@ -60,7 +61,7 @@ export const STATUS_MAP: Record<number, { label: string; color: string; bg: stri
 
 @Injectable({ providedIn: 'root' })
 export class ProductionRequestService {
-  private readonly base = 'https://backtalentree.runasp.net/api/AdminProductionRequest';
+  private readonly base = `${environment.baseUrl}/api/AdminProductionRequest`;
   //  private readonly base ='/api/AdminProductionRequest'
 
   constructor(private http: HttpClient) {}

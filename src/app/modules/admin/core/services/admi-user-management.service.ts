@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../core/environment/envirinment';
 
 // ── Shared ────────────────────────────────────────────────────────────────────
 
@@ -176,7 +177,7 @@ export interface CustomerFilterParams {
 @Injectable({ providedIn: 'root' })
 export class AdminUserManagementService {
 
-  private readonly apiUrl = '/api/admin/users';
+  private readonly apiUrl = `${environment.baseUrl}/api/admin/users`;
 
   constructor(private _HttpClient: HttpClient) {}
 

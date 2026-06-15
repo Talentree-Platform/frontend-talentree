@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiResponse, MaterialOrder } from '../interfaces/i-checkout';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 export class CheckoutService {
 
   constructor(private http:HttpClient) { }
-  private readonly apiUrl = '/api';
+  private readonly apiUrl = `${environment.baseUrl}/api`;
 
   checkout(deliveryAddress :string , deliveryCity:string , deliveryCountry:string , contactPhone:string):Observable<ApiResponse<MaterialOrder>>{
       return this.http.post<ApiResponse<MaterialOrder>>(`${this.apiUrl}/MaterialOrder/checkout` , {"deliveryAddress":deliveryAddress ,"deliveryCity":deliveryCity , "deliveryCountry" : deliveryCountry , "contactPhone":contactPhone})

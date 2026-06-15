@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {  ProfileResponse } from '../interfaces/i-setting';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoSettingService {
 
-  private baseUrl = 'https://backtalentree.runasp.net/api/BusinessOwnerAccountSettings';
+  private baseUrl = `${environment.baseUrl}/api/BusinessOwnerAccountSettings`;
 
   constructor(private http: HttpClient) {}
 

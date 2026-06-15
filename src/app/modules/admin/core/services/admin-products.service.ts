@@ -2,6 +2,7 @@ import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseService } from './base.service';
+import { environment } from '../../../../core/environment/envirinment';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { BaseService } from './base.service';
 })
 export class AdminProductService extends BaseService {
   
-  private readonly adminBase = 'https://backtalentree.runasp.net/api/AdminProduct';
+  private readonly adminBase = `${environment.baseUrl}/api/AdminProduct`;
 
   constructor(http: HttpClient, @Inject(PLATFORM_ID) platformId: Object) {
     super(http, platformId);

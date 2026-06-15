@@ -8,13 +8,14 @@ import {
   UpdateSupplierDto,
   SupplierFilterParams
 } from '../Interfaces/isupplier';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({ providedIn: 'root' })
 export class SupplierService {
 
   constructor(private _HttpClient: HttpClient) {}
 
- apiUrl = 'https://backtalentree.runasp.net/api/AdminSupplier';
+ apiUrl = `${environment.baseUrl}/api/AdminSupplier`;
 // apiUrl='/api/AdminSupplier';
   // ── GET all ───────────────────────────────────────────────────────────────
 

@@ -9,13 +9,14 @@ import {
   RestockMaterialDto,
   RawMaterialFilterParams
 } from '../Interfaces/iraw-material';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({ providedIn: 'root' })
 export class RawMaterialService {
 
   constructor(private _HttpClient: HttpClient) {}
 
- apiUrl = 'https://backtalentree.runasp.net/api/AdminRawMaterial';
+ apiUrl = `${environment.baseUrl}/api/AdminRawMaterial`;
 //  apiUrl='/api/AdminRawMaterial'
   // ── GET all (with filters + pagination) ──────────────────────────────────
 
