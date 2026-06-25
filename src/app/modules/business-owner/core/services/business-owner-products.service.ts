@@ -20,7 +20,7 @@ const API_MEDIA_ORIGIN = `${environment.baseUrl}/api`;
   providedIn: 'root'
 })
 export class BusinessOwnerProductsService {
-  private readonly baseUrl = '/api/BusinessOwnerProducts';
+  private readonly baseUrl = `${environment.baseUrl}/api/BusinessOwnerProducts`;
 
   constructor(private readonly http: HttpClient) {}
 

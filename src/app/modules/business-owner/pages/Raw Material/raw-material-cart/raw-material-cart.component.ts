@@ -11,17 +11,17 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [RouterLink, RouterLinkActive,FormsModule],
   templateUrl: './raw-material-cart.component.html',
-  styleUrl: './raw-material-cart.component.css'
+  styleUrl: './raw-material-cart.component.scss'
 })
 export class RawMaterialCartComponent {
   constructor(private _MaterialCartService:MaterialCartService){}
   getCartSub!:Subscription;
   removeItemSub!:Subscription;
   removeAllSub!:Subscription;
-  cartData!:BasketData<BasketItem>;
-  cartItems!:BasketItem[];
+  cartData:BasketData<BasketItem>| null = null;
+  cartItems:BasketItem[]=[];
   quentity!:number;
-  cartItemsLength!:number;
+  cartItemsLength:number =0;
   ngOnInit(){
     this.getMaterialCart();
   }

@@ -1,96 +1,111 @@
-<div class="table-wrapper">
+<div class="mo-wrapper">
 
-  <div class="table-header mb-4">
-    <h2>My Orders</h2>
+  <div class="mo-header">
+    <div class="mo-header__left">
+      <span class="mo-header__icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </span>
+      <div>
+        <h2>My Orders</h2>
+        <p class="mo-header__subtitle">{{ orders.length }} {{ orders.length === 1 ? 'order' : 'orders' }} placed</p>
+      </div>
+    </div>
   </div>
 
-  <div class="table-responsive">
+  <!-- Empty State -->
+  @if (orders.length === 0) {
+    <div class="mo-empty">
+      <div class="mo-empty__icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      </div>
+      <h3>No orders yet</h3>
+      <p>Your placed material orders will show up here.</p>
+    </div>
+  } @else {
 
-    <table class="table product-table">
+    <div class="mo-table-responsive">
 
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Date</th>
-          <th>Total Amount</th>
-          <th>Items</th>
-          <th>Delivery Location</th>
-          <th>Order Status</th>
-          <th>Payment Status</th>
-        </tr>
-      </thead>
+      <table class="mo-table">
 
-      <tbody>
-
-        @for (order of orders; track order.id) {
-
-          <tr [routerLink]="['/businessowner/material-order', order.id]">
-
-            <!-- Order ID -->
-            <td class="product-id">
-              #{{ order.id }}
-            </td>
-
-            <!-- Date -->
-            <td>
-              {{ order.createdAt | date:'medium' }}
-            </td>
-
-            <!-- Total -->
-            <td class="price">
-              {{ order.totalAmount }} EGP
-            </td>
-
-            <!-- Items -->
-            <td>
-              {{ order.itemCount }}
-            </td>
-
-            <!-- Location -->
-            <td>
-              {{ order.deliveryLocation }}
-            </td>
-
-            <!-- Order Status -->
-            <td class="status">
-
-              <span
-                class="status-badge"
-                [ngClass]="{
-                  'status-pending': order.status === 0,
-                  'status-approved': order.status === 1,
-                  'status-delivered': order.status === 2,
-                  'status-rejected': order.status === 3
-                }"
-              >
-                {{ getStatus(order.status) }}
-              </span>
-
-            </td>
-
-            <!-- Payment Status -->
-            <td>
-
-              <span
-                class="status-badge"
-                [ngClass]="{
-                  'status-pending': order.paymentStatus === 0,
-                  'status-approved': order.paymentStatus === 1
-                }"
-              >
-                {{ getPaymentStatus(order.paymentStatus) }}
-              </span>
-
-            </td>
-
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total Amount</th>
+            <th>Items</th>
+            <th>Delivery Location</th>
+            <th>Order Status</th>
+            <th>Payment Status</th>
           </tr>
+        </thead>
 
-        }
+        <tbody>
 
-      </tbody>
+          @for (order of orders; track order.id) {
 
-    </table>
+            <tr [routerLink]="['/businessowner/material-order', order.id]">
 
-  </div>
+              <!-- Order ID -->
+              <td class="mo-order-id">
+                #{{ order.id }}
+              </td>
+
+              <!-- Date -->
+              <td class="mo-date">
+                {{ order.createdAt | date:'medium' }}
+              </td>
+
+              <!-- Total -->
+              <td class="mo-price">
+                {{ order.totalAmount }} <span class="mo-currency">EGP</span>
+              </td>
+
+              <!-- Items -->
+              <td>
+                <span class="mo-items-count">{{ order.itemCount }} {{ order.itemCount === 1 ? 'item' : 'items' }}</span>
+              </td>
+
+              <!-- Location -->
+              <td class="mo-location">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                {{ order.deliveryLocation }}
+              </td>
+
+              <!-- Order Status -->
+              <td>
+
+                <span
+                  class="mo-status-badge"
+                  [attr.data-status]="order.status"
+                >
+                  <span class="mo-status-badge__dot"></span>
+                  {{ getStatus(order.status) }}
+                </span>
+
+              </td>
+
+              <!-- Payment Status -->
+              <td>
+
+                <span
+                  class="mo-payment-badge"
+                  [attr.data-payment]="order.paymentStatus"
+                >
+                  {{ getPaymentStatus(order.paymentStatus) }}
+                </span>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
 
 </div>

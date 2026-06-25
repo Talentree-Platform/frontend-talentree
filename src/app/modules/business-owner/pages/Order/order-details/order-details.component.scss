@@ -1,281 +1,470 @@
-// ── Wrapper ───────────────────────────────────────────────────────────────
-.order-details-wrapper {
-  max-width: 860px;
-  padding: 1.5rem 0 3rem;
-  font-family: var(--font-sans, system-ui, sans-serif);
+/* =========================================================
+   Order Details — Redesigned Styles
+   Prefix: od-
+   Matches Production Request / Orders / My-Orders gold system
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap');
+
+:root {
+  --od-gold: #C9A84C;
+  --od-gold-light: #e2c675;
+  --od-radius: 20px;
+  --od-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --od-amber: #f59e0b;
+  --od-amber-bg: rgba(245, 158, 11, 0.12);
+  --od-blue: #3b82f6;
+  --od-blue-bg: rgba(59, 130, 246, 0.12);
+  --od-green: #10b981;
+  --od-green-bg: rgba(16, 185, 129, 0.12);
+  --od-red: #ef4444;
+  --od-red-bg: rgba(239, 68, 68, 0.12);
 }
 
-// ── Back link ─────────────────────────────────────────────────────────────
-.back-link {
+// ── Page wrapper ────────────────────────────────────────────────────────────
+.od-page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 1.5rem 0 3rem;
+}
+
+// ── Back link ───────────────────────────────────────────────────────────────
+.od-back-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
-  color: var(--color-text-secondary);
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #a89060;
   text-decoration: none;
   margin-bottom: 1.25rem;
-  transition: color 0.15s;
+  transition: color var(--od-transition);
 
-  i { font-size: 14px; }
-
-  &:hover { color: var(--color-text-primary); }
+  &:hover {
+    color: #8a6010;
+  }
 }
 
-// ── Page header ───────────────────────────────────────────────────────────
-.page-header {
+// ── Shared card ──────────────────────────────────────────────────────────────
+.od-card {
+  background: linear-gradient(145deg, #fffdf7 0%, #fdf6e8 60%, #faf0d7 100%);
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  border-radius: var(--od-radius);
+  padding: 1.75rem;
+  box-shadow:
+    0 2px 8px rgba(180, 140, 40, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.04);
+  margin-bottom: 1.75rem;
+}
+
+// ── Header row ───────────────────────────────────────────────────────────────
+.od-header-row {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.25rem;
   flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
-.page-title {
-  h2 {
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--color-text-primary);
-    margin: 0 0 4px;
-  }
+.od-title-block {
+  min-width: 0;
 }
 
-.mono {
-  font-family: var(--font-mono, monospace);
-  font-size: 18px;
+.od-order-id {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2a1f0a;
+  margin: 0 0 4px;
 }
 
-.created-date {
-  font-size: 13px;
-  color: var(--color-text-secondary);
+.od-created-date {
+  font-size: 0.83rem;
+  color: #a89060;
+  margin: 0;
 }
 
-.header-badges {
+.od-header-badges {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
   align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
-// ── Info cards ────────────────────────────────────────────────────────────
-.info-grid {
+// ── Inline error ──────────────────────────────────────────────────────────────
+.od-inline-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--od-red-bg);
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  font-size: 0.84rem;
+  color: #b91c1c;
+  margin-bottom: 1rem;
+
+  svg { flex-shrink: 0; color: var(--od-red); }
+}
+
+// ── Info grid ────────────────────────────────────────────────────────────────
+.od-info-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 1.75rem;
+  gap: 12px;
 
-  @media (max-width: 640px) {
+  @media (max-width: 720px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
 }
 
-.info-card {
-  background: var(--color-background-secondary);
-  border-radius: var(--border-radius-lg, 12px);
-  border: 0.5px solid var(--color-border-tertiary);
+.od-info-card {
+  background: rgba(201, 168, 76, 0.06);
+  border-radius: 14px;
+  border: 1px solid rgba(201, 168, 76, 0.16);
   padding: 14px 16px;
 
-  &.highlight {
-    background: var(--color-background-primary);
-    border: 0.5px solid var(--color-border-secondary);
+  &--highlight {
+    background: rgba(201, 168, 76, 0.12);
+    border: 1px solid rgba(201, 168, 76, 0.35);
   }
 }
 
-.info-card-title {
+.od-info-card-title {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--color-text-secondary);
+  color: #a89060;
   margin-bottom: 8px;
 
-  i { font-size: 13px; }
+  svg { flex-shrink: 0; color: #c0a070; }
 }
 
-.info-card-primary {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  margin: 0 0 3px;
-}
-
-.info-card-secondary {
-  font-size: 12px;
-  color: var(--color-text-secondary);
+.od-info-card-primary {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #2a1f0a;
   margin: 0;
+  word-break: break-word;
 }
 
-.info-card-amount {
-  font-size: 22px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  margin: 0 0 3px;
+.od-info-card-amount {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2a1f0a;
+  margin: 0;
   line-height: 1.2;
 }
 
-.currency {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--color-text-secondary);
+.od-currency {
+  font-family: var(--font-family);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #a89060;
 }
 
-// ── Section label ─────────────────────────────────────────────────────────
-.section-label {
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-text-secondary);
+// ── Section label ────────────────────────────────────────────────────────────
+.od-section-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2a1f0a;
   margin-bottom: 10px;
 }
 
-// ── Table card ────────────────────────────────────────────────────────────
-.table-wrap {
-  background: var(--color-background-primary);
-  border-radius: var(--border-radius-lg, 12px);
-  border: 0.5px solid var(--color-border-tertiary);
+// ── Table card ────────────────────────────────────────────────────────────────
+.od-table-wrap {
+  background: #fffefb;
+  border-radius: var(--od-radius);
+  border: 1px solid rgba(201, 168, 76, 0.18);
   overflow: hidden;
+  box-shadow:
+    0 2px 8px rgba(180, 140, 40, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.od-table-responsive {
   overflow-x: auto;
 }
 
-table {
+.od-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
-  min-width: 540px;
+  font-size: 0.86rem;
+  min-width: 580px;
 }
 
-th {
-  padding: 10px 16px;
+.od-table th {
+  padding: 14px 18px;
   text-align: left;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #8a6010;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  background: var(--color-background-secondary);
-  border-bottom: 0.5px solid var(--color-border-tertiary);
+  background: rgba(201, 168, 76, 0.07);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
   white-space: nowrap;
 }
 
-td {
-  padding: 12px 16px;
-  color: var(--color-text-primary);
-  border-bottom: 0.5px solid var(--color-border-tertiary);
+.od-table td {
+  padding: 14px 18px;
+  color: #3a2a0a;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.12);
   vertical-align: middle;
 }
 
-tbody tr:last-child td {
+.od-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-tbody tr {
-  transition: background 0.1s;
-  &:hover td { background: var(--color-background-secondary); }
+.od-table tbody tr {
+  transition: background var(--od-transition);
+
+  &:hover td {
+    background: rgba(201, 168, 76, 0.06);
+  }
 }
 
-// ── Cell variants ─────────────────────────────────────────────────────────
-.row-index {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  font-family: var(--font-mono, monospace);
-  width: 36px;
+// ── Cell variants ─────────────────────────────────────────────────────────────
+.od-row-index {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.8rem;
+  color: #a89060;
+  width: 50px;
 }
 
-.material-name {
-  font-weight: 500;
+.od-material-name {
+  font-weight: 600;
+  color: #2a1f0a;
 }
 
-.unit-cell {
-  font-size: 12px;
-  color: var(--color-text-secondary);
+.od-unit-cell {
+  font-size: 0.8rem;
+  color: #a89060;
 }
 
-.qty-badge {
+.od-qty-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 28px;
-  height: 24px;
-  padding: 0 8px;
-  background: var(--color-background-secondary);
-  border-radius: var(--border-radius-md, 8px);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
+  min-width: 30px;
+  height: 26px;
+  padding: 0 9px;
+  background: rgba(201, 168, 76, 0.1);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6a4a00;
 }
 
-.price-cell {
-  color: var(--color-text-secondary);
-  font-size: 13px;
+.od-price-cell {
+  color: #a89060;
+  font-size: 0.84rem;
 }
 
-.total-cell {
-  font-weight: 500;
+.od-total-cell {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  color: #2a1f0a;
 }
 
-// ── Footer row ────────────────────────────────────────────────────────────
-tfoot tr {
-  background: var(--color-background-secondary);
+// ── Footer row ─────────────────────────────────────────────────────────────────
+.od-table tfoot tr {
+  background: rgba(201, 168, 76, 0.08);
 }
 
-.foot-label {
-  font-size: 12px;
-  font-weight: 500;
+.od-foot-label {
+  font-size: 0.76rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--color-text-secondary);
-  border-top: 0.5px solid var(--color-border-tertiary);
+  color: #8a6010;
+  border-top: 1px solid rgba(201, 168, 76, 0.22);
   text-align: right;
 }
 
-.foot-total {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  border-top: 0.5px solid var(--color-border-tertiary);
+.od-foot-total {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2a1f0a;
+  border-top: 1px solid rgba(201, 168, 76, 0.22);
 }
 
-// ── Status badges ─────────────────────────────────────────────────────────
-.badge {
+// ── Status / Payment badges — pill with pulsing dot ──────────────────────────
+.od-badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.5;
-
-  i { font-size: 11px; }
-
-  &.badge-pending    { background: #faeeda; color: #854f0b; }
-  &.badge-processing { background: #e6f1fb; color: #185fa5; }
-  &.badge-delivered  { background: #eaf3de; color: #3b6d11; }
-  &.badge-cancelled  { background: #fcebeb; color: #a32d2d; }
-  &.badge-unpaid     { background: #faeeda; color: #854f0b; }
-  &.badge-paid       { background: #eaf3de; color: #3b6d11; }
+  gap: 0.35rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  white-space: nowrap;
 }
 
-// ── Loading state ─────────────────────────────────────────────────────────
-.loading-state {
+.od-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: od-dot-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes od-dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(0.8); }
+}
+
+// status: 0 = Pending
+.od-badge[data-status='0'] {
+  background: var(--od-amber-bg);
+  color: #b45309;
+  border-color: rgba(245, 158, 11, 0.28);
+
+  .od-badge__dot { background: var(--od-amber); }
+}
+
+// status: 1 = Processing
+.od-badge[data-status='1'] {
+  background: var(--od-blue-bg);
+  color: #1d4ed8;
+  border-color: rgba(59, 130, 246, 0.28);
+
+  .od-badge__dot { background: var(--od-blue); }
+}
+
+// status: 2 = Delivered
+.od-badge[data-status='2'] {
+  background: var(--od-green-bg);
+  color: #047857;
+  border-color: rgba(16, 185, 129, 0.28);
+
+  .od-badge__dot { background: var(--od-green); }
+}
+
+// status: 3 = Cancelled
+.od-badge[data-status='3'] {
+  background: var(--od-red-bg);
+  color: #b91c1c;
+  border-color: rgba(239, 68, 68, 0.28);
+
+  .od-badge__dot { background: var(--od-red); animation: none; opacity: 0.6; }
+}
+
+// payment: 0 = Unpaid
+.od-badge[data-payment='0'] {
+  background: var(--od-red-bg);
+  color: #b91c1c;
+  border-color: rgba(239, 68, 68, 0.28);
+}
+
+// payment: 1 = Paid
+.od-badge[data-payment='1'] {
+  background: var(--od-green-bg);
+  color: #047857;
+  border-color: rgba(16, 185, 129, 0.28);
+}
+
+// ── Pay button ────────────────────────────────────────────────────────────────
+.btn-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all var(--od-transition);
+  font-family: inherit;
+  line-height: 1;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--od-gold) 0%, var(--od-gold-light) 100%);
+  color: #2a1800;
+  box-shadow: 0 2px 12px rgba(201, 168, 76, 0.38);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(201, 168, 76, 0.5);
+    filter: brightness(1.04);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.od-pay-btn {
+  font-size: 0.8rem;
+}
+
+.od-btn-spinner {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border: 2px solid rgba(42, 24, 0, 0.25);
+  border-top-color: #2a1800;
+  border-radius: 50%;
+  animation: od-spin 0.7s linear infinite;
+}
+
+@keyframes od-spin {
+  to { transform: rotate(360deg); }
+}
+
+// ── Loading state ─────────────────────────────────────────────────────────────
+.od-loading-state {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 3rem 0;
-  font-size: 14px;
-  color: var(--color-text-secondary);
-
-  i {
-    font-size: 18px;
-    animation: spin 1s linear infinite;
-  }
+  font-size: 0.9rem;
+  color: #a89060;
+  justify-content: center;
 }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+.od-spin {
+  animation: od-spin 1s linear infinite;
+}
+
+// ── Responsive ──────────────────────────────────────────────────────────────
+@media (max-width: 600px) {
+  .od-card {
+    padding: 1.25rem;
+  }
+
+  .od-header-row {
+    flex-direction: column;
+  }
+
+  .od-header-badges {
+    width: 100%;
+  }
+
+  .od-order-id {
+    font-size: 1.25rem;
+  }
 }

@@ -5,6 +5,7 @@ import { ProfileData } from '../../../core/interfaces/i-setting';
 import { Subscription } from 'rxjs';
 import { OwnerSettingService } from '../../../core/services/owner-setting.service';
 import { Toast, ToastrService } from 'ngx-toastr';
+import { environment } from '../../../../../core/environment/envirinment';
 
 @Component({
   selector: 'app-setting-main',
@@ -59,8 +60,7 @@ export class SettingMainComponent implements OnInit {  // ✅ implements OnInit
 
         // ✅ show existing profile photo
         if (res.data.profilePhotoUrl) {
-  this.profilePreview =
-    'https://backtalentree.runasp.net' + res.data.profilePhotoUrl;
+          this.profilePreview = environment.AzureUrl + res.data.profilePhotoUrl;
 }
       },
       error: (err) => console.error(err)

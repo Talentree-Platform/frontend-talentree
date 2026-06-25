@@ -11,6 +11,17 @@
     </div>
   }
 
+  <!-- ── PAYMENT MODAL ──────────────────────────────────────────────────── -->
+  @if(showPaymentModal && paymentIntentData) {
+    <app-payment-modal
+      [stripePublishableKey]="stripePublishableKey"
+      [intentData]="paymentIntentData"
+      [amountDisplay]="formatPaymentAmount(paymentIntentData)"
+      (closed)="closePayment()"
+      (succeeded)="onPaymentSucceeded()"
+    />
+  }
+
   <!-- ── CANCEL DIALOG ──────────────────────────────────────────────────── -->
   @if(showCancelDialog) {
     <div class="pr-overlay" (click)="closeCancelDialog()">
@@ -142,7 +153,7 @@
   <!-- ── MAIN CONTENT ────────────────────────────────────────────────────── -->
   @if(!loading && !error && request) {
 
-    <!-- HERO: title, meta, metrics only ──────────────────────────────────── -->
+    <!-- HERO ──────────────────────────────────────────────────────────────── -->
     <section class="prd-hero">
       <div class="prd-hero__blob prd-hero__blob--1"></div>
       <div class="prd-hero__blob prd-hero__blob--2"></div>
@@ -186,7 +197,7 @@
       </div>
     </section>
 
-    <!-- ACTION BAR: back + status + action buttons ────────────────────────── -->
+    <!-- ACTION BAR ─────────────────────────────────────────────────────────── -->
     <div class="prd-action-bar">
       <div class="prd-action-bar__left">
         <button class="prd-btn prd-btn--back" onclick="history.back()">
@@ -228,6 +239,76 @@
         </button>
       </div>
     </div>
+
+    <!-- ── PAYMENT SECTION ──────────────────────────────────────────────── -->
+    @if(showPaymentSection) {
+      <section class="prd-section">
+        <div class="pmt-section-card">
+          <div class="pmt-section-card__strip"></div>
+
+          <div class="pmt-section__header">
+            <div class="pmt-section__icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="pmt-section__title">Payment</h2>
+              <p class="pmt-section__subtitle">Complete your payment to proceed with production</p>
+            </div>
+          </div>
+
+          <div class="pmt-section__body">
+            <div class="pmt-price-display">
+              <span class="pmt-price-label">Quoted Price</span>
+              <span class="pmt-price-amount">{{ formatCurrency(request.quotedPrice, 'EGP') }}</span>
+            </div>
+
+            <!-- Inline payment error (from createIntent) -->
+            @if(paymentError) {
+              <div class="pmt-section-error">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                {{ paymentError }}
+              </div>
+            }
+
+            <button
+              class="prd-btn pmt-pay-btn"
+              [disabled]="paymentLoading"
+              (click)="openPayment()"
+            >
+              @if(paymentLoading) {
+                <span class="prd-btn-spinner"></span>
+                Preparing…
+              } @else {
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                  <line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+                Pay Now
+              }
+            </button>
+          </div>
+
+          <p class="pmt-section__secure">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Secured by Stripe
+          </p>
+        </div>
+      </section>
+    }
 
     <!-- DETAILS CARD ──────────────────────────────────────────────────────── -->
     <section class="prd-section">
@@ -275,7 +356,6 @@
           </div>
         </div>
 
-        <!-- Notes -->
         @if(request.notes) {
           <div class="prd-notes-block">
             <div class="prd-notes-label">

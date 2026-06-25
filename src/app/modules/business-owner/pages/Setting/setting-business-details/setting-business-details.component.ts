@@ -2,6 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { OwnerSettingService } from '../../../core/services/owner-setting.service';
+import { environment } from '../../../../../core/environment/envirinment';
 
 @Component({
   selector: 'app-setting-business-details',
@@ -24,7 +25,7 @@ export class SettingBusinessDetailsComponent implements OnInit {
   logoFile?: File;
   logoPreview: string | null = null;
 
-  private baseUrl = 'https://backtalentree.runasp.net';
+  private baseUrl = environment.AzureUrl;
   private readonly _ToastrService=inject(ToastrService)
 
   constructor(
@@ -39,7 +40,6 @@ export class SettingBusinessDetailsComponent implements OnInit {
   loadData() {
     this.service.getCurrentProfile().subscribe({
       next: (res) => {
-
         this.businessForm.patchValue({
           businessName: res.data.businessName,
           address: res.data.businessAddress,
@@ -47,6 +47,7 @@ export class SettingBusinessDetailsComponent implements OnInit {
           facebook: res.data.facebookLink,
           instagram: res.data.instagramLink,
           description: res.data.businessDescription
+          
         });
 
         // ✅ show logo
