@@ -1,0 +1,168 @@
+<aside class="filter-sidebar">
+
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <div class="sidebar__header">
+    <div class="sidebar__title-row">
+      <svg class="sidebar__title-icon" viewBox="0 0 20 20" fill="none">
+        <path d="M3 5h14M6 10h8M9 15h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <h2 class="sidebar__title">Filters</h2>
+      @if (activeFiltersCount() > 0) {
+        <span class="sidebar__badge">{{ activeFiltersCount() }}</span>
+      }
+    </div>
+    <div class="sidebar__header-actions">
+      @if (activeFiltersCount() > 0) {
+        <button class="sidebar__reset-all" (click)="resetAll()">Clear all</button>
+      }
+      <button class="sidebar__close" (click)="close()" aria-label="Close filters">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar__body">
+
+    <!-- ── Sort By ──────────────────────────────────────────────────────── -->
+    <div class="filter-section" [class.filter-section--collapsed]="!sortExpanded()">
+      <button class="section__toggle" (click)="toggleSort()">
+        <span class="section__label">Sort By</span>
+        <svg class="section__chevron" viewBox="0 0 16 16" fill="none">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      @if (sortExpanded()) {
+        <div class="section__content">
+          @for (opt of sortOptions; track opt.value) {
+            <button
+              class="sort-option"
+              [class.sort-option--active]="svc.filters().sortBy === opt.value"
+              (click)="setSort(opt.value)"
+            >
+              <span class="sort-option__dot"></span>
+              <span>{{ opt.label }}</span>
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="sidebar__divider"></div>
+
+    <!-- ── Categories ───────────────────────────────────────────────────── -->
+    <div class="filter-section" [class.filter-section--collapsed]="!catExpanded()">
+      <button class="section__toggle" (click)="toggleCat()">
+        <span class="section__label">Category</span>
+        <svg class="section__chevron" viewBox="0 0 16 16" fill="none">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      @if (catExpanded()) {
+        <div class="section__content">
+          @for (cat of categories(); track cat.id) {
+            <button
+              class="filter-option"
+              [class.filter-option--active]="svc.filters().categoryId === cat.id"
+              (click)="toggleCategory(cat.id)"
+            >
+              <span class="filter-option__check">
+                @if (svc.filters().categoryId === cat.id) {
+                  <svg viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                }
+              </span>
+              <span class="filter-option__name">{{ cat.name }}</span>
+              @if (cat.productCount != null) {
+                <span class="filter-option__count">{{ cat.productCount }}</span>
+              }
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="sidebar__divider"></div>
+
+    <!-- ── Brands ────────────────────────────────────────────────────────── -->
+    <div class="filter-section" [class.filter-section--collapsed]="!brandExpanded()">
+      <button class="section__toggle" (click)="toggleBrandSection()">
+        <span class="section__label">Brand</span>
+        <svg class="section__chevron" viewBox="0 0 16 16" fill="none">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      @if (brandExpanded()) {
+        <div class="section__content">
+          @for (brand of brands(); track brand.id) {
+            <button
+              class="filter-option"
+              [class.filter-option--active]="svc.filters().brandId === brand.id"
+              (click)="toggleBrand(brand.id)"
+            >
+              <span class="filter-option__check">
+                @if (svc.filters().brandId === brand.id) {
+                  <svg viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                }
+              </span>
+              <span class="filter-option__name">{{ brand.name }}</span>
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="sidebar__divider"></div>
+
+    <!-- ── Price Range ───────────────────────────────────────────────────── -->
+    <div class="filter-section" [class.filter-section--collapsed]="!priceExpanded()">
+      <button class="section__toggle" (click)="togglePrice()">
+        <span class="section__label">Price Range <small>(EGP)</small></span>
+        <svg class="section__chevron" viewBox="0 0 16 16" fill="none">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      @if (priceExpanded()) {
+        <div class="section__content">
+          <div class="price-inputs">
+            <div class="price-field">
+              <label class="price-label">Min</label>
+              <input
+                type="number"
+                class="price-input"
+                placeholder="0"
+                [ngModel]="localMinPrice()"
+                (ngModelChange)="setLocalMinPrice($event)"
+                min="0"
+              />
+            </div>
+            <div class="price-separator">—</div>
+            <div class="price-field">
+              <label class="price-label">Max</label>
+              <input
+                type="number"
+                class="price-input"
+                placeholder="Any"
+                [ngModel]="localMaxPrice()"
+                (ngModelChange)="setLocalMaxPrice($event)"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div class="price-actions">
+            <button class="btn-price-apply" (click)="applyPrice()">Apply</button>
+            @if (svc.filters().minPrice != null || svc.filters().maxPrice != null) {
+              <button class="btn-price-clear" (click)="clearPrice()">Clear</button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+  </div><!-- /sidebar__body -->
+</aside>

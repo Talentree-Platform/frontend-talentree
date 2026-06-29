@@ -1,137 +1,285 @@
-<div class="page">
+<div class="settings-root">
 
-  <header class="page-header pb-1">
-    <h2 class="text-center text-gold">Security & Privacy</h2>
-    <p class="text-center">Manage your password, sessions, and login activity.</p>
-  </header>
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section class="hero">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
 
-  <!-- ================= CHANGE PASSWORD ================= -->
-  <section class="card">
+    <div class="hero-copy">
+      <span class="hero-badge">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" stroke="#C9A84C" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="2" fill="#C9A84C"/>
+        </svg>
+        Security &amp; Privacy
+      </span>
+      <h1 class="hero-title">Your Account,<br><em>Safe &amp; Secure</em></h1>
+      <p class="hero-sub">
+        Manage your password, monitor active sessions, and review
+        login activity to keep your account protected.
+      </p>
+    </div>
 
-    <h5 class="text-burgandy">Change Password</h5>
+    <div class="hero-visual">
+      <div class="hero-icon-frame">
+        <svg width="62" height="62" viewBox="0 0 62 62" fill="none">
+          <path d="M31 8l20 8v14c0 11-9 20-20 24C20 50 11 41 11 30V16l20-8z"
+            stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"
+            fill="rgba(201,168,76,.07)"/>
+          <path d="M23 31l5 5 11-11"
+            stroke="#C9A84C" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
 
-    <form class="form-grid" [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+
+  <!-- ═══════════════════════ CHANGE PASSWORD ═══════════════════════ -->
+  <section class="profile-card">
+
+    <div class="card-header">
+      <div class="card-header-text">
+        <h2 class="card-title">Change Password</h2>
+        <p class="card-sub">Choose a strong password and don't reuse it for other accounts.</p>
+      </div>
+      <div class="card-header-line"></div>
+    </div>
+
+    <div class="section-divider"><span>Password Update</span></div>
+
+    <form class="pf-form" [formGroup]="passwordForm" (ngSubmit)="changePassword()">
 
       <!-- Current Password -->
-      <label class="field full">
-        <span>Current Password</span>
+      <div class="form-row full-row">
+        <div class="field-wrap">
+          <div class="input-shell"
+            [class.focused]="curFocus"
+            [class.filled]="passwordForm.get('currentPassword')?.value"
+            [class.error]="passwordForm.get('currentPassword')?.touched && passwordForm.get('currentPassword')?.hasError('required')">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+            <input
+              class="pf-input"
+              [type]="showCurrentPassword ? 'text' : 'password'"
+              formControlName="currentPassword"
+              id="currentPassword"
+              placeholder=" "
+              (focus)="curFocus=true"
+              (blur)="curFocus=false"
+            />
+            <label class="float-label" for="currentPassword">Current Password</label>
+            <button type="button" class="eye-btn" (click)="toggleCurrentPassword()" tabindex="-1">
+              <svg *ngIf="!showCurrentPassword" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg *ngIf="showCurrentPassword" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error"
+            *ngIf="passwordForm.get('currentPassword')?.touched && passwordForm.get('currentPassword')?.hasError('required')">
+            Current password is required
+          </span>
+        </div>
+      </div>
 
-        <div class="password-wrapper">
-          <input
-            class="input-main "
-            [type]="showCurrentPassword ? 'text' : 'password'"
-            formControlName="currentPassword"
-          />
+      <!-- New Password + Confirm — two columns -->
+      <div class="form-row">
 
-          <span class="toggle-icon" (click)="toggleCurrentPassword()">
-            {{ showCurrentPassword ? '🙈' : '👁️' }}
+        <!-- New Password -->
+        <div class="field-wrap">
+          <div class="input-shell"
+            [class.focused]="newFocus"
+            [class.filled]="passwordForm.get('newPassword')?.value"
+            [class.error]="passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.invalid">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </span>
+            <input
+              class="pf-input"
+              [type]="showNewPassword ? 'text' : 'password'"
+              formControlName="newPassword"
+              id="newPassword"
+              placeholder=" "
+              (focus)="newFocus=true"
+              (blur)="newFocus=false"
+            />
+            <label class="float-label" for="newPassword">New Password</label>
+            <button type="button" class="eye-btn" (click)="toggleNewPassword()" tabindex="-1">
+              <svg *ngIf="!showNewPassword" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg *ngIf="showNewPassword" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error"
+            *ngIf="passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.hasError('required')">
+            New password is required
+          </span>
+          <span class="field-error"
+            *ngIf="passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.hasError('minlength')">
+            Password must be at least 8 characters
           </span>
         </div>
 
-        @if (passwordForm.get('currentPassword')?.touched &&
-             passwordForm.get('currentPassword')?.hasError('required')) {
-          <small class="error text-danger">Current password is required</small>}
-
-      </label>
-
-      <!-- New Password -->
-      <label class="field full">
-        <span>New Password</span>
-
-        <div class="password-wrapper">
-          <input
-            class="input-main"
-            [type]="showNewPassword ? 'text' : 'password'"
-            formControlName="newPassword"
-          />
-
-          <span class="toggle-icon" (click)="toggleNewPassword()">
-            {{ showNewPassword ? '🙈' : '👁️' }}
+        <!-- Confirm Password -->
+        <div class="field-wrap">
+          <div class="input-shell"
+            [class.focused]="confFocus"
+            [class.filled]="passwordForm.get('confirmNewPassword')?.value"
+            [class.error]="passwordForm.touched && passwordForm.errors?.['mismatch']">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </span>
+            <input
+              class="pf-input"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              formControlName="confirmNewPassword"
+              id="confirmNewPassword"
+              placeholder=" "
+              (focus)="confFocus=true"
+              (blur)="confFocus=false"
+            />
+            <label class="float-label" for="confirmNewPassword">Confirm New Password</label>
+            <button type="button" class="eye-btn" (click)="toggleConfirmPassword()" tabindex="-1">
+              <svg *ngIf="!showConfirmPassword" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg *ngIf="showConfirmPassword" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error"
+            *ngIf="passwordForm.touched && passwordForm.errors?.['mismatch']">
+            Passwords do not match
           </span>
         </div>
 
-        @if (passwordForm.get('newPassword')?.touched &&
-             passwordForm.get('newPassword')?.hasError('required')) {
-          <small class="error text-danger">New password is required</small>
-        }
+      </div>
 
-        @if (passwordForm.get('newPassword')?.touched &&
-             passwordForm.get('newPassword')?.hasError('minlength')) {
-          <small class="error text-danger">Password must be at least 8 characters</small>
-        }
+      <!-- Strength hint -->
+      <p class="field-hint" *ngIf="passwordForm.get('newPassword')?.value">
+        Use 8+ characters, mixing letters, numbers, and symbols for a stronger password.
+      </p>
 
-      </label>
-
-      <!-- Confirm Password -->
-      <label class="field full">
-        <span>Confirm New Password</span>
-
-        <div class="password-wrapper">
-          <input
-            class="input-main"
-            [type]="showConfirmPassword ? 'text' : 'password'"
-            formControlName="confirmNewPassword"
-          />
-
-          <span class="toggle-icon" (click)="toggleConfirmPassword()">
-            {{ showConfirmPassword ? '🙈' : '👁️' }}
+      <!-- Submit -->
+      <div class="form-actions">
+        <button type="submit" class="save-btn"
+          [class.loading]="isChangingPassword"
+          [disabled]="passwordForm.invalid || !!passwordForm.errors?.['mismatch'] || isChangingPassword">
+          <span class="save-btn-inner">
+            <svg *ngIf="!isChangingPassword" width="15" height="15" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span class="btn-spinner" *ngIf="isChangingPassword"></span>
+            {{ isChangingPassword ? 'Updating…' : 'Update Password' }}
           </span>
-        </div>
-
-      </label>
-
-      <!-- Mismatch Error -->
-      @if (passwordForm.touched && passwordForm.errors?.['mismatch']) {
-        <small class="error text-danger">
-          Password and Confirm Password do not match
-        </small>
-      }
-
-      <div class="actions-row">
-        <button
-  type="submit"
-  class="btn-main btn-burgandy w-50"
-  [disabled]="passwordForm.invalid || passwordForm.errors?.['mismatch']">
-
-  Update Password
-</button>
+        </button>
       </div>
 
     </form>
   </section>
 
-  <!-- ================= REVOKE SESSIONS ================= -->
-  <section class="card mt-3">
 
-    <h5 class="text-burgandy">Active Sessions</h5>
-    <p class="hint">
-  Logout from all other devices except this one.
-</p>
+  <!-- ═══════════════════════ ACTIVE SESSIONS ═══════════════════════ -->
+  <section class="profile-card">
 
-<button class="btn-main btn-gold w-50" (click)="revokeSessions()">
-  Revoke Other Sessions
-</button>
+    <div class="card-header">
+      <div class="card-header-text">
+        <h2 class="card-title">Active Sessions</h2>
+        <p class="card-sub">Log out from all other devices except this one.</p>
+      </div>
+      <div class="card-header-line"></div>
+    </div>
 
-   
+    <div class="session-banner">
+      <div class="session-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+      </div>
+      <div class="session-text">
+        <p class="session-title">You're currently signed in on this device</p>
+        <p class="session-sub">Revoking other sessions will sign you out everywhere else.</p>
+      </div>
+      <button class="revoke-btn" (click)="revokeSessions()" [disabled]="isRevoking">
+        <svg *ngIf="!isRevoking" width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span class="btn-spinner sm" *ngIf="isRevoking"></span>
+        {{ isRevoking ? 'Revoking…' : 'Revoke Other Sessions' }}
+      </button>
+    </div>
+
   </section>
 
-  <!-- ================= LOGIN HISTORY ================= -->
-  <section class="card mt-3">
 
-    <h5 class="text-burgandy">Login History</h5>
+  <!-- ═══════════════════════ LOGIN HISTORY ═══════════════════════ -->
+  <section class="profile-card">
 
-    <div class="table-responsive mt-2">
-      <table class="table">
+    <div class="card-header">
+      <div class="card-header-text">
+        <h2 class="card-title">Login History</h2>
+        <p class="card-sub">Review recent access to your account across devices and locations.</p>
+      </div>
+      <div class="card-header-line"></div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
         <thead>
           <tr>
-            <th>IP</th>
+            <th>IP Address</th>
             <th>Device</th>
             <th>Location</th>
             <th>Date</th>
             <th>Status</th>
           </tr>
         </thead>
-
         <tbody>
           @for (item of loginHistory; track item.loginAt) {
             <tr>
@@ -140,16 +288,22 @@
               <td>{{ item.location }}</td>
               <td>{{ item.loginAt | date:'short' }}</td>
               <td>
-                <span
-                  [class.text-success]="item.isSuccessful"
-                  [class.text-danger]="!item.isSuccessful">
+                <span class="status-pill"
+                  [class.success]="item.isSuccessful"
+                  [class.failed]="!item.isSuccessful">
+                  <span class="status-dot"></span>
                   {{ item.isSuccessful ? 'Success' : 'Failed' }}
                 </span>
               </td>
             </tr>
           }
-        </tbody>
 
+          @if (loginHistory.length === 0) {
+            <tr>
+              <td colspan="5" class="empty-row">No login history available.</td>
+            </tr>
+          }
+        </tbody>
       </table>
     </div>
 

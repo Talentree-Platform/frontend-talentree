@@ -1,0 +1,251 @@
+<!-- ════════════════════════════════════════════════════════════
+     CUSTOMER PRODUCT DETAILS — matches Home + Catalogue visual language
+     Field names match the real API response (imageUrls, avgRating, etc.)
+     ════════════════════════════════════════════════════════════ -->
+
+<div class="pd-page">
+  <div class="pd-container">
+
+    <!-- ═══ BREADCRUMB ═══ -->
+    <nav class="pd-breadcrumb" aria-label="Breadcrumb">
+      <a routerLink="/marketplace" class="pd-breadcrumb__link">Marketplace</a>
+      <span class="pd-breadcrumb__sep">/</span>
+      @if (product()) {
+        <a
+          [routerLink]="['/marketplace/category', product()!.categoryId]"
+          class="pd-breadcrumb__link"
+        >
+          {{ product()!.categoryName }}
+        </a>
+        <span class="pd-breadcrumb__sep">/</span>
+        <span class="pd-breadcrumb__current">{{ product()!.name }}</span>
+      } @else {
+        <span class="pd-breadcrumb__current pd-breadcrumb__current--skeleton"></span>
+      }
+    </nav>
+
+    <!-- ═══ ERROR STATE ═══ -->
+    @if (error() && !loading()) {
+      <div class="pd-state pd-state--error">
+        <div class="pd-state__icon" aria-hidden="true">⚠</div>
+        <h2 class="pd-state__title">Something went wrong</h2>
+        <p class="pd-state__message">{{ error() }}</p>
+        <button type="button" class="pd-btn pd-btn--primary" (click)="retryLoad()">
+          Try again
+        </button>
+      </div>
+    }
+
+    <!-- ═══ SKELETON LOADING STATE ═══ -->
+    @if (loading()) {
+      <div class="pd-hero">
+        <div class="pd-gallery">
+          <div class="pd-skeleton pd-skeleton--main"></div>
+          <div class="pd-skeleton-row">
+            <div class="pd-skeleton pd-skeleton--thumb"></div>
+            <div class="pd-skeleton pd-skeleton--thumb"></div>
+            <div class="pd-skeleton pd-skeleton--thumb"></div>
+            <div class="pd-skeleton pd-skeleton--thumb"></div>
+          </div>
+        </div>
+        <div class="pd-info">
+          <div class="pd-skeleton pd-skeleton--chip"></div>
+          <div class="pd-skeleton pd-skeleton--title"></div>
+          <div class="pd-skeleton pd-skeleton--line"></div>
+          <div class="pd-skeleton pd-skeleton--price"></div>
+          <div class="pd-skeleton pd-skeleton--cta"></div>
+        </div>
+      </div>
+    }
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    @if (product() && !loading() && !error()) {
+      <div class="pd-hero">
+
+        <!-- ── GALLERY ── -->
+        <div class="pd-gallery">
+          <div class="pd-gallery__main">
+            @if (selectedImage()) {
+              <img
+                [src]="selectedImage()!"
+                [alt]="product()!.name"
+                class="pd-gallery__image"
+              />
+            } @else {
+              <div class="pd-gallery__placeholder">No image available</div>
+            }
+          </div>
+
+          @if (product()!.imageUrls.length > 1) {
+            <div class="pd-gallery__thumbs">
+              @for (url of product()!.imageUrls; track url; let i = $index) {
+                <button
+                  type="button"
+                  class="pd-gallery__thumb"
+                  [class.pd-gallery__thumb--active]="i === selectedImageIndex()"
+                  (click)="selectImage(i)"
+                  [attr.aria-label]="'View image ' + (i + 1)"
+                >
+                  <img [src]="url" [alt]="product()!.name + ' image ' + (i + 1)" />
+                </button>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- ── PRODUCT INFO ── -->
+        <div class="pd-info">
+          <span class="pd-chip">{{ product()!.categoryName }}</span>
+
+          <h1 class="pd-title">{{ product()!.name }}</h1>
+
+          @if (product()!.brandName) {
+            <div class="pd-meta-line">
+              <span class="pd-meta-line__brand">{{ product()!.brandName }}</span>
+            </div>
+          }
+
+          <div class="pd-rating">
+            <span class="pd-rating__stars" aria-hidden="true">
+              @for (star of [1, 2, 3, 4, 5]; track star) {
+                <span
+                  class="pd-rating__star"
+                  [class.pd-rating__star--filled]="star <= product()!.avgRating"
+                >★</span>
+              }
+            </span>
+            <span class="pd-rating__value">{{ product()!.avgRating.toFixed(1) }}</span>
+          </div>
+
+          <div class="pd-price-row">
+            <span class="pd-price">{{ product()!.price.toFixed(2) }} EGP</span>
+          </div>
+
+          <div class="pd-stock-row">
+            @if (isInStock()) {
+              <span class="pd-stock pd-stock--in">In stock ({{ product()!.stockQuantity }} available)</span>
+            } @else {
+              <span class="pd-stock pd-stock--out">Out of stock</span>
+            }
+          </div>
+
+          <!-- ── QUANTITY STEPPER ── -->
+          <div class="pd-quantity">
+            <span class="pd-quantity__label">Quantity</span>
+            <div class="pd-quantity__control">
+              <button
+                type="button"
+                class="pd-quantity__btn"
+                [disabled]="isAtMinQuantity()"
+                (click)="decrementQuantity()"
+                aria-label="Decrease quantity"
+              >−</button>
+              <span class="pd-quantity__value">{{ quantity() }}</span>
+              <button
+                type="button"
+                class="pd-quantity__btn"
+                [disabled]="isAtMaxQuantity()"
+                (click)="incrementQuantity()"
+                aria-label="Increase quantity"
+              >+</button>
+            </div>
+          </div>
+
+          <!-- ── CTAs ── -->
+          <div class="pd-cta-row">
+            <button
+              type="button"
+              class="pd-btn pd-btn--outline"
+              [disabled]="!isInStock()"
+              (click)="addToCart()"
+            >
+              Add to Cart
+            </button>
+            <button
+              type="button"
+              class="pd-btn pd-btn--primary"
+              [disabled]="!isInStock()"
+              (click)="buyNow()"
+            >
+              Buy Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ TRUST META BAR ═══ -->
+      <div class="pd-trust-bar">
+        <div class="pd-trust-item">
+          <span class="pd-trust-item__icon" aria-hidden="true">✔</span>
+          <span>Quality Checked</span>
+        </div>
+        <div class="pd-trust-item">
+          <span class="pd-trust-item__icon" aria-hidden="true">🚚</span>
+          <span>Fast Delivery</span>
+        </div>
+        <div class="pd-trust-item">
+          <span class="pd-trust-item__icon" aria-hidden="true">🔒</span>
+          <span>Secure Payment</span>
+        </div>
+        <div class="pd-trust-item">
+          <span class="pd-trust-item__icon" aria-hidden="true">⭐</span>
+          <span>Quality Assured</span>
+        </div>
+      </div>
+
+      <!-- ═══ DESCRIPTION / TAGS ═══ -->
+      <div class="pd-tabs">
+        <div class="pd-tabs__nav" role="tablist">
+          <button
+            type="button"
+            class="pd-tabs__tab"
+            [class.pd-tabs__tab--active]="activeTab() === 'description'"
+            (click)="setTab('description')"
+            role="tab"
+          >
+            Description
+          </button>
+          @if (product()!.tags) {
+            <button
+              type="button"
+              class="pd-tabs__tab"
+              [class.pd-tabs__tab--active]="activeTab() === 'specifications'"
+              (click)="setTab('specifications')"
+              role="tab"
+            >
+              Tags
+            </button>
+          }
+        </div>
+
+        <div class="pd-tabs__panel">
+          @switch (activeTab()) {
+            @case ('description') {
+              <p class="pd-tabs__text">{{ product()!.description }}</p>
+            }
+            @case ('specifications') {
+              <div class="pd-tags">
+                @for (tag of product()!.tags.split(','); track tag) {
+                  <span class="pd-chip pd-chip--tag">{{ tag.trim() }}</span>
+                }
+              </div>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- ═══ RELATED PRODUCTS ═══ -->
+      @if (relatedProducts().length > 0) {
+        <section class="pd-related">
+          <h2 class="pd-related__title">You may also like</h2>
+          <div class="pd-related__grid">
+            @for (related of relatedProducts(); track related.id) {
+              <app-customer-product-card [product]="related" />
+            }
+          </div>
+        </section>
+      }
+    }
+
+  </div>
+</div>

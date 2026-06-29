@@ -1,0 +1,69 @@
+<!-- ═══════════════════════════════════════════════════════
+     TALENTREE · Payment Modal
+     ═══════════════════════════════════════════════════════ -->
+
+<div class="co-modal-overlay" (click)="close()">
+  <div class="co-modal" (click)="$event.stopPropagation()">
+
+    @if (phase() !== 'success') {
+      <button class="co-modal-close" (click)="close()" [disabled]="phase() === 'processing'" aria-label="Close">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    }
+
+    @if (phase() === 'loading') {
+      <div class="co-modal-state">
+        <div class="co-spinner co-spinner--lg"></div>
+        <p>Preparing secure payment…</p>
+      </div>
+    } @else if (phase() === 'success') {
+      <div class="co-modal-state co-modal-state--success">
+        <div class="co-success-icon">
+          <svg viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="30" r="28" stroke="#27A06B" stroke-width="2"/>
+            <path d="M19 31l8 8 16-18" stroke="#27A06B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Payment Successful</h3>
+        <p>Your order is confirmed.</p>
+      </div>
+    } @else {
+      <h3 class="co-modal-title">Complete Payment</h3>
+
+      <div class="co-modal-amount">
+        <span>Amount Due</span>
+        <span class="co-modal-amount__value">{{ amount | number:'1.2-2' }} {{ currency }}</span>
+      </div>
+
+      <div class="co-card-field">
+        <label>Card Details</label>
+        <div #cardElementRef class="co-stripe-element"></div>
+      </div>
+
+      @if (phase() === 'error' && errorMessage()) {
+        <div class="co-form-error">{{ errorMessage() }}</div>
+      }
+
+      <button
+        class="btn-primary co-pay-btn"
+        [disabled]="phase() === 'processing'"
+        (click)="phase() === 'error' ? retry() : confirmPayment()"
+      >
+        @if (phase() === 'processing') {
+          <span class="co-spinner"></span>
+          <span>Processing…</span>
+        } @else if (phase() === 'error') {
+          <span>Try Again</span>
+        } @else {
+          <span>Pay {{ amount | number:'1.2-2' }} {{ currency }}</span>
+          <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        }
+      </button>
+
+      <p class="co-secure-note">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Payments are encrypted and processed securely by Stripe.
+      </p>
+    }
+  </div>
+</div>

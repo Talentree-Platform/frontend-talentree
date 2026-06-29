@@ -1,0 +1,720 @@
+// ════════════════════════════════════════════════════════════
+// CUSTOMER PRODUCT DETAILS
+// Extends the existing Talentree design system — no new tokens.
+// If your project already has a global @use 'tokens' or similar,
+// replace this local $map with that import instead of duplicating.
+// ════════════════════════════════════════════════════════════
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+$gold:        #B8860B;
+$gold-light:  #C9952A;
+$gold-pale:   #FBF3E2;
+$gold-border: #E8D5A3;
+$bg-main:     #FDFAF4;
+$text-dark:   #18130A;
+$text-mid:    #5C5244;
+$text-soft:   #A09280;
+$danger:      #D94040;
+
+$font-heading: 'Cormorant Garamond', serif;
+$font-body:    'DM Sans', sans-serif;
+
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$shadow-soft: 0 4px 20px rgba(24, 19, 10, 0.06);
+$shadow-lift: 0 8px 28px rgba(24, 19, 10, 0.1);
+
+$bp-lg: 1100px;
+$bp-md: 900px;
+$bp-sm: 600px;
+
+// ── Page shell ──
+
+.pd-page {
+  background: $bg-main;
+  font-family: $font-body;
+  color: $text-dark;
+  min-height: 100vh;
+}
+
+.pd-container {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  padding-block: 32px 64px;
+
+  @media (max-width: $bp-sm) {
+    padding-inline: 16px;
+    padding-block: 20px 48px;
+  }
+}
+
+// ── Breadcrumb ──
+
+.pd-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: $font-body;
+  font-size: 14px;
+  margin-bottom: 28px;
+
+  &__link {
+    color: $text-mid;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $gold;
+    }
+  }
+
+  &__sep {
+    color: $text-soft;
+  }
+
+  &__current {
+    font-family: $font-heading;
+    font-weight: 600;
+    color: $text-dark;
+
+    &--skeleton {
+      display: inline-block;
+      width: 160px;
+      height: 16px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, $gold-pale 25%, $gold-border 50%, $gold-pale 75%);
+      background-size: 200% 100%;
+      animation: pd-shimmer 1.4s ease-in-out infinite;
+    }
+  }
+}
+
+// ── Hero / gallery + info grid ──
+
+.pd-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  margin-bottom: 48px;
+
+  @media (max-width: $bp-lg) {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.pd-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__main {
+    position: relative;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    background: $gold-pale;
+    aspect-ratio: 1 / 1;
+    box-shadow: $shadow-soft;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+
+    .pd-gallery__main:hover & {
+      transform: scale(1.06);
+    }
+  }
+
+  &__thumbs {
+    display: flex;
+    gap: 12px;
+  }
+
+  &__thumb {
+    width: 72px;
+    height: 72px;
+    border-radius: $radius-sm;
+    overflow: hidden;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    background: $gold-pale;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &--active {
+      border-color: $gold;
+    }
+  }
+}
+
+.pd-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-family: $font-body;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  &--sale {
+    background: $danger;
+    color: #fff;
+  }
+}
+
+// ── Product info column ──
+
+.pd-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pd-chip {
+  display: inline-flex;
+  align-self: flex-start;
+  font-family: $font-body;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: $gold;
+  background: $gold-pale;
+  border: 1px solid $gold-border;
+  padding: 6px 14px;
+  border-radius: 999px;
+
+  &--tag {
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 500;
+    margin: 4px 6px 4px 0;
+  }
+}
+
+.pd-tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pd-gallery__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-soft;
+  font-size: 14px;
+  background: $gold-pale;
+}
+
+.pd-title {
+  font-family: $font-heading;
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 1.2;
+  color: $text-dark;
+  margin: 0;
+
+  @media (max-width: $bp-sm) {
+    font-size: 26px;
+  }
+}
+
+.pd-meta-line {
+  font-size: 14px;
+  color: $text-mid;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  &__brand {
+    font-weight: 600;
+  }
+
+  &__sep {
+    color: $text-soft;
+  }
+}
+
+.pd-verified {
+  color: $gold;
+  margin-inline-start: 4px;
+}
+
+.pd-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+
+  &__stars {
+    display: flex;
+  }
+
+  &__star {
+    color: $gold-border;
+    font-size: 16px;
+
+    &--filled {
+      color: $gold;
+    }
+  }
+
+  &__value {
+    font-weight: 600;
+    color: $text-dark;
+  }
+
+  &__count {
+    color: $text-soft;
+  }
+}
+
+.pd-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.pd-price {
+  font-family: $font-heading;
+  font-weight: 700;
+  font-size: 30px;
+  color: $gold;
+}
+
+.pd-price--original {
+  font-family: $font-body;
+  font-size: 16px;
+  color: $text-soft;
+  text-decoration: line-through;
+}
+
+.pd-stock-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+  color: $text-mid;
+}
+
+.pd-stock {
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+
+  &--in {
+    color: #2F7A4D;
+    background: rgba(47, 122, 77, 0.1);
+  }
+
+  &--out {
+    color: $danger;
+    background: rgba(217, 64, 64, 0.1);
+  }
+}
+
+// ── Quantity stepper ──
+
+.pd-quantity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+
+  &__label {
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-dark;
+  }
+
+  &__control {
+    display: flex;
+    align-items: center;
+    border: 1px solid $gold-border;
+    border-radius: $radius-sm;
+    overflow: hidden;
+  }
+
+  &__btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: $gold-pale;
+    color: $text-dark;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: $gold-border;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  &__value {
+    width: 44px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+  }
+}
+
+// ── CTAs (matches homepage CTA styling) ──
+
+.pd-cta-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+
+  @media (max-width: $bp-sm) {
+    flex-direction: column;
+  }
+}
+
+.pd-btn {
+  font-family: $font-body;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 13px 28px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  border: 1.5px solid transparent;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    background: linear-gradient(135deg, $gold, $gold-light);
+    color: #fff;
+    box-shadow: $shadow-soft;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: $shadow-lift;
+    }
+  }
+
+  &--outline {
+    background: transparent;
+    border-color: $gold;
+    color: $gold;
+
+    &:hover:not(:disabled) {
+      background: $gold-pale;
+    }
+  }
+}
+
+// ── Trust bar ──
+
+.pd-trust-bar {
+  display: flex;
+  justify-content: space-between;
+  background: $gold-pale;
+  border: 1px solid $gold-border;
+  border-radius: $radius-md;
+  padding: 20px 28px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  @media (max-width: $bp-md) {
+    justify-content: flex-start;
+  }
+}
+
+.pd-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: $text-mid;
+
+  &__icon {
+    color: $gold;
+  }
+}
+
+// ── Tabs ──
+
+.pd-tabs {
+  margin-bottom: 56px;
+
+  &__nav {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid $gold-border;
+    margin-bottom: 24px;
+
+    @media (max-width: $bp-sm) {
+      flex-direction: column;
+      border-bottom: none;
+      gap: 4px;
+    }
+  }
+
+  &__tab {
+    font-family: $font-heading;
+    font-weight: 600;
+    font-size: 18px;
+    color: $text-soft;
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: -1px;
+      height: 2px;
+      background: $gold;
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+
+    &:hover {
+      color: $text-dark;
+    }
+
+    &--active {
+      color: $gold;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+
+    @media (max-width: $bp-sm) {
+      text-align: left;
+      padding: 10px 4px;
+
+      &::after {
+        left: 4px;
+        right: 4px;
+      }
+    }
+  }
+
+  &__panel {
+    animation: pd-fade-in 0.3s ease;
+  }
+
+  &__text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: $text-mid;
+    max-width: 760px;
+  }
+}
+
+.pd-spec-list {
+  display: flex;
+  flex-direction: column;
+  max-width: 640px;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid $gold-pale;
+    font-size: 14px;
+  }
+
+  &__label {
+    color: $text-soft;
+    font-weight: 500;
+  }
+
+  &__value {
+    color: $text-dark;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+.pd-shipping {
+  font-size: 14px;
+  line-height: 1.8;
+  color: $text-mid;
+  max-width: 640px;
+
+  strong {
+    color: $text-dark;
+  }
+}
+
+// ── Related products ──
+
+.pd-related {
+  &__title {
+    font-family: $font-heading;
+    font-weight: 600;
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+    @media (max-width: $bp-lg) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: $bp-sm) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__empty {
+    color: $text-soft;
+    font-size: 14px;
+  }
+}
+
+// ── Empty / error state (matches homepage + catalogue) ──
+
+.pd-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 64px 24px;
+  gap: 12px;
+
+  &__icon {
+    font-size: 32px;
+    color: $danger;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-weight: 600;
+    font-size: 22px;
+    color: $text-dark;
+    margin: 0;
+  }
+
+  &__message {
+    color: $text-mid;
+    font-size: 14px;
+    margin: 0 0 8px;
+  }
+}
+
+// ── Skeleton shimmer ──
+
+.pd-skeleton {
+  background: linear-gradient(90deg, $gold-pale 25%, $gold-border 50%, $gold-pale 75%);
+  background-size: 200% 100%;
+  animation: pd-shimmer 1.4s ease-in-out infinite;
+  border-radius: $radius-md;
+
+  &--main {
+    aspect-ratio: 1 / 1;
+    border-radius: $radius-lg;
+  }
+
+  &--thumb {
+    width: 72px;
+    height: 72px;
+    border-radius: $radius-sm;
+  }
+
+  &--chip {
+    width: 100px;
+    height: 24px;
+    border-radius: 999px;
+  }
+
+  &--title {
+    width: 80%;
+    height: 32px;
+  }
+
+  &--line {
+    width: 50%;
+    height: 16px;
+  }
+
+  &--price {
+    width: 140px;
+    height: 28px;
+  }
+
+  &--cta {
+    width: 100%;
+    height: 48px;
+    margin-top: 12px;
+  }
+
+  &--card {
+    height: 280px;
+  }
+}
+
+.pd-skeleton-row {
+  display: flex;
+  gap: 12px;
+}
+
+@keyframes pd-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes pd-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pd-gallery__image,
+  .pd-gallery__thumb,
+  .pd-btn,
+  .pd-tabs__panel {
+    animation: none !important;
+    transition: none !important;
+  }
+}

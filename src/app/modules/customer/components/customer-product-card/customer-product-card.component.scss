@@ -1,0 +1,402 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Customer Product Card  –  Talentree Luxury Marketplace
+// ─────────────────────────────────────────────────────────────────────────────
+
+$gold:        #B8860B;
+$gold-light:  #C9952A;
+$gold-pale:   #FBF3E2;
+$gold-border: #E8D5A3;
+$bg-main:     #FDFAF4;
+$text-dark:   #18130A;
+$text-mid:    #5C5244;
+$text-soft:   #A09280;
+$success:     #27A06B;
+$danger:      #D94040;
+$warning:     #C97A1A;
+$radius-card: 16px;
+$radius-chip: 20px;
+$shadow-card: 0 4px 24px rgba(184, 134, 11, 0.08), 0 1px 4px rgba(24, 19, 10, 0.06);
+$shadow-hover: 0 12px 40px rgba(184, 134, 11, 0.15), 0 2px 8px rgba(24, 19, 10, 0.08);
+$transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Card shell ───────────────────────────────────────────────────────────────
+.product-card {
+  background: #ffffff;
+  border: 1px solid $gold-border;
+  border-radius: $radius-card;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: $shadow-card;
+  transition: $transition;
+  position: relative;
+
+  &:hover {
+    box-shadow: $shadow-hover;
+    transform: translateY(-3px);
+
+    .card__overlay { opacity: 1; }
+    .card__image   { transform: scale(1.04); }
+  }
+
+  &--unavailable {
+    opacity: 0.75;
+    filter: grayscale(0.3);
+  }
+}
+
+// ── Image ────────────────────────────────────────────────────────────────────
+.card__image-wrap {
+  position: relative;
+  overflow: hidden;
+  height: 220px;
+  background: $gold-pale;
+  flex-shrink: 0;
+}
+
+.card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+}
+
+// ── Chips ─────────────────────────────────────────────────────────────────────
+.card__chips {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  z-index: 2;
+}
+
+.chip {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: $radius-chip;
+  line-height: 1.6;
+
+  &--success  { background: rgba($success, 0.15); color: darken($success, 8%); border: 1px solid rgba($success, 0.3); }
+  &--danger   { background: rgba($danger, 0.13);  color: $danger;              border: 1px solid rgba($danger, 0.3);  }
+  &--warning  { background: rgba($warning, 0.13); color: $warning;             border: 1px solid rgba($warning, 0.3); }
+  &--discount { background: $gold; color: #fff; border: 1px solid $gold; }
+  &--featured { background: linear-gradient(135deg, $gold-pale, #fff); color: $gold; border: 1px solid $gold-border; }
+}
+
+// ── Overlay ───────────────────────────────────────────────────────────────────
+.card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(24,19,10,0.55) 0%, transparent 60%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.overlay__btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 24px;
+  padding: 7px 20px;
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  background: rgba(255,255,255,0.12);
+  transition: background 0.2s;
+
+  &:hover { background: rgba(255,255,255,0.25); }
+}
+
+// ── Body ──────────────────────────────────────────────────────────────────────
+.card__body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+// Category / vendor row
+.card__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.card__category {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $gold;
+}
+
+.card__dot { color: $text-soft; font-size: 10px; }
+
+.card__vendor {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  color: $text-soft;
+}
+
+// Title
+.card__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: $text-dark;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+    &:hover { color: $gold; }
+  }
+}
+
+// Rating stars
+.card__rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  width: 13px;
+  height: 13px;
+  fill: #e0d5c4;
+  stroke: none;
+
+  &--full { fill: $gold; }
+  &--half {
+    fill: url(#half-star-gradient);
+    // Achieved via CSS gradient overlay trick – kept simple
+    fill: $gold-light;
+    opacity: 0.85;
+  }
+}
+
+.card__review-count {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: $text-soft;
+}
+
+// Metadata boxes
+.card__metadata {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.meta-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: $gold-pale;
+  border: 1px solid $gold-border;
+  border-radius: 8px;
+  padding: 4px 9px;
+  min-width: 50px;
+}
+
+.meta-box__label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: $text-soft;
+}
+
+.meta-box__value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: $text-dark;
+}
+
+// Price
+.card__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.card__price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: $text-dark;
+}
+
+.card__price-original {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: $text-soft;
+  text-decoration: line-through;
+}
+
+// ── Actions ───────────────────────────────────────────────────────────────────
+.card__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+
+  &--disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+.qty-selector {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid $gold-border;
+  border-radius: 24px;
+  overflow: hidden;
+  background: $gold-pale;
+  flex-shrink: 0;
+}
+
+.qty-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-mid;
+  transition: background 0.2s;
+
+  svg { width: 14px; height: 14px; }
+
+  &:hover:not(:disabled) { background: $gold-border; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+.qty-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+  color: $text-dark;
+}
+
+.btn-cart {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 36px;
+  border-radius: 24px;
+  border: 1.5px solid $gold;
+  background: linear-gradient(135deg, $gold, $gold-light);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: $transition;
+  padding: 0 14px;
+
+  &__icon { width: 15px; height: 15px; flex-shrink: 0; }
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, darken($gold, 6%), $gold);
+    box-shadow: 0 4px 16px rgba($gold, 0.35);
+    transform: translateY(-1px);
+  }
+
+  &--in-cart {
+    background: linear-gradient(135deg, $success, darken($success, 8%));
+    border-color: $success;
+  }
+
+  &:disabled {
+    background: #d4cfc8;
+    border-color: #d4cfc8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+// ── Skeleton ──────────────────────────────────────────────────────────────────
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+$shimmer-grad: linear-gradient(
+  90deg,
+  #f0ebe1 0%,
+  #faf5ec 40%,
+  #f0ebe1 80%
+);
+
+.skeleton-block,
+.skeleton-line {
+  background: $shimmer-grad;
+  background-size: 1200px 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 6px;
+}
+
+.product-card--skeleton {
+  pointer-events: none;
+
+  .card__image-wrap.skeleton-block {
+    height: 220px;
+    border-radius: 0;
+  }
+
+  .skeleton-line {
+    height: 12px;
+    margin: 4px 0;
+    &--sm  { width: 50%; }
+    &--md  { width: 70%; }
+    &--lg  { width: 90%; height: 16px; }
+  }
+
+  .skeleton-block--btn {
+    height: 36px;
+    border-radius: 24px;
+    margin-top: 10px;
+  }
+}

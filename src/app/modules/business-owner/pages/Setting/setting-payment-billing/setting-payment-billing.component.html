@@ -1,111 +1,297 @@
-<div class="page">
-  <header class="page-header m-auto">
-    <h2 class="text-center text-gold">Bank Account Settings</h2>
-    <p class="text-center">
-      Manage your bank account details for receiving payments securely.
-    </p>
-  </header>
+<div class="settings-root">
 
-  <!-- 🔐 Password Section -->
-  <section class="section pb-3">
-    <div class="card">
-      <h5 class="text-burgandy">Security Verification</h5>
-      <p class="hint">Enter your password to view or update your bank details.</p>
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section class="hero">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
 
-      <div class="form-grid">
-        <label class="field full">
-          <span>Current Password</span>
+    <div class="hero-copy">
+      <span class="hero-badge">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" stroke="#C9A84C" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="2" fill="#C9A84C"/>
+        </svg>
+        Payment Settings
+      </span>
+      <h1 class="hero-title">Your Bank,<br><em>Secured &amp; Private</em></h1>
+      <p class="hero-sub">
+        Manage your bank account details for receiving payments.
+        Verify your identity before viewing or editing sensitive information.
+      </p>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-icon-frame">
+        <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
+          <rect x="8" y="22" width="42" height="28" rx="5"
+            stroke="#C9A84C" stroke-width="2.2" fill="rgba(201,168,76,.07)"/>
+          <path d="M8 30h42" stroke="#C9A84C" stroke-width="2.2"/>
+          <path d="M29 10l22 12H7L29 10z"
+            stroke="#C9A84C" stroke-width="2.2" stroke-linejoin="round"
+            fill="rgba(201,168,76,.10)"/>
+          <rect x="16" y="36" width="10" height="6" rx="2" fill="#C9A84C" opacity=".35"/>
+          <rect x="32" y="36" width="10" height="6" rx="2" fill="#C9A84C" opacity=".20"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════ SECURITY CARD ═══════════════════════ -->
+  <section class="profile-card">
+
+    <div class="card-header">
+      <div class="card-header-text">
+        <h2 class="card-title">Security Verification</h2>
+        <p class="card-sub">Enter your account password to unlock and view your bank details.</p>
+      </div>
+      <div class="card-header-line"></div>
+    </div>
+
+    <div class="security-row">
+
+      <!-- Password field -->
+      <div class="field-wrap">
+        <div class="input-shell"
+          [class.focused]="pwFocus"
+          [class.filled]="password">
+          <span class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </span>
           <input
-            class="input-main"
+            class="pf-input"
             type="password"
             [(ngModel)]="password"
-            placeholder="Enter your password"
+            id="pwInput"
+            placeholder=" "
+            (focus)="pwFocus=true"
+            (blur)="pwFocus=false"
+            (keydown.enter)="loadPaymentInfo()"
           />
-        </label>
+          <label class="float-label" for="pwInput">Current Password</label>
+        </div>
       </div>
 
-      <div class="actions-row">
-        <button class="btn-main btn-gold" (click)="loadPaymentInfo()">
-          Load Bank Info
-        </button>
-      </div>
+      <button class="btn-load" type="button"
+        (click)="loadPaymentInfo()"
+        [disabled]="isLoading">
+        <svg *ngIf="!isLoading" width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1 4 1 10 7 10"/>
+          <path d="M3.51 15a9 9 0 1 0 .49-4.95"/>
+        </svg>
+        <span class="btn-spinner sm" *ngIf="isLoading"></span>
+        {{ isLoading ? 'Loading…' : 'Load Bank Info' }}
+      </button>
+
     </div>
+
   </section>
 
-  <!-- 🏦 Bank Details -->
-  <section class="section">
-    <div class="card">
-      <h5 class="text-burgandy">Bank Account Details</h5>
 
-      <form class="form-grid" [formGroup]="paymentForm" (ngSubmit)="submit()">
+  <!-- ═══════════════════════ BANK DETAILS CARD ═══════════════════════ -->
+  <section class="profile-card">
+
+    <div class="card-header">
+      <div class="card-header-text">
+        <h2 class="card-title">Bank Account Details</h2>
+        <p class="card-sub">Keep your payout information accurate. Changes take effect on the next billing cycle.</p>
+      </div>
+      <div class="card-header-line"></div>
+    </div>
+
+    <div class="section-divider"><span>Account Information</span></div>
+
+    <form class="pf-form" [formGroup]="paymentForm" (ngSubmit)="submit()">
+
+      <div class="form-row">
 
         <!-- Bank Name -->
-        <label class="field full">
-          <span>Bank Name</span>
-          <input class="input-main" type="text" formControlName="bankName" />
-          @if(paymentForm.get('bankName')?.touched && paymentForm.get('bankName')?.hasError('required')){
-            <small class="error text-danger">
+        <div class="field-wrap">
+          <div class="input-shell"
+            [class.focused]="bankNameFocus"
+            [class.filled]="paymentForm.get('bankName')?.value"
+            [class.error]="paymentForm.get('bankName')?.invalid && paymentForm.get('bankName')?.touched">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="22" x2="21" y2="22"/>
+                <line x1="6" y1="18" x2="6" y2="11"/>
+                <line x1="10" y1="18" x2="10" y2="11"/>
+                <line x1="14" y1="18" x2="14" y2="11"/>
+                <line x1="18" y1="18" x2="18" y2="11"/>
+                <polygon points="12 2 20 7 4 7"/>
+              </svg>
+            </span>
+            <input
+              class="pf-input"
+              type="text"
+              formControlName="bankName"
+              id="bankName"
+              placeholder=" "
+              (focus)="bankNameFocus=true"
+              (blur)="bankNameFocus=false"
+            />
+            <label class="float-label" for="bankName">Bank Name</label>
+          </div>
+          <span class="field-error"
+            *ngIf="paymentForm.get('bankName')?.invalid && paymentForm.get('bankName')?.touched">
             Bank name is required
-          </small>
-          }
-          
-        </label>
-
-        <!-- Account Holder Name -->
-        <label class="field full">
-          <span>Account Holder Name</span>
-          <input class="input-main" type="text" formControlName="accountHolderName" />
-          @if(paymentForm.get('accountHolderName')?.touched && paymentForm.get('accountHolderName')?.hasError('required')){
-            <small class="error text-danger">
-            Account holder name is required
-          </small>
-          }
-          
-        </label>
-
-        <!-- Account Number -->
-        <label class="field full">
-          <span>Account Number</span>
-          <input class="input-main" type="text" formControlName="accountNumber" />
-          @if(paymentForm.get('accountNumber')?.touched && paymentForm.get('accountNumber')?.hasError('required')){
-            <small class="error text-danger">
-            Account number is required
-          </small>
-          }
-          
-        </label>
-
-        <!-- SWIFT Code -->
-        <label class="field full">
-          <span>SWIFT / Routing Code</span>
-          <input class="input-main" type="text" formControlName="routingSwiftCode" />
-          @if(paymentForm.get('routingSwiftCode')?.touched && paymentForm.get('routingSwiftCode')?.hasError('required')){
-            <small class="error text-danger">
-            SWIFT code is required
-          </small>
-          }
-          
-        </label>
-
-        <!-- 👁️ Masked Account (read only) -->
-        <label class="field full">
-          <span>Saved Account (Masked)</span>
-          <input
-            class="input-main"
-            type="text"
-            [value]="maskedAccountNumber"
-            disabled
-          />
-        </label>
-
-        <!-- Submit -->
-        <div class="actions-row">
-          <button type="submit" class="btn-main btn-burgandy w-25">
-            Save Changes
-          </button>
+          </span>
         </div>
 
-      </form>
-    </div>
+        <!-- Account Holder Name -->
+        <div class="field-wrap">
+          <div class="input-shell"
+            [class.focused]="holderFocus"
+            [class.filled]="paymentForm.get('accountHolderName')?.value"
+            [class.error]="paymentForm.get('accountHolderName')?.invalid && paymentForm.get('accountHolderName')?.touched">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            <input
+              class="pf-input"
+              type="text"
+              formControlName="accountHolderName"
+              id="accountHolderName"
+              placeholder=" "
+              (focus)="holderFocus=true"
+              (blur)="holderFocus=false"
+            />
+            <label class="float-label" for="accountHolderName">Account Holder Name</label>
+          </div>
+          <span class="field-error"
+            *ngIf="paymentForm.get('accountHolderName')?.invalid && paymentForm.get('accountHolderName')?.touched">
+            Account holder name is required
+          </span>
+        </div>
+
+      </div>
+
+      <div class="form-row">
+
+        <!-- Account Number -->
+        <div class="field-wrap">
+          <div class="input-shell"
+            [class.focused]="accNumFocus"
+            [class.filled]="paymentForm.get('accountNumber')?.value"
+            [class.error]="paymentForm.get('accountNumber')?.invalid && paymentForm.get('accountNumber')?.touched">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+            </span>
+            <input
+              class="pf-input"
+              type="text"
+              formControlName="accountNumber"
+              id="accountNumber"
+              placeholder=" "
+              (focus)="accNumFocus=true"
+              (blur)="accNumFocus=false"
+            />
+            <label class="float-label" for="accountNumber">Account Number</label>
+          </div>
+          <span class="field-error"
+            *ngIf="paymentForm.get('accountNumber')?.invalid && paymentForm.get('accountNumber')?.touched">
+            Account number is required
+          </span>
+        </div>
+
+        <!-- SWIFT / Routing Code -->
+        <div class="field-wrap">
+          <div class="input-shell"
+            [class.focused]="swiftFocus"
+            [class.filled]="paymentForm.get('routingSwiftCode')?.value"
+            [class.error]="paymentForm.get('routingSwiftCode')?.invalid && paymentForm.get('routingSwiftCode')?.touched">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </span>
+            <input
+              class="pf-input"
+              type="text"
+              formControlName="routingSwiftCode"
+              id="routingSwiftCode"
+              placeholder=" "
+              (focus)="swiftFocus=true"
+              (blur)="swiftFocus=false"
+            />
+            <label class="float-label" for="routingSwiftCode">SWIFT / Routing Code</label>
+          </div>
+          <span class="field-error"
+            *ngIf="paymentForm.get('routingSwiftCode')?.invalid && paymentForm.get('routingSwiftCode')?.touched">
+            SWIFT / Routing code is required
+          </span>
+        </div>
+
+      </div>
+
+      <!-- Masked Account (read-only) -->
+      <div class="field-wrap" *ngIf="maskedAccountNumber">
+        <div class="input-shell disabled">
+          <span class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </span>
+          <input
+            class="pf-input"
+            type="text"
+            [value]="maskedAccountNumber"
+            id="maskedAccount"
+            placeholder=" "
+            disabled
+          />
+          <label class="float-label" for="maskedAccount" style="top:9px; transform:translateY(0) scale(.76); font-size:11.5px; color:var(--gold); font-weight:700; letter-spacing:.04em;">
+            Saved Account (Masked)
+          </label>
+        </div>
+      </div>
+
+      <!-- Save -->
+      <div class="form-actions">
+        <button type="submit" class="save-btn"
+          [class.loading]="isSubmitting"
+          [disabled]="isSubmitting">
+          <span class="save-btn-inner">
+            <svg *ngIf="!isSubmitting" width="15" height="15" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            <span class="btn-spinner" *ngIf="isSubmitting"></span>
+            {{ isSubmitting ? 'Saving…' : 'Save Changes' }}
+          </span>
+        </button>
+      </div>
+
+    </form>
   </section>
+
 </div>

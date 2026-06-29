@@ -1,0 +1,271 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Talentree · Cart Item Card Styles
+// ─────────────────────────────────────────────────────────────────────────────
+
+$gold:        #B8860B;
+$gold-light:  #C9952A;
+$gold-pale:   #FBF3E2;
+$gold-border: #E8D5A3;
+$text-dark:   #18130A;
+$text-mid:    #5C5244;
+$text-soft:   #A09280;
+$danger:      #D94040;
+$success:     #27A06B;
+$warning:     #C9952A;
+$bp-sm: 600px;
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 80px 1fr 160px 120px 36px;
+  gap: 16px;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid $gold-border;
+  transition: background 0.2s, opacity 0.3s;
+  position: relative;
+
+  &:last-child { border-bottom: none; }
+
+  &:hover { background: rgba($gold, 0.02); }
+
+  &--removing {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 64px 1fr 36px;
+    grid-template-rows: auto auto;
+    gap: 12px;
+    padding: 16px;
+  }
+}
+
+// ── Product Image ─────────────────────────────────────────────────────────────
+.cart-item__img-wrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid $gold-border;
+
+  @media (max-width: $bp-sm) { width: 64px; height: 64px; }
+}
+
+.cart-item__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+
+  .cart-item:hover & { transform: scale(1.04); }
+}
+
+.cart-item__img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, $gold-pale, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4C4A0;
+
+  svg { width: 32px; height: 32px; }
+}
+
+// ── Info ──────────────────────────────────────────────────────────────────────
+.cart-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+
+  @media (max-width: $bp-sm) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+.cart-item__seller {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $gold;
+  margin: 0;
+}
+
+.cart-item__name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: $text-dark;
+  margin: 0;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-item__unit-price {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: $text-soft;
+  margin: 2px 0 0;
+}
+
+// Stock indicator
+.cart-item__stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 4px;
+
+  &--ok       { color: $success; .stock-dot { background: $success; } }
+  &--low      { color: $warning; .stock-dot { background: $warning; } }
+  &--critical { color: $danger;  .stock-dot { background: $danger; } }
+}
+
+.stock-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+// ── Quantity Stepper ──────────────────────────────────────────────────────────
+.cart-item__qty-wrap {
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: $bp-sm) {
+    grid-column: 2;
+    grid-row: 2;
+    justify-content: flex-start;
+  }
+}
+
+.cart-item__stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1.5px solid $gold-border;
+  border-radius: 30px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  background: #fff;
+
+  &:hover { border-color: $gold; }
+
+  &--loading { opacity: 0.7; pointer-events: none; }
+}
+
+.stepper-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: $text-mid;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+
+  svg { width: 12px; height: 12px; }
+
+  &:hover:not(:disabled) {
+    background: $gold-pale;
+    color: $gold;
+  }
+
+  &:disabled { opacity: 0.35; cursor: not-allowed; }
+}
+
+.stepper-value {
+  min-width: 36px;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: $text-dark;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid $gold-border;
+  border-right: 1px solid $gold-border;
+  height: 32px;
+}
+
+.stepper-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba($gold, 0.3);
+  border-top-color: $gold;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+// ── Line Total ────────────────────────────────────────────────────────────────
+.cart-item__total-wrap {
+  text-align: right;
+
+  @media (max-width: $bp-sm) { display: none; }
+}
+
+.cart-item__total {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: $text-dark;
+}
+
+// ── Remove Button ─────────────────────────────────────────────────────────────
+.cart-item__remove {
+  width: 32px;
+  height: 32px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: $text-soft;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  svg { width: 15px; height: 15px; }
+
+  &:hover:not(:disabled) {
+    background: rgba($danger, 0.08);
+    color: $danger;
+    border-color: rgba($danger, 0.25);
+  }
+
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  @media (max-width: $bp-sm) {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+.remove-spinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba($danger, 0.3);
+  border-top-color: $danger;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

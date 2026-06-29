@@ -471,7 +471,7 @@ verifyEmail(data: VerifyEmailData): Observable<{ message: string }> {
     const lowerRole = role.toLowerCase();
     switch (lowerRole) {
       case 'customer':
-        this.router.navigate(['/customer/profile']);
+        this.router.navigate(['/customer/customerhome']);
         break;
       case 'businessowner':
       case 'supplier':

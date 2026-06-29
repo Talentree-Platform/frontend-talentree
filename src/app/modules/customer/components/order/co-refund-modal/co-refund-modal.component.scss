@@ -1,0 +1,109 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Talentree · co-refund-modal styles
+// ─────────────────────────────────────────────────────────────────────────────
+@import '../../styles/co-modal-shared';
+
+.co-refund-item-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: $bg-main;
+  border: 1px solid $gold-border;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+
+  img, &__placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid $gold-border;
+    flex-shrink: 0;
+  }
+
+  &__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $gold-pale;
+    color: $gold-border;
+
+    svg { width: 20px; height: 20px; }
+  }
+
+  &__name {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: $text-dark;
+  }
+
+  &__meta {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11.5px;
+    color: $text-soft;
+    margin-top: 2px;
+  }
+}
+
+.co-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 6px;
+
+  label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-mid;
+  }
+
+  textarea {
+    border-radius: 12px;
+    border: 1px solid $gold-border;
+    background: $bg-main;
+    padding: 12px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    color: $text-dark;
+    resize: vertical;
+    min-height: 90px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &::placeholder { color: $text-soft; }
+
+    &:focus {
+      outline: none;
+      border-color: $gold;
+      box-shadow: 0 0 0 3px rgba($gold, 0.12);
+    }
+
+    &.is-invalid {
+      border-color: $danger;
+      background: $danger-pale;
+    }
+  }
+}
+
+.co-field__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.co-field__error {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  color: $danger;
+}
+
+.co-char-count {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: $text-soft;
+  margin-left: auto;
+}

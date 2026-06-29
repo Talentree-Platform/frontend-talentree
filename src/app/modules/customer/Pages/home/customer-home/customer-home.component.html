@@ -1,0 +1,237 @@
+<!-- ═══════════════════════════════════════════════════════
+     TALENTREE · Customer Marketplace Home
+     ═══════════════════════════════════════════════════════ -->
+
+<!-- ── HERO ────────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero__bg-grain"></div>
+  <div class="hero__content container">
+    <div class="hero__text">
+      <span class="hero__eyebrow">Premium Raw Materials Marketplace</span>
+      <h1 class="hero__headline">
+        Source with<br/>
+        <em>Precision</em> &amp; Confidence
+      </h1>
+      <p class="hero__sub">
+        Connecting manufacturers with verified raw material suppliers across Egypt and the region.
+        Quality assured, delivery guaranteed.
+      </p>
+      <div class="hero__cta-row">
+        <a routerLink="/marketplace/products" class="btn-primary">
+          Explore Catalogue
+          <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a routerLink="/marketplace/products" class="btn-ghost">View Trending</a>
+      </div>
+    </div>
+    <div class="hero__search-wrap">
+      <div class="hero__search-card">
+        <p class="hero__search-label">Find the exact material you need</p>
+        <app-product-search></app-product-search>
+        <div class="hero__quick-tags">
+          <span class="quick-tag-label">Popular:</span>
+          @for (tag of ['Aluminium', 'PVC Resin', 'Cotton Yarn', 'Epoxy']; track tag) {
+            <a [routerLink]="['/marketplace/products']" [queryParams]="{search: tag}" class="quick-tag">{{ tag }}</a>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats strip -->
+  <div class="hero__stats">
+    <div class="container hero__stats-inner">
+      @for (stat of [
+        { value: '2,400+', label: 'Products Listed' },
+        { value: '380+',   label: 'Verified Suppliers' },
+        { value: '15+',    label: 'Categories' },
+        { value: '98%',    label: 'Satisfaction Rate' }
+      ]; track stat.label) {
+        <div class="stat-item">
+          <span class="stat-value">{{ stat.value }}</span>
+          <span class="stat-label">{{ stat.label }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ── CATEGORIES ────────────────────────────────────────────────────────────── -->
+<section class="section section--categories">
+  <div class="container">
+    <div class="section__header">
+      <div>
+        <span class="section__eyebrow">Browse by Type</span>
+        <h2 class="section__title">Material Categories</h2>
+      </div>
+      <a routerLink="/marketplace/products" class="section__link">
+        View all categories
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    @if (svc.homepageLoading()) {
+      <div class="categories-grid">
+        @for (n of skeletonArray; track $index) {
+          <div class="category-card category-card--skeleton">
+            <div class="cat-skeleton-img"></div>
+            <div class="cat-skeleton-text"></div>
+          </div>
+        }
+      </div>
+    } @else if (svc.homepageError()) {
+      <div class="error-state">
+        <p>{{ svc.homepageError() }}</p>
+        <button class="btn-retry" (click)="svc.loadHomepage()">Retry</button>
+      </div>
+    } @else if (categories.length === 0) {
+      <div class="empty-state">
+        <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="#E8D5A3" stroke-width="2"/><path d="M20 30h20M30 20v20" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/></svg>
+        <p>No categories found.</p>
+      </div>
+    } @else {
+      <div class="categories-grid">
+        @for (cat of categories; track cat.id) {
+          <a [routerLink]="['/marketplace/products']" [queryParams]="{categoryId: cat.id}" class="category-card">
+            @if (cat.imageUrl) {
+              <div class="category-card__img-wrap">
+                <img [src]="cat.imageUrl" [alt]="cat.name" loading="lazy"/>
+              </div>
+            } @else {
+              <div class="category-card__img-placeholder">
+                <svg viewBox="0 0 40 40" fill="none"><rect x="6" y="6" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="6" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="22" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="22" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+            }
+            <div class="category-card__body">
+              <span class="category-card__name">{{ cat.name }}</span>
+              @if (cat.productCount != null) {
+                <span class="category-card__count">{{ cat.productCount }} products</span>
+              }
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ── FEATURED PRODUCTS ─────────────────────────────────────────────────────── -->
+<section class="section section--featured">
+  <div class="container">
+    <div class="section__header">
+      <div>
+        <span class="section__eyebrow">Handpicked for You</span>
+        <h2 class="section__title">Featured Products</h2>
+      </div>
+      <a routerLink="/marketplace/products" [queryParams]="{sortBy: 'rating'}" class="section__link">
+        View all
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    @if (svc.homepageLoading()) {
+      <div class="products-grid">
+        @for (n of skeletonArray; track $index) {
+          <app-customer-product-card [skeleton]="true" [product]="null!"></app-customer-product-card>
+        }
+      </div>
+    } @else if (featuredProducts.length === 0 && !svc.homepageLoading()) {
+      <div class="empty-state">
+        <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="#E8D5A3" stroke-width="2"/><path d="M30 20v10l6 4" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/></svg>
+        <p>No featured products available right now.</p>
+      </div>
+    } @else {
+      <div class="products-grid">
+        @for (product of featuredProducts; track product.id) {
+          <app-customer-product-card
+            [product]="product"
+            (addedToCart)="onAddedToCart($event)"
+          ></app-customer-product-card>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ── TRENDING CAROUSEL ──────────────────────────────────────────────────────── -->
+<section class="section section--trending">
+  <div class="container">
+    <div class="section__header">
+      <div>
+        <span class="section__eyebrow">What's Moving Fast</span>
+        <h2 class="section__title">Trending Now</h2>
+      </div>
+      <div class="carousel-controls">
+        <button
+          class="carousel-btn"
+          [disabled]="!canScrollLeft"
+          (click)="scrollTrending('left')"
+          aria-label="Previous"
+        >
+          <svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button
+          class="carousel-btn"
+          [disabled]="!canScrollRight"
+          (click)="scrollTrending('right')"
+          aria-label="Next"
+        >
+          <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    @if (svc.homepageLoading()) {
+      <div class="products-grid products-grid--4">
+        @for (n of [1,2,3,4]; track n) {
+          <app-customer-product-card [skeleton]="true" [product]="null!"></app-customer-product-card>
+        }
+      </div>
+    } @else if (trendingProducts.length === 0) {
+      <div class="empty-state">
+        <p>No trending products at the moment.</p>
+      </div>
+    } @else {
+      <div class="trending-track">
+        @for (product of visibleTrending; track product.id) {
+          <div class="trending-item">
+            <app-customer-product-card
+              [product]="product"
+              (addedToCart)="onAddedToCart($event)"
+            ></app-customer-product-card>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ── TRUST BANNER ─────────────────────────────────────────────────────────── -->
+<section class="trust-banner">
+  <div class="container trust-banner__inner">
+    @for (item of [
+      { icon: 'shield', title: 'Verified Suppliers', desc: 'Every vendor is quality-audited before listing.' },
+      { icon: 'truck',  title: 'Reliable Delivery',  desc: 'Logistics partners with real-time tracking.' },
+      { icon: 'lock',   title: 'Secure Payments',    desc: 'Encrypted transactions, multiple gateways.' },
+      { icon: 'star',   title: 'Quality Assured',    desc: 'Certificate of conformance on every batch.' }
+    ]; track item.title) {
+      <div class="trust-item">
+        <div class="trust-item__icon">
+          @if (item.icon === 'shield') {
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3v5c0 5-3.5 9.3-7 10.8C8.5 19.3 5 15 5 10V5l7-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          } @else if (item.icon === 'truck') {
+            <svg viewBox="0 0 24 24" fill="none"><path d="M1 3h13v13H1zM14 8h4l3 3v5h-7V8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="5.5" cy="18.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="18.5" cy="18.5" r="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          } @else if (item.icon === 'lock') {
+            <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          } @else {
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.1 6.3L22 9.3l-5 4.9 1.2 6.9L12 17.8l-6.2 3.3L7 14.2 2 9.3l6.9-1L12 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          }
+        </div>
+        <div class="trust-item__text">
+          <h4 class="trust-item__title">{{ item.title }}</h4>
+          <p class="trust-item__desc">{{ item.desc }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</section>

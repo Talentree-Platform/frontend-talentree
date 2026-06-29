@@ -1,0 +1,481 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Talentree – Customer Products Catalogue
+// ─────────────────────────────────────────────────────────────────────────────
+
+$gold:        #B8860B;
+$gold-light:  #C9952A;
+$gold-pale:   #FBF3E2;
+$gold-border: #E8D5A3;
+$bg-main:     #FDFAF4;
+$text-dark:   #18130A;
+$text-mid:    #5C5244;
+$text-soft:   #A09280;
+$danger:      #D94040;
+
+$bp-lg: 1100px;
+$bp-md: 900px;
+$bp-sm: 600px;
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  @media (max-width: $bp-sm) { padding: 0 16px; }
+}
+
+// ── Page header ───────────────────────────────────────────────────────────────
+.catalog-header {
+  background: linear-gradient(135deg, #1c1508 0%, #2b1c07 100%);
+  padding: 36px 0 32px;
+  border-bottom: 1px solid rgba($gold-border, 0.15);
+}
+
+.catalog-header__inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+
+  @media (max-width: $bp-md) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.catalog-header__left { flex-shrink: 0; }
+
+// Breadcrumb
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+
+  &__link {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+    &:hover { color: $gold-light; }
+  }
+
+  &__sep { color: rgba(255,255,255,0.25); font-size: 12px; }
+
+  &__current {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+  }
+}
+
+.catalog-header__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 6px;
+}
+
+.catalog-header__count {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  margin: 0;
+}
+
+.catalog-header__search {
+  flex: 1;
+  max-width: 500px;
+  width: 100%;
+  @media (max-width: $bp-md) { max-width: 100%; }
+}
+
+// ── Toolbar ───────────────────────────────────────────────────────────────────
+.toolbar {
+  background: #fff;
+  border-bottom: 1px solid $gold-border;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba($gold, 0.06);
+}
+
+.toolbar__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.toolbar__filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 24px;
+  border: 1.5px solid $gold-border;
+  background: $gold-pale;
+  color: $text-mid;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+
+  svg { width: 16px; height: 16px; color: $gold; }
+
+  &:hover { background: $gold-border; border-color: $gold; }
+
+  // On desktop, hide? Or keep visible for quick open. Keep visible.
+}
+
+.toolbar__filter-badge {
+  background: $gold;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 1px 6px;
+}
+
+// Active chips
+.chip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 20px;
+  border: 1px solid $gold-border;
+  background: $gold-pale;
+  color: $text-mid;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+
+  svg { width: 11px; height: 11px; color: $text-soft; }
+
+  &:hover {
+    background: rgba($danger, 0.08);
+    border-color: rgba($danger, 0.3);
+    color: $danger;
+    svg { color: $danger; }
+  }
+}
+
+.chip-clear-all {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: $gold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 0 4px;
+  &:hover { color: darken($gold, 10%); }
+}
+
+.toolbar__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+// Sort select
+.sort-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: $text-soft;
+  white-space: nowrap;
+}
+
+.sort-select {
+  height: 34px;
+  padding: 0 32px 0 12px;
+  border: 1.5px solid $gold-border;
+  border-radius: 24px;
+  background: $bg-main;
+  color: $text-dark;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  transition: border-color 0.2s;
+
+  &:focus { border-color: $gold; }
+}
+
+.sort-chevron {
+  position: absolute;
+  right: 10px;
+  width: 14px;
+  height: 14px;
+  color: $text-soft;
+  pointer-events: none;
+}
+
+// View toggle
+.view-toggle {
+  display: flex;
+  border: 1.5px solid $gold-border;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.view-btn {
+  width: 34px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+  color: $text-soft;
+  transition: background 0.18s, color 0.18s;
+
+  svg { width: 15px; height: 15px; }
+
+  &:hover { background: $gold-pale; color: $text-dark; }
+
+  &--active {
+    background: $gold-pale;
+    color: $gold;
+  }
+
+  & + & { border-left: 1px solid $gold-border; }
+}
+
+// ── Catalog layout ────────────────────────────────────────────────────────────
+.catalog-layout {
+  display: flex;
+  gap: 28px;
+  padding-top: 28px;
+  padding-bottom: 60px;
+  align-items: flex-start;
+}
+
+// Sidebar
+.catalog-layout__sidebar {
+  flex-shrink: 0;
+  width: 260px;
+
+  @media (max-width: $bp-md) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 500;
+    overflow-y: auto;
+    transform: translateX(-110%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 280px;
+    border-radius: 0;
+    box-shadow: 4px 0 40px rgba(0,0,0,0.18);
+
+    &--open { transform: translateX(0); }
+  }
+}
+
+// Sidebar backdrop
+.sidebar-backdrop {
+  display: none;
+  @media (max-width: $bp-md) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 499;
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.2s ease;
+  }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+// Main content
+.catalog-layout__main {
+  flex: 1;
+  min-width: 0;
+}
+
+// ── Products grid ─────────────────────────────────────────────────────────────
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 22px;
+  animation: fadeInUp 0.3s ease;
+
+  &--list {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── State boxes ────────────────────────────────────────────────────────────────
+.state-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+  border: 1px dashed $gold-border;
+  border-radius: 16px;
+  background: $bg-main;
+  gap: 12px;
+
+  svg { width: 80px; height: 80px; }
+
+  h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: $text-dark;
+    margin: 0;
+  }
+
+  p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: $text-soft;
+    margin: 0;
+    max-width: 340px;
+  }
+
+  &--error h3 { color: $danger; }
+}
+
+.btn-retry {
+  height: 38px;
+  padding: 0 22px;
+  border-radius: 24px;
+  border: 1.5px solid $gold-border;
+  background: #fff;
+  color: $gold;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    background: $gold-pale;
+    box-shadow: 0 3px 12px rgba($gold, 0.2);
+  }
+}
+
+// ── Pagination ────────────────────────────────────────────────────────────────
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1.5px solid $gold-border;
+  background: #fff;
+  color: $text-mid;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.18s;
+
+  svg { width: 15px; height: 15px; }
+
+  &:hover:not(:disabled):not(.page-btn--active) {
+    background: $gold-pale;
+    border-color: $gold;
+    color: $text-dark;
+  }
+
+  &--active {
+    background: linear-gradient(135deg, $gold, $gold-light);
+    border-color: $gold;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 3px 12px rgba($gold, 0.3);
+    cursor: default;
+  }
+
+  &--nav {
+    svg { color: $text-mid; }
+    &:hover:not(:disabled) svg { color: $gold; }
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    &:hover { background: #fff; border-color: $gold-border; }
+  }
+}
+
+.page-ellipsis {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-soft;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+}
+
+.pagination__meta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: $text-soft;
+  margin-left: 8px;
+  white-space: nowrap;
+}

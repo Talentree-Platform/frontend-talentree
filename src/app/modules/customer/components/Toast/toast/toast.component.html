@@ -1,0 +1,54 @@
+<div class="toast-portal" aria-live="polite" aria-atomic="false">
+      @for (toast of toastSvc.toasts(); track toast.id) {
+        <div
+          class="toast toast--{{ toast.type }}"
+          role="alert"
+          (click)="toastSvc.dismiss(toast.id)"
+        >
+          <!-- Left accent bar -->
+          <div class="toast__bar"></div>
+
+          <!-- Icon -->
+          <div class="toast__icon">
+            @if (toast.imageUrl) {
+              <img [src]="toast.imageUrl" [alt]="toast.title" class="toast__product-img" />
+            } @else {
+              <svg viewBox="0 0 20 20" fill="none" class="toast__svg">
+                @if (toast.type === 'success') {
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M6.5 10l2.5 2.5 4-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                } @else if (toast.type === 'error') {
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M7 7l6 6M13 7l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                } @else if (toast.type === 'warning') {
+                  <path d="M10 2L18 17H2L10 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path d="M10 8v4M10 14v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                } @else {
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M10 9v5M10 6.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                }
+              </svg>
+            }
+          </div>
+
+          <!-- Text -->
+          <div class="toast__body">
+            <p class="toast__title">{{ toast.title }}</p>
+            @if (toast.message) {
+              <p class="toast__message">{{ toast.message }}</p>
+            }
+          </div>
+
+          <!-- Dismiss -->
+          <button
+            class="toast__close"
+            (click)="$event.stopPropagation(); toastSvc.dismiss(toast.id)"
+            aria-label="Dismiss"
+          >
+            <svg viewBox="0 0 14 14" fill="none">
+              <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      }
+    </div>

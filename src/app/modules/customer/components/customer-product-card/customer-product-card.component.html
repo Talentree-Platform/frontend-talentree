@@ -1,0 +1,145 @@
+<!-- Skeleton State -->
+@if (skeleton) {
+  <div class="product-card product-card--skeleton">
+    <div class="card__image-wrap skeleton-block"></div>
+    <div class="card__body">
+      <div class="skeleton-line skeleton-line--sm"></div>
+      <div class="skeleton-line skeleton-line--lg"></div>
+      <div class="skeleton-line skeleton-line--md"></div>
+      <div class="skeleton-line skeleton-line--sm"></div>
+      <div class="card__actions skeleton-block skeleton-block--btn"></div>
+    </div>
+  </div>
+} @else {
+  <article class="product-card" [class.product-card--unavailable]="!product.isAvailable">
+
+    <!-- ── Image ──────────────────────────────────────────── -->
+    <div class="card__image-wrap">
+      <img
+        [src]="product.imageUrl"
+        [alt]="product.name"
+        class="card__image"
+        loading="lazy"
+      />
+
+      <!-- Chips row -->
+      <div class="card__chips">
+        @if (!product.isAvailable) {
+          <span class="chip chip--danger">Out of Stock</span>
+        } @else if (product.stockQuantity <= 5) {
+          <span class="chip chip--warning">Only {{ product.stockQuantity }} left</span>
+        } @else {
+          <span class="chip chip--success">In Stock</span>
+        }
+
+        @if (discountPct()) {
+          <span class="chip chip--discount">-{{ discountPct() }}%</span>
+        }
+
+        @if (product.isFeatured) {
+          <span class="chip chip--featured">Featured</span>
+        }
+      </div>
+
+      <!-- Quick-view overlay -->
+      <div class="card__overlay">
+        <a [routerLink]="['/customer/productDetails', product.id]" class="overlay__btn">
+          View Details
+        </a>
+      </div>
+    </div>
+
+    <!-- ── Body ───────────────────────────────────────────── -->
+    <div class="card__body">
+
+      <!-- Category + vendor -->
+      <div class="card__meta-row">
+        <span class="card__category">{{ product.categoryName }}</span>
+        @if (product.vendorName) {
+          <span class="card__dot">·</span>
+          <span class="card__vendor">{{ product.vendorName }}</span>
+        }
+      </div>
+
+      <!-- Title -->
+      <h3 class="card__title">
+        <a [routerLink]="['/customer/productDetails', product.id]">{{ product.name }}</a>
+      </h3>
+
+      <!-- Rating -->
+      @if (product.rating) {
+        <div class="card__rating">
+          <div class="stars">
+            @for (star of stars; track star) {
+              <svg class="star" [class.star--full]="ratingFill(star) === 'full'"
+                   [class.star--half]="ratingFill(star) === 'half'"
+                   viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/>
+              </svg>
+            }
+          </div>
+          <span class="card__review-count">({{ product.reviewCount ?? 0 }})</span>
+        </div>
+      }
+
+      <!-- Metadata boxes -->
+      <div class="card__metadata">
+        @if (product.brandName) {
+          <div class="meta-box">
+            <span class="meta-box__label">Brand</span>
+            <span class="meta-box__value">{{ product.brandName }}</span>
+          </div>
+        }
+        @if (product.unit) {
+          <div class="meta-box">
+            <span class="meta-box__label">Unit</span>
+            <span class="meta-box__value">{{ product.unit }}</span>
+          </div>
+        }
+        @if (product.minOrderQty) {
+          <div class="meta-box">
+            <span class="meta-box__label">MOQ</span>
+            <span class="meta-box__value">{{ product.minOrderQty }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- Price row -->
+      <div class="card__price-row">
+        <span class="card__price">{{ product.price | currency:'EGP':'symbol':'1.0-0' }}</span>
+        @if (product.originalPrice) {
+          <span class="card__price-original">{{ product.originalPrice | currency:'EGP':'symbol':'1.0-0' }}</span>
+        }
+      </div>
+
+      <!-- Quantity selector + CTA -->
+      <div class="card__actions" [class.card__actions--disabled]="!product.isAvailable">
+        <div class="qty-selector">
+          <button class="qty-btn" (click)="decrement()" [disabled]="!product.isAvailable || qty() <= 1" aria-label="Decrease quantity">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <span class="qty-value">{{ qty() }}</span>
+          <button class="qty-btn" (click)="increment()" [disabled]="!product.isAvailable || qty() >= product.stockQuantity" aria-label="Increase quantity">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+
+        <button
+          class="btn-cart"
+          [class.btn-cart--in-cart]="inCart()"
+          [disabled]="!product.isAvailable"
+          (click)="addToCart()"
+          [attr.aria-label]="inCart() ? 'Already in cart' : 'Add to cart'"
+        >
+          <svg class="btn-cart__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 2h1.5l2.5 9h9l2-6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="8" cy="16" r="1.2" fill="currentColor"/>
+            <circle cx="14" cy="16" r="1.2" fill="currentColor"/>
+          </svg>
+          <span>{{ inCart() ? 'Added ✓' : 'Add to Cart' }}</span>
+        </button>
+      </div>
+
+    </div>
+  </article>
+}

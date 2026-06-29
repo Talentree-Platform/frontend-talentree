@@ -15,117 +15,117 @@ import { ToastrService } from 'ngx-toastr';
 export class SettingSecurityPrivacyComponent implements OnInit {
 
   passwordForm!: FormGroup;
-  revokeForm!: FormGroup;
 
   loginHistory: any[] = [];
-  private readonly _ToastrService=inject(ToastrService);
-  constructor(
-    private fb: FormBuilder,
-    private settingService: OwnerSettingService,
-    private authService :AuthService
-  ) {}
 
+  // ─── Spinner flags ────────────────────────────────────────────
+  isChangingPassword = false;
+  isRevoking         = false;
+
+  // ─── Floating-label focus trackers ───────────────────────────
+  curFocus  = false;
+  newFocus  = false;
+  confFocus = false;
+
+  // ─── Password visibility toggles ─────────────────────────────
+  showCurrentPassword = false;
+  showNewPassword     = false;
+  showConfirmPassword = false;
+
+  // ─── Services ─────────────────────────────────────────────────
+  private readonly _toastr         = inject(ToastrService);
+  private readonly _fb             = inject(FormBuilder);
+  private readonly _settingService = inject(OwnerSettingService);
+  private readonly _authService    = inject(AuthService);
+
+  // ═══════════════════════════════════════════════════════════════
+  //  LIFECYCLE
+  // ═══════════════════════════════════════════════════════════════
   ngOnInit(): void {
+    this.passwordForm = this._fb.group({
+      currentPassword:    ['', Validators.required],
+      newPassword:        ['', [Validators.required, Validators.minLength(8)]],
+      confirmNewPassword: ['', Validators.required]
+    }, { validators: this.passwordMatchValidator });
 
-    // ================= FORMS =================
-
-    this.passwordForm = this.fb.group({
-  currentPassword: ['', Validators.required],
-
-  newPassword: ['', [
-    Validators.required,
-    Validators.minLength(8)
-  ]],
-
-  confirmNewPassword: ['', Validators.required],
-}, {
-  validators: this.passwordMatchValidator
-});
-
-    this.revokeForm = this.fb.group({
-      currentRefreshToken: ['', Validators.required]
-    });
-
-    // ================= LOAD HISTORY =================
     this.loadLoginHistory();
   }
 
-  // ================= CHANGE PASSWORD =================
+  // ═══════════════════════════════════════════════════════════════
+  //  VALIDATORS
+  // ═══════════════════════════════════════════════════════════════
+  passwordMatchValidator(form: FormGroup) {
+    const newPw      = form.get('newPassword')?.value;
+    const confirmPw  = form.get('confirmNewPassword')?.value;
+    return newPw === confirmPw ? null : { mismatch: true };
+  }
 
+  // ═══════════════════════════════════════════════════════════════
+  //  CHANGE PASSWORD
+  // ═══════════════════════════════════════════════════════════════
   changePassword(): void {
-    if (this.passwordForm.invalid) return;
+    if (this.passwordForm.invalid || this.passwordForm.errors?.['mismatch']) return;
 
-    this.settingService.changePassword(this.passwordForm.value)
-      .subscribe({
-        next: (res) => {
-          console.log('Password updated', res);
-          this._ToastrService.success(res.message , 'Talentree');
-          this.passwordForm.reset();
-        },
-        error: (err) => {
-          this._ToastrService.error(err.error.message , 'Talentree');
-          console.error('Error changing password', err);
-        }
-      });
+    this.isChangingPassword = true;
+
+    this._settingService.changePassword(this.passwordForm.value).subscribe({
+      next: (res) => {
+        this.isChangingPassword = false;
+        this._toastr.success(res.message, 'Talentree');
+        this.passwordForm.reset();
+      },
+      error: (err) => {
+        this.isChangingPassword = false;
+        this._toastr.error(err?.error?.message || 'Failed to update password', 'Talentree');
+        console.error(err);
+      }
+    });
   }
-  passwordMatchValidator(form: any) {
-  const newPassword = form.get('newPassword')?.value;
-  const confirmPassword = form.get('confirmNewPassword')?.value;
 
-  return newPassword === confirmPassword ? null : { mismatch: true };
-}
-  // ================= REVOKE SESSIONS =================
-
+  // ═══════════════════════════════════════════════════════════════
+  //  REVOKE SESSIONS
+  // ═══════════════════════════════════════════════════════════════
   revokeSessions(): void {
+    const refreshToken = this._authService.getRefreshToken();
 
-  const refreshToken = this.authService.getRefreshToken();
-
-  if (!refreshToken) {
-    console.error('No refresh token found');
-    return;
-  }
-
-  this.settingService.revokeOtherSessions({
-    currentRefreshToken: refreshToken
-  }).subscribe({
-    next: (res) => {
-      this._ToastrService.success(res.message , 'Talentree' )
-      console.log('Sessions revoked successfully', res);
-    },
-    error: (err) => {
-      this._ToastrService.error('Error revoking sessions' , 'Talentree' )
-      console.error('Error revoking sessions', err);
+    if (!refreshToken) {
+      this._toastr.warning('No active session token found.', 'Talentree');
+      return;
     }
-  });
-}
 
-  // ================= LOGIN HISTORY =================
+    this.isRevoking = true;
 
-  loadLoginHistory(): void {
-    this.settingService.getLoginHistory()
-      .subscribe({
-        next: (res: any) => {
-          this.loginHistory = res?.data || [];
-        },
-        error: (err) => {
-          console.error('Error loading login history', err);
-        }
-      });
+    this._settingService.revokeOtherSessions({ currentRefreshToken: refreshToken }).subscribe({
+      next: (res) => {
+        this.isRevoking = false;
+        this._toastr.success(res.message, 'Talentree');
+      },
+      error: (err) => {
+        this.isRevoking = false;
+        this._toastr.error('Error revoking sessions', 'Talentree');
+        console.error(err);
+      }
+    });
   }
 
-  showCurrentPassword = false;
-showNewPassword = false;
-showConfirmPassword = false;
+  // ═══════════════════════════════════════════════════════════════
+  //  LOGIN HISTORY
+  // ═══════════════════════════════════════════════════════════════
+  loadLoginHistory(): void {
+    this._settingService.getLoginHistory().subscribe({
+      next: (res: any) => {
+        this.loginHistory = res?.data || [];
+      },
+      error: (err) => {
+        console.error('Error loading login history', err);
+      }
+    });
+  }
 
-toggleCurrentPassword(): void {
-  this.showCurrentPassword = !this.showCurrentPassword;
-}
-
-toggleNewPassword(): void {
-  this.showNewPassword = !this.showNewPassword;
-}
-
-toggleConfirmPassword(): void {
-  this.showConfirmPassword = !this.showConfirmPassword;
-}
+  // ═══════════════════════════════════════════════════════════════
+  //  VISIBILITY TOGGLES
+  // ═══════════════════════════════════════════════════════════════
+  toggleCurrentPassword(): void { this.showCurrentPassword = !this.showCurrentPassword; }
+  toggleNewPassword():     void { this.showNewPassword     = !this.showNewPassword; }
+  toggleConfirmPassword(): void { this.showConfirmPassword = !this.showConfirmPassword; }
 }
