@@ -32,7 +32,7 @@ export class CreateAdminComponent implements OnDestroy {
     password: '',
     confirmPassword: '',
     phoneNumber: '',
-    role: 'Admin' // temporary default
+    role: 'SuperAdmin' // temporary default
   };
 
   submit(): void {
