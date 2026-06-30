@@ -31,7 +31,8 @@ export class CreateAdminComponent implements OnDestroy {
     email: '',
     password: '',
     confirmPassword: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    role: 'Admin' // temporary default
   };
 
   submit(): void {
