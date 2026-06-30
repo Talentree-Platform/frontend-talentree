@@ -22,6 +22,7 @@ export interface CreateAdminDto {
   password: string;
   confirmPassword: string;
   phoneNumber?: string;
+  role: string;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
