@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../core/environment/envirinment';
 
 export enum RefundStatus {
   Pending = 0,
@@ -50,7 +51,7 @@ export interface ApiResponse<T = unknown> {
 }
 
 export const REFUND_STATUS_MAP: Record<number, { label: string; color: string; bg: string }> = {
-  [RefundStatus.Pending]:  { label: 'Pending',  color: '#92400e', bg: '#fef3c7' },
+  [RefundStatus.Pending]: { label: 'Pending', color: '#92400e', bg: '#fef3c7' },
   [RefundStatus.Approved]: { label: 'Approved', color: '#065f46', bg: '#d1fae5' },
   [RefundStatus.Rejected]: { label: 'Rejected', color: '#991b1b', bg: '#fee2e2' },
 };
@@ -58,9 +59,9 @@ export const REFUND_STATUS_MAP: Record<number, { label: string; color: string; b
 @Injectable({ providedIn: 'root' })
 export class AdminRefundsService {
 
-  private readonly base = '/api/AdminRefunds';
+  private readonly base = `${environment.baseUrl}/api/AdminRefunds`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * GET /api/AdminRefunds

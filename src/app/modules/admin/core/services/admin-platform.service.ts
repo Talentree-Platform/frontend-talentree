@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { ApiResponse } from '../Interfaces/ibusiness-owner';
+import { environment } from '../../../../core/environment/envirinment';
 
 // ── Auto-Blocks ───────────────────────────────────────────────────────────────
 
@@ -181,7 +182,7 @@ export interface UpdateTaxDto {
 
 @Injectable({ providedIn: 'root' })
 export class AdminAutoBlocksService {
-  private readonly base = '/api/admin/auto-blocks';
+  private readonly base = `${environment.baseUrl}/api/admin/auto-blocks`;
   constructor(private http: HttpClient) { }
 
   getPending(): Observable<ApiResponse<AutoBlockLog[]>> {
@@ -201,12 +202,12 @@ export class AdminAutoBlocksService {
 
 @Injectable({ providedIn: 'root' })
 export class AdminPlatformService {
-  private readonly homepageBase = '/api/admin/platform/homepage';
-  private readonly categoriesBase = '/api/admin/platform/categories';
-  private readonly commissionBase = '/api/admin/platform/commission';
-  private readonly policiesBase = '/api/admin/platform/policies';
-  private readonly shippingBase = '/api/admin/platform/shipping';
-  private readonly taxBase = '/api/admin/platform/tax';
+  private readonly homepageBase = `${environment.baseUrl}/api/admin/platform/homepage`;
+  private readonly categoriesBase = `${environment.baseUrl}/api/admin/platform/categories`;
+  private readonly commissionBase = `${environment.baseUrl}/api/admin/platform/commission`;
+  private readonly policiesBase = `${environment.baseUrl}/api/admin/platform/policies`;
+  private readonly shippingBase = `${environment.baseUrl}/api/admin/platform/shipping`;
+  private readonly taxBase = `${environment.baseUrl}/api/admin/platform/tax`;
 
   constructor(private http: HttpClient) { }
 

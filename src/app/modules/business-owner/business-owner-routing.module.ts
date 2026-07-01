@@ -45,8 +45,8 @@ const routes: Routes = [
       { path: 'rawmaerialproductdetails/:id', component: RawMaterialProductDetailsComponent },
       { path: 'rawmaterialcart', component: RawMaterialCartComponent },
       { path: 'rawmaterialcheckout', component: RawMaterialCheckoutComponent },
-      { path: 'materialOrder' , component : MaterialOrderComponent},
-      {path: 'material-order/:id',component: MaterialOrderDetailsComponent},
+      { path: 'materialOrder', component: MaterialOrderComponent },
+      { path: 'material-order/:id', component: MaterialOrderDetailsComponent },
       { path: 'settingmain', component: SettingMainComponent },
       { path: 'settingbusinessdetails', component: SettingBusinessDetailsComponent },
       { path: 'settingpaymentbilling', component: SettingPaymentBillingComponent },
@@ -67,13 +67,17 @@ const routes: Routes = [
       { path: 'knowledge-base/:id', component: KbDetailsComponent },
       { path: 'financial', component: FinancialComponent },
       { path: 'reviews', component: ReviewsComponent },
-      { path: 'ownerProductionRequestdetails/:id', component:  ProductionRequestDetailsComponent},
-      { path: 'payouthistory', component:  PayoutHistoryComponent},
-      { path: 'tickets',        component: TicketsListComponent },
+      { path: 'ownerProductionRequestdetails/:id', component: ProductionRequestDetailsComponent },
+      { path: 'payouthistory', component: PayoutHistoryComponent },
+      { path: 'tickets', component: TicketsListComponent },
       { path: 'tickets/create', component: TicketCreateComponent },
-  { path: 'tickets/:id',    component: TicketDetailsComponent },
-  { path: 'faq',            component: FaqComponent },
-      {path:'businessChat', component:BusinessChatComponent} //to be removed
+      { path: 'tickets/:id', component: TicketDetailsComponent },
+      { path: 'faq', component: FaqComponent },
+      { path: 'businessChat', component: BusinessChatComponent }, //to be removed
+      {
+        path: 'account',
+        loadChildren: () => import('../account/account.routes').then(m => m.ACCOUNT_ROUTES)
+      }
     ]
   }
 
