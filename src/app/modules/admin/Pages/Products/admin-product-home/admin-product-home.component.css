@@ -352,6 +352,206 @@
   box-shadow: 0 0 0 3px rgba(217,64,64,.1);
 }
 
+.btn-analytics {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.btn-analytics:hover {
+  background: var(--blue-pale);
+  box-shadow: 0 0 0 3px rgba(59,111,232,.1);
+}
+
+/* Low Stock Section */
+.low-stock-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  margin-top: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.low-stock-header {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: #FCFDFB;
+  border-bottom: 1px solid var(--border-soft);
+  transition: background .18s;
+}
+.low-stock-header:hover {
+  background: var(--cream);
+}
+.low-stock-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.low-stock-header-left h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+.low-stock-header-left p {
+  margin: 2px 0 0;
+  font-size: .75rem;
+  color: var(--text-soft);
+}
+.low-stock-toggle-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.low-stock-badge {
+  background: var(--red);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 12px;
+}
+.chevron {
+  transition: transform .2s ease;
+}
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+.low-stock-body {
+  padding: 20px;
+}
+.ls-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  gap: 10px;
+  font-size: .85rem;
+  color: var(--text-mid);
+}
+.ls-error {
+  color: var(--red);
+}
+
+.ls-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.ls-table th {
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  text-align: left;
+  border-bottom: 1.5px solid var(--border-soft);
+}
+.ls-table td {
+  padding: 12px 14px;
+  font-size: .85rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+.stock-badge {
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--amber-pale);
+  color: var(--amber);
+}
+.stock-badge.critical {
+  background: var(--red-pale);
+  color: var(--red);
+}
+
+/* Modals */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(24,19,10,.5);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.analytics-modal {
+  background: var(--surface);
+  border-radius: 16px;
+  border: 1.5px solid var(--gold-border);
+  box-shadow: var(--shadow-md);
+  width: 550px;
+  max-width: 90%;
+  overflow: hidden;
+}
+.analytics-modal-head {
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+}
+.analytics-modal-head h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--text-soft);
+}
+.analytics-modal-body {
+  padding: 24px;
+}
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.analytics-kpi {
+  background: var(--cream);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.analytics-kpi.kpi-gold {
+  grid-column: span 2;
+  background: var(--gold-pale);
+  border-color: var(--gold-border);
+}
+.kpi-label {
+  font-size: .75rem;
+  color: var(--text-soft);
+  font-weight: 500;
+}
+.kpi-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.analytics-kpi.kpi-gold .kpi-value {
+  color: var(--gold);
+}
+
+.spinner-sm {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
 /* ══════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════ */

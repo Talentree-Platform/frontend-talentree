@@ -1,0 +1,70 @@
+<div class="card two-factor-card">
+    <div class="card-header">
+        <i class="fas fa-mobile-alt"></i>
+        <h3>Two-Factor Authentication</h3>
+        <span class="status-pill" [class.enabled]="isTwoFactorEnabled" [class.disabled]="!isTwoFactorEnabled">
+            {{ isTwoFactorEnabled ? 'Enabled' : 'Disabled' }}
+        </span>
+    </div>
+
+    <div class="card-body">
+
+        <!-- Idle State - 2FA Enabled -->
+        <ng-container *ngIf="step === 'idle' && isTwoFactorEnabled">
+            <div class="info-block success-block">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <p class="info-title">2FA is Active</p>
+                    <p class="info-desc">Your account is protected with two-factor authentication.</p>
+                </div>
+            </div>
+            <button class="btn btn-danger" (click)="disable2FA()" [disabled]="loading">
+                <i class="fas fa-times-circle"></i>
+                {{ loading ? 'Processing...' : 'Disable 2FA' }}
+            </button>
+        </ng-container>
+
+        <!-- Idle State - 2FA Disabled -->
+        <ng-container *ngIf="step === 'idle' && !isTwoFactorEnabled">
+            <div class="info-block warning-block">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <p class="info-title">2FA is Not Enabled</p>
+                    <p class="info-desc">Enable two-factor authentication to add an extra layer of security.</p>
+                </div>
+            </div>
+            <button class="btn btn-primary" (click)="requestEnable()" [disabled]="loading">
+                <i class="fas fa-shield-alt"></i>
+                {{ loading ? 'Sending OTP...' : 'Enable 2FA' }}
+            </button>
+        </ng-container>
+
+        <!-- OTP Step -->
+        <ng-container *ngIf="step === 'otp'">
+            <div class="info-block info-block-blue">
+                <i class="fas fa-envelope"></i>
+                <div>
+                    <p class="info-title">Check Your Email</p>
+                    <p class="info-desc">We sent a one-time code to your registered email. Enter it below.</p>
+                </div>
+            </div>
+
+            <div class="otp-input-group">
+                <label class="input-label">OTP Code</label>
+                <input type="text" class="otp-input" [(ngModel)]="otpCode" placeholder="Enter 6-digit code"
+                    maxlength="10" (keyup.enter)="confirmEnable()" />
+            </div>
+
+            <div class="action-row">
+                <button class="btn btn-secondary" (click)="cancelOtp()" [disabled]="loading">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" (click)="confirmEnable()" [disabled]="loading || !otpCode.trim()">
+                    <i class="fas fa-check"></i>
+                    {{ loading ? 'Verifying...' : 'Verify & Enable' }}
+                </button>
+            </div>
+        </ng-container>
+
+    </div>
+</div>

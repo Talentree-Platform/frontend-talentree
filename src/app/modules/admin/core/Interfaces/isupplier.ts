@@ -46,3 +46,26 @@ export interface SupplierFilterParams {
   pageIndex?: number;
   pageSize?: number;
 }
+
+// ── Supplier Performance Interfaces ──────────────────────────────────────────
+
+export interface SupplierPerformanceItem {
+  supplierId?: number | null;
+  supplierName?: string | null;
+  totalOrders?: number | null;
+  totalRevenue?: number | null;
+  averageOrderValue?: number | null;
+  averageFulfillmentTimeHours?: number | null;
+  averageRating?: number | null;
+  totalReviews?: number | null;
+  issueRatePercentage?: number | null;
+}
+
+export interface SupplierPerformanceData {
+  totalSuppliers?: number | null;
+  activeSuppliers?: number | null;
+  inactiveSuppliers?: number | null;
+  averageRating?: number | null;
+  suppliers?: SupplierPerformanceItem[] | null;
+  [key: string]: unknown;
+}

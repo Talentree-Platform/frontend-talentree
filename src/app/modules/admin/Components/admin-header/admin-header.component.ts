@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,5 +11,29 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminTopNavComponent implements OnInit {
   notifCount = 5;
-  ngOnInit() {}
+  dropdownOpen = false;
+
+  constructor(private router: Router) { }
+
+  ngOnInit() { }
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.dropdownOpen = false;
+  }
+
+  logout() {
+    this.dropdownOpen = false;
+    // استبدلي بـ auth service بتاعك
+    localStorage.clear();
+    this.router.navigate(['/auth/login']);
+  }
+  navigateTo(path: string) {
+    this.dropdownOpen = false;
+    this.router.navigate([path]);
+  }
 }

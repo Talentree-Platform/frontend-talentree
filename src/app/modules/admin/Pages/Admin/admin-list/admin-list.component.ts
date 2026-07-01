@@ -1,5 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
-import { AdminService, AdminDto } from '../../../core/services/admin.service';
+import { AdminManagementService, AdminDto } from '../../../core/services/adminManagment.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TableComponent } from '../../../Components/table/table.component';
 import { TitleCasePipe } from '@angular/common';
@@ -11,16 +11,16 @@ import { CommonModule } from '@angular/common';  // Add this import
 @Component({
   selector: 'app-admin-list',
   standalone: true,
-  imports: [TableComponent, TitleCasePipe, CreateAdminComponent,CommonModule],
+  imports: [TableComponent, TitleCasePipe, CreateAdminComponent, CommonModule],
   templateUrl: './admin-list.component.html',
   styleUrl: './admin-list.component.css'
 })
 export class AdminListComponent implements OnInit, OnDestroy {
 
   constructor(
-    private _AdminService: AdminService,
+    private _AdminManagmentService: AdminManagementService,
     private _ToastrService: ToastrService
-  ) {}
+  ) { }
 
   adminSub!: Subscription;
   actionSub!: Subscription;
@@ -48,7 +48,7 @@ export class AdminListComponent implements OnInit, OnDestroy {
   }
 
   loadAdmins(): void {
-    this.adminSub = this._AdminService.getAllAdmins().subscribe({
+    this.adminSub = this._AdminManagmentService.getAllAdmins().subscribe({
       next: (res) => {
         this.admins = res.data;
         this.totalAdmins = res.data.length;
@@ -82,10 +82,16 @@ export class AdminListComponent implements OnInit, OnDestroy {
     if (action === 'reactivate') {
       this.reactivate(row);
     }
+    if (action === 'unlock') {
+      this.unlockAdmin(row);
+    }
+    if (action === 'revoke') {
+      this.revokeSessions(row);
+    }
   }
 
   deactivate(admin: AdminDto): void {
-    this.actionSub = this._AdminService.deactivateAdmin(admin.id).subscribe({
+    this.actionSub = this._AdminManagmentService.deactivateAdmin(admin.id).subscribe({
       next: (res) => {
         this._ToastrService.warning(res.message ?? 'Admin deactivated', 'Talentree', { timeOut: 2000, closeButton: true });
         this.loadAdmins();
@@ -97,13 +103,39 @@ export class AdminListComponent implements OnInit, OnDestroy {
   }
 
   reactivate(admin: AdminDto): void {
-    this.actionSub = this._AdminService.reactivateAdmin(admin.id).subscribe({
+    this.actionSub = this._AdminManagmentService.reactivateAdmin(admin.id).subscribe({
       next: (res) => {
         this._ToastrService.success(res.message ?? 'Admin reactivated', 'Talentree', { timeOut: 2000, closeButton: true });
         this.loadAdmins();
       },
       error: (err) => {
         this._ToastrService.error(err.error?.message ?? 'Failed to reactivate', 'Talentree', { timeOut: 2000, closeButton: true });
+      }
+    });
+  }
+
+  unlockAdmin(admin: AdminDto): void {
+    if (!confirm(`Unlock "${admin.fullName}"? This will remove account lockout.`)) return;
+    this.actionSub = this._AdminManagmentService.unlockAdmin(admin.id).subscribe({
+      next: (res) => {
+        this._ToastrService.success(res.message ?? 'Admin unlocked', 'Talentree', { timeOut: 2000, closeButton: true });
+        this.loadAdmins();
+      },
+      error: (err) => {
+        this._ToastrService.error(err.error?.message ?? 'Failed to unlock admin', 'Talentree', { timeOut: 2000, closeButton: true });
+      }
+    });
+  }
+
+  revokeSessions(admin: AdminDto): void {
+    if (!confirm(`Revoke all sessions for "${admin.fullName}"? They will be signed out immediately.`)) return;
+    this.actionSub = this._AdminManagmentService.revokeAdminSessions(admin.id).subscribe({
+      next: (res) => {
+        this._ToastrService.warning(res.message ?? 'Sessions revoked', 'Talentree', { timeOut: 2000, closeButton: true });
+        this.loadAdmins();
+      },
+      error: (err) => {
+        this._ToastrService.error(err.error?.message ?? 'Failed to revoke sessions', 'Talentree', { timeOut: 2000, closeButton: true });
       }
     });
   }

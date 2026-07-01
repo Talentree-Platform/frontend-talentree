@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
@@ -19,27 +19,31 @@ import {
 } from '../../core/services/admi-user-management.service';
 
 export const ACCOUNT_STATUS: Record<number, { label: string; badge: string }> = {
-  1: { label: 'Active',    badge: 'badge-active'    },
+  1: { label: 'Active', badge: 'badge-active' },
   2: { label: 'Suspended', badge: 'badge-suspended' },
-  3: { label: 'Banned',    badge: 'badge-banned'    },
-  4: { label: 'Blocked',   badge: 'badge-blocked'   },
+  3: { label: 'Banned', badge: 'badge-banned' },
+  4: { label: 'Blocked', badge: 'badge-blocked' },
 };
 
 export const APPROVAL_STATUS: Record<number, { label: string; badge: string }> = {
-  1: { label: 'Pending',  badge: 'badge-pending' },
-  2: { label: 'Approved', badge: 'badge-active'  },
-  3: { label: 'Rejected', badge: 'badge-banned'  },
+  1: { label: 'Pending', badge: 'badge-pending' },
+  2: { label: 'Approved', badge: 'badge-active' },
+  3: { label: 'Rejected', badge: 'badge-banned' },
 };
 
-export function getInitials(name: string): string {
-  if (!name) return '?';
-  return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
+export function getInitials(name: any): string {
+  if (!name || typeof name !== 'string') return '?';
+  const parts = name.trim().split(/\s+/);
+  return parts.slice(0, 2).map(w => w ? w[0] : '').join('').toUpperCase() || '?';
 }
 
 const AVATAR_CLASSES = ['av-gold', 'av-blue', 'av-green', 'av-red'];
-export function avatarClass(id: string): string {
+export function avatarClass(id: any): string {
+  if (!id || typeof id !== 'string') return 'av-gold';
   let hash = 0;
-  for (const c of id) hash += c.charCodeAt(0);
+  for (let i = 0; i < id.length; i++) {
+    hash += id.charCodeAt(i);
+  }
   return AVATAR_CLASSES[hash % AVATAR_CLASSES.length];
 }
 
@@ -49,7 +53,6 @@ export function avatarClass(id: string): string {
   imports: [CommonModule, FormsModule],
   templateUrl: './admin-user-management.component.html',
   styleUrls: ['./admin-user-management.component.css'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class AdminUserManagementComponent implements OnInit, OnDestroy {
 
@@ -79,27 +82,33 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
   cuFilters: CustomerFilterParams = { pageIndex: 1, pageSize: 20 };
 
   // ─── Modal state ───
-  isModalOpen   = false;
+  isModalOpen = false;
   isModalLoading = false;
   modalType: 'bo' | 'cu' = 'bo';
   selectedBO: BusinessOwnerDetails | null = null;
   selectedCustomer: CustomerDetails | null = null;   // ← CustomerDetails not CustomerListItem
 
   // ─── Filter state ───
-  searchText     = '';
-  statusFilter   = '';
+  searchText = '';
+  statusFilter = '';
   categoryFilter = '';
-  dateFrom       = '';
-  dateTo         = '';
+  dateFrom = '';
+  dateTo = '';
 
   stats = { businessOwners: 0, customers: 0, suspended: 0, banned: 0 };
 
-  ACCOUNT_STATUS  = ACCOUNT_STATUS;
+  ACCOUNT_STATUS = ACCOUNT_STATUS;
   APPROVAL_STATUS = APPROVAL_STATUS;
-  getInitials     = getInitials;
-  avatarClass     = avatarClass;
+  getInitials = getInitials;
+  avatarClass = avatarClass;
 
-  constructor(private svc: AdminUserManagementService) {}
+  safeNumber(val: any): number {
+    if (val === null || val === undefined) return 0;
+    const num = Number(val);
+    return isNaN(num) ? 0 : num;
+  }
+
+  constructor(private svc: AdminUserManagementService) { }
 
   ngOnInit(): void {
     this.searchChange$
@@ -144,14 +153,14 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
 
   loadBO(): void {
     this.isLoading = true;
-    this.errorMsg  = null;
+    this.errorMsg = null;
     const params: BusinessOwnerFilterParams = {
       ...this.boFilters,
-      searchQuery:          this.searchText   || undefined,
-      accountStatus:        this.statusFilter ? (Number(this.statusFilter) as 1|2|3|4) : undefined,
-      category:             this.categoryFilter || undefined,
-      registrationDateFrom: this.dateFrom     || undefined,
-      registrationDateTo:   this.dateTo       || undefined,
+      searchQuery: this.searchText || undefined,
+      accountStatus: this.statusFilter ? (Number(this.statusFilter) as 1 | 2 | 3 | 4) : undefined,
+      category: this.categoryFilter || undefined,
+      registrationDateFrom: this.dateFrom || undefined,
+      registrationDateTo: this.dateTo || undefined,
     };
     this.svc.getBusinessOwners(params)
       .pipe(takeUntil(this.destroy$))
@@ -160,10 +169,10 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
           if (res.success) {
             this.businessOwners = res.data.data;
             const { data: _, ...pag } = res.data;
-            this.boPagination        = pag;
+            this.boPagination = pag;
             this.stats.businessOwners = res.data.count;
-            this.stats.suspended      = this.businessOwners.filter(b => b.isSuspended).length;
-            this.stats.banned         = this.businessOwners.filter(b => b.isBanned).length;
+            this.stats.suspended = this.businessOwners.filter(b => b.isSuspended).length;
+            this.stats.banned = this.businessOwners.filter(b => b.isBanned).length;
           } else { this.errorMsg = res.message ?? 'Failed to load business owners.'; }
           this.isLoading = false;
         },
@@ -174,17 +183,17 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
   loadCustomers(): void {
     const params: CustomerFilterParams = {
       ...this.cuFilters,
-      searchQuery:          this.searchText   || undefined,
-      accountStatus:        this.statusFilter ? (Number(this.statusFilter) as 1|2|3|4) : undefined,
-      registrationDateFrom: this.dateFrom     || undefined,
-      registrationDateTo:   this.dateTo       || undefined,
+      searchQuery: this.searchText || undefined,
+      accountStatus: this.statusFilter ? (Number(this.statusFilter) as 1 | 2 | 3 | 4) : undefined,
+      registrationDateFrom: this.dateFrom || undefined,
+      registrationDateTo: this.dateTo || undefined,
     };
     this.svc.getCustomers(params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
           if (res.success) {
-            this.customers    = res.data.data;
+            this.customers = res.data.data;
             const { data: _, ...pag } = res.data;
             this.cuPagination = pag;
             this.stats.customers = res.data.count;
@@ -212,16 +221,39 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
   // ─── Modal: Business Owner ───
 
   openBOModal(userId: string): void {
-    this.modalType      = 'bo';
-    this.isModalOpen    = true;
-    this.selectedBO     = null;
+    console.log('[AdminUserManagement] openBOModal called for userId:', userId);
+    this.modalType = 'bo';
+    this.isModalOpen = true;
+    this.selectedBO = null;
     this.selectedCustomer = null;
     this.isModalLoading = true;
     this.svc.getBusinessOwnerById(userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next:  (res) => { if (res.success) this.selectedBO = res.data; this.isModalLoading = false; },
-        error: ()    => { this.isModalLoading = false; },
+        next: (res: any) => {
+          console.log('[AdminUserManagement] getBusinessOwnerById response:', JSON.stringify(res));
+          // Handle both ApiResponse wrapper and direct object from API
+          if (res && typeof res === 'object') {
+            if ('success' in res) {
+              // Standard ApiResponse wrapper: { success: true, data: {...} }
+              if (res.success && res.data) {
+                this.selectedBO = res.data;
+              } else {
+                console.warn('[AdminUserManagement] BO detail API returned success=false:', res.message);
+              }
+            } else if ('id' in res) {
+              // Direct object returned by API (no wrapper)
+              this.selectedBO = res;
+            } else {
+              console.warn('[AdminUserManagement] BO detail API returned unknown shape:', res);
+            }
+          }
+          this.isModalLoading = false;
+        },
+        error: (err) => {
+          console.error('[AdminUserManagement] getBusinessOwnerById error:', err);
+          this.isModalLoading = false;
+        },
       });
   }
 
@@ -229,22 +261,49 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
   // مثل الـ BO بالظبط — بنجيب CustomerDetails من الـ API
 
   openCustomerModal(cu: CustomerListItem): void {
-    this.modalType      = 'cu';
-    this.isModalOpen    = true;
-    this.selectedBO     = null;
+    console.log('[AdminUserManagement] openCustomerModal called for customer:', cu);
+    if (!cu || !cu.id) {
+      console.error('[AdminUserManagement] Invalid customer object passed to openCustomerModal:', cu);
+      return;
+    }
+    this.modalType = 'cu';
+    this.isModalOpen = true;
+    this.selectedBO = null;
     this.selectedCustomer = null;
     this.isModalLoading = true;
     this.svc.getCustomerById(cu.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next:  (res) => { if (res.success) this.selectedCustomer = res.data; this.isModalLoading = false; },
-        error: ()    => { this.isModalLoading = false; },
+        next: (res: any) => {
+          console.log('[AdminUserManagement] getCustomerById response:', JSON.stringify(res));
+          // Handle both ApiResponse wrapper and direct object from API
+          if (res && typeof res === 'object') {
+            if ('success' in res) {
+              // Standard ApiResponse wrapper: { success: true, data: {...} }
+              if (res.success && res.data) {
+                this.selectedCustomer = res.data;
+              } else {
+                console.warn('[AdminUserManagement] Customer detail API returned success=false:', res.message);
+              }
+            } else if ('id' in res) {
+              // Direct object returned by API (no wrapper)
+              this.selectedCustomer = res;
+            } else {
+              console.warn('[AdminUserManagement] Customer detail API returned unknown shape:', res);
+            }
+          }
+          this.isModalLoading = false;
+        },
+        error: (err) => {
+          console.error('[AdminUserManagement] getCustomerById error:', err);
+          this.isModalLoading = false;
+        },
       });
   }
 
   closeModal(): void {
-    this.isModalOpen    = false;
-    this.selectedBO     = null;
+    this.isModalOpen = false;
+    this.selectedBO = null;
     this.selectedCustomer = null;
   }
 
@@ -304,13 +363,6 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
       .subscribe({ next: () => { this.openBOModal(this.selectedBO!.id); this.loadBO(); } });
   }
 
-  modalUnsuspend(): void {
-    if (!this.selectedBO) return;
-    this.svc.unsuspendBusinessOwner(this.selectedBO.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({ next: () => { this.openBOModal(this.selectedBO!.id); this.loadBO(); } });
-  }
-
   modalBlock(): void {
     if (!this.selectedBO) return;
     const reason = prompt('Block reason (min 10 chars):');
@@ -334,6 +386,17 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
     this.svc.banBusinessOwner({ userId: this.selectedBO.id, reason, isPermanent: true })
       .pipe(takeUntil(this.destroy$))
       .subscribe({ next: () => { this.openBOModal(this.selectedBO!.id); this.loadBO(); } });
+  }
+
+  modalUnsuspend(): void {
+    if (!this.selectedBO) return;
+    if (!confirm(`Lift suspension for "${this.selectedBO.displayName}"?`)) return;
+    this.svc.unsuspendBusinessOwner(this.selectedBO.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => { this.openBOModal(this.selectedBO!.id); this.loadBO(); },
+        error: (e: any) => alert(e?.error?.message ?? 'Failed to unsuspend.'),
+      });
   }
 
   // ─── Customer Table Actions ───
@@ -360,8 +423,19 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
     this.svc.deleteCustomer(cu.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next:  () => { this.loadCustomers(); this.stats.customers = Math.max(0, this.stats.customers - 1); },
+        next: () => { this.loadCustomers(); this.stats.customers = Math.max(0, this.stats.customers - 1); },
         error: () => { this.errorMsg = `Cannot delete "${cu.name}". This customer may have existing orders or data linked to their account.`; },
+      });
+  }
+
+  onDeactivateCustomer(cu: CustomerListItem, event: Event): void {
+    event.stopPropagation();
+    if (!confirm(`Are you sure you want to deactivate "${cu.name}"?`)) return;
+    this.svc.deactivateCustomer(cu.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => { this.loadCustomers(); },
+        error: (e) => alert(e.message || 'Failed to deactivate customer.')
       });
   }
 
@@ -374,7 +448,7 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
     this.svc.blockCustomer({ userId: this.selectedCustomer.id, reason })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next:  () => { this.openCustomerModalById(this.selectedCustomer!.id); this.loadCustomers(); },
+        next: () => { this.openCustomerModalById(this.selectedCustomer!.id); this.loadCustomers(); },
         error: (e) => alert(e.message),
       });
   }
@@ -385,7 +459,7 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
     this.svc.unblockCustomer(this.selectedCustomer.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next:  () => { this.openCustomerModalById(this.selectedCustomer!.id); this.loadCustomers(); },
+        next: () => { this.openCustomerModalById(this.selectedCustomer!.id); this.loadCustomers(); },
         error: (e) => alert(e.message),
       });
   }
@@ -396,19 +470,51 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
     this.svc.deleteCustomer(this.selectedCustomer.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next:  () => { this.closeModal(); this.loadCustomers(); this.stats.customers = Math.max(0, this.stats.customers - 1); },
+        next: () => { this.closeModal(); this.loadCustomers(); this.stats.customers = Math.max(0, this.stats.customers - 1); },
         error: () => { this.errorMsg = `Cannot delete "${this.selectedCustomer?.name}". This customer may have existing orders or data linked to their account.`; },
+      });
+  }
+
+  modalDeactivateCustomer(): void {
+    if (!this.selectedCustomer) return;
+    if (!confirm(`Are you sure you want to deactivate "${this.selectedCustomer.name}"?`)) return;
+    this.svc.deactivateCustomer(this.selectedCustomer.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.openCustomerModalById(this.selectedCustomer!.id);
+          this.loadCustomers();
+        },
+        error: (e) => alert(e.message || 'Failed to deactivate customer.')
       });
   }
 
   // helper — reload modal after action
   private openCustomerModalById(id: string): void {
+    console.log('[AdminUserManagement] openCustomerModalById called for id:', id);
     this.isModalLoading = true;
     this.svc.getCustomerById(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next:  (res) => { if (res.success) this.selectedCustomer = res.data; this.isModalLoading = false; },
-        error: ()    => { this.isModalLoading = false; },
+        next: (res: any) => {
+          console.log('[AdminUserManagement] openCustomerModalById response:', JSON.stringify(res));
+          if (res && typeof res === 'object') {
+            if ('success' in res) {
+              if (res.success && res.data) {
+                this.selectedCustomer = res.data;
+              } else {
+                console.warn('[AdminUserManagement] openCustomerModalById success=false:', res.message);
+              }
+            } else if ('id' in res) {
+              this.selectedCustomer = res;
+            }
+          }
+          this.isModalLoading = false;
+        },
+        error: (err) => {
+          console.error('[AdminUserManagement] openCustomerModalById error:', err);
+          this.isModalLoading = false;
+        },
       });
   }
 }

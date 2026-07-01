@@ -1,0 +1,210 @@
+<!-- SVG Icon Templates -->
+<ng-template #iconSearch><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg></ng-template>
+<ng-template #iconDownload><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+    </svg></ng-template>
+<ng-template #iconRefresh><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10" />
+        <polyline points="1 20 1 14 7 14" />
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+    </svg></ng-template>
+<ng-template #iconX><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+    </svg></ng-template>
+<ng-template #iconUserSearch><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <circle cx="18" cy="17" r="3" />
+        <line x1="20.5" y1="19.5" x2="22" y2="21" />
+    </svg></ng-template>
+<ng-template #iconBox><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <path
+            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+        <line x1="12" y1="22.08" x2="12" y2="12" />
+    </svg></ng-template>
+
+<div class="content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <h1 class="page-title">User Interactions</h1>
+            <p class="page-subtitle">Search a user's interaction history across the platform</p>
+        </div>
+        <div class="page-header-actions">
+            <button class="btn-outline" (click)="refresh()" [disabled]="!searchedUserId" title="Refresh">
+                <ng-container *ngTemplateOutlet="iconRefresh"></ng-container> Refresh
+            </button>
+            <button class="btn-gold" (click)="exportInteractions()" [disabled]="exportLoading">
+                <span class="spinner" *ngIf="exportLoading" style="width:13px;height:13px;border-width:2px"></span>
+                <ng-container *ngIf="!exportLoading"><ng-container
+                        *ngTemplateOutlet="iconDownload"></ng-container></ng-container>
+                {{ exportLoading ? 'Exporting…' : 'Export' }}
+            </button>
+        </div>
+    </div>
+
+    <!-- SEARCH CARD -->
+    <div class="table-card" style="margin-bottom: 18px;">
+        <div class="filters" style="border-bottom: none; background: var(--gold-pale);">
+            <div class="search-wrap" style="flex: 1;">
+                <span class="search-icon"><ng-container *ngTemplateOutlet="iconSearch"></ng-container></span>
+                <input type="text" placeholder="Enter a User ID to view their interaction history…"
+                    [(ngModel)]="userIdInput" (keydown.enter)="search()" />
+            </div>
+            <button class="btn-gold" (click)="search()" [disabled]="isLoading">Search</button>
+            <button class="btn-clear" *ngIf="searchedUserId" (click)="clearSearch()">✕ Clear</button>
+        </div>
+
+        <!-- Export date range -->
+        <div class="filters" style="border-top: 1px solid var(--border);">
+            <span style="font-size:12px; color: var(--text-muted); font-weight: 500;">Export range:</span>
+            <input class="filter-select" type="date" [(ngModel)]="exportFromDate" title="From Date"
+                style="cursor:auto;" />
+            <span style="color: var(--text-muted); font-size: 12px;">to</span>
+            <input class="filter-select" type="date" [(ngModel)]="exportToDate" title="To Date" style="cursor:auto;" />
+            <span style="font-size:11px; color: var(--text-muted);">(leave empty to export all interactions)</span>
+        </div>
+    </div>
+
+    <!-- ══════ NOT SEARCHED YET — EMPTY STATE ══════ -->
+    <div class="table-card" *ngIf="!hasSearched">
+        <div class="empty-state-big">
+            <ng-container *ngTemplateOutlet="iconUserSearch"></ng-container>
+            <h3>Search for a user</h3>
+            <p>Enter a User ID above and press <strong>Search</strong> to view their interaction history.</p>
+        </div>
+    </div>
+
+    <!-- ══════ RESULTS ══════ -->
+    <ng-container *ngIf="hasSearched">
+
+        <!-- STATS (derived from the current page only) -->
+        <div class="stats-row" *ngIf="!isLoading && interactions.length > 0">
+            <div class="stat-card gold">
+                <div class="label">Total Interactions</div>
+                <div class="value">{{ totalCount | number }}</div>
+                <div class="sub">For this user</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Action Types (this page)</div>
+                <div class="value">{{ distinctActionTypesOnPage }}</div>
+                <div class="sub">Distinct actions</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Value (this page)</div>
+                <div class="value">{{ formatPrice(pageTotalValue) }}</div>
+                <div class="sub">Sum of item prices</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Last Interaction</div>
+                <div class="value" style="font-size: 16px;">{{ formatDateTime(lastInteractionOnPage) }}</div>
+                <div class="sub">Most recent on this page</div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="table-header">
+                <span style="font-size: 13px; color: var(--text-muted);">
+                    Showing interactions for user <strong style="color: var(--text);">{{ searchedUserId }}</strong>
+                </span>
+            </div>
+
+            <!-- LOADING -->
+            <div class="loading-row" *ngIf="isLoading">
+                <span class="spinner"></span> Loading interactions…
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-wrap" *ngIf="!isLoading">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="sortable" (click)="toggleSort('id')">
+                                ID <span class="sort-icon" *ngIf="sortBy === 'id'">{{ sortDesc ? '↓' : '↑' }}</span>
+                            </th>
+                            <th>User Type</th>
+                            <th>Item</th>
+                            <th class="sortable" (click)="toggleSort('itemType')">
+                                Entity/Module <span class="sort-icon" *ngIf="sortBy === 'itemType'">{{ sortDesc ? '↓' :
+                                    '↑' }}</span>
+                            </th>
+                            <th class="sortable" (click)="toggleSort('actionType')">
+                                Action <span class="sort-icon" *ngIf="sortBy === 'actionType'">{{ sortDesc ? '↓' : '↑'
+                                    }}</span>
+                            </th>
+                            <th class="sortable" (click)="toggleSort('category')">
+                                Category <span class="sort-icon" *ngIf="sortBy === 'category'">{{ sortDesc ? '↓' : '↑'
+                                    }}</span>
+                            </th>
+                            <th class="sortable" (click)="toggleSort('quantity')">
+                                Qty <span class="sort-icon" *ngIf="sortBy === 'quantity'">{{ sortDesc ? '↓' : '↑'
+                                    }}</span>
+                            </th>
+                            <th class="sortable" (click)="toggleSort('price')">
+                                Price <span class="sort-icon" *ngIf="sortBy === 'price'">{{ sortDesc ? '↓' : '↑'
+                                    }}</span>
+                            </th>
+                            <th class="sortable" (click)="toggleSort('interactionTimestamp')">
+                                Timestamp <span class="sort-icon" *ngIf="sortBy === 'interactionTimestamp'">{{ sortDesc
+                                    ? '↓' : '↑' }}</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- EMPTY STATE (per requirement: not an error) -->
+                        <tr *ngIf="interactions.length === 0">
+                            <td colspan="9">
+                                <div class="empty-state-inline">
+                                    <ng-container *ngTemplateOutlet="iconBox"></ng-container>
+                                    <span>No interactions found</span>
+                                    <span class="empty-sub">This user has no recorded interactions{{ exportFromDate ||
+                                        exportToDate ? ' in the selected range' : '' }}.</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr *ngFor="let i of interactions">
+                            <td style="font-weight:500;color:var(--text-muted)">#{{ i.id }}</td>
+                            <td><span class="violation-tag">{{ i.userType || '—' }}</span></td>
+                            <td style="color:var(--text-muted);font-size:12px">#{{ i.itemId }}</td>
+                            <td>{{ i.itemType || '—' }}</td>
+                            <td>
+                                <span class="badge" [ngClass]="actionBadgeClass(i.actionType)">
+                                    <span class="dot"></span>{{ i.actionType || '—' }}
+                                </span>
+                            </td>
+                            <td style="color:var(--text-muted);font-size:12px">{{ i.category || '—' }}</td>
+                            <td>{{ i.quantity ?? '—' }}</td>
+                            <td class="amount-cell">{{ formatPrice(i.price) }}</td>
+                            <td style="color:var(--text-muted);font-size:12px">{{ formatDateTime(i.interactionTimestamp)
+                                }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PAGINATION -->
+            <div class="pagination-wrapper" *ngIf="!isLoading && totalPages > 1">
+                <app-pagination [pageIndex]="pageIndex" [totalPages]="totalPages" [hasNext]="hasNext"
+                    [hasPrevious]="hasPrevious" (pageChange)="pageChangeEvent($event)">
+                </app-pagination>
+            </div>
+        </div>
+    </ng-container>
+
+</div>

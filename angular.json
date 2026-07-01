@@ -76,7 +76,7 @@
             },
             "development": {
               "buildTarget": "talentree:build:development",
-              "proxyConfig": "proxy.conf.mjs"
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

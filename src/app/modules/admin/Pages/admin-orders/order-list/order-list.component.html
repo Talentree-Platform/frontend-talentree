@@ -1,0 +1,674 @@
+<div class="orders-container">
+
+    <!-- ══════════════════════════════════════════════════════
+       PAGE HEADER
+  ═══════════════════════════════════════════════════════ -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <h1 class="page-title">Orders</h1>
+            <p class="page-subtitle">Manage and monitor all customer orders</p>
+        </div>
+        <div class="page-header-actions">
+            <button class="btn-refresh" (click)="refresh()" title="Refresh">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10" />
+                    <polyline points="1 20 1 14 7 14" />
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+                </svg>
+                Refresh
+            </button>
+            <button class="btn-export" (click)="exportOrders()" [disabled]="exportLoading">
+                <svg *ngIf="!exportLoading" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                <div *ngIf="exportLoading" class="btn-spin"></div>
+                {{ exportLoading ? 'Exporting…' : 'Export' }}
+            </button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+       STATS CARDS
+  ═══════════════════════════════════════════════════════ -->
+    <div class="stats-grid">
+
+        <!-- Total Orders -->
+        <div class="stat-card stat-total">
+            <div class="stat-icon-wrap icon-purple">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-label">Total Orders</span>
+                <span class="stat-number" *ngIf="!statsLoading">{{ statNum(stats?.totalOrders) }}</span>
+                <div class="stat-skeleton" *ngIf="statsLoading"></div>
+            </div>
+            <span class="stat-badge badge-purple">All</span>
+        </div>
+
+        <!-- Pending -->
+        <div class="stat-card stat-pending">
+            <div class="stat-icon-wrap icon-amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                </svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-label">Pending</span>
+                <span class="stat-number" *ngIf="!statsLoading">{{ statNum(stats?.pendingOrders) }}</span>
+                <div class="stat-skeleton" *ngIf="statsLoading"></div>
+            </div>
+            <span class="stat-badge badge-amber">Pending</span>
+        </div>
+
+        <!-- Processing -->
+        <div class="stat-card stat-processing">
+            <div class="stat-icon-wrap icon-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <polyline points="23 4 23 10 17 10" />
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-label">Processing</span>
+                <span class="stat-number" *ngIf="!statsLoading">{{ statNum(stats?.processingOrders) }}</span>
+                <div class="stat-skeleton" *ngIf="statsLoading"></div>
+            </div>
+            <span class="stat-badge badge-blue">In Progress</span>
+        </div>
+
+        <!-- Delivered -->
+        <div class="stat-card stat-delivered">
+            <div class="stat-icon-wrap icon-green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-label">Delivered</span>
+                <span class="stat-number" *ngIf="!statsLoading">{{ statNum(stats?.deliveredOrders) }}</span>
+                <div class="stat-skeleton" *ngIf="statsLoading"></div>
+            </div>
+            <span class="stat-badge badge-green">Done</span>
+        </div>
+
+        <!-- Cancelled -->
+        <div class="stat-card stat-cancelled">
+            <div class="stat-icon-wrap icon-red">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="15" y1="9" x2="9" y2="15" />
+                    <line x1="9" y1="9" x2="15" y2="15" />
+                </svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-label">Cancelled</span>
+                <span class="stat-number" *ngIf="!statsLoading">{{ statNum(stats?.cancelledOrders) }}</span>
+                <div class="stat-skeleton" *ngIf="statsLoading"></div>
+            </div>
+            <span class="stat-badge badge-red">Alert</span>
+        </div>
+
+        <!-- Revenue -->
+        <div class="stat-card stat-revenue">
+            <div class="stat-icon-wrap icon-gold">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <line x1="12" y1="1" x2="12" y2="23" />
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-label">Total Revenue</span>
+                <span class="stat-number gold-text" *ngIf="!statsLoading">{{ formatCurrency(stats?.totalRevenue)
+                    }}</span>
+                <div class="stat-skeleton" *ngIf="statsLoading"></div>
+                <span class="stat-growth" *ngIf="stats?.monthlyGrowthPercentage != null && !statsLoading"
+                    [ngClass]="growthClass(stats?.monthlyGrowthPercentage)">
+                    {{ (stats?.monthlyGrowthPercentage ?? 0) >= 0 ? '▲' : '▼' }}
+                    {{ (stats?.monthlyGrowthPercentage ?? 0) | number:'1.1-1' }}% this month
+                </span>
+            </div>
+        </div>
+
+    </div><!-- /stats-grid -->
+
+    <!-- ══════════════════════════════════════════════════════
+       FILTERS BAR
+  ═══════════════════════════════════════════════════════ -->
+    <div class="filters-bar">
+        <input class="filter-input" type="text" placeholder="Search orders, customers…" [(ngModel)]="searchTerm"
+            (input)="onSearch()" />
+
+        <select class="filter-select" [(ngModel)]="selectedStatus" (change)="onFilterChange()">
+            <option value="">All Statuses</option>
+            <option *ngFor="let s of orderStatusOptions" [value]="s.value">{{ s.label }}</option>
+        </select>
+
+        <select class="filter-select" [(ngModel)]="selectedPaymentStatus" (change)="onFilterChange()">
+            <option value="">All Payments</option>
+            <option *ngFor="let p of paymentStatusOptions" [value]="p.value">{{ p.label }}</option>
+        </select>
+
+        <input class="filter-date" type="date" [(ngModel)]="dateFrom" (change)="onFilterChange()" title="Date From" />
+        <input class="filter-date" type="date" [(ngModel)]="dateTo" (change)="onFilterChange()" title="Date To" />
+
+        <button class="btn-clear" (click)="clearFilters()">✕ Clear</button>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+       TABLE
+  ═══════════════════════════════════════════════════════ -->
+    <div class="table-wrapper">
+        <table class="orders-table">
+            <thead>
+                <tr>
+                    <th class="sortable" (click)="toggleSort('id')">
+                        Order ID
+                        <span class="sort-icon" *ngIf="sortBy === 'id'">{{ sortDesc ? '↓' : '↑' }}</span>
+                    </th>
+                    <th class="sortable" (click)="toggleSort('customerName')">
+                        Customer
+                        <span class="sort-icon" *ngIf="sortBy === 'customerName'">{{ sortDesc ? '↓' : '↑' }}</span>
+                    </th>
+                    <th>Business Owner</th>
+                    <th class="sortable" (click)="toggleSort('totalAmount')">
+                        Total
+                        <span class="sort-icon" *ngIf="sortBy === 'totalAmount'">{{ sortDesc ? '↓' : '↑' }}</span>
+                    </th>
+                    <th>Status</th>
+                    <th>Payment</th>
+                    <th class="sortable" (click)="toggleSort('orderDate')">
+                        Order Date
+                        <span class="sort-icon" *ngIf="sortBy === 'orderDate'">{{ sortDesc ? '↓' : '↑' }}</span>
+                    </th>
+                    <th>Last Updated</th>
+                    <th class="center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- Loading skeleton -->
+                <tr *ngIf="isLoading">
+                    <td colspan="9">
+                        <div class="table-loading">
+                            <div class="gold-spin"></div>
+                            <span>Loading orders…</span>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Data rows -->
+                <ng-container *ngIf="!isLoading">
+                    <tr *ngFor="let order of orders" class="order-row">
+
+                        <!-- Order ID -->
+                        <td>
+                            <span class="order-id">#{{ order.id }}</span>
+                            <span class="order-number" *ngIf="order.orderNumber">{{ order.orderNumber }}</span>
+                        </td>
+
+                        <!-- Customer -->
+                        <td>
+                            <div class="person-cell">
+                                <div class="person-avatar">{{ (order.customerName ?? 'C')[0].toUpperCase() }}</div>
+                                <div>
+                                    <div class="person-name">{{ order.customerName ?? '—' }}</div>
+                                    <div class="person-sub">{{ order.customerEmail ?? '' }}</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Business Owner -->
+                        <td>
+                            <div class="person-cell" *ngIf="order.sellerNames">
+                                <div class="person-avatar bo-avatar">{{ order.sellerNames[0].toUpperCase() }}</div>
+                                <span class="person-name">{{ order.sellerNames }}</span>
+                            </div>
+                            <span *ngIf="!order.sellerNames" class="text-muted">—</span>
+                        </td>
+
+                        <!-- Total -->
+                        <td>
+                            <span class="amount-cell">{{ formatCurrency(order.totalAmount) }}</span>
+                        </td>
+
+                        <!-- Status -->
+                        <td>
+                            <span class="status-pill" [ngClass]="orderStatusClass(order.status)">
+                                {{ order.status }}
+                            </span>
+                        </td>
+
+                        <!-- Payment -->
+                        <td>
+                            <span class="pay-pill" [ngClass]="paymentStatusClass(order.paymentStatus)">
+                                {{ order.paymentStatus }}
+                            </span>
+                        </td>
+
+                        <!-- Order Date -->
+                        <td class="date-cell">{{ formatDate(order.createdAt) }}</td>
+
+                        <!-- Last Updated -->
+                        <td class="date-cell">{{ formatDate(order.updatedAt) }}</td>
+
+                        <!-- Actions -->
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action btn-view" (click)="viewOrder(order)" title="View Details">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                    View
+                                </button>
+                                <button class="btn-action btn-status" (click)="openStatusForm(order)"
+                                    title="Update Status">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <polyline points="23 4 23 10 17 10" />
+                                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                                    </svg>
+                                    Status
+                                </button>
+                                <button class="btn-action btn-note" (click)="openNotesForm(order)" title="Add Note">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                        <polyline points="14 2 14 8 20 8" />
+                                        <line x1="16" y1="13" x2="8" y2="13" />
+                                        <line x1="16" y1="17" x2="8" y2="17" />
+                                    </svg>
+                                    Note
+                                </button>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <!-- Empty state -->
+                    <tr *ngIf="(orders?.length ?? 0) === 0">
+                        <td colspan="9">
+                            <div class="empty-state">
+                                <div class="empty-icon">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="1.4">
+                                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                                        <line x1="3" y1="6" x2="21" y2="6" />
+                                        <path d="M16 10a4 4 0 0 1-8 0" />
+                                    </svg>
+                                </div>
+                                <span>No orders found</span>
+                                <span class="empty-sub">Try adjusting your filters or search term</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+       PAGINATION
+  ═══════════════════════════════════════════════════════ -->
+    <div class="pagination-wrapper" *ngIf="totalPages > 1">
+        <app-pagination [pageIndex]="pageIndex" [totalPages]="totalPages" [hasNext]="hasNext"
+            [hasPrevious]="hasPrevious" (pageChange)="pageChangeEvent($event)">
+        </app-pagination>
+    </div>
+
+</div><!-- /orders-container -->
+
+<!-- ══════════════════════════════════════════════════════
+     MODAL BACKDROP
+═══════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" *ngIf="isDetailsOpen || isStatusFormOpen || isNotesFormOpen" (click)="closeModals()">
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     ORDER DETAILS MODAL
+═══════════════════════════════════════════════════════ -->
+<div class="modal-panel modal-xl" *ngIf="isDetailsOpen">
+    <div class="modal-header">
+        <div class="modal-header-left">
+            <div class="modal-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+            </div>
+            <div>
+                <h2 class="modal-title">Order Details</h2>
+                <p class="modal-subtitle" *ngIf="selectedOrder">
+                    #{{ selectedOrder.id }}
+                    <span *ngIf="selectedOrder.orderNumber"> · {{ selectedOrder.orderNumber }}</span>
+                </p>
+            </div>
+        </div>
+        <button class="modal-close" (click)="closeModals()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Loading -->
+    <div class="modal-loading" *ngIf="detailLoading">
+        <div class="gold-spin"></div>
+        <span>Loading order details…</span>
+    </div>
+
+    <!-- Content -->
+    <div class="modal-body" *ngIf="!detailLoading && selectedOrder">
+
+        <!-- Top row: status + payment -->
+        <div class="detail-status-row">
+            <span class="status-pill status-lg" [ngClass]="orderStatusClass(selectedOrder.status)">
+                {{ ORDER_STATUS_LABELS[selectedOrder.status] }}
+            </span>
+            <span class="pay-pill pay-lg" [ngClass]="paymentStatusClass(selectedOrder.paymentStatus)">
+                {{ PAYMENT_STATUS_LABELS[selectedOrder.paymentStatus] }}
+            </span>
+            <span class="detail-meta" *ngIf="selectedOrder.paymentMethod">
+                via {{ selectedOrder.paymentMethod }}
+            </span>
+        </div>
+
+        <!-- Info grid -->
+        <div class="detail-grid">
+
+            <!-- Customer Info -->
+            <div class="detail-section">
+                <h3 class="detail-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    Customer
+                </h3>
+                <div class="detail-row"><span class="dr-label">Name</span><span class="dr-val">{{
+                        selectedOrder.customerName ?? '—' }}</span></div>
+                <div class="detail-row"><span class="dr-label">Email</span><span class="dr-val">{{
+                        selectedOrder.customerEmail ?? '—' }}</span></div>
+                <div class="detail-row"><span class="dr-label">Phone</span><span class="dr-val">{{
+                        selectedOrder.customerPhone ?? '—' }}</span></div>
+            </div>
+
+            <!-- Business Owner Info -->
+            <div class="detail-section">
+                <h3 class="detail-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2" />
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                    </svg>
+                    Business Owner
+                </h3>
+                <div class="detail-row"><span class="dr-label">Name</span><span class="dr-val">{{
+                        selectedOrder.businessOwnerName ?? '—' }}</span></div>
+                <div class="detail-row"><span class="dr-label">Email</span><span class="dr-val">{{
+                        selectedOrder.businessOwnerEmail ?? '—' }}</span></div>
+            </div>
+
+            <!-- Dates -->
+            <div class="detail-section">
+                <h3 class="detail-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    Dates
+                </h3>
+                <div class="detail-row"><span class="dr-label">Order Date</span><span class="dr-val">{{
+                        formatDateTime(selectedOrder.orderDate) }}</span></div>
+                <div class="detail-row"><span class="dr-label">Last Updated</span><span class="dr-val">{{
+                        formatDateTime(selectedOrder.updatedAt) }}</span></div>
+                <div class="detail-row" *ngIf="selectedOrder.estimatedDeliveryDate"><span class="dr-label">Est.
+                        Delivery</span><span class="dr-val">{{ formatDate(selectedOrder.estimatedDeliveryDate) }}</span>
+                </div>
+                <div class="detail-row" *ngIf="selectedOrder.deliveredAt"><span class="dr-label">Delivered
+                        At</span><span class="dr-val">{{ formatDateTime(selectedOrder.deliveredAt) }}</span></div>
+            </div>
+
+            <!-- Shipping -->
+            <div class="detail-section">
+                <h3 class="detail-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="3" width="15" height="13" />
+                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                        <circle cx="5.5" cy="18.5" r="2.5" />
+                        <circle cx="18.5" cy="18.5" r="2.5" />
+                    </svg>
+                    Shipping
+                </h3>
+                <div class="detail-row"><span class="dr-label">Address</span><span class="dr-val">{{
+                        selectedOrder.shippingAddress ?? '—' }}</span></div>
+                <div class="detail-row"><span class="dr-label">City</span><span class="dr-val">{{
+                        selectedOrder.shippingCity ?? '—' }}</span></div>
+                <div class="detail-row"><span class="dr-label">Country</span><span class="dr-val">{{
+                        selectedOrder.shippingCountry ?? '—' }}</span></div>
+                <div class="detail-row" *ngIf="selectedOrder.trackingNumber"><span class="dr-label">Tracking
+                        #</span><span class="dr-val tracking">{{ selectedOrder.trackingNumber }}</span></div>
+            </div>
+
+        </div><!-- /detail-grid -->
+
+        <!-- Products Table -->
+        <div class="detail-products" *ngIf="selectedOrder.products && selectedOrder.products.length > 0">
+            <h3 class="detail-section-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+                Products ({{ selectedOrder.products.length }})
+            </h3>
+            <div class="products-table-wrap">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>SKU</th>
+                            <th class="center">Qty</th>
+                            <th class="right">Unit Price</th>
+                            <th class="right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of selectedOrder.products">
+                            <td>
+                                <div class="prod-name-cell">
+                                    <div class="prod-thumb" *ngIf="p.imageUrl">
+                                        <img [src]="p.imageUrl" [alt]="p.productName ?? ''" />
+                                    </div>
+                                    <span>{{ p.productName ?? '—' }}</span>
+                                </div>
+                            </td>
+                            <td class="text-muted">{{ p.sku ?? '—' }}</td>
+                            <td class="center">{{ p.quantity }}</td>
+                            <td class="right">{{ formatCurrency(p.unitPrice) }}</td>
+                            <td class="right amount-cell">{{ formatCurrency(p.totalPrice) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pricing Breakdown -->
+        <div class="pricing-breakdown">
+            <div class="price-row" *ngIf="selectedOrder.subtotal != null">
+                <span>Subtotal</span><span>{{ formatCurrency(selectedOrder.subtotal) }}</span>
+            </div>
+            <div class="price-row" *ngIf="selectedOrder.shippingCost != null">
+                <span>Shipping</span><span>{{ formatCurrency(selectedOrder.shippingCost) }}</span>
+            </div>
+            <div class="price-row" *ngIf="selectedOrder.taxAmount != null">
+                <span>Tax</span><span>{{ formatCurrency(selectedOrder.taxAmount) }}</span>
+            </div>
+            <div class="price-row discount"
+                *ngIf="selectedOrder.discountAmount != null && selectedOrder.discountAmount > 0">
+                <span>Discount</span><span>-{{ formatCurrency(selectedOrder.discountAmount) }}</span>
+            </div>
+            <div class="price-row total-row">
+                <span>Total</span><span>{{ formatCurrency(selectedOrder.totalAmount) }}</span>
+            </div>
+        </div>
+
+        <!-- Status History Timeline -->
+        <div class="detail-timeline" *ngIf="selectedOrder.statusHistory && selectedOrder.statusHistory.length > 0">
+            <h3 class="detail-section-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                </svg>
+                Status Timeline
+            </h3>
+            <div class="timeline">
+                <div class="timeline-item" *ngFor="let h of selectedOrder.statusHistory">
+                    <div class="timeline-dot" [ngClass]="orderStatusClass(h.status)"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-status">{{ ORDER_STATUS_LABELS[h.status] }}</div>
+                        <div class="timeline-meta">
+                            {{ formatDateTime(h.changedAt) }}
+                            <span *ngIf="h.changedBy"> · by {{ h.changedBy }}</span>
+                        </div>
+                        <div class="timeline-reason" *ngIf="h.reason">{{ h.reason }}</div>
+                        <div class="timeline-tracking" *ngIf="h.trackingNumber">
+                            Tracking: <span class="tracking">{{ h.trackingNumber }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="detail-notes" *ngIf="selectedOrder.notes && selectedOrder.notes.length > 0">
+            <h3 class="detail-section-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                </svg>
+                Notes ({{ selectedOrder.notes.length }})
+            </h3>
+            <div class="notes-list">
+                <div class="note-item" *ngFor="let n of selectedOrder.notes" [class.note-admin]="n.isAdmin">
+                    <div class="note-header">
+                        <span class="note-author">{{ n.createdBy ?? 'Admin' }}</span>
+                        <span class="note-badge" *ngIf="n.isAdmin">Admin</span>
+                        <span class="note-date">{{ formatDateTime(n.createdAt) }}</span>
+                    </div>
+                    <p class="note-text">{{ n.note }}</p>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /modal-body -->
+</div><!-- /details modal -->
+
+<!-- ══════════════════════════════════════════════════════
+     UPDATE STATUS MODAL
+═══════════════════════════════════════════════════════ -->
+<div class="modal-panel modal-sm" *ngIf="isStatusFormOpen">
+    <div class="modal-header">
+        <div class="modal-header-left">
+            <div class="modal-icon modal-icon-blue">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10" />
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+            </div>
+            <div>
+                <h2 class="modal-title">Update Status</h2>
+                <p class="modal-subtitle" *ngIf="selectedOrder">Order #{{ selectedOrder.id }}</p>
+            </div>
+        </div>
+        <button class="modal-close" (click)="closeModals()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="form-label">New Status <span class="req">*</span></label>
+            <select class="form-select" [(ngModel)]="statusForm.newStatus">
+                <option *ngFor="let s of orderStatusOptions" [value]="s.value">{{ s.label }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Reason <span class="req">*</span></label>
+            <input class="form-input" type="text" [(ngModel)]="statusForm.reason"
+                placeholder="Reason for status change (required)" required />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Tracking Number (optional)</label>
+            <input class="form-input" type="text" [(ngModel)]="statusForm.trackingNumber"
+                placeholder="e.g. 1Z999AA10123456784" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Est. Delivery Date (optional)</label>
+            <input class="form-input" type="date" [(ngModel)]="statusForm.estimatedDeliveryDate" />
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" (click)="closeModals()">Cancel</button>
+            <button class="btn-submit" (click)="submitStatusUpdate()" [disabled]="statusSubmitting">
+                <div class="btn-spin" *ngIf="statusSubmitting"></div>
+                {{ statusSubmitting ? 'Saving…' : 'Update Status' }}
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     ADD NOTE MODAL
+═══════════════════════════════════════════════════════ -->
+<div class="modal-panel modal-sm" *ngIf="isNotesFormOpen">
+    <div class="modal-header">
+        <div class="modal-header-left">
+            <div class="modal-icon modal-icon-gold">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                </svg>
+            </div>
+            <div>
+                <h2 class="modal-title">Add Note</h2>
+                <p class="modal-subtitle" *ngIf="selectedOrder">Order #{{ selectedOrder.id }}</p>
+            </div>
+        </div>
+        <button class="modal-close" (click)="closeModals()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="form-label">Note <span class="req">*</span></label>
+            <textarea class="form-textarea" [(ngModel)]="noteText" rows="5"
+                placeholder="Enter your admin note here…"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" (click)="closeModals()">Cancel</button>
+            <button class="btn-submit" (click)="submitNote()" [disabled]="noteSubmitting || !noteText.trim()">
+                <div class="btn-spin" *ngIf="noteSubmitting"></div>
+                {{ noteSubmitting ? 'Adding…' : 'Add Note' }}
+            </button>
+        </div>
+    </div>
+</div>
