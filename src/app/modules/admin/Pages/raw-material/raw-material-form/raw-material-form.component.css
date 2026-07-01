@@ -1,1 +1,36 @@
 @import url(../raw-material.shared.css);
+
+.file-input-custom {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text-primary, #1A1408);
+  background-color: var(--white, #ffffff);
+  border: 1px solid var(--border, #E8E2D0);
+  border-radius: var(--r-sm, 6px);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.file-input-custom:hover {
+  border-color: var(--gold-300, #F0D060);
+  background-color: var(--gold-50, #FFFDF5);
+}
+
+.image-preview-container {
+  margin-top: 12px;
+  padding: 8px;
+  border: 1.5px dashed var(--gold-300, #F0D060);
+  border-radius: var(--r-md, 10px);
+  background-color: var(--gold-50, #FFFDF5);
+  display: inline-block;
+}
+
+.raw-material-preview-img {
+  max-width: 180px;
+  max-height: 120px;
+  border-radius: var(--r-sm, 6px);
+  object-fit: cover;
+  box-shadow: var(--shadow-sm, 0 1px 4px rgba(154, 114, 9, 0.08));
+}

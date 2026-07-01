@@ -1,93 +1,109 @@
-<div class="container py-5">
+<div class="od-page">
 
-  @if(orderDetails){
+  @if (orderDetails) {
 
-    <div class="card shadow-sm border-0 rounded-4 p-4 mb-5">
+    <!-- ── Back link ───────────────────────────────────────────────────────── -->
+    <a class="od-back-link" routerLink="/businessowner/material-order">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Orders
+    </a>
 
-      <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- ── Header card ─────────────────────────────────────────────────────── -->
+    <div class="od-card od-header-card">
 
-        <div>
-          <h2 class="fw-bold mb-2">
-            Order #{{ orderDetails.id }}
-          </h2>
+      <div class="od-header-row">
 
-          <p class="text-muted mb-0">
-            {{ orderDetails.createdAt | date:'medium' }}
-          </p>
+        <div class="od-title-block">
+          <h2 class="od-order-id">Order #{{ orderDetails.id }}</h2>
+          <p class="od-created-date">{{ orderDetails.createdAt | date:'medium' }}</p>
         </div>
 
-        <div class="d-flex gap-3">
-
-          <span class="status-badge status-pending">
+        <div class="od-header-badges">
+          <span class="od-badge" [attr.data-status]="orderDetails.status">
+            <span class="od-badge__dot"></span>
             {{ getStatus(orderDetails.status) }}
           </span>
 
-          <span class="status-badge status-approved">
+          <span class="od-badge" [attr.data-payment]="orderDetails.paymentStatus">
             {{ getPaymentStatus(orderDetails.paymentStatus) }}
           </span>
 
+          @if (orderDetails.paymentStatus === 0) {
+            <button class="btn-main btn-gold od-pay-btn" (click)="openPaymentModal()" [disabled]="creatingIntent">
+              @if (creatingIntent) {
+                <span class="od-btn-spinner"></span>
+                Preparing…
+              } @else {
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                Pay Now
+              }
+            </button>
+          }
         </div>
 
       </div>
 
-      <div class="row g-4">
+      @if (intentError) {
+        <div class="od-inline-error">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          {{ intentError }}
+        </div>
+      }
 
-        <div class="col-md-4">
-          <div class="info-box">
-            <h6>Delivery Address</h6>
-            <p>
-              {{ orderDetails.deliveryAddress }}
-            </p>
+      <!-- Info grid -->
+      <div class="od-info-grid">
+
+        <div class="od-info-card">
+          <div class="od-info-card-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Delivery Address
           </div>
+          <p class="od-info-card-primary">{{ orderDetails.deliveryAddress }}</p>
         </div>
 
-        <div class="col-md-4">
-          <div class="info-box">
-            <h6>City</h6>
-            <p>
-              {{ orderDetails.deliveryCity }}
-            </p>
+        <div class="od-info-card">
+          <div class="od-info-card-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+            City
           </div>
+          <p class="od-info-card-primary">{{ orderDetails.deliveryCity }}</p>
         </div>
 
-        <div class="col-md-4">
-          <div class="info-box">
-            <h6>Country</h6>
-            <p>
-              {{ orderDetails.deliveryCountry }}
-            </p>
+        <div class="od-info-card">
+          <div class="od-info-card-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            Country
           </div>
+          <p class="od-info-card-primary">{{ orderDetails.deliveryCountry }}</p>
         </div>
 
-        <div class="col-md-4">
-          <div class="info-box">
-            <h6>Phone</h6>
-            <p>
-              {{ orderDetails.contactPhone }}
-            </p>
+        <div class="od-info-card">
+          <div class="od-info-card-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.31 1.91.54 2.83a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.92.23 1.87.41 2.83.54A2 2 0 0122 16.92z"/></svg>
+            Phone
           </div>
+          <p class="od-info-card-primary">{{ orderDetails.contactPhone }}</p>
         </div>
 
-        <div class="col-md-4">
-          <div class="info-box">
-            <h6>Total Amount</h6>
-            <p>
-              {{ orderDetails.totalAmount }} EGP
-            </p>
+        <div class="od-info-card od-info-card--highlight">
+          <div class="od-info-card-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            Total Amount
           </div>
+          <p class="od-info-card-amount">{{ orderDetails.totalAmount }} <span class="od-currency">EGP</span></p>
         </div>
 
       </div>
 
     </div>
 
-    <!-- ITEMS TABLE -->
+    <!-- ── Items table ─────────────────────────────────────────────────────── -->
+    <div class="od-section-label">Order Items</div>
 
-    <div class="table-wrapper">
+    <div class="od-table-wrap">
+      <div class="od-table-responsive">
 
-      <div class="table-responsive">
-
-        <table class="table product-table">
+        <table class="od-table">
 
           <thead>
             <tr>
@@ -102,33 +118,23 @@
 
           <tbody>
 
-            @for(item of orderDetails.items; track item.id){
+            @for (item of orderDetails.items; track item.id) {
 
               <tr>
 
-                <td class="product-id">
-                  #{{ item.id }}
-                </td>
+                <td class="od-row-index">#{{ item.id }}</td>
+
+                <td class="od-material-name">{{ item.materialName }}</td>
+
+                <td class="od-unit-cell">{{ item.unit }}</td>
 
                 <td>
-                  {{ item.materialName }}
+                  <span class="od-qty-badge">{{ item.quantity }}</span>
                 </td>
 
-                <td>
-                  {{ item.unit }}
-                </td>
+                <td class="od-price-cell">{{ item.unitPriceAtPurchase }} EGP</td>
 
-                <td>
-                  {{ item.quantity }}
-                </td>
-
-                <td>
-                  {{ item.unitPriceAtPurchase }} EGP
-                </td>
-
-                <td class="price">
-                  {{ item.lineTotal }} EGP
-                </td>
+                <td class="od-total-cell">{{ item.lineTotal }} EGP</td>
 
               </tr>
 
@@ -136,12 +142,37 @@
 
           </tbody>
 
+          <tfoot>
+            <tr>
+              <td colspan="5" class="od-foot-label">Order Total</td>
+              <td class="od-foot-total">{{ orderDetails.totalAmount }} EGP</td>
+            </tr>
+          </tfoot>
+
         </table>
 
       </div>
-
     </div>
 
+  } @else {
+
+    <div class="od-loading-state">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="od-spin"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+      Loading order details…
+    </div>
+
+  }
+
+  <!-- ── Payment Modal ────────────────────────────────────────────────────── -->
+  @if (showPaymentModal && intentData) {
+    <app-payment-modal
+      [stripePublishableKey]="stripePublishableKey"
+      [intentData]="intentData"
+      [amountDisplay]="paymentAmountDisplay"
+      (closed)="onPaymentModalClosed()"
+      (succeeded)="onPaymentSucceeded()"
+      (paymentError)="onPaymentError($event)"
+    ></app-payment-modal>
   }
 
 </div>

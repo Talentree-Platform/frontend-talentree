@@ -1,0 +1,53 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Talentree · co-payment-modal styles
+// ─────────────────────────────────────────────────────────────────────────────
+@import '../../../Core/styles/co-modal-shared';
+.co-modal-amount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $gold-pale;
+  border: 1px solid $gold-border;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: $text-mid;
+
+  &__value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: $gold;
+  }
+}
+
+.co-card-field {
+  margin-bottom: 18px;
+
+  label {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-mid;
+    margin-bottom: 6px;
+  }
+}
+
+.co-stripe-element {
+  border: 1px solid $gold-border;
+  border-radius: 12px;
+  background: $bg-main;
+  padding: 13px 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus-within {
+    border-color: $gold;
+    box-shadow: 0 0 0 3px rgba($gold, 0.12);
+  }
+}
+
+.co-pay-btn { margin-top: 4px; }

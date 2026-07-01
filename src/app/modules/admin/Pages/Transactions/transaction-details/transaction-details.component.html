@@ -1,0 +1,104 @@
+<div class="modal-backdrop" (click)="close()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+
+        <!-- Header -->
+        <div class="modal-header">
+            <div class="modal-title-row">
+                <h2 class="modal-title">Transaction Details</h2>
+                <span class="type-chip">{{ typeLabels[transaction.type] }}</span>
+            </div>
+            <button class="close-btn" (click)="close()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <!-- ── Transaction Info ── -->
+            <section class="detail-section">
+                <h3 class="section-title"><i class="fas fa-receipt"></i> Transaction Information</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">ID</span>
+                        <span class="detail-value mono">#{{ transaction.id }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Type</span>
+                        <span class="detail-value">{{ typeLabels[transaction.type] }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Amount</span>
+                        <span class="detail-value amount-value" [class.amount-negative]="transaction.amount < 0">
+                            {{ formatAmount(transaction.amount) }}
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Balance After</span>
+                        <span class="detail-value">{{ formatAmount(transaction.balanceAfter) }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Description</span>
+                        <span class="detail-value">{{ transaction.description || '—' }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Anomaly Flagged</span>
+                        <span class="detail-value" [class.flag-yes]="transaction.anomalyFlag"
+                            [class.flag-no]="!transaction.anomalyFlag">
+                            <i class="fas" [ngClass]="transaction.anomalyFlag ? 'fa-flag' : 'fa-check'"></i>
+                            {{ transaction.anomalyFlag ? 'Yes (score: ' + transaction.anomalyScore + ')' : 'No' }}
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Business Owner Info ── -->
+            <section class="detail-section">
+                <h3 class="section-title"><i class="fas fa-user"></i> Business Owner</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Name</span>
+                        <span class="detail-value">{{ transaction.businessOwnerName || '—' }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-value">{{ transaction.businessOwnerEmail || '—' }}</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Reference Info ── -->
+            <section class="detail-section">
+                <h3 class="section-title"><i class="fas fa-link"></i> Reference</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Reference Type</span>
+                        <span class="detail-value">{{ transaction.referenceType || '—' }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Reference ID</span>
+                        <span class="detail-value mono">#{{ transaction.referenceId }}</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Timeline ── -->
+            <section class="detail-section">
+                <h3 class="section-title"><i class="fas fa-clock"></i> Timeline</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot created"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-label">Created</span>
+                            <span class="timeline-date">{{ formatDate(transaction.createdAt) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="close()">Close</button>
+        </div>
+    </div>
+</div>

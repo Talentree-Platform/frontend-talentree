@@ -1,99 +1,141 @@
 <!-- Toast -->
 @if (toast) {
   <div
-    class="toast-wrapper"
-    [class.toast-success]="toast.type === 'success'"
-    [class.toast-error]="toast.type === 'error'">
+    class="po-toast"
+    [class.po-toast--success]="toast.type === 'success'"
+    [class.po-toast--error]="toast.type === 'error'">
+    <span class="po-toast__icon">{{ toast.type === 'success' ? '✓' : '!' }}</span>
     <span>{{ toast.message }}</span>
   </div>
 }
 
-<div class="page history-page">
+<div class="po-page">
 
-  <!-- Header -->
-  <div class="page-header">
-    <div>
-      <h1 class="page-title">Payout History</h1>
-      <p class="text-ap-muted page-subtitle">
-        Manage your earnings and track all withdrawal requests
-      </p>
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="po-hero">
+    <div class="po-hero__blob po-hero__blob--a"></div>
+    <div class="po-hero__blob po-hero__blob--b"></div>
+    <div class="po-hero__grain"></div>
+
+    <div class="po-hero__top">
+      <div class="po-hero__copy">
+        <span class="po-hero__badge">Financial Center</span>
+
+        <h1 class="po-hero__title">
+          Payout &amp;<br />
+          <span class="po-hero__title-accent">Earnings</span>
+        </h1>
+
+        <p class="po-hero__subtitle">
+          Track withdrawals, monitor earnings and manage your financial growth.
+        </p>
+
+        <button class="po-btn po-btn--gold po-hero__cta" (click)="openModal()">
+          <span class="po-btn__icon">↑</span>
+          Request Payout
+        </button>
+      </div>
+
+      <div class="po-hero__art" aria-hidden="true">
+        <svg viewBox="0 0 220 160" class="po-hero__chart">
+          <defs>
+            <linearGradient id="poChartFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.45" />
+              <stop offset="100%" stop-color="#C9A84C" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <polyline
+            points="0,120 30,100 60,108 90,70 120,82 150,40 180,52 220,18"
+            fill="none" stroke="#e2c675" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <polygon
+            points="0,120 30,100 60,108 90,70 120,82 150,40 180,52 220,18 220,160 0,160"
+            fill="url(#poChartFill)" />
+          <circle cx="220" cy="18" r="4.5" fill="#C9A84C" />
+          <circle cx="220" cy="18" r="9" fill="none" stroke="#C9A84C" stroke-opacity="0.4" stroke-width="1.5" />
+        </svg>
+      </div>
     </div>
 
-    <button
-      class="btn-main"
-      (click)="openModal()">
-      <span class="btn-icon">↑</span>
-      Request Payout
-    </button>
-  </div>
-
-  <!-- Summary Cards -->
-  <section class="balance-grid">
-
-    <div class="card balance-card balance-card--main">
-      <div class="balance-card__icon">💳</div>
-      <div class="balance-card__label">Available Balance</div>
-      <div class="balance-card__amount">
-        {{ currency }} {{ availableBalance | number:'1.2-2' }}
+    <!-- Stats strip -->
+    <div class="po-hero__stats">
+      <div class="po-hero__stat">
+        <span class="po-hero__stat-label">Available Balance</span>
+        <span class="po-hero__stat-value">{{ currency }} {{ availableBalance | number:'1.2-2' }}</span>
       </div>
-      <div class="balance-card__hint">
-        Ready to withdraw
+      <div class="po-hero__stat-divider"></div>
+      <div class="po-hero__stat">
+        <span class="po-hero__stat-label">Pending Balance</span>
+        <span class="po-hero__stat-value">{{ currency }} {{ pendingBalance | number:'1.2-2' }}</span>
+      </div>
+      <div class="po-hero__stat-divider"></div>
+      <div class="po-hero__stat">
+        <span class="po-hero__stat-label">Total Earnings</span>
+        <span class="po-hero__stat-value">{{ currency }} {{ totalEarnings | number:'1.2-2' }}</span>
       </div>
     </div>
+  </section>
 
-    <div class="card balance-card balance-card--pending">
-      <div class="balance-card__icon">⏳</div>
-      <div class="balance-card__label">Pending Balance</div>
-      <div class="balance-card__amount">
-        {{ currency }} {{ pendingBalance | number:'1.2-2' }}
+  <!-- ═══════════ SUMMARY CARDS ═══════════ -->
+  <section class="po-balance-grid">
+
+    <div class="po-card po-balance-card po-balance-card--available">
+      <div class="po-balance-card__overlay"></div>
+      <div class="po-balance-card__icon-ring">
+        <span class="po-balance-card__icon">💳</span>
       </div>
-      <div class="balance-card__hint">
-        Being processed
-      </div>
+      <div class="po-balance-card__label">Available Balance</div>
+      <div class="po-balance-card__amount">{{ currency }} {{ availableBalance | number:'1.2-2' }}</div>
+      <div class="po-balance-card__hint">Ready to withdraw</div>
     </div>
 
-    <div class="card balance-card balance-card--earnings">
-      <div class="balance-card__icon">📈</div>
-      <div class="balance-card__label">Total Earnings</div>
-      <div class="balance-card__amount">
-        {{ currency }} {{ totalEarnings | number:'1.2-2' }}
+    <div class="po-card po-balance-card po-balance-card--pending">
+      <div class="po-balance-card__overlay"></div>
+      <div class="po-balance-card__icon-ring">
+        <span class="po-balance-card__icon">⏳</span>
       </div>
-      <div class="balance-card__hint">
-        All time
+      <div class="po-balance-card__label">Pending Balance</div>
+      <div class="po-balance-card__amount">{{ currency }} {{ pendingBalance | number:'1.2-2' }}</div>
+      <div class="po-balance-card__hint">Being processed</div>
+    </div>
+
+    <div class="po-card po-balance-card po-balance-card--earnings">
+      <div class="po-balance-card__overlay"></div>
+      <div class="po-balance-card__icon-ring">
+        <span class="po-balance-card__icon">📈</span>
       </div>
+      <div class="po-balance-card__label">Total Earnings</div>
+      <div class="po-balance-card__amount">{{ currency }} {{ totalEarnings | number:'1.2-2' }}</div>
+      <div class="po-balance-card__hint">All time</div>
     </div>
 
   </section>
 
-  <!-- Filters -->
-  <div class="card filters-card">
-    <div class="filters-row">
+  <!-- ═══════════ FILTERS ═══════════ -->
+  <div class="po-card po-filters">
+    <div class="po-filters__row">
 
-      <div class="filter-group">
-        <label class="filter-label">Status</label>
+      <div class="po-filter-group">
+        <label class="po-filter-label">Status</label>
         <select
-          class="select-main"
+          class="po-select"
           [value]="selectedStatus"
           (change)="onStatusChange($any($event.target).value)">
 
           @for (opt of statusOptions; track opt.value) {
-            <option [value]="opt.value">
-              {{ opt.label }}
-            </option>
+            <option [value]="opt.value">{{ opt.label }}</option>
           }
 
         </select>
       </div>
 
-      <div class="filter-group filter-group--grow">
-        <label class="filter-label">Search</label>
+      <div class="po-filter-group po-filter-group--grow">
+        <label class="po-filter-label">Search</label>
 
-        <div class="search-wrapper">
-          <span class="search-icon">🔍</span>
-
+        <div class="po-search">
+          <span class="po-search__icon">🔍</span>
           <input
             type="text"
-            class="input-main search-input"
+            class="po-input po-search__input"
             placeholder="Search by amount or bank name..."
             [value]="searchQuery"
             (input)="onSearch($any($event.target).value)" />
@@ -101,58 +143,52 @@
       </div>
 
       @if (!isLoading) {
-        <div class="filter-count">
-          <span class="count-badge">
-            {{ filteredPayouts.length }}
-          </span>
-          <span class="text-ap-muted count-label">
-            results
-          </span>
+        <div class="po-filter-count">
+          <span class="po-count-pill">{{ filteredPayouts.length }}</span>
+          <span class="po-count-label">results</span>
         </div>
       }
 
     </div>
   </div>
 
-  <!-- Table -->
-  <div class="card table-card">
+  <!-- ═══════════ TABLE / LEDGER ═══════════ -->
+  <div class="po-card po-ledger">
 
     @if (isLoading) {
-      <div class="loading-state">
-        <div class="spinner"></div>
-        <p>Loading payout history...</p>
+      <div class="po-state po-state--loading">
+        <div class="po-shimmer-stack">
+          @for (row of [1,2,3,4,5]; track row) {
+            <div class="po-shimmer-row"></div>
+          }
+        </div>
+        <p class="po-state__text">Loading payout history...</p>
       </div>
     }
 
     @if (!isLoading && errorMsg) {
-      <div class="error-state">
-        <div class="error-icon">⚠️</div>
+      <div class="po-state po-state--error">
+        <div class="po-state__icon">⚠️</div>
         <p>{{ errorMsg }}</p>
-        <button
-          class="btn-main"
-          (click)="fetchHistory()">
-          Retry
-        </button>
+        <button class="po-btn po-btn--gold" (click)="fetchHistory()">Retry</button>
       </div>
     }
 
     @if (!isLoading && !errorMsg && filteredPayouts.length === 0) {
-      <div class="empty-state">
-        <div class="empty-icon">📭</div>
+      <div class="po-state po-state--empty">
+        <div class="po-state__icon">📭</div>
         <h3>No payouts found</h3>
-        <p class="text-ap-muted">
-          Your payout requests will appear here.
-        </p>
+        <p class="po-state__muted">Your payout requests will appear here.</p>
       </div>
     }
 
     @if (!isLoading && !errorMsg && filteredPayouts.length > 0) {
-      <div class="table-wrapper">
+      <div class="po-table-responsive">
 
-        <table class="payout-table">
+        <table class="po-table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>Order ID</th>
               <th>Amount</th>
               <th>Bank</th>
               <th>Account</th>
@@ -167,40 +203,30 @@
             @for (p of filteredPayouts; track p.id) {
               <tr>
 
-                <td>#{{ p.id }}</td>
+                <td class="po-order-id">#{{ p.id }}</td>
 
-                <td>
-                  <strong>
-                    {{ p.currency }}
-                    {{ p.amount | number:'1.2-2' }}
-                  </strong>
+                <td class="po-price">
+                  {{ p.amount | number:'1.2-2' }} <span class="po-currency">{{ p.currency }}</span>
                 </td>
 
-                <td>
-                  {{ p.bankName }}
-                </td>
+                <td class="po-cell-bank">{{ p.bankName }}</td>
+
+                <td class="po-cell-account">{{ maskAccount(p.maskedAccountIdentifier) }}</td>
 
                 <td>
-                  {{ maskAccount(p.maskedAccountIdentifier) }}
-                </td>
-
-                <td>
-                  <span
-                    class="status-badge"
-                    [ngClass]="getStatusClass(p.status)">
+                  <span class="po-status-badge" [ngClass]="getStatusClass(p.status)">
+                    <span class="po-status-badge__dot"></span>
                     {{ getStatusLabel(p.status) }}
                   </span>
                 </td>
 
-                <td>
-                  {{ p.createdAt | date:'MMM d, y · h:mm a' }}
-                </td>
+                <td class="po-date">{{ p.createdAt | date:'MMM d, y · h:mm a' }}</td>
 
-                <td>
+                <td class="po-date">
                   @if (p.processedAt) {
                     {{ p.processedAt | date:'MMM d, y' }}
                   } @else {
-                    —
+                    <span class="po-dash">—</span>
                   }
                 </td>
 
@@ -214,10 +240,10 @@
     }
 
     @if (!isLoading && totalPages > 1) {
-      <div class="pagination">
+      <div class="po-pagination">
 
         <button
-          class="page-btn"
+          class="po-page-btn"
           [disabled]="pageIndex === 1"
           (click)="goToPage(pageIndex - 1)">
           ‹
@@ -225,15 +251,15 @@
 
         @for (page of getPages(); track page) {
           <button
-            class="page-btn"
-            [class.page-btn--active]="page === pageIndex"
+            class="po-page-btn"
+            [class.po-page-btn--active]="page === pageIndex"
             (click)="goToPage(page)">
             {{ page }}
           </button>
         }
 
         <button
-          class="page-btn"
+          class="po-page-btn"
           [disabled]="pageIndex === totalPages"
           (click)="goToPage(pageIndex + 1)">
           ›
@@ -243,93 +269,98 @@
     }
 
   </div>
-  
+
 </div>
 
-<!-- Modal -->
+<!-- ═══════════ MODAL ═══════════ -->
 @if (isModalOpen) {
-  <div
-    class="modal-overlay"
-    (click)="closeModal()">
+  <div class="po-modal-overlay" (click)="closeModal()">
 
-    <div
-      class="modal-box"
-      (click)="$event.stopPropagation()">
+    <div class="po-modal" (click)="$event.stopPropagation()">
 
-      <div class="modal-header">
-        <h2 class="modal-title">
-          Request Payout
-        </h2>
-
-        <button
-          class="modal-close"
-          (click)="closeModal()">
-          ✕
-        </button>
+      <div class="po-modal__header">
+        <h2 class="po-modal__title">Request Payout</h2>
+        <button class="po-modal__close" (click)="closeModal()">✕</button>
       </div>
 
-      <p class="modal-hint text-ap-muted">
+      <p class="po-modal__hint">
         Available:
-        <strong>
-          {{ currency }}
-          {{ availableBalance | number:'1.2-2' }}
-        </strong>
+        <strong>{{ currency }} {{ availableBalance | number:'1.2-2' }}</strong>
       </p>
 
-      <form
-        [formGroup]="payoutForm"
-        (ngSubmit)="submitPayout()"
-        class="modal-form">
+      <form [formGroup]="payoutForm" (ngSubmit)="submitPayout()" class="po-modal__form">
 
-        <input
-          type="number"
-          formControlName="amount"
-          class="input-main"
-          placeholder="Amount" />
+        <div class="po-form-group">
+          <label class="po-form-label">Amount</label>
+          <input
+            type="number"
+            formControlName="amount"
+            class="po-input"
+            placeholder="0.00" />
+          @if (isFieldInvalid('amount')) {
+            <span class="po-form-error">Please enter a valid amount.</span>
+          }
+        </div>
 
-        <input
-          type="text"
-          formControlName="bankName"
-          class="input-main"
-          placeholder="Bank Name" />
+        <div class="po-form-group">
+          <label class="po-form-label">Bank Name</label>
+          <input
+            type="text"
+            formControlName="bankName"
+            class="po-input"
+            placeholder="e.g. National Bank of Egypt" />
+          @if (isFieldInvalid('bankName')) {
+            <span class="po-form-error">Bank name is required.</span>
+          }
+        </div>
 
-        <input
-          type="text"
-          formControlName="accountHolderName"
-          class="input-main"
-          placeholder="Account Holder Name" />
+        <div class="po-form-group">
+          <label class="po-form-label">Account Holder Name</label>
+          <input
+            type="text"
+            formControlName="accountHolderName"
+            class="po-input"
+            placeholder="Full name on account" />
+          @if (isFieldInvalid('accountHolderName')) {
+            <span class="po-form-error">Account holder name is required.</span>
+          }
+        </div>
 
-        <input
-          type="text"
-          formControlName="accountIdentifier"
-          class="input-main"
-          placeholder="Account Number / IBAN" />
+        <div class="po-form-group">
+          <label class="po-form-label">Account Number / IBAN</label>
+          <input
+            type="text"
+            formControlName="accountIdentifier"
+            class="po-input"
+            placeholder="Account number or IBAN" />
+          @if (isFieldInvalid('accountIdentifier')) {
+            <span class="po-form-error">Account number is required.</span>
+          }
+        </div>
 
-        <input
-          type="text"
-          formControlName="routingSwiftCode"
-          class="input-main"
-          placeholder="Routing / SWIFT Code" />
+        <div class="po-form-group">
+          <label class="po-form-label">Routing / SWIFT Code</label>
+          <input
+            type="text"
+            formControlName="routingSwiftCode"
+            class="po-input"
+            placeholder="Routing or SWIFT code" />
+          @if (isFieldInvalid('routingSwiftCode')) {
+            <span class="po-form-error">Routing / SWIFT code is required.</span>
+          }
+        </div>
 
-        <div class="modal-actions">
-          <button
-            type="button"
-            class="btn-border"
-            (click)="closeModal()">
+        <div class="po-modal__actions">
+          <button type="button" class="po-btn po-btn--outline" (click)="closeModal()">
             Cancel
           </button>
 
-          <button
-            type="submit"
-            class="btn-main"
-            [disabled]="isSubmitting">
-
+          <button type="submit" class="po-btn po-btn--gold" [disabled]="isSubmitting">
             @if (isSubmitting) {
-              Processing...
+              <span class="po-spinner po-spinner--sm"></span> Processing...
             } @else {
               Confirm Payout
             }
-
           </button>
         </div>
 

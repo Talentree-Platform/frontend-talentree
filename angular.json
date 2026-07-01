@@ -56,12 +56,20 @@
                   "maximumError": "100kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/app/core/environment/envirinment.ts",
+                  "with": "src/app/core/environment/envirinment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "prerender": false,  
+              "ssr": false         
             }
           },
           "defaultConfiguration": "production"
@@ -74,7 +82,7 @@
             },
             "development": {
               "buildTarget": "talentree:build:development",
-              "proxyConfig": "proxy.conf.mjs"
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

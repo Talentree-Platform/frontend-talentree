@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { AdminService } from '../../core/services/admin.service';
+import { AdminProductService } from '../../core/services/admin-products.service';
 
 @Component({
   selector: 'app-reject-product-modal',
@@ -27,9 +27,9 @@ export class RejectProductModalComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly adminService: AdminService,
+    private readonly adminProductService: AdminProductService,
     private readonly toastr: ToastrService
-  ) {}
+  ) { }
 
   onBackdropClick(): void {
     this.dismiss();
@@ -58,7 +58,7 @@ export class RejectProductModalComponent {
 
     this.submitting = true;
 
-    this.adminService
+    this.adminProductService
       .rejectProduct(this.productId, reason)
       .pipe(finalize(() => (this.submitting = false)))
       .subscribe({

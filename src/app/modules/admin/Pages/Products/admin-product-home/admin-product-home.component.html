@@ -20,14 +20,8 @@
   <section class="owner-products-toolbar" aria-label="Search pending products">
     <div class="owner-products-search-wrap">
       <label class="visually-hidden" for="admin-pending-products-search">Search pending products</label>
-      <input
-        id="admin-pending-products-search"
-        type="search"
-        class="owner-products-search"
-        placeholder="Search by product name, category, or business…"
-        [(ngModel)]="searchQuery"
-        autocomplete="off"
-      />
+      <input id="admin-pending-products-search" type="search" class="owner-products-search"
+        placeholder="Search by product name, category, or business…" [(ngModel)]="searchQuery" autocomplete="off" />
     </div>
   </section>
 
@@ -73,13 +67,8 @@
           <!-- Image -->
           <td>
             <div class="owner-products-thumb-wrap">
-              <img
-                class="owner-products-thumb"
-                [src]="imageSrc(p)"
-                [alt]="pickName(p)"
-                loading="lazy"
-                (error)="onImageError($event)"
-              />
+              <img class="owner-products-thumb" [src]="imageSrc(p)" [alt]="pickName(p)" loading="lazy"
+                (error)="onImageError($event)" />
             </div>
           </td>
 
@@ -100,26 +89,24 @@
           <!-- Actions -->
           <td>
             <div class="owner-products-actions admin-product-home__actions">
-              <button
-                type="button"
-                class="btn-main btn-success"
-                (click)="onApprove($event, p)">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="20 6 9 17 4 12"/>
+              <button type="button" class="btn-main btn-success" (click)="onApprove($event, p)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12" />
                 </svg>
                 Approve
               </button>
-              <button
-                type="button"
-                class="btn-main btn-danger"
-                (click)="onReject($event, p)">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
+              <button type="button" class="btn-main btn-danger" (click)="onReject($event, p)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
                 Reject
+              </button>
+              <button type="button" class="btn-main btn-analytics" (click)="openAnalytics(p); $event.stopPropagation()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+                Analytics
               </button>
             </div>
           </td>
@@ -129,21 +116,123 @@
     </table>
   </div>
 
+  <!-- ════════════════════════════════════════
+       LOW STOCK PANEL
+  ═══════════════════════════════════════════ -->
+  <div class="low-stock-section">
+    <div class="low-stock-header" (click)="toggleLowStock()">
+      <div class="low-stock-header-left">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+        <div>
+          <h3>Low Stock Alert</h3>
+          <p>Products with critically low inventory levels</p>
+        </div>
+      </div>
+      <div class="low-stock-toggle-actions">
+        <span *ngIf="lowStockProducts.length > 0" class="low-stock-badge">{{ lowStockProducts.length }}</span>
+        <button class="btn-main btn-warn" *ngIf="lowStockProducts.length > 0 && showLowStock"
+          (click)="notifyAll(); $event.stopPropagation()">
+          Notify All Sellers
+        </button>
+        <svg class="chevron" [class.open]="showLowStock" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="low-stock-body" *ngIf="showLowStock">
+      <div *ngIf="lowStockLoading" class="ls-state">
+        <div class="spinner-sm"></div><span>Loading low stock products...</span>
+      </div>
+      <div *ngIf="!lowStockLoading && lowStockError" class="ls-state ls-error">
+        <p>{{ lowStockError }}</p>
+        <button class="btn-main" (click)="loadLowStock()">Retry</button>
+      </div>
+      <div *ngIf="!lowStockLoading && !lowStockError && lowStockProducts.length === 0" class="ls-state">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        <p>All products have healthy stock levels.</p>
+      </div>
+      <table *ngIf="!lowStockLoading && !lowStockError && lowStockProducts.length > 0" class="ls-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Seller</th>
+            <th>Stock</th>
+            <th>Last Updated</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lp of lowStockProducts">
+            <td>{{ lp.productName }}</td>
+            <td>{{ lp.sellerName }}</td>
+            <td><span class="stock-badge" [class.critical]="lp.currentStock <= 3">{{ lp.currentStock }}</span></td>
+            <td class="muted">{{ lp.lastUpdatedAt ? (lp.lastUpdatedAt | date:'MMM d, y') : '—' }}</td>
+            <td>
+              <button class="btn-main btn-sm" (click)="notifySeller(lp.productId)">Notify Seller</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- Modals -->
-  <app-approve-product-modal
-    *ngIf="selectedForApprove"
-    [productName]="pickName(selectedForApprove)"
-    [productId]="getNumericProductId(selectedForApprove)"
-    (approved)="onApproveSuccess()"
+  <app-approve-product-modal *ngIf="selectedForApprove" [productName]="pickName(selectedForApprove)"
+    [productId]="getNumericProductId(selectedForApprove)" (approved)="onApproveSuccess()"
     (closed)="onApproveModalClosed()">
   </app-approve-product-modal>
 
-  <app-reject-product-modal
-    *ngIf="selectedForReject"
-    [productName]="pickName(selectedForReject)"
-    [productId]="getNumericProductId(selectedForReject)"
-    (rejected)="onRejectSuccess()"
+  <app-reject-product-modal *ngIf="selectedForReject" [productName]="pickName(selectedForReject)"
+    [productId]="getNumericProductId(selectedForReject)" (rejected)="onRejectSuccess()"
     (closed)="onRejectModalClosed()">
   </app-reject-product-modal>
+
+  <!-- Analytics Modal -->
+  <div class="modal-overlay" *ngIf="showAnalytics" (click)="closeAnalytics()">
+    <div class="analytics-modal" (click)="$event.stopPropagation()">
+      <div class="analytics-modal-head">
+        <h3>Product Analytics</h3>
+        <button class="modal-close" (click)="closeAnalytics()">✕</button>
+      </div>
+      <div class="analytics-modal-body">
+        <div *ngIf="analyticsLoading" class="ls-state">
+          <div class="spinner-sm"></div><span>Loading analytics...</span>
+        </div>
+        <div *ngIf="!analyticsLoading && analyticsError" class="ls-state ls-error">
+          <p>{{ analyticsError }}</p>
+        </div>
+        <div *ngIf="!analyticsLoading && !analyticsError && analytics" class="analytics-grid">
+          <div class="analytics-kpi">
+            <span class="kpi-label">Total Views</span>
+            <span class="kpi-value">{{ analytics.totalViews | number }}</span>
+          </div>
+          <div class="analytics-kpi">
+            <span class="kpi-label">Add to Cart</span>
+            <span class="kpi-value">{{ analytics.addToCartCount | number }}</span>
+          </div>
+          <div class="analytics-kpi">
+            <span class="kpi-label">Purchases</span>
+            <span class="kpi-value">{{ analytics.purchaseCount | number }}</span>
+          </div>
+          <div class="analytics-kpi">
+            <span class="kpi-label">Conversion Rate</span>
+            <span class="kpi-value">{{ analytics.conversionRate | number:'1.1-1' }}%</span>
+          </div>
+          <div class="analytics-kpi kpi-gold">
+            <span class="kpi-label">Revenue Generated</span>
+            <span class="kpi-value">${{ analytics.revenueGenerated | number:'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>

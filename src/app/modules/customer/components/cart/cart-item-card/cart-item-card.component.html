@@ -1,0 +1,89 @@
+<!-- Cart Item Card -->
+<div class="cart-item" [class.cart-item--removing]="isRemoving">
+
+  <!-- Product image -->
+  <div class="cart-item__img-wrap">
+    @if (item.productImageUrl && !imgError()) {
+      <img
+        [src]="item.productImageUrl"
+        [alt]="item.productName"
+        class="cart-item__img"
+        loading="lazy"
+        (error)="onImgError()"
+      />
+    } @else {
+      <div class="cart-item__img-placeholder">
+        <svg viewBox="0 0 40 40" fill="none">
+          <rect x="6" y="6" width="28" height="28" rx="4" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="15" cy="15" r="3" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M6 26l8-7 6 5 4-4 10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    }
+  </div>
+
+  <!-- Info -->
+  <div class="cart-item__info">
+    <p class="cart-item__seller">{{ item.sellerName }}</p>
+    <h3 class="cart-item__name">{{ item.productName }}</h3>
+    <p class="cart-item__unit-price">{{ item.unitPrice | currency:'EGP':'symbol':'1.2-2' }} / unit</p>
+
+    <div class="cart-item__stock" [class]="'cart-item__stock--' + stockLabel.level">
+      <span class="stock-dot"></span>
+      {{ stockLabel.text }}
+    </div>
+  </div>
+
+  <!-- Quantity stepper -->
+  <div class="cart-item__qty-wrap">
+    <div class="cart-item__stepper" [class.cart-item__stepper--loading]="isUpdating">
+      <button
+        class="stepper-btn"
+        (click)="onDecrease()"
+        [disabled]="item.quantity <= 1 || isUpdating"
+        aria-label="Decrease quantity"
+      >
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+
+      <span class="stepper-value">
+        @if (isUpdating) {
+          <span class="stepper-spinner"></span>
+        } @else {
+          {{ item.quantity }}
+        }
+      </span>
+
+      <button
+        class="stepper-btn"
+        (click)="onIncrease()"
+        [disabled]="item.quantity >= item.stockQuantity || isUpdating"
+        aria-label="Increase quantity"
+      >
+        <svg viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Line total -->
+  <div class="cart-item__total-wrap">
+    <span class="cart-item__total">{{ item.lineTotal | currency:'EGP':'symbol':'1.2-2' }}</span>
+  </div>
+
+  <!-- Remove -->
+  <button
+  class="cart-item__remove"
+  (click)="onRemove()"
+  [disabled]="isRemoving"
+  [attr.aria-label]="'Remove ' + item.productName"
+>
+    @if (isRemoving) {
+      <span class="remove-spinner"></span>
+    } @else {
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M3 4h10M5 4V3h6v1M6 7v5M10 7v5M4 4l.7 9h6.6L12 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    }
+  </button>
+
+</div>

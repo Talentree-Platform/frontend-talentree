@@ -1,44 +1,59 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  FormsModule,
+  Validators
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { OwnerSettingService } from '../../../core/services/owner-setting.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-setting-payment-billing',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './setting-payment-billing.component.html',
   styleUrl: './setting-payment-billing.component.css'
 })
 export class SettingPaymentBillingComponent {
 
-  // 🔐 password (for API)
+  // ─── Password (ngModel) ───────────────────────────────────────
   password: string = '';
 
-  // 👁️ masked account (from API)
+  // ─── Masked account returned from API ─────────────────────────
   maskedAccountNumber: string = '';
 
-  // ⏳ loading states
-  isLoading = false;
-  isSubmitting = false;
-  private readonly _ToastrService=inject(ToastrService)
-  constructor(
-    private fb: FormBuilder,
-    private service: OwnerSettingService
-  ) {}
+  // ─── Loading states ───────────────────────────────────────────
+  isLoading    = false;   // load-info spinner
+  isSubmitting = false;   // save spinner
 
-  // ✅ form
+  // ─── Floating-label focus trackers ────────────────────────────
+  pwFocus       = false;
+  bankNameFocus = false;
+  holderFocus   = false;
+  accNumFocus   = false;
+  swiftFocus    = false;
+
+  // ─── Services ─────────────────────────────────────────────────
+  private readonly _toastr  = inject(ToastrService);
+  private readonly fb       = inject(FormBuilder);
+  private readonly service  = inject(OwnerSettingService);
+
+  // ─── Reactive form ────────────────────────────────────────────
   paymentForm = this.fb.group({
-    bankName: ['', Validators.required],
-    accountHolderName: ['', Validators.required],
-    accountNumber: ['', Validators.required],
-    routingSwiftCode: ['', Validators.required]
+    bankName:           ['', Validators.required],
+    accountHolderName:  ['', Validators.required],
+    accountNumber:      ['', Validators.required],
+    routingSwiftCode:   ['', Validators.required]
   });
 
-  // ================= LOAD DATA =================
-  loadPaymentInfo() {
-    if (!this.password) {
-      alert('Please enter your password first');
+  // ═══════════════════════════════════════════════════════════════
+  //  LOAD BANK INFO
+  // ═══════════════════════════════════════════════════════════════
+  loadPaymentInfo(): void {
+    if (!this.password.trim()) {
+      this._toastr.warning('Please enter your password first.', 'Talentree');
       return;
     }
 
@@ -47,39 +62,43 @@ export class SettingPaymentBillingComponent {
     this.service.getPaymentInfo(this.password).subscribe({
       next: (res) => {
         const data = res.data;
-        console.log(res);
-        
-        this._ToastrService.success(res.message , 'Talentree')
-        // ✅ patch values to form
+
+        // Patch form fields
         this.paymentForm.patchValue({
-          bankName: data.bankName || '',
+          bankName:          data.bankName          || '',
           accountHolderName: data.accountHolderName || '',
-          routingSwiftCode: data.routingSwiftCode || ''
+          routingSwiftCode:  data.routingSwiftCode  || ''
         });
 
-        // 👁️ masked account
+        // Read-only masked number
         this.maskedAccountNumber = data.maskedAccountNumber || '';
 
+        this._toastr.success(res.message, 'Talentree');
         this.isLoading = false;
       },
 
       error: (err) => {
         this.isLoading = false;
         console.error(err);
-        alert('Wrong password or failed to load data');
+        this._toastr.error(
+          'Wrong password or failed to load data.',
+          'Talentree'
+        );
       }
     });
   }
 
-  // ================= SUBMIT =================
-  submit() {
+  // ═══════════════════════════════════════════════════════════════
+  //  SUBMIT / UPDATE
+  // ═══════════════════════════════════════════════════════════════
+  submit(): void {
     if (this.paymentForm.invalid) {
       this.paymentForm.markAllAsTouched();
       return;
     }
 
-    if (!this.password) {
-      alert('Password is required');
+    if (!this.password.trim()) {
+      this._toastr.warning('Password is required to save changes.', 'Talentree');
       return;
     }
 
@@ -87,28 +106,32 @@ export class SettingPaymentBillingComponent {
 
     const formValue = this.paymentForm.getRawValue();
 
-const payload = {
-  currentPassword: this.password,
-  bankName: formValue.bankName || '',
-  accountHolderName: formValue.accountHolderName || '',
-  accountNumber: formValue.accountNumber || '',
-  routingSwiftCode: formValue.routingSwiftCode || ''
-};
+    const payload = {
+      currentPassword:   this.password,
+      bankName:          formValue.bankName          || '',
+      accountHolderName: formValue.accountHolderName || '',
+      accountNumber:     formValue.accountNumber     || '',
+      routingSwiftCode:  formValue.routingSwiftCode  || ''
+    };
 
     this.service.updatePaymentInfo(payload).subscribe({
       next: (res) => {
         this.isSubmitting = false;
-
-        alert('Payment info updated successfully');
-
-        // 🔄 reload updated data
+        this._toastr.success(
+          'Payment information updated successfully.',
+          'Talentree'
+        );
+        // Refresh masked account number
         this.loadPaymentInfo();
       },
 
       error: (err) => {
         this.isSubmitting = false;
         console.error(err);
-        alert('Failed to update payment info');
+        this._toastr.error(
+          'Failed to update payment info. Please try again.',
+          'Talentree'
+        );
       }
     });
   }

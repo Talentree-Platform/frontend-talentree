@@ -1,106 +1,157 @@
-<div class="checkout-layout">
+<div class="co-layout">
 
-  <!-- Left side -->
-  <div class="left-column">
+  <!-- ── Left: Form ──────────────────────────────────────────────────────── -->
+  <div class="co-left">
 
-    <section class="card">
-      <h2 class="text-center text-gold">Checkout</h2>
+    <!-- Header -->
+    <div class="co-page-head">
+      <span class="co-page-head__icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+      </span>
+      <div>
+        <h1 class="co-page-head__title">Checkout</h1>
+        <p class="co-page-head__sub">Complete your delivery details</p>
+      </div>
+    </div>
 
-      <form class="form-grid" [formGroup]="checkoutForm">
+    <div class="co-card">
 
-        <!-- Address -->
-        <div class="field full">
-          <label>Delivery Address</label>
-          <input class="input-main" formControlName="deliveryAddress" placeholder="Enter address" />
+      <form [formGroup]="checkoutForm" class="co-form">
 
+        <!-- Delivery Address -->
+        <div class="co-field">
+          <label class="co-label" for="deliveryAddress">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Delivery Address
+          </label>
+          <input id="deliveryAddress" class="co-input" formControlName="deliveryAddress" placeholder="Enter full delivery address" />
           @if (f['deliveryAddress'].invalid && f['deliveryAddress'].touched) {
-          <small class="error text-danger">Address is required (min 5 chars)</small>
+            <span class="co-error">Address is required (min 5 characters)</span>
           }
         </div>
 
         <!-- City -->
-        <div class="field full">
-          <label>Delivery City</label>
-          <input class="input-main" formControlName="deliveryCity" placeholder="Enter city" />
-
+        <div class="co-field">
+          <label class="co-label" for="deliveryCity">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            Delivery City
+          </label>
+          <input id="deliveryCity" class="co-input" formControlName="deliveryCity" placeholder="Enter city" />
           @if (f['deliveryCity'].invalid && f['deliveryCity'].touched) {
-          <small class="error text-danger">City is required</small>
+            <span class="co-error">City is required</span>
           }
         </div>
 
         <!-- Country -->
-        <div class="field full">
-          <label>Delivery Country</label>
-          <input class="input-main" formControlName="deliveryCountry" placeholder="Enter country" />
-
+        <div class="co-field">
+          <label class="co-label" for="deliveryCountry">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            Delivery Country
+          </label>
+          <input id="deliveryCountry" class="co-input" formControlName="deliveryCountry" placeholder="Enter country" />
           @if (f['deliveryCountry'].invalid && f['deliveryCountry'].touched) {
-          <small class="error text-danger">Country is required</small>
+            <span class="co-error">Country is required</span>
           }
         </div>
 
         <!-- Phone -->
-        <div class="field full">
-          <label>Contact Phone</label>
-          <input class="input-main" formControlName="contactPhone" placeholder="01xxxxxxxxx" />
-
+        <div class="co-field">
+          <label class="co-label" for="contactPhone">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.58 3.41 2 2 0 0 1 3.56 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Contact Phone
+          </label>
+          <input id="contactPhone" class="co-input" formControlName="contactPhone" placeholder="01xxxxxxxxx" />
           @if (f['contactPhone'].invalid && f['contactPhone'].touched) {
-          <small class="error text-danger">Valid Egyptian phone required</small>
+            <span class="co-error">Valid Egyptian phone number required</span>
           }
         </div>
 
-        <!-- BUTTON LOGIC 🔥 -->
-        <button class="btn-main btn-burgandy text-center " (click)="submit()"
+        <!-- Submit -->
+        <button class="co-submit-btn" type="button"
+          (click)="submit()"
           [disabled]="checkoutForm.invalid || isLoading">
-
-          @if (!isLoading) {
-          Place Order
+          @if (isLoading) {
+            <svg class="co-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+            Processing Order...
           } @else {
-          Processing...
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            Place Order
           }
-
         </button>
 
       </form>
-    </section>
-
+    </div>
   </div>
 
-  <!-- Right side: Order Summary -->
-  <aside class="card summary-card">
-    <h2>Order Summary</h2>
-    @if(cartItems.length > 0){
-      <table class="summary-table">
-      <thead>
-        <tr>
-          <th>image</th>
-          <th>Item Name</th>
-          <th>Qty</th>
-          <th>Subtotal</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(item of cartItems ; track item.id){
-          <tr>
-            <img [src]="item.pictureUrl" [alt]="item.materialName">
-          <td>{{item.materialName}}</td>
-          <td>{{item.quantity}} {{item.unit}}</td>
-          <td>{{item.unitPrice}} EGP / {{item.unit}} </td>
-          <td>{{item.lineTotal}}</td>
-        </tr>
+  <!-- ── Right: Order Summary ─────────────────────────────────────────────── -->
+  <aside class="co-summary">
+
+    <div class="co-summary__head">
+      <span class="co-summary__icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+      </span>
+      <h2 class="co-summary__title">Order Summary</h2>
+    </div>
+
+    <!-- Items -->
+    @if (cartItems && cartItems.length > 0) {
+      <div class="co-items">
+        @for (item of cartItems; track item.id) {
+          <div class="co-item">
+            <div class="co-item__img">
+              <img [src]="item.pictureUrl" [alt]="item.materialName" />
+            </div>
+            <div class="co-item__info">
+              <p class="co-item__name">{{ item.materialName }}</p>
+              <p class="co-item__qty">{{ item.quantity }} {{ item.unit }}</p>
+              <p class="co-item__price">{{ item.unitPrice }} EGP / {{ item.unit }}</p>
+            </div>
+            <div class="co-item__total">
+              {{ item.lineTotal }} <span>EGP</span>
+            </div>
+          </div>
         }
-        
-      </tbody>
-    </table>
-    }
-    
-    
-    
-    <div class="grand-total"> 
-      <span>Total :  {{cartData.subtotal}}</span> 
-      <span>Number Of Items :   {{cartData.totalItemCount}}  </span> 
       </div>
+<<<<<<< HEAD
        
        <button class="btn-main btn-gold" routerLink="/businessowner/rawmaterialcart">Return to cart</button>
+=======
+    }
+
+    <!-- Totals -->
+    <div class="co-totals">
+      <div class="co-totals__row">
+        <span class="co-totals__label">Items</span>
+        <span class="co-totals__val">{{ cartData?.totalItemCount }}</span>
+      </div>
+      <div class="co-totals__row co-totals__row--grand">
+        <span class="co-totals__label">Total</span>
+        <span class="co-totals__val co-totals__val--gold">{{ cartData?.subtotal }} EGP</span>
+      </div>
+    </div>
+
+    <!-- Return -->
+    <button class="co-return-btn" routerLink="/businessowner/rawmaterialcart">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Return to Cart
+    </button>
+
+>>>>>>> 1b7fdd6b55d8e8525223d216321841809e49fa73
   </aside>
 
 </div>

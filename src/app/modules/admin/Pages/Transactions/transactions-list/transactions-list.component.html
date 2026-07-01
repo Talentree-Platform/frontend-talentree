@@ -1,0 +1,212 @@
+<div class="transactions-page">
+
+    <!-- ── Page Header ── -->
+    <div class="page-header">
+        <div class="header-left">
+            <h1 class="page-title">
+                <i class="fas fa-exchange-alt"></i>
+                Transactions
+            </h1>
+            <p class="page-subtitle">Monitor and manage all financial transactions</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-icon" (click)="refresh()" [disabled]="loading" title="Refresh">
+                <i class="fas fa-sync-alt" [class.spinning]="loading"></i>
+            </button>
+            <button class="btn-export" (click)="openExportModal()" [disabled]="exporting">
+                <i class="fas" [ngClass]="exporting ? 'fa-spinner fa-spin' : 'fa-download'"></i>
+                {{ exporting ? 'Exporting…' : 'Export Report' }}
+            </button>
+        </div>
+    </div>
+
+    <!-- ── Analytics ── -->
+    <app-transactions-analytics [transactions]="transactions" [totalCount]="totalCount" [loading]="loading">
+    </app-transactions-analytics>
+
+    <!-- ── Filters ── -->
+    <div class="filter-card">
+        <div class="filter-row">
+
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search by owner, description, reference…"
+                    [ngModel]="searchTerm" (ngModelChange)="onSearchInput($event)" />
+            </div>
+
+            <select class="filter-select" [(ngModel)]="selectedTransactionType" (ngModelChange)="onFilterChange()">
+                <option value="">All Types</option>
+                <option *ngFor="let t of typeOptions" [value]="t.value">{{ t.label }}</option>
+            </select>
+
+            <input type="date" class="filter-select" [(ngModel)]="dateFrom" (ngModelChange)="onFilterChange()" />
+            <input type="date" class="filter-select" [(ngModel)]="dateTo" (ngModelChange)="onFilterChange()" />
+
+            <label class="anomaly-toggle">
+                <input type="checkbox" [(ngModel)]="anomalyOnly" (ngModelChange)="onFilterChange()" />
+                <span>Anomaly Only</span>
+            </label>
+
+            <button class="btn-clear" (click)="clearFilters()">
+                <i class="fas fa-times"></i> Clear
+            </button>
+
+        </div>
+    </div>
+
+    <!-- ── Table Card ── -->
+    <div class="table-card">
+
+        <!-- Loading Skeleton -->
+        <div *ngIf="loading" class="skeleton-rows">
+            <div *ngFor="let i of [1,2,3,4,5,6,7,8]" class="skeleton-row">
+                <div class="sk sk-sm"></div>
+                <div class="sk sk-md"></div>
+                <div class="sk sk-sm"></div>
+                <div class="sk sk-xs"></div>
+                <div class="sk sk-md"></div>
+                <div class="sk sk-sm"></div>
+                <div class="sk sk-md"></div>
+                <div class="sk sk-sm"></div>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div *ngIf="!loading && error" class="state-empty">
+            <div class="state-icon error-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <p class="state-title">Something went wrong</p>
+            <p class="state-subtitle">{{ errorMessage }}</p>
+            <button class="btn-gold" (click)="refresh()">Try Again</button>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="!loading && !error && transactions.length === 0" class="state-empty">
+            <div class="state-icon"><i class="fas fa-receipt"></i></div>
+            <p class="state-title">No transactions found</p>
+            <p class="state-subtitle">Try adjusting your search or filters.</p>
+            <button class="btn-clear" (click)="clearFilters()">Clear Filters</button>
+        </div>
+
+        <!-- Table -->
+        <div *ngIf="!loading && !error && transactions.length > 0" class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th class="sortable" (click)="sort('businessOwnerName')">
+                            Business Owner <i class="fas" [ngClass]="sortIcon('businessOwnerName')"></i>
+                        </th>
+                        <th class="sortable" (click)="sort('type')">
+                            Type <i class="fas" [ngClass]="sortIcon('type')"></i>
+                        </th>
+                        <th>Description</th>
+                        <th class="sortable" (click)="sort('amount')">
+                            Amount <i class="fas" [ngClass]="sortIcon('amount')"></i>
+                        </th>
+                        <th>Balance After</th>
+                        <th>Reference</th>
+                        <th>Anomaly</th>
+                        <th class="sortable" (click)="sort('createdAt')">
+                            Created <i class="fas" [ngClass]="sortIcon('createdAt')"></i>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tx of transactions; trackBy: trackById" class="table-row"
+                        [class.flagged-row]="tx.anomalyFlag">
+                        <td><span class="mono-text">#{{ tx.id }}</span></td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">{{ tx.businessOwnerName?.charAt(0)?.toUpperCase() || '?' }}
+                                </div>
+                                <div class="user-info">
+                                    <span class="user-name">{{ tx.businessOwnerName }}</span>
+                                    <span class="user-email">{{ tx.businessOwnerEmail || '—' }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="type-chip">{{ typeLabels[tx.type] }}</span></td>
+                        <td>{{ tx.description || '—' }}</td>
+                        <td class="amount-cell" [class.amount-negative]="tx.amount < 0">
+                            {{ formatAmount(tx.amount) }}
+                        </td>
+                        <td>{{ formatAmount(tx.balanceAfter) }}</td>
+                        <td>
+                            <span class="mono-text">{{ tx.referenceType }} #{{ tx.referenceId }}</span>
+                        </td>
+                        <td>
+                            <span *ngIf="tx.anomalyFlag" class="anomaly-badge">
+                                <i class="fas fa-flag"></i> {{ tx.anomalyScore | number:'1.2-2' }}
+                            </span>
+                            <span *ngIf="!tx.anomalyFlag" class="anomaly-clean">—</span>
+                        </td>
+                        <td>{{ formatDate(tx.createdAt) }}</td>
+                        <td>
+                            <button class="action-btn" (click)="openDetails(tx)" title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div *ngIf="!loading && !error && totalCount > 0" class="pagination-bar">
+            <div class="pagination-info">
+                Showing {{ startItem }}–{{ endItem }} of {{ totalCount }} transactions
+            </div>
+            <div class="pagination-controls">
+                <select class="page-size-select" [ngModel]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+                    <option value="10">10 / page</option>
+                    <option value="25">25 / page</option>
+                    <option value="50">50 / page</option>
+                </select>
+                <button class="page-btn" (click)="goToPage(1)" [disabled]="pageIndex === 1">
+                    <i class="fas fa-angle-double-left"></i>
+                </button>
+                <button class="page-btn" (click)="goToPage(pageIndex - 1)" [disabled]="pageIndex === 1">
+                    <i class="fas fa-angle-left"></i>
+                </button>
+                <button *ngFor="let p of pages" class="page-btn" [class.active]="p === pageIndex"
+                    (click)="goToPage(p)">{{ p }}</button>
+                <button class="page-btn" (click)="goToPage(pageIndex + 1)" [disabled]="pageIndex >= totalPages">
+                    <i class="fas fa-angle-right"></i>
+                </button>
+                <button class="page-btn" (click)="goToPage(totalPages)" [disabled]="pageIndex >= totalPages">
+                    <i class="fas fa-angle-double-right"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ── Detail Modal ── -->
+    <app-transaction-details *ngIf="selectedTransaction" [transaction]="selectedTransaction"
+        (closed)="closeDetails()"></app-transaction-details>
+
+    <!-- ── Export Modal ── -->
+    <div *ngIf="showExportModal" class="modal-backdrop" (click)="closeExportModal()">
+        <div class="export-modal" (click)="$event.stopPropagation()">
+            <div class="export-header">
+                <h3>Export Report</h3>
+                <button class="close-btn" (click)="closeExportModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="export-body">
+                <p class="export-desc">Select a date range for the report (optional).</p>
+                <div class="export-fields">
+                    <label>From <input type="date" class="filter-select" [(ngModel)]="exportFrom" /></label>
+                    <label>To <input type="date" class="filter-select" [(ngModel)]="exportTo" /></label>
+                </div>
+            </div>
+            <div class="export-footer">
+                <button class="btn-clear" (click)="closeExportModal()">Cancel</button>
+                <button class="btn-gold" (click)="exportReport()">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

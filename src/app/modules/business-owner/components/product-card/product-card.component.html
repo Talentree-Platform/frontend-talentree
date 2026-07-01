@@ -1,24 +1,63 @@
-  <article class="card">
-    <div class="card-img cursor-pointer">
-      <img [src]="image" alt="{{title}}" [routerLink]="['/businessowner/rawmaerialproductdetails' ,id ] "/>
+<article class="rmc-card">
+
+  <!-- Image -->
+  <div class="rmc-card__img" [routerLink]="['/businessowner/rawmaerialproductdetails', id]">
+    <img [src]="image" [alt]="title" />
+  </div>
+
+  <!-- Body -->
+  <div class="rmc-card__body">
+    <h5 class="rmc-card__title">{{ title }}</h5>
+    <p class="rmc-card__vendor">{{ vendor }}</p>
+
+    <div class="rmc-card__meta">
+      <div class="rmc-card__meta-item">
+        <span class="rmc-card__meta-key">Type</span>
+        <span class="rmc-card__meta-val">{{ type }}</span>
+      </div>
+      <div class="rmc-card__meta-item">
+        <span class="rmc-card__meta-key">Min Qty</span>
+        <span class="rmc-card__meta-val">{{ minQuantity }}</span>
+      </div>
+      <div class="rmc-card__meta-item rmc-card__meta-item--price">
+        <span class="rmc-card__meta-key">Price</span>
+        <span class="rmc-card__meta-val rmc-card__meta-val--gold">{{ price }} EGP</span>
+      </div>
+      <div class="rmc-card__meta-item" *ngIf="colors">
+        <span class="rmc-card__meta-key">Colors</span>
+        <span class="rmc-card__meta-val">{{ colors }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer: qty + button -->
+  <div class="rmc-card__footer">
+    <div class="rmc-qty-row">
+      <button class="rmc-qty-btn"
+        (click)="quentity = quentity > minQuantity ? quentity - 1 : minQuantity"
+        aria-label="Decrease">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+      </button>
+      <input type="number" [min]="minQuantity" [(ngModel)]="quentity" class="rmc-qty-input" />
+      <button class="rmc-qty-btn"
+        (click)="quentity = quentity + 1"
+        aria-label="Increase">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+      </button>
     </div>
 
-    <div class="card-body">
-      <h5 class="card-title">{{ title }}</h5>
-      <p class="meta"><strong>Type:</strong> {{ type }}</p>
-      <p class="meta"><strong>Min Quantity:</strong> {{ minQuantity }}</p>
-      <p class="meta"><strong>Price:</strong> {{ price }} EGP</p>
-      <p class="meta"><strong>Colors:</strong> {{ colors }}</p>
-      <p class="meta"><strong>Vendor:</strong> {{ vendor }}</p>
-    </div>
-    
-                
-     
-                
-      
-    <div class="card-btns d-flex flex-column">
-      <input type="number" [min]="minQuantity" [value]="quentity" class="text-center m-auto input-main input-border mb-2" style="width: 180px;" placeholder="choose quentity" [(ngModel)]="quentity"/>
-      <button class="btn btn-main btn-gold" (click)="addMaterialToCart(id, quentity)"> add to cart</button>
-    </div>
+    <button class="rmc-add-btn" (click)="addMaterialToCart(id, quentity)" >
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      Add to cart
+    </button>
+  </div>
 
-  </article>
+</article>

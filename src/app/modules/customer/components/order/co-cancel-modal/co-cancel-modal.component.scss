@@ -1,0 +1,25 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Talentree · co-cancel-modal styles
+// ─────────────────────────────────────────────────────────────────────────────
+@import '../../../Core/styles/co-modal-shared';
+
+.co-warning-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+
+  svg { width: 56px; height: 56px; }
+}
+
+.co-modal-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: $text-mid;
+  text-align: center;
+  margin: 0 0 4px;
+
+  strong { color: $text-dark; }
+}
+
+.co-modal-title { text-align: center; padding-right: 0; }

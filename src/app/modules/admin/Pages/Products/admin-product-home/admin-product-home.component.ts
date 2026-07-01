@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ApproveProductModalComponent } from '../../../Components/approve-product-modal/approve-product-modal.component';
 import { RejectProductModalComponent } from '../../../Components/reject-product-modal/reject-product-modal.component';
-import { AdminService } from '../../../core/services/admin.service';
+import { AdminProductService, LowStockProduct, ProductAnalytics } from '../../../core/services/admin-products.service';
 import { ApiResponse, PaginatedResponse } from '../../../core/Interfaces/ibusiness-owner';
+import { ToastrService } from 'ngx-toastr';
 
-const API_MEDIA_ORIGIN = 'https://talentreeplateform.runasp.net';
+const API_MEDIA_ORIGIN = '';
 const PLACEHOLDER_IMAGE = '/assets/images/placeholder-product.svg';
 
 @Component({
@@ -26,17 +27,32 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
   loadError: string | null = null;
   searchQuery = '';
 
-  /** Row selected for approve / reject modals */
   selectedForApprove: any | null = null;
   selectedForReject: any | null = null;
 
   private readonly pageIndex = 1;
   private readonly pageSize = 20;
 
-  constructor(private readonly adminService: AdminService) {}
+  // ── Analytics & Low Stock ─────────────────────────────────────────────────
+  showAnalytics = false;
+  analyticsProductId: number | null = null;
+  analytics: ProductAnalytics | null = null;
+  analyticsLoading = false;
+  analyticsError: string | null = null;
+
+  lowStockProducts: LowStockProduct[] = [];
+  lowStockLoading = false;
+  lowStockError: string | null = null;
+  showLowStock = false;
+
+  constructor(
+    private readonly adminProductService: AdminProductService,
+    private readonly toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.loadProducts();
+    this.loadLowStock();
   }
 
   ngOnDestroy(): void {
@@ -48,7 +64,7 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
     this.loadError = null;
 
     this.subs.add(
-      this.adminService.getPendingProducts(this.pageIndex, this.pageSize).subscribe({
+      this.adminProductService.getPendingProducts(this.pageIndex, this.pageSize).subscribe({
         next: (res) => {
           this.products = this.extractProductList(res);
           this.loading = false;
@@ -62,6 +78,67 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
     );
   }
 
+  // ── Low Stock ──────────────────────────────────────────────────────────────
+
+  loadLowStock(): void {
+    this.lowStockLoading = true;
+    this.lowStockError = null;
+    this.subs.add(
+      this.adminProductService.getLowStockProducts({ pageIndex: 1, pageSize: 50 }).subscribe({
+        next: (res) => {
+          this.lowStockProducts = res?.data?.data ?? [];
+          this.lowStockLoading = false;
+        },
+        error: (err: unknown) => {
+          this.lowStockLoading = false;
+          this.lowStockError = this.messageFromError(err);
+        }
+      })
+    );
+  }
+
+  toggleLowStock(): void { this.showLowStock = !this.showLowStock; }
+
+  notifySeller(productId: number): void {
+    this.adminProductService.notifySellerStock(productId).subscribe({
+      next: () => this.toastr.success('Seller notified about low stock.', 'Talentree', { timeOut: 2000 }),
+      error: () => this.toastr.error('Failed to send notification.', 'Talentree', { timeOut: 2000 }),
+    });
+  }
+
+  notifyAll(): void {
+    this.adminProductService.notifyAllLowStock().subscribe({
+      next: () => this.toastr.success('All low-stock sellers notified.', 'Talentree', { timeOut: 2000 }),
+      error: () => this.toastr.error('Failed to send notifications.', 'Talentree', { timeOut: 2000 }),
+    });
+  }
+
+  // ── Per-product Analytics ──────────────────────────────────────────────────
+
+  openAnalytics(p: any): void {
+    const id = this.getNumericProductId(p);
+    if (!id) return;
+    this.analyticsProductId = id;
+    this.analytics = null;
+    this.analyticsError = null;
+    this.analyticsLoading = true;
+    this.showAnalytics = true;
+    this.subs.add(
+      this.adminProductService.getProductAnalytics(id).subscribe({
+        next: (res) => {
+          this.analytics = res?.data ?? null;
+          this.analyticsLoading = false;
+        },
+        error: (err: unknown) => {
+          this.analyticsError = this.messageFromError(err);
+          this.analyticsLoading = false;
+        }
+      })
+    );
+  }
+
+  closeAnalytics(): void { this.showAnalytics = false; this.analytics = null; this.analyticsProductId = null; }
+
   get filteredProducts(): any[] {
     const q = this.searchQuery.trim().toLowerCase();
     if (!q) return this.products;
@@ -73,7 +150,6 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** Arrow fn so Angular’s differ keeps correct `this` when calling trackBy. */
   readonly trackByProductId = (index: number, p: any): string | number =>
     this.pickId(p) ?? index;
 
@@ -83,7 +159,6 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
     );
   }
 
-  /** Relative time label for created date (e.g. "2h ago"). */
   timeAgo(iso: string | null | undefined): string {
     if (!iso) return '—';
     const t = new Date(iso).getTime();
@@ -111,9 +186,7 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
 
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement | null;
-    if (img) {
-      img.src = PLACEHOLDER_IMAGE;
-    }
+    if (img) img.src = PLACEHOLDER_IMAGE;
   }
 
   onApprove(event: Event, product: any): void {
@@ -134,10 +207,7 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
   }
 
   onApproveSuccess(): void {
-    const sel = this.selectedForApprove;
-    if (sel) {
-      this.removeProductFromList(sel);
-    }
+    if (this.selectedForApprove) this.removeProductFromList(this.selectedForApprove);
   }
 
   onApproveModalClosed(): void {
@@ -145,10 +215,7 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
   }
 
   onRejectSuccess(): void {
-    const sel = this.selectedForReject;
-    if (sel) {
-      this.removeProductFromList(sel);
-    }
+    if (this.selectedForReject) this.removeProductFromList(this.selectedForReject);
   }
 
   onRejectModalClosed(): void {
@@ -187,8 +254,7 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
   }
 
   pickCreatedAt(p: any): string | null {
-    const s = this.pickStr(p, 'createdAt', 'CreatedAt', 'submittedAt', 'SubmittedAt');
-    return s || null;
+    return this.pickStr(p, 'createdAt', 'CreatedAt', 'submittedAt', 'SubmittedAt') || null;
   }
 
   private extractProductList(res: ApiResponse<PaginatedResponse<unknown> | unknown>): any[] {
@@ -202,17 +268,14 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
     const id = this.getNumericProductId(p);
     if (id != null) return id;
     const v = p?.id ?? p?.Id ?? p?.productId ?? p?.ProductId;
-    if (v === undefined || v === null) return null;
-    return v;
+    return v ?? null;
   }
 
   private pickStr(obj: any, ...keys: string[]): string {
     if (!obj || typeof obj !== 'object') return '';
     for (const k of keys) {
       const v = obj[k];
-      if (v !== undefined && v !== null && String(v).trim() !== '') {
-        return String(v);
-      }
+      if (v !== undefined && v !== null && String(v).trim() !== '') return String(v);
     }
     return '';
   }
@@ -241,13 +304,11 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
   private messageFromError(err: unknown): string {
     if (err instanceof HttpErrorResponse) {
       const body = err.error;
-      if (typeof body === 'object' && body && 'message' in body) {
+      if (typeof body === 'object' && body && 'message' in body)
         return String((body as { message: string }).message);
-      }
       if (typeof body === 'string' && body.trim()) return body;
-      if (err.status === 401 || err.status === 403) {
+      if (err.status === 401 || err.status === 403)
         return 'You are not allowed to view pending products.';
-      }
       if (err.status === 404) return 'Pending products endpoint was not found.';
     }
     return 'Could not load pending products. Please try again.';

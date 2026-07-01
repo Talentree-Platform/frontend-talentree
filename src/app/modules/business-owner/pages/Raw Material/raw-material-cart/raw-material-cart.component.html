@@ -1,101 +1,250 @@
-<div class="cart-layout">
-  
+<div class="cart-page">
 
-    
+  <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+  <section class="cart-hero">
+    <div class="cart-hero__blob cart-hero__blob--1"></div>
+    <div class="cart-hero__blob cart-hero__blob--2"></div>
+    <div class="cart-hero__blob cart-hero__blob--3"></div>
 
-      @if (cartItems.length >0) {
-        <!-- Cart list -->
-  <section class="cart-list">
-    <h1 class="text-center">Your Shopping Cart</h1>
-<div class="table-wrap">
-      
-      <table>
-        <thead>
-          <tr>
-            <th class="text-center">Material</th>
-            <th class="text-center">Quantity</th>
-            <th class="text-center">Price</th>
-            <th class="text-center">Subtotal</th>
-            <th class="actions-col text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Example row; replace with *ngFor -->
-          @for(item of cartItems ; track item.id){
-          <tr>
-            <td>
-              <div class="item">
-                <img [src]="item.pictureUrl" [alt]="item.materialName" class="cursor-pointer" [routerLink]="['/businessowner/rawmaerialproductdetails', item.id]" />
-                <div>
-                  <div class="name">{{item.materialName}}</div>
-                  <div class="meta">from : {{item.supplierName}}</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="qty">
-                <button (click)="decreaseQuentity(item)">-</button>
+    <div class="cart-hero__inner">
+      <span class="cart-hero__badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        Shopping Cart
+      </span>
 
-<input type="number"
-       [min]="item.minimumOrderQuantity"
-       [(ngModel)]="item.quantity" />
+      <h1 class="cart-hero__title">Your Cart</h1>
 
-<button (click)="increaseQuentity(item)">+</button>
-              </div>
-            </td>
-            <td>{{item.unitPrice}} EGP / {{item.unit}}</td>
-            <td>{{item.lineTotal}} EGP</td>
-            <td class="actions-col">
-              <button class="btn-main btn-border-burgandy" aria-label="remove" (click)="removeItemFromCart(item.id)">Remove</button>
-            </td>
-          </tr>
-          }
+      <div class="cart-hero__meta">
+        <span class="cart-hero__meta-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          </svg>
+          Raw Materials
+        </span>
+      </div>
 
-        </tbody>
-      </table>
-      <button class="btn-main btn-burgandy mt-2 mb-3 m-auto d-block" (click)="removeAll()">Clear All</button>
-</div>
-
-</section>
+      <!-- Metrics -->
+      @if(cartItems.length > 0) {
+        <div class="cart-hero__metrics">
+          <div class="cart-hero-metric">
+            <span class="cart-hero-metric__label">Items</span>
+            <span class="cart-hero-metric__value">{{ cartItems.length }}</span>
+          </div>
+          <div class="cart-hero-metric cart-hero-metric--gold">
+            <span class="cart-hero-metric__label">Subtotal</span>
+            <span class="cart-hero-metric__value">{{ cartData?.subtotal }} EGP</span>
+          </div>
+          <div class="cart-hero-metric">
+            <span class="cart-hero-metric__label">Total Qty</span>
+            <span class="cart-hero-metric__value">{{ cartData?.totalItemCount }}</span>
+          </div>
+        </div>
       }
-    
+    </div>
+  </section>
 
-    @else {
-    <section class="poster">
-      
-        <div class="poster-text ">
-        <h1 class="text-gold pb-5">your cart is empty</h1>
-        <button class="btn-main btn-border" routerLink="/businessowner/rawmaterialhome"> Continue shopping</button>
+  <!-- ── EMPTY STATE ───────────────────────────────────────────────────────── -->
+  @if(cartItems?.length === 0) {
+    <div class="cart-empty">
+      <div class="cart-empty__illustration" aria-hidden="true">
+        <svg viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="80" cy="75" r="50" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.18)" stroke-width="1.5"/>
+          <path d="M55 58h50l-6 32H61z" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.3)" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M49 52h8l4 6H53z" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
+          <circle cx="68" cy="93" r="4" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+          <circle cx="93" cy="93" r="4" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+          <line x1="68" y1="68" x2="68" y2="82" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
+          <line x1="80" y1="65" x2="80" y2="82" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
+          <line x1="92" y1="68" x2="92" y2="82" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
+        </svg>
       </div>
-      <div class="poster-img ">
-        <img src="https://i.pinimg.com/1200x/24/fc/42/24fc42a5b0ae66758512c4f08458dad6.jpg" alt="Dashboard illustration" />
+      <h2 class="cart-empty__title">Your cart is empty</h2>
+      <p class="cart-empty__msg">Browse our raw materials and add items to get started.</p>
+      <div class="cart-empty__actions">
+        <button class="cart-btn cart-btn--gold" routerLink="/businessowner/rawmaterialhome">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Continue Shopping
+        </button>
       </div>
-      
-      
-      
-    </section>
-    
-    }
+    </div>
+  }
 
+  <!-- ── MAIN CONTENT ──────────────────────────────────────────────────────── -->
+  @if(cartItems.length > 0) {
+    <div class="cart-body">
+
+      <!-- LEFT: Items ────────────────────────────────────────────────────── -->
+      <section class="cart-items-section">
+
+        <!-- Section title -->
+        <h2 class="cart-section-title">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          </svg>
+          Cart Items
+          <span class="cart-count-pill">{{ cartItems.length }}</span>
+        </h2>
+
+        <!-- Items card -->
+        <div class="cart-card">
+          <div class="cart-card__strip"></div>
+
+          <div class="cart-table-wrap">
+            <table class="cart-table">
+              <thead>
+                <tr>
+                  <th>Material</th>
+                  <th class="text-center">Quantity</th>
+                  <th class="text-center">Unit Price</th>
+                  <th class="text-center">Subtotal</th>
+                  <th class="text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(item of cartItems; track item.id) {
+                  <tr class="cart-row">
+                    <td>
+                      <div class="cart-item">
+                        <img
+                          [src]="item.pictureUrl"
+                          [alt]="item.materialName"
+                          class="cart-item__img"
+                          [routerLink]="['/businessowner/rawmaerialproductdetails', item.id]"
+                        />
+                        <div class="cart-item__info">
+                          <span class="cart-item__name">{{ item.materialName }}</span>
+                          <span class="cart-item__supplier">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                              <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            {{ item.supplierName }}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="text-center">
+                      <div class="cart-qty">
+                        <button class="cart-qty__btn" (click)="decreaseQuentity(item)">−</button>
+                        <input
+                          class="cart-qty__input"
+                          type="number"
+                          [min]="item.minimumOrderQuantity"
+                          [(ngModel)]="item.quantity"
+                        />
+                        <button class="cart-qty__btn" (click)="increaseQuentity(item)">+</button>
+                      </div>
+                    </td>
+
+                    <td class="text-center">
+                      <span class="cart-price">{{ item.unitPrice }} <span class="cart-price__unit">EGP / {{ item.unit }}</span></span>
+                    </td>
+
+                    <td class="text-center">
+                      <span class="cart-subtotal">{{ item.lineTotal }} EGP</span>
+                    </td>
+
+                    <td class="text-right">
+                      <button class="cart-btn cart-btn--remove" (click)="removeItemFromCart(item.id)">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="3 6 5 6 21 6"/>
+                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                          <path d="M10 11v6"/><path d="M14 11v6"/>
+                          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                        </svg>
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Clear all -->
+          <div class="cart-card__footer">
+            <button class="cart-btn cart-btn--danger-outline" (click)="removeAll()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+              </svg>
+              Clear All
+            </button>
+            <button class="cart-btn cart-btn--ghost" routerLink="/businessowner/rawmaterialhome">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Summary ─────────────────────────────────────────────────── -->
+      <aside class="cart-summary">
+        <div class="cart-card cart-summary__card">
+          <div class="cart-card__strip"></div>
+
+          <h2 class="cart-summary__title">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            Order Summary
+          </h2>
+
+          <div class="cart-summary__lines">
+            <div class="cart-summary__line">
+              <span class="cart-summary__line-label">Subtotal</span>
+              <span class="cart-summary__line-value">{{ cartData?.subtotal }} EGP</span>
+            </div>
+            <div class="cart-summary__line">
+              <span class="cart-summary__line-label">Total Items</span>
+              <span class="cart-summary__line-value">{{ cartData?.totalItemCount }}</span>
+            </div>
+            <div class="cart-summary__divider"></div>
+            <div class="cart-summary__line cart-summary__line--total">
+              <span>Total</span>
+              <span class="cart-summary__total-value">{{ cartData?.subtotal }} EGP</span>
+            </div>
+          </div>
+
+          <button class="cart-btn cart-btn--gold cart-btn--full" routerLink="/businessowner/rawmaterialcheckout">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+            Proceed to Checkout
+          </button>
+
+          <p class="cart-summary__secure">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Secure checkout · Powered by Stripe
+          </p>
+        </div>
+      </aside>
+
+    </div>
+  }
   
 
-  <!-- Order summary -->
-   @if(cartItems.length>0){
-    <aside class="summary-card">
-    <h2 class="text-gold">Order Summary</h2>
-    <div class="line">
-      <span>Subtotal</span><span class="value">{{cartData.subtotal}} EGP</span>
-    </div>
-    <div class="line">
-      <span>Total Items</span><span class="value">{{cartData.totalItemCount}} item</span>
-    </div>
-    
-
-    <button class="btn-gold btn-main full" routerLink="/businessowner/rawmaterialcheckout">Proceed to Checkout</button>
-    <button class="btn-main btn-border full" routerLink="/businessowner/rawmaterialhome">
-      Continue Shopping
-    </button>
-  </aside>
-   }
-  
 </div>

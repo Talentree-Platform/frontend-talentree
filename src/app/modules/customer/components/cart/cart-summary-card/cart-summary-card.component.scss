@@ -1,0 +1,213 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Talentree · Cart Summary Card Styles
+// ─────────────────────────────────────────────────────────────────────────────
+
+$gold:        #B8860B;
+$gold-light:  #C9952A;
+$gold-pale:   #FBF3E2;
+$gold-border: #E8D5A3;
+$text-dark:   #18130A;
+$text-mid:    #5C5244;
+$text-soft:   #A09280;
+$danger:      #D94040;
+$success:     #27A06B;
+
+.cart-summary {
+  background: #fff;
+  border: 1px solid $gold-border;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba($gold, 0.08);
+}
+
+.cart-summary__header {
+  padding: 22px 24px 16px;
+  background: linear-gradient(135deg, #1a1108 0%, #2e1f06 100%);
+  border-bottom: 1px solid rgba($gold, 0.25);
+}
+
+.cart-summary__eyebrow {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $gold-light;
+  margin-bottom: 6px;
+}
+
+.cart-summary__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.cart-summary__rows {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cart-summary__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  &--total {
+    margin-top: 4px;
+  }
+}
+
+.cart-summary__label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: $text-mid;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cart-summary__hint {
+  font-size: 11px;
+  color: $text-soft;
+  font-weight: 400;
+}
+
+.cart-summary__value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-dark;
+  white-space: nowrap;
+
+  &--free {
+    color: $success;
+    font-size: 13px;
+  }
+}
+
+.cart-summary__divider {
+  height: 1px;
+  background: $gold-border;
+  margin: 4px 0;
+}
+
+.cart-summary__total-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: $text-dark;
+}
+
+.cart-summary__total-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: $gold;
+  white-space: nowrap;
+}
+
+// Checkout button
+.cart-summary__checkout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: calc(100% - 48px);
+  margin: 0 24px 16px;
+  height: 48px;
+  border-radius: 40px;
+  border: none;
+  background: linear-gradient(135deg, $gold, $gold-light);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: box-shadow 0.25s, transform 0.25s;
+
+  svg { width: 15px; height: 15px; }
+
+  &:hover {
+    box-shadow: 0 6px 24px rgba($gold, 0.45);
+    transform: translateY(-1px);
+  }
+
+  &:active { transform: translateY(0); }
+}
+
+// Trust rows
+.cart-summary__trust {
+  margin: 0 24px 16px;
+  padding: 14px 16px;
+  background: $gold-pale;
+  border: 1px solid $gold-border;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trust-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: $text-mid;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    color: $gold;
+    flex-shrink: 0;
+  }
+}
+
+// Clear button
+.cart-summary__clear-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: calc(100% - 48px);
+  margin: 0 24px 20px;
+  height: 36px;
+  border-radius: 24px;
+  border: 1.5px solid rgba($danger, 0.3);
+  background: transparent;
+  color: rgba($danger, 0.7);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+
+  &:hover:not(:disabled) {
+    border-color: $danger;
+    color: $danger;
+    background: rgba($danger, 0.05);
+  }
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.clear-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba($danger, 0.25);
+  border-top-color: $danger;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,103 @@
+<div class="pmt-overlay" (click)="onOverlayClick($event)">
+  <div class="pmt-dialog" role="dialog" aria-modal="true" aria-labelledby="pmt-title">
+
+    <!-- Header ─────────────────────────────────────────────────────────────── -->
+    <div class="pmt-dialog__header">
+      <div class="pmt-dialog__header-left">
+        <div class="pmt-dialog__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="pmt-dialog__title" id="pmt-title">Complete Payment</h2>
+          <p class="pmt-dialog__subtitle">Secure payment via Stripe</p>
+        </div>
+      </div>
+      <button class="pmt-dialog__close" (click)="close()" [disabled]="processing" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Amount pill ─────────────────────────────────────────────────────────── -->
+    <div class="pmt-amount-row">
+      <span class="pmt-amount-label">Amount Due</span>
+      <span class="pmt-amount-value">{{ amountDisplay }}</span>
+    </div>
+
+    <!-- Stripe element mount point ──────────────────────────────────────────── -->
+    <div class="pmt-stripe-wrapper">
+
+      <!-- Skeleton while mounting ─────────────────────────────────────────── -->
+      @if(mountingElements) {
+        <div class="pmt-skeleton">
+          <div class="pmt-sk-row">
+            <div class="pmt-sk-block pmt-sk-block--full"></div>
+          </div>
+          <div class="pmt-sk-row">
+            <div class="pmt-sk-block pmt-sk-block--half"></div>
+            <div class="pmt-sk-block pmt-sk-block--half"></div>
+          </div>
+          <div class="pmt-sk-row">
+            <div class="pmt-sk-block pmt-sk-block--full pmt-sk-block--short"></div>
+          </div>
+        </div>
+      }
+
+      <div id="pmt-stripe-element" [class.pmt-hidden]="mountingElements"></div>
+    </div>
+
+    <!-- Inline error ────────────────────────────────────────────────────────── -->
+    @if(errorMessage) {
+      <div class="pmt-inline-error">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Actions ─────────────────────────────────────────────────────────────── -->
+    <div class="pmt-dialog__actions">
+      <button class="prd-btn prd-btn--ghost pmt-btn-cancel" (click)="close()" [disabled]="processing">
+        Cancel
+      </button>
+      <button
+        class="prd-btn pmt-btn-pay"
+        (click)="submit()"
+        [disabled]="processing || mountingElements"
+      >
+        @if(processing) {
+          <span class="prd-btn-spinner"></span>
+          Processing…
+        } @else {
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Pay {{ amountDisplay }}
+        }
+      </button>
+    </div>
+
+    <!-- Security note ───────────────────────────────────────────────────────── -->
+    <p class="pmt-secure-note">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      256-bit SSL encrypted. Your payment info is never stored.
+    </p>
+
+  </div>
+</div>

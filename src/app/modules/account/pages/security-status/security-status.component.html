@@ -1,0 +1,67 @@
+<div class="card security-card">
+    <div class="card-header">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Security Status</h3>
+    </div>
+    <div class="card-body">
+
+        <div class="status-grid">
+
+            <!-- Last Login -->
+            <div class="status-item">
+                <div class="status-label">
+                    <i class="fas fa-clock"></i> Last Login
+                </div>
+                <div class="status-value">{{ formatDate(securityStatus.lastLoginDate) }}</div>
+            </div>
+
+            <!-- Last Login IP -->
+            <div class="status-item">
+                <div class="status-label">
+                    <i class="fas fa-map-marker-alt"></i> Last Login IP
+                </div>
+                <div class="status-value">{{ securityStatus.lastLoginIp || 'N/A' }}</div>
+            </div>
+
+            <!-- Active Sessions -->
+            <div class="status-item">
+                <div class="status-label">
+                    <i class="fas fa-desktop"></i> Active Sessions
+                </div>
+                <div class="status-value highlight">{{ securityStatus.activeSessionCount }}</div>
+            </div>
+
+            <!-- Failed Attempts -->
+            <div class="status-item">
+                <div class="status-label">
+                    <i class="fas fa-exclamation-circle"></i> Failed Attempts
+                </div>
+                <div class="status-value" [class.danger]="securityStatus.failedAttempts > 0">
+                    {{ securityStatus.failedAttempts }}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Alerts -->
+        <div class="alerts">
+
+            <div *ngIf="isLockedOut" class="alert alert-danger">
+                <i class="fas fa-lock"></i>
+                Account is locked until {{ formatDate(securityStatus.lockoutEnd) }}
+            </div>
+
+            <div *ngIf="securityStatus.mustChangePassword" class="alert alert-warning">
+                <i class="fas fa-key"></i>
+                You are required to change your password
+            </div>
+
+            <div *ngIf="!isLockedOut && !securityStatus.mustChangePassword" class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                Account is in good standing
+            </div>
+
+        </div>
+
+    </div>
+</div>

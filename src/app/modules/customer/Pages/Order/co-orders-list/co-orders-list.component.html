@@ -1,0 +1,125 @@
+<!-- ═══════════════════════════════════════════════════════
+     TALENTREE · Orders History
+     ═══════════════════════════════════════════════════════ -->
+
+<!-- ── HERO ────────────────────────────────────────────────────────────────── -->
+<section class="co-hero">
+  <div class="co-hero__bg-grain"></div>
+  <div class="container co-hero__content">
+    <span class="co-hero__eyebrow">Your Account</span>
+    <h1 class="co-hero__title">Order History</h1>
+    <p class="co-hero__sub">Track, manage, and revisit everything you've ordered from Talentree.</p>
+  </div>
+</section>
+
+<!-- ── CONTROLS ────────────────────────────────────────────────────────────── -->
+<section class="co-controls">
+  <div class="container co-controls__inner">
+    <div class="co-search-box">
+      <svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input
+  type="text"
+  placeholder="Search by order number or product…"
+  [value]="searchTerm()"
+  (input)="onSearchChange($event)"
+/>
+    </div>
+
+    <div class="co-status-tabs">
+      @for (tab of statusTabs; track tab.value) {
+        <button
+          type="button"
+          class="co-status-tab"
+          [class.is-active]="activeStatus() === tab.value"
+          (click)="selectStatus(tab.value)"
+        >
+          {{ tab.label }}
+        </button>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ── ORDERS LIST ─────────────────────────────────────────────────────────── -->
+<section class="co-list-section">
+  <div class="container">
+
+    @if (svc.ordersLoading()) {
+      <div class="co-orders-grid">
+        @for (n of [1,2,3,4]; track n) {
+          <div class="co-order-card co-order-card--skeleton">
+            <div class="co-skel co-skel--img"></div>
+            <div class="co-skel co-skel--line" style="width: 60%"></div>
+            <div class="co-skel co-skel--line" style="width: 40%"></div>
+          </div>
+        }
+      </div>
+    } @else if (svc.ordersError()) {
+      <div class="co-error-state">
+        <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="#D94040" stroke-width="2"/><path d="M30 18v18M30 42h.1" stroke="#D94040" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <p>{{ svc.ordersError() }}</p>
+        <button class="btn-retry" (click)="retry()">Try Again</button>
+      </div>
+    } @else if (items().length === 0) {
+      <div class="co-empty-state">
+        <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="#E8D5A3" stroke-width="2"/><path d="M18 22h24l-3 18H21l-3-18z" stroke="#B8860B" stroke-width="2" stroke-linejoin="round"/></svg>
+        <p>No orders found{{ searchTerm() ? ' for "' + searchTerm() + '"' : '' }}.</p>
+        <a routerLink="/marketplace/products" class="btn-primary">Start Shopping</a>
+      </div>
+    } @else {
+      <div class="co-orders-grid">
+        @for (order of items(); track order.id) {
+          <a [routerLink]="['/customer/orderDetails', order.id]" class="co-order-card">
+            <div class="co-order-card__img-wrap">
+              @if (order.thumbnailUrl) {
+                <img [src]="order.thumbnailUrl" [alt]="order.orderNumber" loading="lazy"/>
+              } @else {
+                <div class="co-order-card__img-placeholder">
+                  <svg viewBox="0 0 40 40" fill="none"><rect x="6" y="6" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="6" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="22" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="22" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/></svg>
+                </div>
+              }
+              <span [class]="statusBadgeClass(order.status)">{{ order.status }}</span>
+            </div>
+
+            <div class="co-order-card__body">
+              <div class="co-order-card__row">
+                <span class="co-order-card__number">{{ order.orderNumber }}</span>
+                <span [class]="paymentBadgeClass(order.paymentStatus)">{{ order.paymentStatus }}</span>
+              </div>
+
+              <div class="co-order-card__meta">
+                <span>{{ order.itemCount }} item{{ order.itemCount === 1 ? '' : 's' }}</span>
+                <span class="co-dot">•</span>
+                <span>{{ order.createdAt | date:'MMM d, y' }}</span>
+              </div>
+
+              <div class="co-order-card__footer">
+                <span class="co-order-card__total">{{ order.totalAmount | number:'1.2-2' }} {{ order.currency }}</span>
+                <span class="co-order-card__arrow">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+        }
+      </div>
+
+      <!-- ── PAGINATION ──────────────────────────────────────────────────── -->
+      @if (totalPages() > 1) {
+        <div class="co-pagination">
+          <button class="co-page-btn" [disabled]="pageIndex() === 1" (click)="goToPage(pageIndex() - 1)">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          @for (p of pageNumbers(); track p) {
+            <button class="co-page-btn" [class.is-active]="p === pageIndex()" (click)="goToPage(p)">{{ p }}</button>
+          }
+
+          <button class="co-page-btn" [disabled]="pageIndex() === totalPages()" (click)="goToPage(pageIndex() + 1)">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      }
+    }
+  </div>
+</section>

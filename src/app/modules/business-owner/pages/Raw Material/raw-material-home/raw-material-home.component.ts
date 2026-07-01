@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [ProductCardComponent,CarouselModule, FormsModule , RouterLink],
   templateUrl: './raw-material-home.component.html',
-  styleUrl: './raw-material-home.component.css'
+  styleUrl: './raw-material-home.component.scss'
 })
 export class RawMaterialHomeComponent {
   constructor(private _MaterialService:MaterialService , private _MaterialCartService:MaterialCartService){}

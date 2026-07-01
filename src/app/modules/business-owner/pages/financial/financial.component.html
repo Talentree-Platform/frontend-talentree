@@ -2,92 +2,218 @@
 
   <!-- Header -->
   <div class="page-header">
-    <h1>Financial Overview</h1>
+    <div class="header-left">
+      <div class="header-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 1V23M17 5H9.5C8.30653 5 7.16193 5.47411 6.31802 6.31802C5.47411 7.16193 5 8.30653 5 9.5C5 10.6935 5.47411 11.8381 6.31802 12.682C7.16193 13.5259 8.30653 14 9.5 14H14.5C15.6935 14 16.8381 14.4741 17.682 15.318C18.5259 16.1619 19 17.3065 19 18.5C19 19.6935 18.5259 20.8381 17.682 21.682C16.8381 22.5259 15.6935 23 14.5 23H6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="header-text">
+        <h1>Financial Overview</h1>
+        <p class="subtitle">Track revenue, balance and financial activity</p>
+      </div>
+    </div>
+
     <div class="date-filters">
-      <input type="date" [(ngModel)]="fromDate" (change)="onDateChange()" placeholder="From" />
-      <input type="date" [(ngModel)]="toDate"   (change)="onDateChange()" placeholder="To" />
+      <div class="date-field">
+        <label>From</label>
+        <input type="date" [(ngModel)]="fromDate" (change)="onDateChange()" />
+      </div>
+      <div class="date-field">
+        <label>To</label>
+        <input type="date" [(ngModel)]="toDate" (change)="onDateChange()" />
+      </div>
     </div>
   </div>
 
   <!-- Summary Cards -->
   <div class="summary-cards" *ngIf="!loadingSummary && summary">
-    <div class="card green">
+    <div class="card card-revenue">
+      <span class="card-glow"></span>
+      <span class="card-circle c1"></span>
+      <span class="card-circle c2"></span>
+      <div class="card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 17L9 11L13 15L21 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 7H21V13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <span class="label">Total Revenue</span>
       <span class="value">{{ summary.totalRevenue | currency }}</span>
     </div>
-    <div class="card red">
+
+    <div class="card card-expenses">
+      <span class="card-glow"></span>
+      <span class="card-circle c1"></span>
+      <span class="card-circle c2"></span>
+      <div class="card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 7L9 13L13 9L21 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 17H21V11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <span class="label">Total Expenses</span>
       <span class="value">{{ summary.totalExpenses | currency }}</span>
     </div>
-    <div class="card blue">
+
+    <div class="card card-profit">
+      <span class="card-glow"></span>
+      <span class="card-circle c1"></span>
+      <span class="card-circle c2"></span>
+      <div class="card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 7V17M9.5 9.5C9.5 8.4 10.6 7.8 12 7.8C13.4 7.8 14.5 8.4 14.5 9.5C14.5 11.5 9.5 11 9.5 13.5C9.5 14.6 10.6 15.2 12 15.2C13.4 15.2 14.5 14.6 14.5 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
       <span class="label">Net Profit</span>
       <span class="value">{{ summary.netProfit | currency }}</span>
     </div>
-    <div class="card yellow">
+
+    <div class="card card-balance">
+      <span class="card-glow"></span>
+      <span class="card-circle c1"></span>
+      <span class="card-circle c2"></span>
+      <div class="card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M3 10H21" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M7 15H10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
       <span class="label">Available Balance</span>
       <span class="value">{{ summary.availableBalance | currency }}</span>
     </div>
-    <div class="card gray">
+
+    <div class="card card-pending">
+      <span class="card-glow"></span>
+      <span class="card-circle c1"></span>
+      <span class="card-circle c2"></span>
+      <div class="card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 7V12L15.5 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <span class="label">Pending Payouts</span>
       <span class="value">{{ summary.pendingPayouts | currency }}</span>
     </div>
   </div>
 
-  <div class="loading" *ngIf="loadingSummary">Loading summary...</div>
-  <div class="error"   *ngIf="errorSummary">{{ errorSummary }}</div>
+  <!-- Summary loading skeleton -->
+  <div class="summary-cards" *ngIf="loadingSummary">
+    <div class="card skeleton-card" *ngFor="let s of [1,2,3,4,5]">
+      <div class="skeleton-line skeleton-icon"></div>
+      <div class="skeleton-line skeleton-label"></div>
+      <div class="skeleton-line skeleton-value"></div>
+    </div>
+  </div>
+
+  <div class="state-panel error-panel" *ngIf="errorSummary">
+    <div class="state-icon error-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M12 8V13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="12" cy="16.2" r="0.9" fill="currentColor"/>
+      </svg>
+    </div>
+    <span>{{ errorSummary }}</span>
+  </div>
 
   <!-- Transactions -->
   <div class="transactions-section">
     <div class="section-header">
-      <h2>Transactions</h2>
-      <select [(ngModel)]="selectedType" (change)="onTypeChange()">
-        <option value="">All Types</option>
-        <option [value]="0">Sale</option>
-        <option [value]="1">Expense</option>
-        <option [value]="2">Fee</option>
-        <option [value]="3">Refund</option>
-        <option [value]="4">Withdrawal</option>
-        <option [value]="5">Deposit</option>
-      </select>
+      <div class="section-title">
+        <h2>Transactions</h2>
+        <span class="section-sub">A full record of your financial activity</span>
+      </div>
+      <div class="select-wrap">
+        <select [(ngModel)]="selectedType" (change)="onTypeChange()">
+          <option value="">All Types</option>
+          <option [value]="0">Sale</option>
+          <option [value]="1">Expense</option>
+          <option [value]="2">Fee</option>
+          <option [value]="3">Refund</option>
+          <option [value]="4">Withdrawal</option>
+          <option [value]="5">Deposit</option>
+        </select>
+      </div>
     </div>
 
-    <div class="loading" *ngIf="loadingTransactions">Loading transactions...</div>
-    <div class="error"   *ngIf="errorTransactions">{{ errorTransactions }}</div>
+    <!-- Transactions loading shimmer -->
+    <div class="table-wrapper" *ngIf="loadingTransactions">
+      <div class="shimmer-row" *ngFor="let s of [1,2,3,4,5,6]"></div>
+    </div>
 
-    <table *ngIf="!loadingTransactions && transactions.length">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Description</th>
-          <th>Type</th>
-          <th>Reference</th>
-          <th>Amount</th>
-          <th>Balance After</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let tx of transactions">
-          <td>{{ tx.createdAt | date:'mediumDate' }}</td>
-          <td>{{ tx.description }}</td>
-          <td><span class="badge" [class]="'type-' + tx.type">{{ typeLabels[tx.type] }}</span></td>
-          <td>{{ tx.referenceType }}</td>
-          <td [class]="isPositive(tx.amount) ? 'amount-positive' : 'amount-negative'">
-            {{ tx.amount | currency }}
-          </td>
-          <td>{{ tx.balanceAfter | currency }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="state-panel error-panel" *ngIf="errorTransactions">
+      <div class="state-icon error-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 8V13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12" cy="16.2" r="0.9" fill="currentColor"/>
+        </svg>
+      </div>
+      <span>{{ errorTransactions }}</span>
+    </div>
 
-    <div class="empty" *ngIf="!loadingTransactions && !transactions.length">
-      No transactions found.
+    <div class="table-wrapper" *ngIf="!loadingTransactions && transactions.length">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Reference</th>
+            <th>Amount</th>
+            <th>Balance After</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tx of transactions">
+            <td class="cell-date">{{ tx.createdAt | date:'mediumDate' }}</td>
+            <td class="cell-desc">{{ tx.description }}</td>
+            <td>
+              <span class="badge" [class]="'type-' + tx.type">
+                <span class="badge-dot"></span>
+                {{ typeLabels[tx.type] }}
+              </span>
+            </td>
+            <td class="cell-ref">{{ tx.referenceType }}</td>
+            <td [class]="isPositive(tx.amount) ? 'amount-positive' : 'amount-negative'">
+              {{ tx.amount | currency }}
+            </td>
+            <td class="cell-balance">{{ tx.balanceAfter | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="empty-state" *ngIf="!loadingTransactions && !transactions.length && !errorTransactions">
+      <div class="empty-illustration">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M3 10H21" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M8 15H11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p>No financial activity yet</p>
     </div>
 
     <!-- Pagination -->
     <div class="pagination" *ngIf="pagination && pagination.totalPages > 1">
-      <button (click)="prev()" [disabled]="!pagination.hasPrevious">← Prev</button>
-      <span>Page {{ page }} of {{ pagination.totalPages }}</span>
-      <button (click)="next()" [disabled]="!pagination.hasNext">Next →</button>
+      <button (click)="prev()" [disabled]="!pagination.hasPrevious">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Prev
+      </button>
+      <span class="page-indicator">Page {{ page }} of {{ pagination.totalPages }}</span>
+      <button (click)="next()" [disabled]="!pagination.hasNext">
+        Next
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
     </div>
   </div>
 

@@ -22,6 +22,7 @@ export interface CreateAdminDto {
   password: string;
   confirmPassword: string;
   phoneNumber?: string;
+  role: string;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -31,10 +32,10 @@ export interface CreateAdminDto {
 })
 export class AdminService {
 
-  constructor(private _HttpClient:HttpClient) { }
-  apiUrl = `${environment.baseUrl}/api/Admin`;
-  // apiUrl='/api/Admin';
-  private readonly adminProductApiUrl = '/api/AdminProduct';
+  constructor(private _HttpClient: HttpClient) { }
+  private readonly adminApiUrl = `${environment.baseUrl}/api/Admin`;
+  private readonly adminManagementApiUrl = `${environment.baseUrl}/api/admin-management`;
+  private readonly adminProductApiUrl = `${environment.baseUrl}/api/AdminProduct`;
 
   /**
    * GET /api/AdminProduct/products/pending
@@ -69,62 +70,63 @@ export class AdminService {
     });
   }
 
-  getPendingBusinessOwner(params?:PaginationQuery):Observable<ApiResponse<PaginatedResponse<BusinessOwner>>>{
-      let httpPram=new HttpParams();
-      if (params){
-        httpPram = httpPram
-    .set('pageIndex', String(params.pageIndex))
-    .set('pageSize', String(params.pageSize));
-      }
-    return this._HttpClient.get<ApiResponse<PaginatedResponse<BusinessOwner>>>(`${this.apiUrl}/business-owners/pending` , {params:httpPram})
+  getPendingBusinessOwner(params?: PaginationQuery): Observable<ApiResponse<PaginatedResponse<BusinessOwner>>> {
+    let httpPram = new HttpParams();
+    if (params) {
+      httpPram = httpPram
+        .set('pageIndex', String(params.pageIndex))
+        .set('pageSize', String(params.pageSize));
     }
+    return this._HttpClient.get<ApiResponse<PaginatedResponse<BusinessOwner>>>(`${this.adminApiUrl}/business-owners/pending`, { params: httpPram })
+  }
 
-  
+
 
   // ── Business Owners ───────────────────────────────────────────────────────
 
 
   getBusinessOwnerById(profileId: number): Observable<ApiResponse<BusinessOwner>> {
     return this._HttpClient.get<ApiResponse<BusinessOwner>>(
-      `${this.apiUrl}/business-owners/${profileId}`
+      `${this.adminApiUrl}/business-owners/${profileId}`
     );
   }
 
-  rejectOwner(profileId: number | undefined,rejectionReason: string): Observable<ApiResponse<null>> {
-    return this._HttpClient.post<ApiResponse<null>>(`${this.apiUrl}/business-owners/reject`, {
+  rejectOwner(profileId: number | undefined, rejectionReason: string): Observable<ApiResponse<null>> {
+    return this._HttpClient.post<ApiResponse<null>>(`${this.adminApiUrl}/business-owners/reject`, {
       profileId,
       rejectionReason
-    });}
+    });
+  }
 
   ApproveOwner(profileId: number | undefined, notes: string): Observable<ApiResponse<null>> {
     return this._HttpClient.post<ApiResponse<null>>(
-      `${this.apiUrl}/business-owners/approve`, { profileId, notes }
+      `${this.adminApiUrl}/business-owners/approve`, { profileId, notes }
     );
   }
 
-  
+
 
   // ── Admins ────────────────────────────────────────────────────────────────
 
   getAllAdmins(): Observable<ApiResponse<AdminDto[]>> {
-    return this._HttpClient.get<ApiResponse<AdminDto[]>>(`${this.apiUrl}/admins`);
+    return this._HttpClient.get<ApiResponse<AdminDto[]>>(`${this.adminManagementApiUrl}/admins`);
   }
 
   createAdmin(dto: CreateAdminDto): Observable<ApiResponse<AdminDto>> {
     return this._HttpClient.post<ApiResponse<AdminDto>>(
-      `${this.apiUrl}/create-admin`, dto
+      `${this.adminManagementApiUrl}/create`, dto
     );
   }
 
   deactivateAdmin(adminId: string): Observable<ApiResponse<null>> {
     return this._HttpClient.post<ApiResponse<null>>(
-      `${this.apiUrl}/admins/${adminId}/deactivate`, {}
+      `${this.adminManagementApiUrl}/admins/${adminId}/deactivate`, {}
     );
   }
 
   reactivateAdmin(adminId: string): Observable<ApiResponse<null>> {
     return this._HttpClient.post<ApiResponse<null>>(
-      `${this.apiUrl}/admins/${adminId}/reactivate`, {}
+      `${this.adminManagementApiUrl}/admins/${adminId}/reactivate`, {}
     );
   }
 }

@@ -1,71 +1,242 @@
-<div class="page">
+<div class="settings-root">
 
-  <header class="page-header pb-1">
-    <h2 class="text-center text-gold">Preferences </h2>
-    <p class="text-center">Customize your dashboard experience and settings.</p>
-  </header>
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section class="hero">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
 
-  <!-- ================= PREFERENCES ================= -->
-  <section class="card">
+    <div class="hero-copy">
+      <span class="hero-badge">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" stroke="#C9A84C" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="2" fill="#C9A84C"/>
+        </svg>
+        System Settings
+      </span>
+      <h1 class="hero-title">Your Preferences,<br><em>Your Experience</em></h1>
+      <p class="hero-sub">
+        Customize your dashboard experience — set your timezone, preferred
+        date format, currency, and layout to match your workflow.
+      </p>
+    </div>
 
-    <h5 class="text-burgandy pb-2">System Preferences</h5>
-
-    <form class="form-grid" [formGroup]="form">
-
-      <!-- Timezone -->
-      <label class="field full">
-        <span>Timezone</span>
-        <input class="input-main" formControlName="timezone" placeholder="e.g. UTC+2" />
-      </label>
-
-      <!-- Date Format -->
-      <label class="field">
-        <span>Date Format</span>
-        <select class="select-main" formControlName="dateFormat">
-          <option value="dd/MM/yyyy">DD/MM/YYYY</option>
-          <option value="MM/dd/yyyy">MM/DD/YYYY</option>
-          <option value="yyyy-MM-dd">YYYY-MM-DD</option>
-        </select>
-      </label>
-
-      <!-- Currency -->
-      <label class="field">
-        <span>Currency Display</span>
-        <select class="select-main" formControlName="currencyDisplay">
-          <option value="USD">$ USD</option>
-          <option value="EUR">€ EUR</option>
-          <option value="EGP">EGP</option>
-        </select>
-      </label>
-
-      <!-- Layout -->
-      <label class="field full">
-        <span>Dashboard Layout</span>
-        <select class="select-main" formControlName="dashboardLayout">
-          <option value="default">Default</option>
-          <option value="compact">Compact</option>
-          <option value="analytics">Analytics Focused</option>
-        </select>
-      </label>
-
-    </form>
-
-    <div class="actions-row mt-4 m-auto w-50">
-      <button
-        class="btn-main btn-gold w-50"
-        (click)="save()"
-        [disabled]="form.invalid">
-
-        Save Preferences
-      </button>
+    <div class="hero-visual">
+      <div class="hero-icon-frame">
+        <svg width="62" height="62" viewBox="0 0 62 62" fill="none">
+          <circle cx="31" cy="31" r="22" stroke="#C9A84C" stroke-width="2.2"
+            fill="rgba(201,168,76,.07)"/>
+          <path d="M31 14v4M31 44v4M14 31h4M44 31h4" stroke="#C9A84C"
+            stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="31" cy="31" r="7" fill="rgba(201,168,76,.18)"
+            stroke="#C9A84C" stroke-width="2"/>
+          <circle cx="31" cy="31" r="2.5" fill="#C9A84C"/>
+          <path d="M19.2 19.2l2.8 2.8M40 40l2.8 2.8M19.2 42.8l2.8-2.8M40 22l2.8-2.8"
+            stroke="#C9A84C" stroke-width="1.8" stroke-linecap="round" opacity=".55"/>
+        </svg>
+      </div>
     </div>
   </section>
 
-  <!-- ================= ACTION ================= -->
-  
 
-    
+  <!-- ═══════════════════════ PREFERENCES CARD ═══════════════════════ -->
+  <section class="profile-card">
 
-  
+    <div class="card-header">
+      <div class="card-header-text">
+        <h2 class="card-title">System Preferences</h2>
+        <p class="card-sub">Adjust your regional and display settings to suit your workflow.</p>
+      </div>
+      <div class="card-header-line"></div>
+    </div>
+
+    <div class="section-divider"><span>Regional &amp; Display</span></div>
+
+    <form class="pf-form" [formGroup]="form" (ngSubmit)="save()">
+
+      <!-- Timezone — full width -->
+      <div class="form-row full-row">
+        <div class="field-wrap">
+          <div class="input-shell"
+            [class.focused]="tzFocus"
+            [class.filled]="form.get('timezone')?.value"
+            [class.error]="form.get('timezone')?.invalid && form.get('timezone')?.touched">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </span>
+            <input
+              class="pf-input"
+              type="text"
+              formControlName="timezone"
+              id="timezone"
+              placeholder=" "
+              (focus)="tzFocus=true"
+              (blur)="tzFocus=false"
+            />
+            <label class="float-label" for="timezone">Timezone</label>
+          </div>
+          <span class="field-hint">e.g. UTC+2, America/New_York</span>
+          <span class="field-error"
+            *ngIf="form.get('timezone')?.invalid && form.get('timezone')?.touched">
+            Timezone is required
+          </span>
+        </div>
+      </div>
+
+      <!-- Date Format + Currency — two columns -->
+      <div class="form-row">
+
+        <!-- Date Format -->
+        <div class="field-wrap">
+          <div class="select-shell"
+            [class.focused]="dateFocus"
+            [class.filled]="form.get('dateFormat')?.value">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8"  y1="2" x2="8"  y2="6"/>
+                <line x1="3"  y1="10" x2="21" y2="10"/>
+              </svg>
+            </span>
+            <select
+              class="pf-select"
+              formControlName="dateFormat"
+              id="dateFormat"
+              (focus)="dateFocus=true"
+              (blur)="dateFocus=false">
+              <option value="" disabled hidden></option>
+              <option value="dd/MM/yyyy">DD / MM / YYYY</option>
+              <option value="MM/dd/yyyy">MM / DD / YYYY</option>
+              <option value="yyyy-MM-dd">YYYY - MM - DD</option>
+            </select>
+            <label class="float-label" for="dateFormat">Date Format</label>
+            <span class="select-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </span>
+          </div>
+          <span class="field-error"
+            *ngIf="form.get('dateFormat')?.invalid && form.get('dateFormat')?.touched">
+            Date format is required
+          </span>
+        </div>
+
+        <!-- Currency -->
+        <div class="field-wrap">
+          <div class="select-shell"
+            [class.focused]="currFocus"
+            [class.filled]="form.get('currencyDisplay')?.value">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1"  x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </span>
+            <select
+              class="pf-select"
+              formControlName="currencyDisplay"
+              id="currencyDisplay"
+              (focus)="currFocus=true"
+              (blur)="currFocus=false">
+              <option value="" disabled hidden></option>
+              <option value="USD">$ USD — US Dollar</option>
+              <option value="EUR">€ EUR — Euro</option>
+              <option value="EGP">EGP — Egyptian Pound</option>
+            </select>
+            <label class="float-label" for="currencyDisplay">Currency Display</label>
+            <span class="select-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </span>
+          </div>
+          <span class="field-error"
+            *ngIf="form.get('currencyDisplay')?.invalid && form.get('currencyDisplay')?.touched">
+            Currency is required
+          </span>
+        </div>
+
+      </div>
+
+      <!-- Dashboard Layout — full width -->
+      <div class="form-row full-row">
+        <div class="field-wrap">
+          <div class="select-shell"
+            [class.focused]="layoutFocus"
+            [class.filled]="form.get('dashboardLayout')?.value">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </span>
+            <select
+              class="pf-select"
+              formControlName="dashboardLayout"
+              id="dashboardLayout"
+              (focus)="layoutFocus=true"
+              (blur)="layoutFocus=false">
+              <option value="" disabled hidden></option>
+              <option value="default">Default — Balanced overview</option>
+              <option value="compact">Compact — Space-efficient</option>
+              <option value="analytics">Analytics Focused — Data-first</option>
+            </select>
+            <label class="float-label" for="dashboardLayout">Dashboard Layout</label>
+            <span class="select-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </span>
+          </div>
+          <span class="field-error"
+            *ngIf="form.get('dashboardLayout')?.invalid && form.get('dashboardLayout')?.touched">
+            Dashboard layout is required
+          </span>
+        </div>
+      </div>
+
+      <!-- Save -->
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="save-btn"
+          [class.loading]="isSaving"
+          [disabled]="form.invalid || isSaving">
+          <span class="save-btn-inner">
+            <svg *ngIf="!isSaving" width="15" height="15" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            <span class="btn-spinner" *ngIf="isSaving"></span>
+            {{ isSaving ? 'Saving…' : 'Save Preferences' }}
+          </span>
+        </button>
+      </div>
+
+    </form>
+  </section>
 
 </div>

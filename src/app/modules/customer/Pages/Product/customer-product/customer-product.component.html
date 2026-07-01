@@ -1,0 +1,220 @@
+<!-- ═══════════════════════════════════════════════════════
+     TALENTREE · Product Catalogue
+     ═══════════════════════════════════════════════════════ -->
+
+<!-- ── PAGE HEADER ───────────────────────────────────────────────────────────── -->
+<div class="catalog-header">
+  <div class="container">
+    <div class="catalog-header__inner">
+      <div class="catalog-header__left">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a routerLink="/marketplace" class="breadcrumb__link">Home</a>
+          <span class="breadcrumb__sep">›</span>
+          <span class="breadcrumb__current">Products</span>
+        </nav>
+        <h1 class="catalog-header__title">Material Catalogue</h1>
+        @if (!svc.productsLoading()) {
+          <p class="catalog-header__count">
+            {{ svc.totalCount() | number }} products found
+          </p>
+        }
+      </div>
+      <div class="catalog-header__search">
+        <app-product-search></app-product-search>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOOLBAR ────────────────────────────────────────────────────────────────── -->
+<div class="toolbar">
+  <div class="container toolbar__inner">
+
+    <!-- Filter toggle (mobile) -->
+    <button class="toolbar__filter-btn" (click)="toggleSidebar()">
+      <svg viewBox="0 0 20 20" fill="none">
+        <path d="M3 5h14M6 10h8M9 15h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Filters
+      @if (activeChips().length > 0) {
+        <span class="toolbar__filter-badge">{{ activeChips().length }}</span>
+      }
+    </button>
+
+    <!-- Active filter chips -->
+    @if (activeChips().length > 0) {
+      <div class="chip-row">
+        @for (chip of activeChips(); track chip.key) {
+          <button class="filter-chip" (click)="removeChip(chip.key)">
+            {{ chip.label }}
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </button>
+        }
+        <button class="chip-clear-all" (click)="svc.resetFilters()">Clear all</button>
+      </div>
+    }
+
+    <div class="toolbar__right">
+      <!-- Sort select -->
+      <div class="sort-select-wrap">
+        <label class="sort-label" for="sort-select">Sort:</label>
+        <select
+          id="sort-select"
+          class="sort-select"
+          [ngModel]="svc.filters().sortBy"
+          (ngModelChange)="onSortChange($event)"
+        >
+          @for (opt of sortOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+        <svg class="sort-chevron" viewBox="0 0 16 16" fill="none">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- View toggle -->
+      <div class="view-toggle">
+        <button
+          class="view-btn"
+          [class.view-btn--active]="viewMode() === 'grid'"
+          (click)="viewMode.set('grid')"
+          aria-label="Grid view"
+        >
+          <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/></svg>
+        </button>
+        <button
+          class="view-btn"
+          [class.view-btn--active]="viewMode() === 'list'"
+          (click)="viewMode.set('list')"
+          aria-label="List view"
+        >
+          <svg viewBox="0 0 16 16" fill="none"><path d="M1 4h14M1 8h14M1 12h14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN LAYOUT ────────────────────────────────────────────────────────────── -->
+<div class="catalog-layout container">
+
+  <!-- ── Sidebar overlay (mobile) ──────────────────────────────────────────── -->
+  @if (sidebarOpen()) {
+    <div class="sidebar-backdrop" (click)="closeSidebar()"></div>
+  }
+
+  <!-- ── Sidebar ────────────────────────────────────────────────────────────── -->
+  <aside class="catalog-layout__sidebar" [class.catalog-layout__sidebar--open]="sidebarOpen()">
+    <app-filter-sidebar
+      (filtersApplied)="closeSidebar()"
+      (sidebarClosed)="closeSidebar()"
+    ></app-filter-sidebar>
+  </aside>
+
+  <!-- ── Products pane ─────────────────────────────────────────────────────── -->
+  <main class="catalog-layout__main">
+
+    <!-- Error state -->
+    @if (svc.productsError() && !svc.productsLoading()) {
+      <div class="state-box state-box--error">
+        <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#D94040" stroke-width="1.5"/><path d="M24 14v12M24 32v2" stroke="#D94040" stroke-width="2" stroke-linecap="round"/></svg>
+        <h3>Something went wrong</h3>
+        <p>{{ svc.productsError() }}</p>
+        <button class="btn-retry" (click)="svc.loadProducts()">Try again</button>
+      </div>
+
+    <!-- Skeleton loading -->
+    } @else if (svc.productsLoading()) {
+      <div class="products-grid" [class.products-grid--list]="viewMode() === 'list'">
+        @for (n of skeletonArray; track $index) {
+          <app-customer-product-card [skeleton]="true" [product]="null!"></app-customer-product-card>
+        }
+      </div>
+
+    <!-- Empty state -->
+    } @else if ((svc.productsData()?.data?.length ?? 0) === 0) {
+      <div class="state-box state-box--empty">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="38" stroke="#E8D5A3" stroke-width="1.5"/>
+          <path d="M26 30h28l-4 20H30L26 30z" stroke="#B8860B" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M22 26h4M54 26h4M34 26l2-6h8l2 6" stroke="#B8860B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3>No products found</h3>
+        <p>
+          @if (activeChips().length > 0) {
+            Try adjusting your filters or search term.
+          } @else {
+            No products are available in this category yet.
+          }
+        </p>
+        @if (activeChips().length > 0) {
+          <button class="btn-retry" (click)="svc.resetFilters()">Clear filters</button>
+        }
+      </div>
+
+    <!-- Products grid/list -->
+    } @else {
+      <div
+        class="products-grid"
+        [class.products-grid--list]="viewMode() === 'list'"
+        role="list"
+      >
+        @for (product of svc.productsData()!.data; track product.id) {
+          <div role="listitem">
+            <app-customer-product-card
+              [product]="product"
+              (addedToCart)="onAddedToCart($event)"
+            ></app-customer-product-card>
+          </div>
+        }
+      </div>
+
+      <!-- ── Pagination ──────────────────────────────────────────────────── -->
+      @if (svc.totalPages() > 1) {
+        <nav class="pagination" aria-label="Page navigation">
+          <!-- Prev -->
+          <button
+            class="page-btn page-btn--nav"
+            [disabled]="!svc.hasPrev()"
+            (click)="goToPage(svc.currentPage() - 1)"
+            aria-label="Previous page"
+          >
+            <svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <!-- Page numbers -->
+          @for (page of pagesArray(); track $index) {
+            @if (isPageNum(page)) {
+              <button
+                class="page-btn"
+                [class.page-btn--active]="page === svc.currentPage()"
+                (click)="goToPage(page)"
+                [attr.aria-current]="page === svc.currentPage() ? 'page' : null"
+              >{{ page }}</button>
+            } @else {
+              <span class="page-ellipsis">…</span>
+            }
+          }
+
+          <!-- Next -->
+          <button
+            class="page-btn page-btn--nav"
+            [disabled]="!svc.hasNext()"
+            (click)="goToPage(svc.currentPage() + 1)"
+            aria-label="Next page"
+          >
+            <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <span class="pagination__meta">
+            Page {{ svc.currentPage() }} of {{ svc.totalPages() }}
+          </span>
+        </nav>
+      }
+    }
+
+  </main><!-- /main -->
+</div><!-- /catalog-layout -->

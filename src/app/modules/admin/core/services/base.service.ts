@@ -16,7 +16,7 @@ export class BaseService {
   constructor(
     protected http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object  // ← أضيفي هذا
-  ) {}
+  ) { }
 
   protected getToken(): string | null {
     // فقط في المتصفح نستخدم localStorage
@@ -47,7 +47,7 @@ export class BaseService {
   protected buildParams(params: any): HttpParams {
     let httpParams = new HttpParams();
     if (!params) return httpParams;
-    
+
     Object.keys(params).forEach(key => {
       const value = params[key];
       if (value !== undefined && value !== null && value !== '') {
@@ -58,9 +58,9 @@ export class BaseService {
   }
 
   protected get<T>(url: string, params?: any): Observable<T> {
-    return this.http.get<T>(url, { 
-      headers: this.getHeaders(), 
-      params: this.buildParams(params) 
+    return this.http.get<T>(url, {
+      headers: this.getHeaders(),
+      params: this.buildParams(params)
     }).pipe(catchError(this.handleError));
   }
 

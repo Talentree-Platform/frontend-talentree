@@ -1,0 +1,302 @@
+/* =========================================================
+   Payment Modal — Component Styles
+   Prefix: pmt-
+   ========================================================= */
+
+/* ── Overlay ──────────────────────────────────────────────────────────────── */
+.pmt-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  z-index: 9100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: pmt-overlay-in 0.22s ease both;
+}
+
+@keyframes pmt-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Dialog card ──────────────────────────────────────────────────────────── */
+.pmt-dialog {
+  background: var(--prd-cream-1, #fffdf7);
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 24px;
+  padding: 2rem 2rem 1.6rem;
+  max-width: 480px;
+  width: 100%;
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(201, 168, 76, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: pmt-dialog-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes pmt-dialog-in {
+  from { opacity: 0; transform: scale(0.92) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.pmt-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pmt-dialog__header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.pmt-dialog__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(201, 168, 76, 0.14), rgba(201, 168, 76, 0.06));
+  border: 1px solid rgba(201, 168, 76, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C9A84C;
+  flex-shrink: 0;
+}
+
+.pmt-dialog__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2a1f0a;
+  margin: 0 0 0.15rem;
+  line-height: 1.2;
+}
+
+.pmt-dialog__subtitle {
+  font-size: 0.77rem;
+  color: #b0946a;
+  margin: 0;
+}
+
+.pmt-dialog__close {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  color: #b0946a;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+
+  &:hover:not(:disabled) {
+    background: rgba(201, 168, 76, 0.08);
+    border-color: rgba(201, 168, 76, 0.4);
+    color: #7a5010;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+/* ── Amount row ───────────────────────────────────────────────────────────── */
+.pmt-amount-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(201, 168, 76, 0.08);
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 14px;
+  padding: 0.85rem 1.15rem;
+}
+
+.pmt-amount-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #b0946a;
+}
+
+.pmt-amount-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #7a5010;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* ── Stripe wrapper ───────────────────────────────────────────────────────── */
+.pmt-stripe-wrapper {
+  min-height: 160px;
+  position: relative;
+}
+
+.pmt-hidden {
+  display: none;
+}
+
+/* ── Skeleton ─────────────────────────────────────────────────────────────── */
+.pmt-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+.pmt-sk-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+@keyframes pmt-shimmer {
+  0%   { background-position: -500px 0; }
+  100% { background-position: 500px 0; }
+}
+
+.pmt-sk-block {
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(201, 168, 76, 0.06) 25%,
+    rgba(201, 168, 76, 0.13) 50%,
+    rgba(201, 168, 76, 0.06) 75%
+  );
+  background-size: 1000px 100%;
+  animation: pmt-shimmer 1.5s infinite linear;
+  height: 44px;
+
+  &--full  { flex: 1; }
+  &--half  { flex: 1; }
+  &--short { height: 36px; flex: 0 0 140px; }
+}
+
+/* ── Inline error ─────────────────────────────────────────────────────────── */
+.pmt-inline-error {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-size: 0.84rem;
+  color: #b91c1c;
+  line-height: 1.4;
+
+  svg { flex-shrink: 0; color: #ef4444; }
+}
+
+/* ── Actions ──────────────────────────────────────────────────────────────── */
+.pmt-dialog__actions {
+  display: flex;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+.pmt-btn-cancel {
+  flex: 0 0 auto;
+  min-width: 90px;
+}
+
+.pmt-btn-pay {
+  flex: 1;
+  background: linear-gradient(135deg, #C9A84C 0%, #e2c675 100%);
+  color: #2a1800;
+  font-weight: 700;
+  border: none;
+  border-radius: 11px;
+  padding: 10px 22px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  line-height: 1;
+  box-shadow: 0 2px 14px rgba(201, 168, 76, 0.35);
+  transition: box-shadow 0.22s, transform 0.22s, opacity 0.22s;
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 5px 22px rgba(201, 168, 76, 0.5);
+    transform: translateY(-2px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+/* ── Security note ────────────────────────────────────────────────────────── */
+.pmt-secure-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: #c0a878;
+  margin: 0;
+  text-align: center;
+
+  svg { flex-shrink: 0; }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 520px) {
+  .pmt-dialog {
+    padding: 1.5rem 1.25rem 1.25rem;
+    border-radius: 20px;
+  }
+
+  .pmt-dialog__title { font-size: 1.05rem; }
+  .pmt-amount-value  { font-size: 1.1rem; }
+  .pmt-dialog__actions { flex-direction: column; }
+  .pmt-btn-cancel { width: 100%; }
+}
+.pmt-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  z-index: 9100;
+  display: flex;
+  align-items: center; // change to flex-start on small screens
+  justify-content: center;
+  padding: 1rem;
+  animation: pmt-overlay-in 0.22s ease both;
+  overflow-y: auto; // ← ADD THIS
+}
+
+.pmt-dialog {
+  background: var(--prd-cream-1, #fffdf7);
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 24px;
+  padding: 2rem 2rem 1.6rem;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;       // ← ADD THIS
+  overflow-y: auto;       // ← ADD THIS
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(201, 168, 76, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: pmt-dialog-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  margin: auto; // ← ADD THIS (keeps it centered when overlay scrolls)
+}
