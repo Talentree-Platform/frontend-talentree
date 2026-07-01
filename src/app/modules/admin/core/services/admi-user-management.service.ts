@@ -283,6 +283,12 @@ export class AdminUserManagementService {
     );
   }
 
+  deactivateCustomer(userId: string): Observable<ApiResponse<string>> {
+    return this._HttpClient.post<ApiResponse<string>>(
+      `${this.apiUrl}/customers/${userId}/deactivate`, {}
+    );
+  }
+
   // ── Logs ──────────────────────────────────────────────────────────────────
 
   getUserLogs(userId: string): Observable<ApiResponse<ActionLog[]>> {

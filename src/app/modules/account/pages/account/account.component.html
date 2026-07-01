@@ -1,0 +1,59 @@
+<div class="account-page">
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div>
+                <h1 class="page-title">Account Security</h1>
+                <p class="page-subtitle">Manage your security settings and permissions</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading account data...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error && !loading" class="error-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        {{ error }}
+        <button (click)="loadData()" class="retry-btn">Retry</button>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="!loading" class="account-grid">
+
+        <!-- Security Status Card -->
+        <app-security-status *ngIf="securityStatus" [securityStatus]="securityStatus">
+        </app-security-status>
+
+        <!-- Two-Factor Auth Card -->
+        <app-two-factor *ngIf="securityStatus" [isTwoFactorEnabled]="securityStatus.isTwoFactorEnabled"
+            (statusChanged)="on2FAStatusChanged()">
+        </app-two-factor>
+
+        <!-- Permissions Card -->
+        <div *ngIf="permissions" class="card permissions-card">
+            <div class="card-header">
+                <i class="fas fa-key"></i>
+                <h3>Role & Permissions</h3>
+            </div>
+            <div class="card-body">
+                <div class="role-badge">
+                    <span class="badge">{{ permissions.role }}</span>
+                </div>
+                <ul class="permissions-list">
+                    <li *ngFor="let perm of permissions.permissions" class="permission-item">
+                        <i class="fas fa-check-circle"></i>
+                        {{ perm }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AdminManagementService, AdminDto } from '../../core/services/adminManagment.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 
 import {
@@ -23,8 +24,6 @@ import {
   TICKET_STATUS,
   TICKET_PRIORITY,
 } from '../../core/services/admin-support.service';
-
-import { AdminService, AdminDto } from '../../core/services/admin.service';
 import { PaginatedResponse } from '../../core/Interfaces/ibusiness-owner';
 
 @Component({
@@ -47,9 +46,9 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
   errorMsg: string | null = null;
 
   COMPLAINT_STATUS = COMPLAINT_STATUS;
-  VIOLATION_TYPE   = VIOLATION_TYPE;
-  TICKET_STATUS    = TICKET_STATUS;
-  TICKET_PRIORITY  = TICKET_PRIORITY;
+  VIOLATION_TYPE = VIOLATION_TYPE;
+  TICKET_STATUS = TICKET_STATUS;
+  TICKET_PRIORITY = TICKET_PRIORITY;
 
   // ── Complaints ──────────────────────────────────────────────────────────────
   complaints: ComplaintListItem[] = [];
@@ -62,9 +61,9 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
 
   isComplaintModalOpen = false;
   selectedComplaint: ComplaintListItem | null = null;
-  resolveText  = '';
-  adminNotes   = '';
-  blockUser    = false;
+  resolveText = '';
+  adminNotes = '';
+  blockUser = false;
   rejectReason = '';
 
   // ── Support Tickets ─────────────────────────────────────────────────────────
@@ -76,40 +75,40 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
   };
   ticketFilters: TicketFilterParams = { pageIndex: 1, pageSize: 20 };
 
-  isTicketModalOpen  = false;
-  isTicketLoading    = false;
+  isTicketModalOpen = false;
+  isTicketLoading = false;
   selectedTicket: SupportTicketListItem | null = null;
   ticketDetails: TicketDetails | null = null;
   activeModalTab: 'messages' | 'manage' = 'messages';
 
   // manage fields
-  ticketNewStatus: 1|2|3|4|5 = 1;
-  ticketStatusNote    = '';
-  ticketNewPriority: 1|2|3|4 = 1;
+  ticketNewStatus: 1 | 2 | 3 | 4 | 5 = 1;
+  ticketStatusNote = '';
+  ticketNewPriority: 1 | 2 | 3 | 4 = 1;
   ticketAssignAdminId = '';
 
   // messages
   newMessage = '';
-  isSending  = false;
+  isSending = false;
 
   // ── Filters ─────────────────────────────────────────────────────────────────
-  searchText      = '';
-  statusFilter    = '';
+  searchText = '';
+  statusFilter = '';
   violationFilter = '';
-  priorityFilter  = '';
+  priorityFilter = '';
 
   stats = { totalComplaints: 0, pendingComplaints: 0, openTickets: 0, unreadTickets: 0 };
   admins: AdminDto[] = [];
 
-  violationTypes   = Object.entries(VIOLATION_TYPE).map(([k, v]) => ({ value: Number(k), label: v }));
-  ticketStatuses   = Object.entries(TICKET_STATUS).map(([k, v]) => ({ value: Number(k), label: v.label }));
+  violationTypes = Object.entries(VIOLATION_TYPE).map(([k, v]) => ({ value: Number(k), label: v }));
+  ticketStatuses = Object.entries(TICKET_STATUS).map(([k, v]) => ({ value: Number(k), label: v.label }));
   ticketPriorities = Object.entries(TICKET_PRIORITY).map(([k, v]) => ({ value: Number(k), label: v.label }));
 
   constructor(
     private complaintSvc: AdminComplaintService,
     private supportSvc: AdminSupportService,
-    private adminService: AdminService,
-  ) {}
+    private adminManagementService: AdminManagementService,  // ← changed
+  ) { }
 
   ngOnInit(): void {
     this.searchChange$
@@ -138,15 +137,17 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
         this.messagesContainer.nativeElement.scrollTop =
           this.messagesContainer.nativeElement.scrollHeight;
       }
-    } catch {}
+    } catch { }
   }
 
   loadAdmins(): void {
-    this.adminService.getAllAdmins()
+    this.adminManagementService.getAllAdmins()          // ← changed
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res) => { if (res.success) this.admins = res.data.filter((a: any) => a.isActive); },
-        error: () => {},
+        next: (res) => {
+          if (res.success) this.admins = res.data.filter((a: any) => a.isActive);
+        },
+        error: () => { },
       });
   }
 
@@ -178,11 +179,11 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
 
   loadComplaints(): void {
     this.isLoading = true;
-    this.errorMsg  = null;
+    this.errorMsg = null;
     const params: ComplaintFilterParams = {
       ...this.complaintFilters,
-      status:        this.statusFilter    ? (Number(this.statusFilter)    as 1|2|3|4)       : undefined,
-      violationType: this.violationFilter ? (Number(this.violationFilter) as 1|2|3|4|5|6|7) : undefined,
+      status: this.statusFilter ? (Number(this.statusFilter) as 1 | 2 | 3 | 4) : undefined,
+      violationType: this.violationFilter ? (Number(this.violationFilter) as 1 | 2 | 3 | 4 | 5 | 6 | 7) : undefined,
     };
     this.complaintSvc.getComplaints(params)
       .pipe(takeUntil(this.destroy$))
@@ -191,8 +192,8 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
           if (res.success) {
             this.complaints = res.data.data;
             const { data: _, ...pag } = res.data;
-            this.complaintPagination     = pag;
-            this.stats.totalComplaints   = res.data.count;
+            this.complaintPagination = pag;
+            this.stats.totalComplaints = res.data.count;
             this.stats.pendingComplaints = this.complaints.filter(c => c.status === 1).length;
           } else { this.errorMsg = res.message ?? 'Failed to load complaints.'; }
           this.isLoading = false;
@@ -204,8 +205,8 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
   loadTickets(): void {
     const params: TicketFilterParams = {
       ...this.ticketFilters,
-      status:   this.statusFilter   ? (Number(this.statusFilter)   as 1|2|3|4|5) : undefined,
-      priority: this.priorityFilter ? (Number(this.priorityFilter) as 1|2|3|4)   : undefined,
+      status: this.statusFilter ? (Number(this.statusFilter) as 1 | 2 | 3 | 4 | 5) : undefined,
+      priority: this.priorityFilter ? (Number(this.priorityFilter) as 1 | 2 | 3 | 4) : undefined,
     };
     this.supportSvc.getTickets(params)
       .pipe(takeUntil(this.destroy$))
@@ -214,8 +215,8 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
           if (res.success) {
             this.tickets = res.data.data;
             const { data: _, ...pag } = res.data;
-            this.ticketPagination    = pag;
-            this.stats.openTickets   = this.tickets.filter(t => t.status === 1).length;
+            this.ticketPagination = pag;
+            this.stats.openTickets = this.tickets.filter(t => t.status === 1).length;
             this.stats.unreadTickets = this.tickets.filter(t => t.hasUnreadMessages).length;
           } else { this.errorMsg = res.message ?? 'Failed to load tickets.'; }
         },
@@ -241,17 +242,17 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
   // ── Complaint Modal ──────────────────────────────────────────────────────────
 
   openComplaintModal(c: ComplaintListItem): void {
-    this.selectedComplaint    = c;
-    this.resolveText          = '';
-    this.adminNotes           = '';
-    this.blockUser            = false;
-    this.rejectReason         = '';
+    this.selectedComplaint = c;
+    this.resolveText = '';
+    this.adminNotes = '';
+    this.blockUser = false;
+    this.rejectReason = '';
     this.isComplaintModalOpen = true;
   }
 
   closeComplaintModal(): void {
     this.isComplaintModalOpen = false;
-    this.selectedComplaint    = null;
+    this.selectedComplaint = null;
   }
 
   resolveComplaint(): void {
@@ -261,9 +262,9 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
     }
     const dto: ResolveComplaintDto = {
       complaintId: this.selectedComplaint.id,
-      resolution:  this.resolveText,
-      adminNotes:  this.adminNotes || undefined,
-      blockUser:   this.blockUser,
+      resolution: this.resolveText,
+      adminNotes: this.adminNotes || undefined,
+      blockUser: this.blockUser,
     };
     this.complaintSvc.resolveComplaint(dto)
       .pipe(takeUntil(this.destroy$))
@@ -287,23 +288,23 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
   // ── Ticket Modal ─────────────────────────────────────────────────────────────
 
   openTicketModal(t: SupportTicketListItem, tab: 'messages' | 'manage' = 'messages'): void {
-    this.selectedTicket      = t;
-    this.ticketDetails       = null;
-    this.ticketNewStatus     = t.status;
-    this.ticketNewPriority   = t.priority;
-    this.ticketStatusNote    = '';
+    this.selectedTicket = t;
+    this.ticketDetails = null;
+    this.ticketNewStatus = t.status;
+    this.ticketNewPriority = t.priority;
+    this.ticketStatusNote = '';
     this.ticketAssignAdminId = '';
-    this.activeModalTab      = tab;
-    this.newMessage          = '';
-    this.isTicketModalOpen   = true;
-    this.isTicketLoading     = true;
+    this.activeModalTab = tab;
+    this.newMessage = '';
+    this.isTicketModalOpen = true;
+    this.isTicketLoading = true;
 
     // جيب التفاصيل + الرسائل في call واحد
     this.supportSvc.getTicketById(t.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.ticketDetails   = res?.data ?? (res as any);
+          this.ticketDetails = res?.data ?? (res as any);
           this.isTicketLoading = false;
           this.shouldScrollToBottom = true;
         },
@@ -313,9 +314,9 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
 
   closeTicketModal(): void {
     this.isTicketModalOpen = false;
-    this.selectedTicket    = null;
-    this.ticketDetails     = null;
-    this.newMessage        = '';
+    this.selectedTicket = null;
+    this.ticketDetails = null;
+    this.newMessage = '';
   }
 
   // messages من ticketDetails مباشرة
@@ -336,7 +337,7 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
             this.ticketDetails.messages = [...this.ticketDetails.messages, msg];
           }
           this.newMessage = '';
-          this.isSending  = false;
+          this.isSending = false;
           this.shouldScrollToBottom = true;
           this.loadTickets();
         },
@@ -359,13 +360,13 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
     if (Number(this.ticketNewStatus) !== this.selectedTicket.status) {
       calls.push(this.supportSvc.updateTicketStatus({
         ticketId: id,
-        status:   Number(this.ticketNewStatus),
-        note:     this.ticketStatusNote || undefined,
+        status: Number(this.ticketNewStatus),
+        note: this.ticketStatusNote || undefined,
       }));
     }
 
     if (Number(this.ticketNewPriority) !== this.selectedTicket.priority) {
-      calls.push(this.supportSvc.updateTicketPriority(id, Number(this.ticketNewPriority) as 1|2|3|4));
+      calls.push(this.supportSvc.updateTicketPriority(id, Number(this.ticketNewPriority) as 1 | 2 | 3 | 4));
     }
 
     if (this.ticketAssignAdminId) {

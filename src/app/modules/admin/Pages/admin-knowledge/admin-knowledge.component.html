@@ -1,0 +1,308 @@
+<div class="page">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
+        Knowledge Base
+      </h1>
+      <p class="page-subtitle">Manage help articles, guides and resources</p>
+    </div>
+    <button class="btn-gold" (click)="openCreate()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New Article
+    </button>
+  </div>
+
+  <!-- Analytics Cards -->
+  <div class="stats-row" *ngIf="analytics">
+    <div class="stat-card gold">
+      <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg></div>
+      <div class="stat-body"><div class="stat-value">{{ analytics.totalArticles }}</div><div class="stat-label">Total Articles</div></div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
+      <div class="stat-body"><div class="stat-value">{{ analytics.publishedArticles }}</div><div class="stat-label">Published</div></div>
+    </div>
+    <div class="stat-card amber">
+      <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg></div>
+      <div class="stat-body"><div class="stat-value">{{ analytics.draftArticles }}</div><div class="stat-label">Drafts</div></div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg></div>
+      <div class="stat-body"><div class="stat-value">{{ analytics.totalViews }}</div><div class="stat-label">Total Views</div></div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-card">
+    <div class="filter-row">
+      <div class="search-wrapper">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" placeholder="Search articles..." [ngModel]="searchTerm" (ngModelChange)="onSearchInput($event)" />
+      </div>
+      <select class="filter-select" [(ngModel)]="selectedCategory" (ngModelChange)="onFilterChange()">
+        <option value="">All Categories</option>
+        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      </select>
+      <select class="filter-select" [(ngModel)]="selectedContentType" (ngModelChange)="onFilterChange()">
+        <option value="">All Types</option>
+        <option *ngFor="let ct of contentTypes" [value]="ct">{{ ct }}</option>
+      </select>
+      <select class="filter-select" [(ngModel)]="selectedStatus" (ngModelChange)="onFilterChange()">
+        <option value="">All Status</option>
+        <option value="Published">Published</option>
+        <option value="Draft">Draft</option>
+      </select>
+      <button class="btn-clear" (click)="clearFilters()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Clear
+      </button>
+    </div>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="spinner"></div><span>Loading articles...</span>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="!isLoading && error" class="empty-state">
+      <div class="empty-icon error"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg></div>
+      <p class="empty-title">Error loading articles</p>
+      <p class="empty-sub">{{ error }}</p>
+      <button class="btn-gold" (click)="loadArticles()">Retry</button>
+    </div>
+
+    <!-- Empty -->
+    <div *ngIf="!isLoading && !error && articles.length === 0" class="empty-state">
+      <div class="empty-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg></div>
+      <p class="empty-title">No articles found</p>
+      <p class="empty-sub">Create your first article or adjust your filters.</p>
+      <button class="btn-gold" (click)="openCreate()">New Article</button>
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="!isLoading && !error && articles.length > 0" class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th class="center">Views</th>
+            <th>Updated</th>
+            <th class="center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of articles" class="table-row">
+            <td>
+              <div class="article-title-cell">
+                <div class="article-title">{{ a.title }}</div>
+                <div class="article-summary">{{ a.summary | slice:0:60 }}{{ (a.summary || '').length > 60 ? '...' : '' }}</div>
+              </div>
+            </td>
+            <td><span class="cat-chip">{{ a.category }}</span></td>
+            <td><span class="type-chip">{{ a.contentType }}</span></td>
+            <td>
+              <span class="status-pill" [class.published]="a.isPublished" [class.draft]="!a.isPublished">
+                {{ a.isPublished ? 'Published' : 'Draft' }}
+              </span>
+            </td>
+            <td class="center">{{ a.viewCount }}</td>
+            <td class="muted-text">{{ a.updatedAt | date:'MMM d, y' }}</td>
+            <td>
+              <div class="actions-cell">
+                <button class="act-btn" title="View" (click)="openDetail(a)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+                <button class="act-btn" title="Edit" (click)="openEdit(a)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+                <button class="act-btn" [class.success]="!a.isPublished" [class.warn]="a.isPublished" [title]="a.isPublished ? 'Unpublish' : 'Publish'" (click)="togglePublish(a)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                </button>
+                <button class="act-btn danger" title="Delete" (click)="deleteArticle(a)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination-bar" *ngIf="totalCount > 0">
+        <span class="pag-info">Showing {{ startItem }}–{{ endItem }} of {{ totalCount }}</span>
+        <div class="pag-controls">
+          <button class="pag-btn" (click)="goToPage(pageIndex - 1)" [disabled]="pageIndex === 1">‹</button>
+          <button class="pag-btn" *ngFor="let p of pages" [class.active]="p === pageIndex" (click)="goToPage(p)">{{ p }}</button>
+          <button class="pag-btn" (click)="goToPage(pageIndex + 1)" [disabled]="pageIndex >= totalPages">›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREATE MODAL -->
+  <div class="modal-overlay" *ngIf="showCreateModal" (click)="closeModals()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <h3>New Article</h3>
+        <button class="modal-close" (click)="closeModals()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Title *</label>
+            <input type="text" class="form-input" [(ngModel)]="form.Title" placeholder="Article title">
+          </div>
+          <div class="form-group full">
+            <label>Summary</label>
+            <input type="text" class="form-input" [(ngModel)]="form.Summary" placeholder="Short summary">
+          </div>
+          <div class="form-group">
+            <label>Content Type</label>
+            <select class="form-input" [(ngModel)]="form.ContentType">
+              <option *ngFor="let ct of contentTypes" [value]="ct">{{ ct }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select class="form-input" [(ngModel)]="form.Category">
+              <option value="">— Select —</option>
+              <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tags</label>
+            <input type="text" class="form-input" [(ngModel)]="form.Tags" placeholder="comma, separated">
+          </div>
+          <div class="form-group">
+            <label>Order Index</label>
+            <input type="number" class="form-input" [(ngModel)]="form.OrderIndex">
+          </div>
+          <div class="form-group full">
+            <label>External URL</label>
+            <input type="url" class="form-input" [(ngModel)]="form.ExternalUrl" placeholder="https://...">
+          </div>
+          <div class="form-group full">
+            <label>Content</label>
+            <textarea class="form-input form-textarea" [(ngModel)]="form.Content" rows="5" placeholder="Article content..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" [(ngModel)]="form.IsPublished"> Publish immediately
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" (click)="closeModals()">Cancel</button>
+        <button class="btn-gold" (click)="submitCreate()" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Creating...' : 'Create Article' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT MODAL -->
+  <div class="modal-overlay" *ngIf="showEditModal" (click)="closeModals()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <h3>Edit Article</h3>
+        <button class="modal-close" (click)="closeModals()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Title *</label>
+            <input type="text" class="form-input" [(ngModel)]="form.Title">
+          </div>
+          <div class="form-group full">
+            <label>Summary</label>
+            <input type="text" class="form-input" [(ngModel)]="form.Summary">
+          </div>
+          <div class="form-group">
+            <label>Content Type</label>
+            <select class="form-input" [(ngModel)]="form.ContentType">
+              <option *ngFor="let ct of contentTypes" [value]="ct">{{ ct }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select class="form-input" [(ngModel)]="form.Category">
+              <option value="">— Select —</option>
+              <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tags</label>
+            <input type="text" class="form-input" [(ngModel)]="form.Tags">
+          </div>
+          <div class="form-group">
+            <label>Order Index</label>
+            <input type="number" class="form-input" [(ngModel)]="form.OrderIndex">
+          </div>
+          <div class="form-group full">
+            <label>External URL</label>
+            <input type="url" class="form-input" [(ngModel)]="form.ExternalUrl">
+          </div>
+          <div class="form-group full">
+            <label>Content</label>
+            <textarea class="form-input form-textarea" [(ngModel)]="form.Content" rows="5"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" [(ngModel)]="form.IsPublished"> Published
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" (click)="closeModals()">Cancel</button>
+        <button class="btn-gold" (click)="submitEdit()" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div class="modal-overlay" *ngIf="showDetailModal && selectedArticle" (click)="closeModals()">
+    <div class="modal modal-wide" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <h3>{{ selectedArticle.title }}</h3>
+        <button class="modal-close" (click)="closeModals()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-meta">
+          <span class="cat-chip">{{ selectedArticle.category }}</span>
+          <span class="type-chip">{{ selectedArticle.contentType }}</span>
+          <span class="status-pill" [class.published]="selectedArticle.isPublished" [class.draft]="!selectedArticle.isPublished">{{ selectedArticle.isPublished ? 'Published' : 'Draft' }}</span>
+        </div>
+        <p class="detail-summary">{{ selectedArticle.summary }}</p>
+        <div class="detail-content" *ngIf="selectedArticle.content">{{ selectedArticle.content }}</div>
+        <div class="detail-row" *ngIf="selectedArticle.externalUrl">
+          <strong>URL:</strong> <a [href]="selectedArticle.externalUrl" target="_blank">{{ selectedArticle.externalUrl }}</a>
+        </div>
+        <div class="detail-row">
+          <strong>Views:</strong> {{ selectedArticle.viewCount }}
+        </div>
+        <div class="detail-row">
+          <strong>Tags:</strong> {{ selectedArticle.tags || '—' }}
+        </div>
+        <div class="detail-row">
+          <strong>Updated:</strong> {{ selectedArticle.updatedAt | date:'MMM d, y HH:mm' }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" (click)="closeModals()">Close</button>
+        <button class="btn-gold" (click)="openEdit(selectedArticle!); showDetailModal = false">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>

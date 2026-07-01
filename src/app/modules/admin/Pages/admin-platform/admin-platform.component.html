@@ -1,0 +1,554 @@
+<div class="page">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774a1.125 1.125 0 0 1 .12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.11v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738a1.125 1.125 0 0 1-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527a1.125 1.125 0 0 1-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.11v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.527-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z"/><circle cx="12" cy="12" r="3"/></svg>
+        Platform Management
+      </h1>
+      <p class="page-subtitle">Configure homepage, categories, commission rates, policies, and tax/shipping</p>
+    </div>
+  </div>
+
+  <!-- Tabs Nav -->
+  <div class="tabs-nav">
+    <button class="tab-btn" [class.active]="activeTab === 'homepage'" (click)="setTab('homepage')">Homepage</button>
+    <button class="tab-btn" [class.active]="activeTab === 'categories'" (click)="setTab('categories')">Categories</button>
+    <button class="tab-btn" [class.active]="activeTab === 'commission'" (click)="setTab('commission')">Commission</button>
+    <button class="tab-btn" [class.active]="activeTab === 'policies'" (click)="setTab('policies')">Policies</button>
+    <button class="tab-btn" [class.active]="activeTab === 'shipping'" (click)="setTab('shipping')">Shipping & Tax</button>
+  </div>
+
+  <!-- Tab Content: HOMEPAGE -->
+  <div class="tab-content" *ngIf="activeTab === 'homepage'">
+    <div class="card-section">
+      <div class="section-title-row">
+        <h3>Banners</h3>
+        <button class="btn-gold" (click)="openCreateBanner()">+ Add Banner</button>
+      </div>
+
+      <div *ngIf="homepageLoading" class="loading-state">
+        <div class="spinner"></div><span>Loading homepage elements...</span>
+      </div>
+
+      <div *ngIf="!homepageLoading && banners.length === 0" class="empty-section">
+        <p>No banners configured for the homepage hero carousel.</p>
+      </div>
+
+      <div *ngIf="!homepageLoading && banners.length > 0" class="banners-grid">
+        <div class="banner-card" *ngFor="let b of banners">
+          <div class="banner-img" [style.background-image]="'url(' + b.imageUrl + ')'">
+            <span class="status-pill" [class.published]="b.isActive" [class.draft]="!b.isActive">
+              {{ b.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+          <div class="banner-body">
+            <h4>{{ b.title }}</h4>
+            <p>{{ b.subtitle }}</p>
+            <div class="banner-meta">
+              <span>Order: {{ b.orderIndex }}</span>
+              <a [href]="b.linkUrl" target="_blank" class="link-gold">Link ↗</a>
+            </div>
+          </div>
+          <div class="banner-footer">
+            <button class="btn-outline btn-sm" (click)="openEditBanner(b)">Edit</button>
+            <button class="btn-outline btn-sm btn-danger" (click)="deleteBanner(b)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Announcement Bar Settings -->
+    <div class="card-section mt-4">
+      <div class="section-title-row">
+        <h3>Announcement Bar</h3>
+        <button class="btn-outline" *ngIf="!announcementEdit" (click)="startEditAnnouncement()">Edit Settings</button>
+      </div>
+
+      <div class="announcement-preview" [style.background-color]="announcement?.bgColor || '#B8860B'" [style.color]="announcement?.textColor || '#ffffff'">
+        {{ announcement?.message || 'Welcome to Talentree Marketplace!' }}
+      </div>
+
+      <div *ngIf="announcementEdit" class="edit-box mt-3">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Announcement Message</label>
+            <input type="text" class="form-input" [(ngModel)]="announcementForm.message">
+          </div>
+          <div class="form-group">
+            <label>Background Color (Hex)</label>
+            <input type="text" class="form-input" [(ngModel)]="announcementForm.bgColor">
+          </div>
+          <div class="form-group">
+            <label>Text Color (Hex)</label>
+            <input type="text" class="form-input" [(ngModel)]="announcementForm.textColor">
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label mt-4">
+              <input type="checkbox" [(ngModel)]="announcementForm.isActive"> Enable Announcement
+            </label>
+          </div>
+        </div>
+        <div class="edit-box-actions mt-3">
+          <button class="btn-outline btn-sm" (click)="cancelEditAnnouncement()">Cancel</button>
+          <button class="btn-gold btn-sm" (click)="saveAnnouncement()">Save Announcement</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Brands Settings -->
+    <div class="card-section mt-4">
+      <div class="section-title-row">
+        <h3>Featured Brands</h3>
+        <button class="btn-gold" (click)="openBrandSelector()">Manage Featured Brands</button>
+      </div>
+
+      <div *ngIf="!homepageLoading && featuredBrands.length === 0" class="empty-section">
+        <p>No featured brands selected.</p>
+      </div>
+
+      <div *ngIf="!homepageLoading && featuredBrands.length > 0" class="brands-grid mt-3">
+        <div class="brand-item-card" *ngFor="let br of featuredBrands">
+          <div class="brand-logo-circle" [style.background-image]="br.logoUrl ? 'url(' + br.logoUrl + ')' : ''">
+            <span *ngIf="!br.logoUrl">{{ br.displayName | slice:0:2 | uppercase }}</span>
+          </div>
+          <span class="brand-name">{{ br.displayName }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Products Settings -->
+    <div class="card-section mt-4">
+      <div class="section-title-row">
+        <h3>Featured Products</h3>
+        <button class="btn-gold" (click)="openProductSelector()">Manage Featured Products</button>
+      </div>
+
+      <div *ngIf="!homepageLoading && featuredProducts.length === 0" class="empty-section">
+        <p>No featured products selected.</p>
+      </div>
+
+      <div *ngIf="!homepageLoading && featuredProducts.length > 0" class="featured-products-grid mt-3">
+        <div class="feat-product-card" *ngFor="let fp of featuredProducts">
+          <div class="feat-prod-img" [style.background-image]="fp.imageUrl ? 'url(' + fp.imageUrl + ')' : ''"></div>
+          <div class="feat-prod-body">
+            <h4>{{ fp.name }}</h4>
+            <span class="feat-prod-price">${{ fp.price | number:'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Content: CATEGORIES -->
+  <div class="tab-content" *ngIf="activeTab === 'categories'">
+    <div class="card-section">
+      <div class="section-title-row">
+        <h3>Category Tree</h3>
+        <button class="btn-gold" (click)="openCreateCat()">+ Create Category</button>
+      </div>
+
+      <div *ngIf="categoriesLoading" class="loading-state">
+        <div class="spinner"></div><span>Loading category catalog...</span>
+      </div>
+
+      <div *ngIf="!categoriesLoading && categories.length === 0" class="empty-section">
+        <p>No categories available. Please create one.</p>
+      </div>
+
+      <div *ngIf="!categoriesLoading && categories.length > 0" class="categories-list">
+        <div class="cat-item" *ngFor="let c of categories">
+          <div class="cat-header-row">
+            <div class="cat-info">
+              <span class="cat-avatar" [style.background-image]="c.imageUrl ? 'url(' + c.imageUrl + ')' : ''"></span>
+              <div>
+                <span class="cat-name">{{ c.name }}</span>
+                <span class="cat-desc" *ngIf="c.description">{{ c.description }}</span>
+              </div>
+            </div>
+            <div class="cat-actions">
+              <button class="btn-outline btn-sm" (click)="openEditCat(c)">Edit</button>
+              <button class="btn-outline btn-sm" [class.success]="c.isDisabled" (click)="toggleCategory(c)">
+                {{ c.isDisabled ? 'Enable' : 'Disable' }}
+              </button>
+              <button class="btn-outline btn-sm btn-danger" (click)="deleteCategory(c)">Delete</button>
+            </div>
+          </div>
+          <!-- Subcategories -->
+          <div class="subcategories-box" *ngIf="c.subcategories && c.subcategories.length > 0">
+            <div class="sub-item" *ngFor="let sub of c.subcategories">
+              <span>{{ sub.name }}</span>
+              <div class="sub-actions">
+                <button class="btn-outline btn-xs" (click)="openEditCat(sub)">Edit</button>
+                <button class="btn-outline btn-xs btn-danger" (click)="deleteCategory(sub)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Content: COMMISSION -->
+  <div class="tab-content" *ngIf="activeTab === 'commission'">
+    <div class="card-section">
+      <div class="section-title-row">
+        <h3>Platform Commission Settings</h3>
+        <button class="btn-outline" *ngIf="!commissionEditing" (click)="commissionEditing = true">Edit Commission</button>
+      </div>
+
+      <div *ngIf="commissionLoading" class="loading-state">
+        <div class="spinner"></div><span>Loading settings...</span>
+      </div>
+
+      <div *ngIf="!commissionLoading && commission" class="settings-display">
+        <div class="settings-grid">
+          <div class="settings-val-box">
+            <span class="label">Default Commission Rate</span>
+            <span class="val">{{ commission.defaultRate }}%</span>
+          </div>
+          <div class="settings-val-box">
+            <span class="label">Minimum Order Amount</span>
+            <span class="val">${{ commission.minimumOrderAmount }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="commissionEditing" class="edit-box mt-4">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Default Commission Rate (%)</label>
+              <input type="number" class="form-input" [(ngModel)]="commissionForm.defaultRate">
+            </div>
+            <div class="form-group">
+              <label>Minimum Order Amount ($)</label>
+              <input type="number" class="form-input" [(ngModel)]="commissionForm.minimumOrderAmount">
+            </div>
+          </div>
+          <div class="edit-box-actions mt-3">
+            <button class="btn-outline btn-sm" (click)="commissionEditing = false">Cancel</button>
+            <button class="btn-gold btn-sm" (click)="saveCommission()">Save Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Content: POLICIES -->
+  <div class="tab-content" *ngIf="activeTab === 'policies'">
+    <div class="card-section">
+      <div class="policy-header-filters">
+        <div class="policy-select-wrapper">
+          <label>Select Policy to Edit</label>
+          <select class="form-input" [(ngModel)]="selectedPolicyType" (ngModelChange)="loadPolicy()">
+            <option *ngFor="let pt of policyTypes" [value]="pt">{{ pt }}</option>
+          </select>
+        </div>
+        <div class="policy-actions">
+          <button class="btn-outline" (click)="loadPolicyHistory()">History</button>
+          <button class="btn-outline" *ngIf="!policyEditing" (click)="policyEditing = true">Edit Draft</button>
+        </div>
+      </div>
+
+      <div *ngIf="policyLoading" class="loading-state">
+        <div class="spinner"></div><span>Loading policy text...</span>
+      </div>
+
+      <!-- Empty state: no policy document exists yet on the backend -->
+      <div *ngIf="!policyLoading && !policy" class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+        </svg>
+        <p>No <strong>{{ selectedPolicyType }}</strong> document found on the server.</p>
+        <span class="empty-hint">This policy has not been created yet. Click below to write and publish the first version.</span>
+        <button class="btn-gold btn-sm mt-3" (click)="policyEditing = true">Create First Draft</button>
+      </div>
+
+      <!-- Edit box when creating from scratch (no existing policy) -->
+      <div *ngIf="!policyLoading && !policy && policyEditing" class="edit-box mt-3">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Policy Title</label>
+            <input type="text" class="form-input" [(ngModel)]="policyForm.title" [placeholder]="selectedPolicyType + ' Title'">
+          </div>
+          <div class="form-group full">
+            <label>Policy Content (Markdown/Text)</label>
+            <textarea class="form-input form-textarea" [(ngModel)]="policyForm.content" rows="12" placeholder="Write your policy content here..."></textarea>
+          </div>
+        </div>
+        <div class="edit-box-actions mt-3">
+          <button class="btn-outline btn-sm" (click)="policyEditing = false">Cancel</button>
+          <button class="btn-outline btn-sm" (click)="savePolicy(false)">Save Draft</button>
+          <button class="btn-gold btn-sm" (click)="savePolicy(true)">Publish Policy</button>
+        </div>
+      </div>
+
+      <div *ngIf="!policyLoading && policy" class="policy-body-display">
+        <div class="policy-meta-row">
+          <h3>{{ policy.title }}</h3>
+          <span class="status-pill" [class.published]="policy.isPublished">
+            {{ policy.isPublished ? 'Published' : 'Draft' }}
+          </span>
+          <span class="version-badge">v{{ policy.version }}</span>
+        </div>
+
+        <div class="policy-markdown-content" *ngIf="!policyEditing">
+          {{ policy.content }}
+        </div>
+
+        <div *ngIf="policyEditing" class="edit-box mt-3">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Policy Title</label>
+              <input type="text" class="form-input" [(ngModel)]="policyForm.title">
+            </div>
+            <div class="form-group full">
+              <label>Policy Content (Markdown/Text)</label>
+              <textarea class="form-input form-textarea" [(ngModel)]="policyForm.content" rows="12"></textarea>
+            </div>
+          </div>
+          <div class="edit-box-actions mt-3">
+            <button class="btn-outline btn-sm" (click)="policyEditing = false">Cancel</button>
+            <button class="btn-outline btn-sm" (click)="savePolicy(false)">Save Draft</button>
+            <button class="btn-gold btn-sm" (click)="savePolicy(true)">Publish Policy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Content: SHIPPING & TAX -->
+  <div class="tab-content" *ngIf="activeTab === 'shipping'">
+    <div class="card-section">
+      <div class="section-title-row">
+        <h3>Shipping Settings</h3>
+        <button class="btn-outline" *ngIf="!shippingEditing" (click)="shippingEditing = true">Edit Shipping</button>
+      </div>
+
+      <div *ngIf="shippingLoading" class="loading-state">
+        <div class="spinner"></div><span>Loading shipping rules...</span>
+      </div>
+
+      <div *ngIf="!shippingLoading && shipping" class="settings-display">
+        <div class="settings-grid">
+          <div class="settings-val-box">
+            <span class="label">Free Shipping Threshold</span>
+            <span class="val">${{ shipping.freeShippingThreshold }}</span>
+          </div>
+          <div class="settings-val-box">
+            <span class="label">Standard Shipping Rate</span>
+            <span class="val">${{ shipping.standardShippingRate }}</span>
+          </div>
+          <div class="settings-val-box">
+            <span class="label">Express Shipping Rate</span>
+            <span class="val">${{ shipping.expressShippingRate }}</span>
+          </div>
+          <div class="settings-val-box">
+            <span class="label">Estimated Delivery Days</span>
+            <span class="val">{{ shipping.estimatedDeliveryDays }} Days</span>
+          </div>
+        </div>
+
+        <div *ngIf="shippingEditing" class="edit-box mt-3">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Free Shipping Threshold ($)</label>
+              <input type="number" class="form-input" [(ngModel)]="shippingForm.freeShippingThreshold">
+            </div>
+            <div class="form-group">
+              <label>Standard Shipping Rate ($)</label>
+              <input type="number" class="form-input" [(ngModel)]="shippingForm.standardShippingRate">
+            </div>
+            <div class="form-group">
+              <label>Express Shipping Rate ($)</label>
+              <input type="number" class="form-input" [(ngModel)]="shippingForm.expressShippingRate">
+            </div>
+            <div class="form-group">
+              <label>Estimated Delivery (Days)</label>
+              <input type="number" class="form-input" [(ngModel)]="shippingForm.estimatedDeliveryDays">
+            </div>
+          </div>
+          <div class="edit-box-actions mt-3">
+            <button class="btn-outline btn-sm" (click)="shippingEditing = false">Cancel</button>
+            <button class="btn-gold btn-sm" (click)="saveShipping()">Save Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tax Settings Section -->
+    <div class="card-section mt-4">
+      <div class="section-title-row">
+        <h3>Tax Settings</h3>
+        <button class="btn-outline" *ngIf="!taxEditing" (click)="taxEditing = true">Edit Taxes</button>
+      </div>
+
+      <div *ngIf="taxLoading" class="loading-state">
+        <div class="spinner"></div><span>Loading tax codes...</span>
+      </div>
+
+      <div *ngIf="!taxLoading && tax" class="settings-display">
+        <div class="settings-grid">
+          <div class="settings-val-box">
+            <span class="label">Default Tax Rate</span>
+            <span class="val">{{ tax.defaultTaxRate }}%</span>
+          </div>
+          <div class="settings-val-box">
+            <span class="label">Tax Included in Price</span>
+            <span class="val">{{ tax.taxIncludedInPrice ? 'Yes' : 'No' }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="taxEditing" class="edit-box mt-3">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Default Tax Rate (%)</label>
+              <input type="number" class="form-input" [(ngModel)]="taxForm.defaultTaxRate">
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label mt-4">
+                <input type="checkbox" [(ngModel)]="taxForm.taxIncludedInPrice"> Tax Included in Price
+              </label>
+            </div>
+          </div>
+          <div class="edit-box-actions mt-3">
+            <button class="btn-outline btn-sm" (click)="taxEditing = false">Cancel</button>
+            <button class="btn-gold btn-sm" (click)="saveTax()">Save Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANNER CREATE/EDIT MODAL -->
+  <div class="modal-overlay" *ngIf="showBannerModal" (click)="closeBannerModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <h3>{{ editingBanner ? 'Edit Banner' : 'New Banner' }}</h3>
+        <button class="modal-close" (click)="closeBannerModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Title *</label>
+            <input type="text" class="form-input" [(ngModel)]="bannerForm.title">
+          </div>
+          <div class="form-group full">
+            <label>Subtitle</label>
+            <input type="text" class="form-input" [(ngModel)]="bannerForm.subtitle">
+          </div>
+          <div class="form-group full">
+            <label>Image URL *</label>
+            <input type="url" class="form-input" [(ngModel)]="bannerForm.imageUrl">
+          </div>
+          <div class="form-group full">
+            <label>Link URL</label>
+            <input type="url" class="form-input" [(ngModel)]="bannerForm.linkUrl">
+          </div>
+          <div class="form-group">
+            <label>Order Index</label>
+            <input type="number" class="form-input" [(ngModel)]="bannerForm.orderIndex">
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label mt-4">
+              <input type="checkbox" [(ngModel)]="bannerForm.isActive"> Active banner
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" (click)="closeBannerModal()">Cancel</button>
+        <button class="btn-gold" (click)="submitBanner()">Save Banner</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY CREATE/EDIT MODAL -->
+  <div class="modal-overlay" *ngIf="showCatModal" (click)="closeCatModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <h3>{{ editingCat ? 'Edit Category' : 'New Category' }}</h3>
+        <button class="modal-close" (click)="closeCatModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Name *</label>
+            <input type="text" class="form-input" [(ngModel)]="catForm.name">
+          </div>
+          <div class="form-group full">
+            <label>Description</label>
+            <input type="text" class="form-input" [(ngModel)]="catForm.description">
+          </div>
+          <div class="form-group full">
+            <label>Image URL</label>
+            <input type="url" class="form-input" [(ngModel)]="catForm.imageUrl">
+          </div>
+          <div class="form-group">
+            <label>Order Index</label>
+            <input type="number" class="form-input" [(ngModel)]="catForm.orderIndex">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" (click)="closeCatModal()">Cancel</button>
+        <button class="btn-gold" (click)="submitCategory()">Save Category</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED BRAND SELECTOR MODAL -->
+  <div class="modal-overlay" *ngIf="showFeaturedBrandModal" (click)="showFeaturedBrandModal = false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <h3>Select Featured Brands</h3>
+        <button class="modal-close" (click)="showFeaturedBrandModal = false">✕</button>
+      </div>
+      <div class="modal-body max-height-selector">
+        <div class="selector-grid">
+          <label class="selector-item-card" *ngFor="let br of allBrands" [class.selected]="selectedBrandIds[br.id]">
+            <input type="checkbox" [(ngModel)]="selectedBrandIds[br.id]" class="selector-checkbox">
+            <div class="brand-logo-circle-sm" [style.background-image]="br.logoUrl ? 'url(' + br.logoUrl + ')' : ''">
+              <span *ngIf="!br.logoUrl">{{ (br.businessName || '').slice(0,2) | uppercase }}</span>
+            </div>
+            <span class="selector-label-text">{{ br.businessName }}</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" (click)="showFeaturedBrandModal = false">Cancel</button>
+        <button class="btn-gold" (click)="saveFeaturedBrands()" [disabled]="savingBrands">
+          {{ savingBrands ? 'Saving...' : 'Save Selection' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED PRODUCT SELECTOR MODAL -->
+  <div class="modal-overlay" *ngIf="showFeaturedProductModal" (click)="showFeaturedProductModal = false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <h3>Select Featured Products</h3>
+        <button class="modal-close" (click)="showFeaturedProductModal = false">✕</button>
+      </div>
+      <div class="modal-body max-height-selector">
+        <div class="selector-grid">
+          <label class="selector-item-card" *ngFor="let pr of allProducts" [class.selected]="selectedProductIds[pr.id]">
+            <input type="checkbox" [(ngModel)]="selectedProductIds[pr.id]" class="selector-checkbox">
+            <div class="feat-prod-img-sm" [style.background-image]="pr.mainImageUrl ? 'url(' + pr.mainImageUrl + ')' : ''"></div>
+            <div class="selector-info">
+              <span class="selector-label-text">{{ pr.name }}</span>
+              <span class="selector-subtext">${{ pr.price | number:'1.2-2' }}</span>
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" (click)="showFeaturedProductModal = false">Cancel</button>
+        <button class="btn-gold" (click)="saveFeaturedProducts()" [disabled]="savingProducts">
+          {{ savingProducts ? 'Saving...' : 'Save Selection' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

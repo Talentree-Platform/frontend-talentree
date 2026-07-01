@@ -8,26 +8,26 @@ import { guestGuard } from './core/guards/guest.guard';
 export const routes: Routes = [
   { path: '', redirectTo: 'public/landingpage', pathMatch: 'full' },
   {
-    
+
     path: 'public',
     loadChildren: () =>
       import('./modules/public/public.module').then(p => p.PublicModule)
   },
   {
     path: 'businessowner',
-    canActivate:[authGuardGuard , roleGuardGuard],
+    canActivate: [authGuardGuard, roleGuardGuard],
     data: { roles: ['BusinessOwner'] },
     loadChildren: () =>
       import('./modules/business-owner/business-owner.module').then(bo => bo.BusinessOwnerModule)
   },
-  {
-    path: 'customer',
-    canActivate:[authGuardGuard , roleGuardGuard],
-    data: { roles: ['Customer'] },
-    loadChildren: () =>
-      import('./modules/customer/customer.module').then(c => c.CustomerModule)
-  },
-  
+  // {
+  //   path: 'customer',
+  //   canActivate: [authGuardGuard, roleGuardGuard],
+  //   data: { roles: ['Customer'] },
+  //   loadChildren: () =>
+  //     import('./modules/customer/customer.module').then(c => c.CustomerModule)
+  // },
+
   {
     path: 'auth',
     canActivate: [guestGuard],
@@ -36,12 +36,12 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivate: [authGuardGuard , roleGuardGuard],
+    canActivate: [authGuardGuard, roleGuardGuard],
     data: { roles: ['Admin'] },
     loadChildren: () =>
       import('./modules/admin/admin.module').then(a => a.AdminModule)
   },
-  {path:'unotherized' , component:UnotheriaedComponent},
-  
+  { path: 'unotherized', component: UnotheriaedComponent },
+
   { path: '**', component: NotFoundComponent }
 ];

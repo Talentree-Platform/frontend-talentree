@@ -78,7 +78,7 @@ export class PendingBoComponent implements OnInit, OnDestroy {
   constructor(
     private readonly _AdminService: AdminService,
     private readonly _ToastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadPendingOwners();
@@ -175,7 +175,7 @@ export class PendingBoComponent implements OnInit, OnDestroy {
     this.isApproveRequestPending = true;
     this.subs.add(
       this._AdminService
-        .ApproveOwner(owner.profileId, note)
+        .approveOwner(owner.profileId, note)
         .pipe(finalize(() => (this.isApproveRequestPending = false)))
         .subscribe({
           next: (res) => {

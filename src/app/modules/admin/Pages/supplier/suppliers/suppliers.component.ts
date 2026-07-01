@@ -3,8 +3,9 @@ import { SupplierService } from '../../../core/services/supplier.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { Supplier } from '../../../core/Interfaces/isupplier';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Supplier, SupplierPerformanceData, SupplierPerformanceItem } from '../../../core/Interfaces/isupplier';
 import { TableComponent } from '../../../Components/table/table.component';
 import { PaginationComponent } from '../../../Components/pagination/pagination.component';
 import { SupplierDetailsComponent } from '../supplier-details/supplier-details.component';
@@ -19,37 +20,38 @@ import { SupplierFormComponent } from '../supplier-form/supplier-form.component'
     TableComponent,
     PaginationComponent,
     SupplierDetailsComponent,
-    SupplierFormComponent
+    SupplierFormComponent,
   ],
   templateUrl: './suppliers.component.html',
-  styleUrl: './suppliers.component.css'
+  styleUrl: './suppliers.component.css',
 })
 export class SupplierListComponent implements OnInit, OnDestroy {
 
   constructor(
     private _SupplierService: SupplierService,
-    private _ToastrService: ToastrService
-  ) {}
+    private _ToastrService: ToastrService,
+  ) { }
 
-  listSub!: Subscription;
-  actionSub!: Subscription;
+  // ── teardown ──────────────────────────────────────────────────────────────
+  private destroy$ = new Subject<void>();
 
-  // table data
+  // ── list ─────────────────────────────────────────────────────────────────
   suppliers: Supplier[] = [];
+  isLoading = false;
 
-  // selected
+  // ── selection ─────────────────────────────────────────────────────────────
   selectedSupplier: Supplier | null = null;
 
-  // modals
+  // ── modals ────────────────────────────────────────────────────────────────
   isDetailsOpen = false;
   isFormOpen = false;
   isEditMode = false;
 
-  // filters
+  // ── filters ───────────────────────────────────────────────────────────────
   searchTerm = '';
   selectedActive: boolean | undefined = undefined;
 
-  // pagination
+  // ── pagination ────────────────────────────────────────────────────────────
   pageIndex = 1;
   pageSize = 20;
   totalPages = 0;
@@ -57,50 +59,150 @@ export class SupplierListComponent implements OnInit, OnDestroy {
   hasPrevious = false;
   totalCount = 0;
 
-  // stats
+  // ── list stats ────────────────────────────────────────────────────────────
   activeCount = 0;
   inactiveCount = 0;
 
-  // table config
+  // ── table config ──────────────────────────────────────────────────────────
   columns = ['name', 'email', 'phone', 'city', 'country', 'contactPerson', 'materialCount', 'isActive'];
   actions = ['view', 'edit', 'delete'];
 
+  // ── Performance Analytics ─────────────────────────────────────────────────
+  performanceData: SupplierPerformanceData | null = null;
+  performanceItems: SupplierPerformanceItem[] = [];
+  perfLoading = false;
+  perfError = '';
+  showPerformance = false;
+
+  // ─────────────────────────────────────────────────────────────────────────
   ngOnInit(): void {
     this.load();
-  }
-
-  load(): void {
-    this.listSub = this._SupplierService.getSuppliers({
-      pageIndex: this.pageIndex,
-      pageSize: this.pageSize,
-      search: this.searchTerm || undefined,
-      isActive: this.selectedActive,
-    }).subscribe({
-      next: (res) => {
-        this.suppliers = res.data.data;
-        this.totalPages = res.data.totalPages;
-        this.hasNext = res.data.hasNext;
-        this.hasPrevious = res.data.hasPrevious;
-        this.pageIndex = res.data.pageIndex;
-        this.totalCount = res.data.count;
-        this.activeCount = res.data.data.filter(s => s.isActive).length;
-        this.inactiveCount = res.data.data.filter(s => !s.isActive).length;
-      },
-      error: (err) => {
-        console.log(err);
-        this._ToastrService.error('Failed to load suppliers', 'Talentree', { timeOut: 2000, closeButton: true });
-      }
-    });
+    this.loadPerformance();
   }
 
   ngOnDestroy(): void {
-    if (this.listSub) this.listSub.unsubscribe();
-    if (this.actionSub) this.actionSub.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  // ================================
-  // filters
-  // ================================
+  // ── list load ─────────────────────────────────────────────────────────────
+  load(): void {
+    this.isLoading = true;
+    this._SupplierService
+      .getSuppliers({
+        pageIndex: this.pageIndex,
+        pageSize: this.pageSize,
+        search: this.searchTerm || undefined,
+        isActive: this.selectedActive,
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.isLoading = false;
+          this.suppliers = res.data.data;
+          this.totalPages = res.data.totalPages;
+          this.hasNext = res.data.hasNext;
+          this.hasPrevious = res.data.hasPrevious;
+          this.pageIndex = res.data.pageIndex;
+          this.totalCount = res.data.count;
+          this.activeCount = res.data.data.filter(s => s.isActive).length;
+          this.inactiveCount = res.data.data.filter(s => !s.isActive).length;
+        },
+        error: (err) => {
+          this.isLoading = false;
+          console.error(err);
+          this._ToastrService.error(
+            'Failed to load suppliers', 'Talentree',
+            { timeOut: 2000, closeButton: true },
+          );
+        },
+      });
+  }
+
+  // ── performance load ──────────────────────────────────────────────────────
+  loadPerformance(): void {
+    this.perfLoading = true;
+    this.perfError = '';
+
+    this._SupplierService
+      .getPerformance()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.perfLoading = false;
+          this.performanceData = null;
+          this.performanceItems = res?.data?.data ?? [];
+        },
+        error: (err) => {
+          this.perfLoading = false;
+          this.perfError = err?.error?.message ?? 'Failed to load performance data.';
+        },
+      });
+  }
+
+  // ── performance UI helpers ────────────────────────────────────────────────
+
+  togglePerformance(): void {
+    this.showPerformance = !this.showPerformance;
+  }
+
+  /** Clamp a percentage value to [0, 100] */
+  pct(val: number | null | undefined): number {
+    if (val == null) return 0;
+    return Math.min(100, Math.max(0, val));
+  }
+
+  /** CSS class based on 0–100 score */
+  scoreClass(val: number | null | undefined): string {
+    if (val == null) return 'score-neutral';
+    if (val >= 80) return 'score-high';
+    if (val >= 50) return 'score-mid';
+    return 'score-low';
+  }
+
+  /** 5-element array: 1 = filled star, 0 = empty */
+  starsArray(rating: number | null | undefined): number[] {
+    const r = Math.round(rating ?? 0);
+    return Array.from({ length: 5 }, (_, i) => (i < r ? 1 : 0));
+  }
+
+  // ── Performance computed helpers ──────────────────────────────────────────
+
+  getTotalOrders(): number {
+    return this.performanceItems.reduce((sum, i) => sum + (i.totalOrders ?? 0), 0);
+  }
+
+  getTotalRevenue(): number {
+    return this.performanceItems.reduce((sum, i) => sum + (i.totalRevenue ?? 0), 0);
+  }
+
+  getAvgOrderValue(): number {
+    const items = this.performanceItems.filter(i => i.averageOrderValue != null);
+    if (!items.length) return 0;
+    return items.reduce((sum, i) => sum + (i.averageOrderValue ?? 0), 0) / items.length;
+  }
+
+  getAvgRating(): number {
+    const items = this.performanceItems.filter(i => i.averageRating != null);
+    if (!items.length) return 0;
+    return items.reduce((sum, i) => sum + (i.averageRating ?? 0), 0) / items.length;
+  }
+
+  getAvgIssueRate(): number {
+    const items = this.performanceItems.filter(i => i.issueRatePercentage != null);
+    if (!items.length) return 0;
+    return items.reduce((sum, i) => sum + (i.issueRatePercentage ?? 0), 0) / items.length;
+  }
+
+  getTopPerformer(): string {
+    if (!this.performanceItems.length) return '—';
+    const top = this.performanceItems.reduce((best, i) =>
+      (i.totalRevenue ?? 0) > (best.totalRevenue ?? 0) ? i : best
+    );
+    return top.supplierName ?? '—';
+  }
+
+  // ── filters ───────────────────────────────────────────────────────────────
 
   onSearch(): void {
     this.pageIndex = 1;
@@ -122,36 +224,38 @@ export class SupplierListComponent implements OnInit, OnDestroy {
     this.load();
   }
 
-  // ================================
-  // table actions
-  // ================================
+  // ── table actions ─────────────────────────────────────────────────────────
 
-  handleEvent(event: any): void {
-    const action = event.action;
-    const row: Supplier = event.row;
-    this.selectedSupplier = row;
-
-    if (action === 'view')  this.isDetailsOpen = true;
-    if (action === 'edit') { this.isEditMode = true; this.isFormOpen = true; }
-    if (action === 'delete') this.deleteSupplier(row);
+  handleEvent(event: { action: string; row: Supplier }): void {
+    this.selectedSupplier = event.row;
+    if (event.action === 'view') this.isDetailsOpen = true;
+    if (event.action === 'edit') { this.isEditMode = true; this.isFormOpen = true; }
+    if (event.action === 'delete') this.deleteSupplier(event.row);
   }
 
   deleteSupplier(supplier: Supplier): void {
     if (!confirm(`Delete supplier "${supplier.name}"?`)) return;
-    this.actionSub = this._SupplierService.deleteSupplier(supplier.id).subscribe({
-      next: (res) => {
-        this._ToastrService.warning(res.message ?? 'Supplier deleted', 'Talentree', { timeOut: 2000, closeButton: true });
-        this.load();
-      },
-      error: (err) => {
-        this._ToastrService.error(err.error?.message ?? 'Failed to delete', 'Talentree', { timeOut: 2000, closeButton: true });
-      }
-    });
+    this._SupplierService
+      .deleteSupplier(supplier.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this._ToastrService.warning(
+            res.message ?? 'Supplier deleted', 'Talentree',
+            { timeOut: 2000, closeButton: true },
+          );
+          this.load();
+        },
+        error: (err) => {
+          this._ToastrService.error(
+            err.error?.message ?? 'Failed to delete', 'Talentree',
+            { timeOut: 2000, closeButton: true },
+          );
+        },
+      });
   }
 
-  // ================================
-  // modal actions
-  // ================================
+  // ── modal actions ─────────────────────────────────────────────────────────
 
   openCreateForm(): void {
     this.selectedSupplier = null;
@@ -167,17 +271,13 @@ export class SupplierListComponent implements OnInit, OnDestroy {
   }
 
   onFormSaved(): void {
+    const msg = this.isEditMode ? 'Supplier updated!' : 'Supplier created!';
     this.closeModals();
     this.load();
-    this._ToastrService.success(
-      this.isEditMode ? 'Supplier updated!' : 'Supplier created!',
-      'Talentree', { timeOut: 2000, closeButton: true }
-    );
+    this._ToastrService.success(msg, 'Talentree', { timeOut: 2000, closeButton: true });
   }
 
-  // ================================
-  // pagination
-  // ================================
+  // ── pagination ────────────────────────────────────────────────────────────
 
   pageChangeEvent(page: number): void {
     this.pageIndex = page;

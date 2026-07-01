@@ -9,17 +9,20 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     background-color: #f9fafb;
     color: #1f2937;
-    padding-top: 140px; 
+    padding-top: 140px;
 }
 
 /* ======== TOP NAVBAR ======== */
-.main-navbar{
-    width:100%;
+.main-navbar {
+    width: 100%;
     background-color: olive;
 }
- .container{
-    margin: auto;    
+
+.container {
+    margin: auto;
+    position: relative;
 }
+
 .logo {
     width: 100px;
     height: 80px;
@@ -105,25 +108,144 @@ body {
     justify-content: center;
 }
 
-.profile-btn img {
+.profile-btn img,
+.profile-pic {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    object-fit: cover;
+}
+
+/* ======== PROFILE WRAPPER & DROPDOWN ======== */
+.profile-wrapper {
+    position: relative;
+    cursor: pointer;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 220px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 1001;
+    overflow: hidden;
+    animation: dropdownIn 0.15s ease;
+}
+
+@keyframes dropdownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(209, 163, 62, 0.08), rgba(209, 163, 62, 0.03));
+}
+
+.profile-pic.sm {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.dropdown-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 0;
+}
+
+.dropdown-role {
+    font-size: 0.75rem;
+    color: #d1a33e;
+    margin: 0;
+    font-weight: 500;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #f3f4f6;
+    margin: 0;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #374151;
+    text-decoration: none;
+    transition: background 0.15s;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-item svg {
+    width: 16px;
+    height: 16px;
+    color: #6b7280;
+    flex-shrink: 0;
+}
+
+.dropdown-item:hover {
+    background: #f9fafb;
+    color: #d1a33e;
+}
+
+.dropdown-item:hover svg {
+    color: #d1a33e;
+}
+
+.dropdown-item.danger {
+    color: #ef4444;
+}
+
+.dropdown-item.danger svg {
+    color: #ef4444;
+}
+
+.dropdown-item.danger:hover {
+    background: #fef2f2;
+}
+
+/* ======== OVERLAY ======== */
+.dropdown-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
 }
 
 /* ======== SECONDARY NAVBAR ======== */
-/* Desktop secondary navbar */
 .navbar-bottom {
     background: white;
     border-top: 1px solid #eee;
-    position: fixed; /* NOT fixed now */
+    position: fixed;
     height: 56px;
-    margin-top:80px;
+    margin-top: 80px;
     z-index: 50;
-    width:100%;
+    width: 100%;
 }
 
-/* Tabs */
+/* ======== TABS ======== */
 .nav-tab {
     background: none;
     border: none;
@@ -145,47 +267,23 @@ body {
     border-bottom-color: #d1a33e;
 }
 
-
-.toggle{
-    margin-left: 40px;
-    border-radius: 5px;
-    padding:2px;
-    background-color: white;
-    border:none;
-    font-size: larger;
-    
-}
-.active{
-    color: var(--main-color);
-}
-
-
-
-/* ========================= */
-/*======= MOBILE FIXES ======*/
-/* ========================= */
-
+/* ======== MOBILE ======== */
 @media (max-width: 991px) {
-
-    /* collapse content مرتب تحت بعض */
     #navbarSupportedContent {
         padding: 15px 0;
     }
 
-    /* search 100% */
     .search-container {
         width: 100%;
         margin: 10px 0;
     }
 
-    /* icons center */
     .nav-icons {
         justify-content: center;
         width: 100%;
         margin-bottom: 10px;
     }
 
-    /* tabs stack vertically */
     .navbar-bottom {
         flex-direction: column;
         align-items: center;
@@ -199,6 +297,11 @@ body {
         text-align: center;
         padding: 12px 0;
         border-bottom: 1px solid #eee;
-        margin:auto;
+        margin: auto;
+    }
+
+    .profile-dropdown {
+        right: auto;
+        left: 0;
     }
 }

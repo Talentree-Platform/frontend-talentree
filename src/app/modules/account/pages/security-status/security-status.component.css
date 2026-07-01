@@ -1,0 +1,113 @@
+.card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.08), rgba(232, 201, 109, 0.04));
+    border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+.card .card-header i {
+    color: #c9a84c;
+    font-size: 1.1rem;
+}
+
+.card .card-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 0;
+}
+
+.card .card-body {
+    padding: 1.5rem;
+}
+
+.status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.status-item {
+    background: #fdf8f0;
+    border-radius: 10px;
+    padding: 0.875rem 1rem;
+}
+
+.status-item .status-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.status-item .status-label i {
+    color: #c9a84c;
+    font-size: 0.8rem;
+}
+
+.status-item .status-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    word-break: break-all;
+}
+
+.status-item .status-value.highlight {
+    color: #c9a84c;
+}
+
+.status-item .status-value.danger {
+    color: #ef4444;
+}
+
+.alerts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.alert i {
+    font-size: 1rem;
+}
+
+.alert.alert-danger {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #ef4444;
+}
+
+.alert.alert-warning {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #f59e0b;
+}
+
+.alert.alert-success {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #10b981;
+}
