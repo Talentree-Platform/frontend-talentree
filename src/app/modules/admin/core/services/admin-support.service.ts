@@ -7,17 +7,17 @@ import { environment } from '../../../../core/environment/envirinment';
 // ── Enums ─────────────────────────────────────────────────────────────────────
 
 export const TICKET_STATUS: Record<number, { label: string; badge: string; enumValue: string }> = {
-  1: { label: 'Open',             badge: 'badge-pending',   enumValue: 'Open'           },
-  2: { label: 'In Progress',      badge: 'badge-suspended', enumValue: 'InProgress'     },
-  3: { label: 'Waiting for User', badge: 'badge-blocked',   enumValue: 'WaitingForUser' },
-  4: { label: 'Resolved',         badge: 'badge-active',    enumValue: 'Resolved'       },
-  5: { label: 'Closed',           badge: 'badge-closed',    enumValue: 'Closed'         },
+  1: { label: 'Open', badge: 'badge-pending', enumValue: 'Open' },
+  2: { label: 'In Progress', badge: 'badge-suspended', enumValue: 'InProgress' },
+  3: { label: 'Waiting for User', badge: 'badge-blocked', enumValue: 'WaitingForUser' },
+  4: { label: 'Resolved', badge: 'badge-active', enumValue: 'Resolved' },
+  5: { label: 'Closed', badge: 'badge-closed', enumValue: 'Closed' },
 };
 
 export const TICKET_PRIORITY: Record<number, { label: string; badge: string }> = {
-  1: { label: 'Low',      badge: 'priority-low'      },
-  2: { label: 'Medium',   badge: 'priority-medium'   },
-  3: { label: 'High',     badge: 'priority-high'     },
+  1: { label: 'Low', badge: 'priority-low' },
+  2: { label: 'Medium', badge: 'priority-medium' },
+  3: { label: 'High', badge: 'priority-high' },
   4: { label: 'Critical', badge: 'priority-critical' },
 };
 
@@ -118,17 +118,17 @@ export class AdminSupportService {
 
   private readonly apiUrl = `${environment.baseUrl}/api/admin/support/tickets`;
 
-  constructor(private _HttpClient: HttpClient) {}
+  constructor(private _HttpClient: HttpClient) { }
 
   // GET /api/admin/support/tickets
   getTickets(params?: TicketFilterParams): Observable<ApiResponse<PaginatedResponse<SupportTicketListItem>>> {
     let httpParams = new HttpParams();
     if (params) {
-      if (params.status)            httpParams = httpParams.set('status', params.status);
-      if (params.priority)          httpParams = httpParams.set('priority', params.priority);
+      if (params.status) httpParams = httpParams.set('status', params.status);
+      if (params.priority) httpParams = httpParams.set('priority', params.priority);
       if (params.assignedToAdminId) httpParams = httpParams.set('assignedToAdminId', params.assignedToAdminId);
-      if (params.pageIndex)         httpParams = httpParams.set('pageIndex', params.pageIndex);
-      if (params.pageSize)          httpParams = httpParams.set('pageSize', params.pageSize);
+      if (params.pageIndex) httpParams = httpParams.set('pageIndex', params.pageIndex);
+      if (params.pageSize) httpParams = httpParams.set('pageSize', params.pageSize);
     }
     return this._HttpClient.get<ApiResponse<PaginatedResponse<SupportTicketListItem>>>(
       this.apiUrl, { params: httpParams }

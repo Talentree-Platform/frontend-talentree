@@ -49,14 +49,14 @@ export interface RejectPayload {
 }
 
 export const STATUS_MAP: Record<number, { label: string; color: string; bg: string }> = {
-  0: { label: 'Pending',    color: '#92680a', bg: '#fef3c7' },
-  1: { label: 'Reviewed',   color: '#1e4fa3', bg: '#dbeafe' },
-  2: { label: 'Quoted',     color: '#6b21a8', bg: '#f3e8ff' },
-  3: { label: 'Confirmed',  color: '#0e7490', bg: '#cffafe' },
-  4: { label: 'Started',    color: '#065f46', bg: '#d1fae5' },
-  5: { label: 'Completed',  color: '#166534', bg: '#dcfce7' },
-  6: { label: 'Rejected',   color: '#991b1b', bg: '#fee2e2' },
-  7: { label: 'Cancelled',  color: '#374151', bg: '#f3f4f6' },
+  0: { label: 'Pending', color: '#92680a', bg: '#fef3c7' },
+  1: { label: 'Reviewed', color: '#1e4fa3', bg: '#dbeafe' },
+  2: { label: 'Quoted', color: '#6b21a8', bg: '#f3e8ff' },
+  3: { label: 'Confirmed', color: '#0e7490', bg: '#cffafe' },
+  4: { label: 'Started', color: '#065f46', bg: '#d1fae5' },
+  5: { label: 'Completed', color: '#166534', bg: '#dcfce7' },
+  6: { label: 'Rejected', color: '#991b1b', bg: '#fee2e2' },
+  7: { label: 'Cancelled', color: '#374151', bg: '#f3f4f6' },
 };
 
 @Injectable({ providedIn: 'root' })
@@ -64,7 +64,7 @@ export class ProductionRequestService {
   private readonly base = `${environment.baseUrl}/api/AdminProductionRequest`;
   //  private readonly base ='/api/AdminProductionRequest'
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAll(
     status?: number,

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse, PaginatedResponse } from '../Interfaces/ibusiness-owner';
+import { environment } from '../../../../core/environment/envirinment';
 
 // ── Interfaces ────────────────────────────────────────────────────────────────
 
@@ -132,7 +133,7 @@ export interface RolePermissions {
     providedIn: 'root'
 })
 export class AdminManagementService {
-    private readonly baseUrl = '/api/admin-management';
+    private readonly baseUrl = `${environment.baseUrl}/api/admin-management`;
 
     constructor(private http: HttpClient) { }
 

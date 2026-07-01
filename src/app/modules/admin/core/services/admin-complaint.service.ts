@@ -8,10 +8,10 @@ import { environment } from '../../../../core/environment/envirinment';
 
 // status: 1=Pending 2=UnderReview 3=Resolved 4=Rejected
 export const COMPLAINT_STATUS: Record<number, { label: string; badge: string }> = {
-  1: { label: 'Pending',      badge: 'badge-pending'    },
-  2: { label: 'Under Review', badge: 'badge-suspended'  },
-  3: { label: 'Resolved',     badge: 'badge-active'     },
-  4: { label: 'Rejected',     badge: 'badge-blocked'    },
+  1: { label: 'Pending', badge: 'badge-pending' },
+  2: { label: 'Under Review', badge: 'badge-suspended' },
+  3: { label: 'Resolved', badge: 'badge-active' },
+  4: { label: 'Rejected', badge: 'badge-blocked' },
 };
 
 // violationType: 1–7
@@ -70,7 +70,7 @@ export class AdminComplaintService {
 
   private readonly apiUrl = `${environment.baseUrl}/api/admin/complaints`;
 
-  constructor(private _HttpClient: HttpClient) {}
+  constructor(private _HttpClient: HttpClient) { }
 
   // GET /api/admin/complaints
   getComplaints(
@@ -79,10 +79,10 @@ export class AdminComplaintService {
     let httpParams = new HttpParams();
     if (params) {
       if (params.reportedUserId) httpParams = httpParams.set('reportedUserId', params.reportedUserId);
-      if (params.status)         httpParams = httpParams.set('status', params.status);
-      if (params.violationType)  httpParams = httpParams.set('violationType', params.violationType);
-      if (params.pageIndex)      httpParams = httpParams.set('pageIndex', params.pageIndex);
-      if (params.pageSize)       httpParams = httpParams.set('pageSize', params.pageSize);
+      if (params.status) httpParams = httpParams.set('status', params.status);
+      if (params.violationType) httpParams = httpParams.set('violationType', params.violationType);
+      if (params.pageIndex) httpParams = httpParams.set('pageIndex', params.pageIndex);
+      if (params.pageSize) httpParams = httpParams.set('pageSize', params.pageSize);
     }
     return this._HttpClient.get<ApiResponse<PaginatedResponse<ComplaintListItem>>>(
       this.apiUrl, { params: httpParams }

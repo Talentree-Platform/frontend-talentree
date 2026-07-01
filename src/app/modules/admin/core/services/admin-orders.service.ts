@@ -9,13 +9,14 @@ import {
     UpdateOrderStatusDto,
     OrderFilterParams,
 } from '../Interfaces/iorder';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({ providedIn: 'root' })
 export class AdminOrdersService {
 
     constructor(private _HttpClient: HttpClient) { }
 
-    private apiUrl = '/api/AdminOrders';
+    private apiUrl = `${environment.baseUrl}/api/AdminOrders`;
 
     // ── GET /api/AdminOrders ──────────────────────────────────────────────────
     // NOTE: This endpoint returns the PaginatedResponse object directly
@@ -52,8 +53,9 @@ export class AdminOrdersService {
     }
 
     // ── PUT /api/AdminOrders/{id}/status ─────────────────────────────────────
+    // ── PUT /api/AdminOrders/{id}/status ─────────────────────────────────────
     updateStatus(id: number, dto: UpdateOrderStatusDto): Observable<ApiResponse<null>> {
-        return this._HttpClient.put<ApiResponse<null>>(`${this.apiUrl}/${id}/status`, dto);
+        return this._HttpClient.put<ApiResponse<null>>(`${this.apiUrl}/${id}/status`, { dto });
     }
 
     // ── POST /api/AdminOrders/{id}/notes ─────────────────────────────────────

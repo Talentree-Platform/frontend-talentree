@@ -22,6 +22,7 @@ import { AdminInteractionsComponent } from './Pages/admin-interactions/admin-int
 import { AdminKnowledgeComponent } from './Pages/admin-knowledge/admin-knowledge.component';
 import { AdminPlatformComponent } from './Pages/admin-platform/admin-platform.component';
 
+
 //import { NotificationComponent } from '../business-owner/pages/notification/notification.component';
 const routes: Routes = [
   {
@@ -50,8 +51,11 @@ const routes: Routes = [
       { path: 'platform/categories', component: AdminPlatformComponent },
       { path: 'platform/commission', component: AdminPlatformComponent },
       { path: 'platform/policies', component: AdminPlatformComponent },
-      { path: 'platform/shipping-tax', component: AdminPlatformComponent }
-      //{path: 'notification', component:NotificationComponent} // ← جديد
+      { path: 'platform/shipping-tax', component: AdminPlatformComponent },
+      {
+        path: 'account',
+        loadChildren: () => import('../account/account.routes').then(m => m.ACCOUNT_ROUTES)
+      }      //{path: 'notification', component:NotificationComponent} // ← جديد
     ]
   }
 ];

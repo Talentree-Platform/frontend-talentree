@@ -7,11 +7,12 @@ import {
     InteractionFilterParams,
     InteractionExportParams,
 } from '../Interfaces/iinteractions';
+import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({ providedIn: 'root' })
 export class AdminInteractionService {
 
-    private readonly apiUrl = '/api/admin/interactions';
+    private readonly apiUrl = `${environment.baseUrl}/api/admin/interactions`;
 
     constructor(private _HttpClient: HttpClient) { }
 

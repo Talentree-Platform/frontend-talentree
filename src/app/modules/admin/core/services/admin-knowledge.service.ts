@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse, PaginatedResponse } from '../Interfaces/ibusiness-owner';
+import { environment } from '../../../../core/environment/envirinment';
 
 export interface AdminArticleDto {
   id: number;
@@ -51,7 +52,7 @@ export interface ArticleAnalytics {
 
 @Injectable({ providedIn: 'root' })
 export class AdminKnowledgeService {
-  private readonly base = '/api/AdminKnowledge';
+  private readonly base = `${environment.baseUrl}/api/AdminKnowledge`;
   constructor(private http: HttpClient) { }
 
   getArticles(query?: KnowledgeQuery): Observable<ApiResponse<PaginatedResponse<AdminArticleDto>>> {
