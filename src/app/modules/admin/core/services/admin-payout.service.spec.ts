@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AdminPayoutService } from './admin-payout.service';
+import { PayoutAdminService } from './admin-payout.service';
 
-describe('AdminPayoutService', () => {
-  let service: AdminPayoutService;
+describe('PayoutAdminService', () => {
+  let service: PayoutAdminService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AdminPayoutService);
+    service = TestBed.inject(PayoutAdminService);
   });
 
   it('should be created', () => {

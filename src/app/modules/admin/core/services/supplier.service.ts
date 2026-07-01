@@ -56,4 +56,10 @@ export class SupplierService {
   deleteSupplier(id: number): Observable<ApiResponse<null>> {
     return this._HttpClient.delete<ApiResponse<null>>(`${this.apiUrl}/${id}`);
   }
+
+  // ── Performance ───────────────────────────────────────────────────────────
+  // NOTE: Backend endpoint not yet available — returns empty response gracefully.
+  getPerformance(): Observable<any> {
+    return this._HttpClient.get<any>(`${this.apiUrl}/performance`);
+  }
 }

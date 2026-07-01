@@ -84,9 +84,9 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
     this.lowStockLoading = true;
     this.lowStockError = null;
     this.subs.add(
-      this.adminProductService.getLowStockProducts().subscribe({
-        next: (res: any) => {
-          this.lowStockProducts = res?.data ?? [];
+      this.adminProductService.getLowStockProducts({ pageIndex: 1, pageSize: 50 }).subscribe({
+        next: (res) => {
+          this.lowStockProducts = res?.data?.data ?? [];
           this.lowStockLoading = false;
         },
         error: (err: unknown) => {
@@ -99,8 +99,8 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
 
   toggleLowStock(): void { this.showLowStock = !this.showLowStock; }
 
-  notifySeller(id: number): void {
-    this.adminProductService.notifySellerStock(id).subscribe({
+  notifySeller(productId: number): void {
+    this.adminProductService.notifySellerStock(productId).subscribe({
       next: () => this.toastr.success('Seller notified about low stock.', 'Talentree', { timeOut: 2000 }),
       error: () => this.toastr.error('Failed to send notification.', 'Talentree', { timeOut: 2000 }),
     });
@@ -125,7 +125,7 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
     this.showAnalytics = true;
     this.subs.add(
       this.adminProductService.getProductAnalytics(id).subscribe({
-        next: (res: any) => {
+        next: (res) => {
           this.analytics = res?.data ?? null;
           this.analyticsLoading = false;
         },
