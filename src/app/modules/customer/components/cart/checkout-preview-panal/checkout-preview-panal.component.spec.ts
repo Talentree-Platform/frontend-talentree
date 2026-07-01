@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CheckoutPreviewPanelComponent } from './checkout-preview-panal.component';
+import { CheckoutPreviewPanalComponent } from './checkout-preview-panal.component';
 
-describe('CheckoutPreviewPanelComponent', () => {
-  let component: CheckoutPreviewPanelComponent;
-  let fixture: ComponentFixture<CheckoutPreviewPanelComponent>;
+describe('CheckoutPreviewPanalComponent', () => {
+  let component: CheckoutPreviewPanalComponent;
+  let fixture: ComponentFixture<CheckoutPreviewPanalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CheckoutPreviewPanelComponent]
+      imports: [CheckoutPreviewPanalComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CheckoutPreviewPanelComponent);
+    fixture = TestBed.createComponent(CheckoutPreviewPanalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

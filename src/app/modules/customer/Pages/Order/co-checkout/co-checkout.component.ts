@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomerOrdersService, CoPaymentMethodParam } from '../../../Core/services/customer-orders.service';
 import { CoCheckoutSummary, CoCreateOrderRequest } from '../../../Core/models/co-order.models';
-import { CustomerCartService } from '../../../Core/services/cart-service.service';
+import { CartService } from '../../Core/services/cartService'; // existing cart service
 
 type CheckoutPhase = 'form' | 'submitting' | 'success';
 
@@ -22,7 +22,7 @@ type CheckoutPhase = 'form' | 'submitting' | 'success';
 export class CoCheckoutComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
-  private readonly cart = inject(CustomerCartService);
+  private readonly cart = inject(CartService);
   protected readonly ordersSvc = inject(CustomerOrdersService);
 
   readonly phase = signal<CheckoutPhase>('form');
@@ -39,7 +39,7 @@ export class CoCheckoutComponent implements OnInit {
 
   // Order summary pulled from cart — adapt to your actual CartService shape
   readonly summary = computed<CoCheckoutSummary>(() => {
-    const items = this.cart.cart()?.items || [];
+    const items = this.cart.items();
     const subtotal = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0);
     const shippingFee = subtotal > 0 ? 75 : 0;
     const taxAmount = Math.round(subtotal * 0.0); // adjust if tax applies
@@ -48,7 +48,7 @@ export class CoCheckoutComponent implements OnInit {
       items: items.map((i) => ({
         productId: i.productId,
         productName: i.productName,
-        imageUrl: i.productImageUrl ?? null,
+        imageUrl: i.imageUrl ?? null,
         sellerName: i.sellerName,
         unitPrice: i.unitPrice,
         quantity: i.quantity,
@@ -101,7 +101,7 @@ export class CoCheckoutComponent implements OnInit {
     this.ordersSvc.createOrder(payload, this.selectedMethod()).subscribe({
       next: (res) => {
         this.phase.set('success');
-        this.cart.clearCart().subscribe();
+        this.cart.clear();
         // Brief success transition before navigating, matches payment-success pattern
         setTimeout(() => {
           this.router.navigate(['/marketplace/orders', res.orderId]);
