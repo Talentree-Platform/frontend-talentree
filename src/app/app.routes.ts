@@ -20,13 +20,13 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./modules/business-owner/business-owner.module').then(bo => bo.BusinessOwnerModule)
   },
-  // {
-  //   path: 'customer',
-  //   canActivate: [authGuardGuard, roleGuardGuard],
-  //   data: { roles: ['Customer'] },
-  //   loadChildren: () =>
-  //     import('./modules/customer/customer.module').then(c => c.CustomerModule)
-  // },
+  {
+    path: 'customer',
+    canActivate: [authGuardGuard, roleGuardGuard],
+    data: { roles: ['Customer'] },
+    loadChildren: () =>
+      import('./modules/customer/customer.module').then(c => c.CustomerModule)
+  },
 
   {
     path: 'auth',
