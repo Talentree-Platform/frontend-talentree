@@ -59,7 +59,7 @@ export class RejectProductModalComponent {
     this.submitting = true;
 
     this.adminProductService
-      .rejectProduct({ productId: this.productId, reason: reason })
+      .rejectProduct(this.productId, reason)
       .pipe(finalize(() => (this.submitting = false)))
       .subscribe({
         next: (res) => {

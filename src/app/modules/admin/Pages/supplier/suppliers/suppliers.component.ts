@@ -97,7 +97,7 @@ export class SupplierListComponent implements OnInit, OnDestroy {
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res) => {
+        next: (res: any) => {
           this.isLoading = false;
           this.suppliers = res.data.data;
           this.totalPages = res.data.totalPages;
@@ -105,10 +105,10 @@ export class SupplierListComponent implements OnInit, OnDestroy {
           this.hasPrevious = res.data.hasPrevious;
           this.pageIndex = res.data.pageIndex;
           this.totalCount = res.data.count;
-          this.activeCount = res.data.data.filter(s => s.isActive).length;
-          this.inactiveCount = res.data.data.filter(s => !s.isActive).length;
+          this.activeCount = res.data.data.filter((s: Supplier) => s.isActive).length;
+          this.inactiveCount = res.data.data.filter((s: Supplier) => !s.isActive).length;
         },
-        error: (err) => {
+        error: (err: any) => {
           this.isLoading = false;
           console.error(err);
           this._ToastrService.error(
@@ -133,7 +133,7 @@ export class SupplierListComponent implements OnInit, OnDestroy {
           this.performanceData = null;
           this.performanceItems = res?.data?.data ?? [];
         },
-        error: (err) => {
+        error: (err: any) => {
           this.perfLoading = false;
           this.perfError = err?.error?.message ?? 'Failed to load performance data.';
         },
@@ -239,14 +239,14 @@ export class SupplierListComponent implements OnInit, OnDestroy {
       .deleteSupplier(supplier.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res) => {
+        next: (res: any) => {
           this._ToastrService.warning(
             res.message ?? 'Supplier deleted', 'Talentree',
             { timeOut: 2000, closeButton: true },
           );
           this.load();
         },
-        error: (err) => {
+        error: (err: any) => {
           this._ToastrService.error(
             err.error?.message ?? 'Failed to delete', 'Talentree',
             { timeOut: 2000, closeButton: true },

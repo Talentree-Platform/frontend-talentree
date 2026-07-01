@@ -235,10 +235,10 @@ export class AdminPlatformComponent implements OnInit, OnDestroy {
   }
 
   loadAvailableProducts(): void {
-    this.productSvc.getAllProducts({ pageIndex: 1, pageSize: 100 })
+    this.productSvc.getAllProducts(1, 100)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: r => {
+        next: (r: any) => {
           if (r.success) {
             this.allProducts = r.data.data;
           }
