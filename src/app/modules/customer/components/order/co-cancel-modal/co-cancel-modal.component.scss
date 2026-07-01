@@ -1,14 +1,17 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree · co-cancel-modal styles
 // ─────────────────────────────────────────────────────────────────────────────
-@import '../../styles/co-modal-shared';
+@import '../../../Core/styles/co-modal-shared';
 
 .co-warning-icon {
   width: 56px;
   height: 56px;
   margin: 0 auto 16px;
 
-  svg { width: 56px; height: 56px; }
+  svg {
+    width: 56px;
+    height: 56px;
+  }
 }
 
 .co-modal-desc {
@@ -19,7 +22,12 @@
   text-align: center;
   margin: 0 0 4px;
 
-  strong { color: $text-dark; }
+  strong {
+    color: $text-dark;
+  }
 }
 
-.co-modal-title { text-align: center; padding-right: 0; }
+.co-modal-title {
+  text-align: center;
+  padding-right: 0;
+}

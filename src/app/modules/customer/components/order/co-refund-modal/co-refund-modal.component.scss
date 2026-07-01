@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree · co-refund-modal styles
 // ─────────────────────────────────────────────────────────────────────────────
-@import '../../styles/co-modal-shared';
+@import '../../../Core/styles/co-modal-shared';
 
 .co-refund-item-preview {
   display: flex;
@@ -13,7 +13,8 @@
   padding: 12px 14px;
   margin-bottom: 18px;
 
-  img, &__placeholder {
+  img,
+  &__placeholder {
     width: 48px;
     height: 48px;
     border-radius: 10px;
@@ -29,7 +30,10 @@
     background: $gold-pale;
     color: $gold-border;
 
-    svg { width: 20px; height: 20px; }
+    svg {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   &__name {
@@ -74,7 +78,9 @@
     min-height: 90px;
     transition: border-color 0.2s, box-shadow 0.2s;
 
-    &::placeholder { color: $text-soft; }
+    &::placeholder {
+      color: $text-soft;
+    }
 
     &:focus {
       outline: none;

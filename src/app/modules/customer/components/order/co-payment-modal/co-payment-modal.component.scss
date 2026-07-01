@@ -1,7 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree · co-payment-modal styles
 // ─────────────────────────────────────────────────────────────────────────────
-@import '../../styles/co-modal-shared';
+@import '../../../Core/styles/co-modal-shared';
+
 
 .co-modal-amount {
   display: flex;
@@ -51,4 +52,6 @@
   }
 }
 
-.co-pay-btn { margin-top: 4px; }
+.co-pay-btn {
+  margin-top: 4px;
+}
