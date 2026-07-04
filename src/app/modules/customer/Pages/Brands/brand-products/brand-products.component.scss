@@ -1,0 +1,581 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Talentree – Brand Products Page  SCSS
+// Identical to the Category Products page SCSS, plus a small .brand-header
+// block for the logo + meta row (address / social links) at the top.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Design tokens ─────────────────────────────────────────────────────────────
+$gold:        #B8860B;
+$gold-light:  #C9952A;
+$gold-pale:   #FBF3E2;
+$gold-border: #E8D5A3;
+$bg-main:     #FDFAF4;
+$text-dark:   #18130A;
+$text-mid:    #5C5244;
+$text-soft:   #A09280;
+$danger:      #D94040;
+
+$bp-lg: 1100px;
+$bp-md: 900px;
+$bp-sm: 600px;
+
+@mixin shimmer {
+  background: linear-gradient(90deg, #f0ebe1 0%, #faf5ec 45%, #f0ebe1 80%);
+  background-size: 1200px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+// ── Container ─────────────────────────────────────────────────────────────────
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  @media (max-width: $bp-sm) { padding: 0 16px; }
+}
+
+// ── Hero (compact) ────────────────────────────────────────────────────────────
+.hero {
+  background: linear-gradient(148deg, #1a1108 0%, #2e1f06 40%, #18130A 100%);
+  position: relative;
+  overflow: hidden;
+
+  &--compact {
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.hero__bg-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.hero__content {
+  padding-top: 112px;
+  padding-bottom: 40px;
+  width: 100%;
+
+  @media (max-width: $bp-md) {
+    padding-top: 92px;
+  }
+}
+
+.hero__eyebrow {
+  display: inline-block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $gold-light;
+  background: rgba($gold, 0.12);
+  border: 1px solid rgba($gold, 0.3);
+  border-radius: 20px;
+  padding: 5px 14px;
+  margin-bottom: 12px;
+}
+
+.hero__headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 600;
+  line-height: 1.15;
+  color: #fff;
+  margin: 0 0 10px;
+
+  em {
+    font-style: italic;
+    color: $gold-light;
+    background: linear-gradient(90deg, $gold, $gold-light);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.hero__sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+  max-width: 540px;
+}
+
+// ── Breadcrumb ────────────────────────────────────────────────────────────────
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  margin-bottom: 20px;
+
+  &__link {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+    &:hover { color: $gold-light; }
+  }
+
+  &__sep {
+    color: rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    svg { width: 12px; height: 12px; }
+  }
+
+  &__current {
+    color: $gold-light;
+    font-weight: 600;
+  }
+}
+
+// ── Page header row ───────────────────────────────────────────────────────────
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+
+  &__left { flex: 1; }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+}
+
+// ── NEW: Brand header (logo + meta row) ───────────────────────────────────────
+.brand-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+
+  &__logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1.5px solid rgba($gold, 0.35);
+    background: rgba(255,255,255,0.06);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__text {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.brand-meta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.brand-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.55);
+
+  svg { width: 13px; height: 13px; flex-shrink: 0; }
+}
+
+.brand-meta-link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: $gold-light;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+
+  &:hover { border-color: $gold-light; }
+}
+
+.product-count {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+}
+
+.sort-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  white-space: nowrap;
+}
+
+.sort-select {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.85);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+
+  &:hover { border-color: rgba($gold, 0.5); }
+  option { background: #18130A; color: #fff; }
+}
+
+// ── Page body layout ──────────────────────────────────────────────────────────
+.page-body {
+  background: $bg-main;
+  min-height: 500px;
+  padding: 48px 0 72px;
+}
+
+.page-body__inner {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  align-items: start;
+
+  @media (max-width: $bp-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────────────────
+.sidebar {
+  position: sticky;
+  top: 24px;
+
+  @media (max-width: $bp-md) {
+    position: static;
+  }
+
+  &__card {
+    background: #fff;
+    border: 1px solid $gold-border;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba($gold, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: $text-dark;
+    margin: 0;
+  }
+}
+
+// ── Filter groups ─────────────────────────────────────────────────────────────
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid $gold-border;
+}
+
+.filter-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $text-mid;
+}
+
+.search-input-wrap {
+  position: relative;
+
+  &__icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: $text-soft;
+    pointer-events: none;
+  }
+}
+
+.filter-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid $gold-border;
+  background: $gold-pale;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: $text-dark;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+
+  &::placeholder { color: $text-soft; }
+
+  &:focus {
+    border-color: $gold;
+    box-shadow: 0 0 0 3px rgba($gold, 0.1);
+  }
+
+  &--half {
+    width: calc(50% - 8px);
+    text-align: center;
+  }
+
+  .search-input-wrap & {
+    padding-left: 36px;
+  }
+}
+
+.price-range-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-range-sep {
+  color: $text-soft;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.btn-apply {
+  height: 36px;
+  padding: 0 18px;
+  border-radius: 20px;
+  border: 1px solid $gold-border;
+  background: $gold-pale;
+  color: $gold;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  align-self: flex-start;
+
+  &:hover {
+    background: $gold;
+    border-color: $gold;
+    color: #fff;
+  }
+}
+
+.availability-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  &__input {
+    width: 16px;
+    height: 16px;
+    accent-color: $gold;
+    cursor: pointer;
+  }
+
+  &__label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: $text-mid;
+  }
+}
+
+.btn-clear {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 20px;
+  border: 1px solid rgba($danger, 0.3);
+  background: transparent;
+  color: $danger;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  align-self: flex-start;
+
+  svg { width: 12px; height: 12px; }
+  &:hover { background: rgba($danger, 0.06); }
+}
+
+// ── Products grid ─────────────────────────────────────────────────────────────
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+  animation: fadeIn 0.3s ease;
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+// ── Pagination ────────────────────────────────────────────────────────────────
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+
+  &__btn {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    border-radius: 10px;
+    border: 1.5px solid $gold-border;
+    background: #fff;
+    color: $text-mid;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+
+    svg { width: 14px; height: 14px; }
+
+    &:hover:not(:disabled):not(.pagination__btn--active) {
+      background: $gold-pale;
+      border-color: $gold;
+      color: $gold;
+    }
+
+    &--active {
+      background: $gold;
+      border-color: $gold;
+      color: #fff;
+    }
+
+    &--nav {
+      svg { display: block; }
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+
+  &__ellipsis {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: $text-soft;
+    padding: 0 4px;
+  }
+}
+
+// ── Buttons ───────────────────────────────────────────────────────────────────
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 28px;
+  border-radius: 40px;
+  background: linear-gradient(135deg, $gold, $gold-light);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: box-shadow 0.25s, transform 0.25s;
+  border: none;
+  cursor: pointer;
+
+  svg { width: 16px; height: 16px; }
+  &:hover {
+    box-shadow: 0 6px 24px rgba($gold, 0.45);
+    transform: translateY(-2px);
+  }
+}
+
+// ── Empty / Error states ──────────────────────────────────────────────────────
+.empty-state {
+  text-align: center;
+  padding: 80px 24px;
+  animation: fadeIn 0.35s ease;
+
+  &__icon {
+    margin-bottom: 24px;
+    svg { width: 64px; height: 64px; }
+  }
+
+  &__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: $text-dark;
+    margin: 0 0 12px;
+  }
+
+  &__desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: $text-soft;
+    line-height: 1.6;
+    margin: 0 0 28px;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// ── Animation ─────────────────────────────────────────────────────────────────
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

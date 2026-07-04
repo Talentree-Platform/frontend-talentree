@@ -43,7 +43,11 @@ $bp-sm: 600px;
   background: linear-gradient(148deg, #1a1108 0%, #2e1f06 40%, #18130A 100%);
   position: relative;
   overflow: hidden;
-  padding: 56px 0 44px;
+  padding: 120px 0 44px;
+
+  @media (max-width: $bp-md) {
+    padding: 96px 0 36px;
+  }
 }
 
 .co-hero__bg-grain {

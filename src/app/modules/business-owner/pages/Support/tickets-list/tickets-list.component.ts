@@ -11,14 +11,13 @@ import { SupportService }        from '../../../core/services/support.service';
 import { Ticket, PaginatedResponse } from '../../../core/interfaces/i-support';
 import { StatusBadgeComponent }  from '../../../components/statues-badge/statues-badge.component';
 import { SkeletonComponent }     from '../../../components/skeleton/skeleton.component';
-import { ToastContainerComponent } from '../../../components/toast-container/toast-container.component';
 
 interface FilterState { status: number | null; category: number | null; page: number; }
 
 @Component({
   selector: 'app-tickets-list',
   standalone: true,
-  imports: [NgIf, NgFor, ReactiveFormsModule, StatusBadgeComponent, SkeletonComponent, ToastContainerComponent],
+  imports: [NgIf, NgFor, ReactiveFormsModule, StatusBadgeComponent, SkeletonComponent],
   templateUrl: './tickets-list.component.html',
   styleUrls: ['./tickets-list.component.scss'],
 })

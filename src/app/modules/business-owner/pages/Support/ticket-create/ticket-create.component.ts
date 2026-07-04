@@ -7,12 +7,11 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { Router } from '@angular/router';
 import { SupportService } from '../../../core/services/support.service';
 import { ToastService }   from '../../../core/services/toast.service';
-import { ToastContainerComponent } from '../../../components/toast-container/toast-container.component';
 
 @Component({
   selector: 'app-ticket-create',
   standalone: true,
-  imports: [FormsModule , ReactiveFormsModule , ToastContainerComponent],
+  imports: [FormsModule , ReactiveFormsModule],
   templateUrl: './ticket-create.component.html',
   styleUrl: './ticket-create.component.scss'
 })

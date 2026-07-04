@@ -4,12 +4,10 @@
    Matches Production Request / Orders gold design system
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap');
-
-:root {
-  --mo-gold: #C9A84C;
+:host {
+  --mo-gold: var(--bo-accent, #C9A84C);
   --mo-gold-light: #e2c675;
-  --mo-radius: 20px;
+  --mo-radius: var(--bo-radius-section, 20px);
   --mo-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 
   --mo-amber: #f59e0b;
@@ -20,34 +18,61 @@
   --mo-green-bg: rgba(16, 185, 129, 0.12);
   --mo-red: #ef4444;
   --mo-red-bg: rgba(239, 68, 68, 0.12);
+
+  display: block;
 }
 
 /* ─────────────────────────────────────────────────────────
    WRAPPER
    ───────────────────────────────────────────────────────── */
 .mo-wrapper {
-  background: linear-gradient(145deg, #fffdf7 0%, #fdf6e8 60%, #faf0d7 100%);
-  border: 1px solid rgba(201, 168, 76, 0.18);
+  background: var(--bo-bg-surface, linear-gradient(145deg, #fffdf7 0%, #fdf6e8 60%, #faf0d7 100%));
+  border: var(--bo-border-surface, rgba(201, 168, 76, 0.18));
   border-radius: var(--mo-radius);
-  padding: 1.75rem;
-  box-shadow:
-    0 2px 8px rgba(180, 140, 40, 0.08),
-    0 1px 2px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--bo-shadow-card, 0 2px 8px rgba(180, 140, 40, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04));
   overflow: hidden;
 }
 
 /* ─────────────────────────────────────────────────────────
-   HEADER
+   HEADER = hero band
    ───────────────────────────────────────────────────────── */
 .mo-header {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
   gap: 1rem;
+  padding: 2rem 1.75rem;
+  background-image:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    var(--bo-hero-bg);
+  transition: background-color var(--mo-transition);
+}
+
+.mo-hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+.mo-hero-blob--1 {
+  width: 260px; height: 260px;
+  background: rgba(201,168,76,0.2);
+  top: -100px; right: 20px;
+}
+.mo-hero-blob--2 {
+  width: 200px; height: 200px;
+  background: rgba(99,102,241,0.12);
+  bottom: -80px; left: 15%;
 }
 
 .mo-header__left {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 0.85rem;
@@ -66,9 +91,25 @@
   flex-shrink: 0;
 }
 
+.mo-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bo-accent-soft, rgba(201,168,76,0.18));
+  border: var(--bo-border-surface-hover, rgba(201,168,76,0.4));
+  color: var(--bo-accent, #8a6d1f);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 6px;
+  width: fit-content;
+}
+
 .mo-header h2 {
-  font-family: 'Playfair Display', Georgia, serif;
-  color: #2a1f0a;
+  font-family: var(--bo-font-heading);
+  color: var(--bo-color-text, #2a1f0a);
   font-weight: 700;
   font-size: 1.4rem;
   margin: 0;
@@ -77,7 +118,7 @@
 .mo-header__subtitle {
   margin: 2px 0 0;
   font-size: 0.82rem;
-  color: #a89060;
+  color: var(--bo-color-text-muted, #a89060);
   font-weight: 500;
 }
 
@@ -107,15 +148,15 @@
 }
 
 .mo-empty h3 {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.15rem;
-  color: #2a1f0a;
+  color: var(--bo-color-text, #2a1f0a);
   margin: 0;
 }
 
 .mo-empty p {
   font-size: 0.86rem;
-  color: #a89060;
+  color: var(--bo-color-text-muted, #a89060);
   margin: 0;
 }
 
@@ -125,7 +166,8 @@
 .mo-table-responsive {
   overflow-x: auto;
   border-radius: 14px;
-  border: 1px solid rgba(201, 168, 76, 0.15);
+  border: var(--bo-border-surface, rgba(201, 168, 76, 0.15));
+  margin: 1.75rem;
 }
 
 .mo-table {
@@ -133,20 +175,20 @@
   margin: 0;
   border-collapse: separate;
   border-spacing: 0;
-  background: #fffefb;
+  background: var(--bo-bg-surface, #fffefb);
 }
 
 .mo-table thead {
-  background: rgba(201, 168, 76, 0.07);
+  background: var(--bo-bg-surface-hover, rgba(201, 168, 76, 0.07));
 }
 
 .mo-table thead th {
   padding: 14px 16px;
   text-align: left;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-weight: 700;
   font-size: 0.76rem;
-  color: #8a6010;
+  color: var(--bo-accent, #8a6010);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   white-space: nowrap;
@@ -171,29 +213,29 @@
   padding: 16px;
   vertical-align: middle;
   font-size: 0.86rem;
-  color: #3a2a0a;
+  color: var(--bo-color-text, #3a2a0a);
 }
 
 /* ORDER ID */
 .mo-order-id {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-weight: 700;
-  color: #a89060;
+  color: var(--bo-color-text-muted, #a89060);
   font-size: 0.92rem;
   letter-spacing: 0.02em;
 }
 
 /* DATE */
 .mo-date {
-  color: #6a5530;
+  color: var(--bo-color-text-muted, #6a5530);
   white-space: nowrap;
 }
 
 /* PRICE */
 .mo-price {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-weight: 700;
-  color: #2a1f0a;
+  color: var(--bo-color-text, #2a1f0a);
   font-size: 1rem;
   white-space: nowrap;
 }
@@ -202,7 +244,7 @@
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 0.74rem;
-  color: #a89060;
+  color: var(--bo-color-text-muted, #a89060);
 }
 
 /* ITEMS COUNT */
@@ -213,7 +255,7 @@
   border-radius: 100px;
   font-size: 0.76rem;
   font-weight: 600;
-  color: #6a4a00;
+  color: var(--bo-accent, #6a4a00);
   white-space: nowrap;
 }
 
@@ -222,11 +264,11 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  color: #6a5530;
+  color: var(--bo-color-text-muted, #6a5530);
 }
 
 .mo-location svg {
-  color: #c0a070;
+  color: var(--bo-accent, #c0a070);
   flex-shrink: 0;
 }
 
@@ -237,7 +279,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -300,7 +342,7 @@
 .mo-payment-badge {
   padding: 5px 12px;
   border-radius: 100px;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -327,8 +369,12 @@
    RESPONSIVE
    ───────────────────────────────────────────────────────── */
 @media (max-width: 700px) {
-  .mo-wrapper {
-    padding: 1.25rem;
+  .mo-header {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .mo-table-responsive {
+    margin: 1.25rem;
   }
 
   .mo-table tbody td,
@@ -340,4 +386,17 @@
   .mo-header h2 {
     font-size: 1.2rem;
   }
+}
+
+/* ── Dark mode ─────────────────────────────────────────────── */
+:host-context([data-bo-theme='dark']) .mo-table tbody tr:hover {
+  background-color: var(--bo-bg-surface-hover, rgba(201, 168, 76, 0.07)) !important;
+}
+:host-context([data-bo-theme='dark']) .mo-table tbody tr,
+:host-context([data-bo-theme='dark']) .mo-table thead th {
+  border-color: var(--bo-border-surface-hover);
+}
+:host-context([data-bo-theme='dark']) .mo-items-count {
+  background: var(--bo-accent-soft);
+  border-color: var(--bo-border-surface-hover);
 }

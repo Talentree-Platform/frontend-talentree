@@ -3,20 +3,18 @@
    Prefix: prd-
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap');
-
 /* ─────────────────────────────────────────────────────────
    Tokens
    ───────────────────────────────────────────────────────── */
-:root {
-  --prd-gold:        #C9A84C;
+:host {
+  --prd-gold:        var(--bo-accent, #C9A84C);
   --prd-gold-light:  #e2c675;
   --prd-gold-dim:    rgba(201, 168, 76, 0.14);
   --prd-gold-glow:   rgba(201, 168, 76, 0.32);
-  --prd-cream-1:     #fffdf7;
-  --prd-cream-2:     #fdf6e8;
-  --prd-cream-3:     #faf0d7;
-  --prd-card-radius: 20px;
+  --prd-cream-1:     var(--bo-bg-surface, #fffdf7);
+  --prd-cream-2:     var(--bo-bg-surface-hover, #fdf6e8);
+  --prd-cream-3:     var(--bo-bg-surface-hover, #faf0d7);
+  --prd-card-radius: var(--bo-radius-section, 20px);
   --prd-transition:  0.24s cubic-bezier(0.4, 0, 0.2, 1);
   --prd-burgundy:    #7e1d3f;
   --prd-burgundy-bg: rgba(126, 29, 63, 0.08);
@@ -30,6 +28,8 @@
   --prd-green:     #10b981;  --prd-green-bg:   rgba(16,185,129,0.12);
   --prd-emerald:   #059669;  --prd-emerald-bg: rgba(5,150,105,0.12);
   --prd-red:       #ef4444;  --prd-red-bg:     rgba(239,68,68,0.12);
+
+  display: block;
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -49,19 +49,15 @@
    ───────────────────────────────────────────────────────── */
 .prd-hero {
   position: relative;
-  background: #12110e !important;
   background-image:
     radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 70%) !important;
-  border-radius: 22px;
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    var(--bo-hero-bg) !important;
+  border-radius: var(--bo-radius-section, 22px);
   overflow: hidden;
   padding: 2.5rem 2.75rem 2.25rem;
   isolation: isolate;
-}
-
-.prd-hero,
-.prd-hero * {
-  color: inherit;
+  transition: background-color var(--bo-transition, 0.2s ease);
 }
 
 /* Blobs */
@@ -107,9 +103,9 @@
   display: inline-flex !important;
   align-items: center;
   gap: 0.38rem;
-  background: rgba(201,168,76,0.18) !important;
-  border: 1px solid rgba(201,168,76,0.4) !important;
-  color: #e2c675 !important;
+  background: var(--bo-accent-soft, rgba(201,168,76,0.18)) !important;
+  border: var(--bo-border-surface-hover, rgba(201,168,76,0.4)) !important;
+  color: var(--bo-accent, #e2c675) !important;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -121,10 +117,10 @@
 }
 
 .prd-hero__title {
-  font-family: 'Playfair Display', Georgia, serif !important;
+  font-family: var(--bo-font-heading) !important;
   font-size: clamp(1.6rem, 3.5vw, 2.4rem) !important;
   font-weight: 700 !important;
-  color: #f5f0e8 !important;
+  color: var(--bo-color-text, #f5f0e8) !important;
   margin: 0 0 0.75rem !important;
   line-height: 1.2 !important;
   letter-spacing: -0.02em;
@@ -142,11 +138,11 @@
   align-items: center;
   gap: 0.3rem;
   font-size: 0.82rem !important;
-  color: rgba(245,240,232,0.52) !important;
+  color: var(--bo-color-text-muted, rgba(245,240,232,0.52)) !important;
 }
 
 .prd-hero__meta-sep {
-  color: rgba(245,240,232,0.25) !important;
+  color: var(--bo-color-text-muted, rgba(245,240,232,0.25)) !important;
   font-size: 0.85rem;
 }
 
@@ -161,8 +157,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.18rem;
-  background: rgba(255,255,255,0.055);
-  border: 1px solid rgba(201,168,76,0.2);
+  background: var(--bo-bg-surface-hover, rgba(255,255,255,0.055));
+  border: var(--bo-border-surface-hover, rgba(201,168,76,0.2));
   border-radius: 12px;
   padding: 0.65rem 1rem;
   backdrop-filter: blur(8px);
@@ -170,13 +166,13 @@
 }
 
 .prd-hero-metric--gold {
-  background: rgba(201,168,76,0.12);
-  border-color: rgba(201,168,76,0.35);
+  background: var(--bo-accent-soft, rgba(201,168,76,0.12));
+  border-color: var(--bo-accent-ring, rgba(201,168,76,0.35));
 }
 
 .prd-hero-metric__label {
   font-size: 0.68rem !important;
-  color: rgba(245,240,232,0.48) !important;
+  color: var(--bo-color-text-muted, rgba(245,240,232,0.48)) !important;
   text-transform: uppercase;
   letter-spacing: 0.07em;
   font-weight: 600;
@@ -185,12 +181,12 @@
 .prd-hero-metric__value {
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  color: #f5f0e8 !important;
+  color: var(--bo-color-text, #f5f0e8) !important;
   line-height: 1;
 }
 
 .prd-hero-metric--gold .prd-hero-metric__value {
-  color: #e2c675 !important;
+  color: var(--bo-accent, #e2c675) !important;
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -308,7 +304,7 @@
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.15rem;
   font-weight: 700;
   color: #2a1f0a;
@@ -363,7 +359,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.05rem;
   font-weight: 700;
   color: #2a1f0a;
@@ -955,7 +951,7 @@
 }
 
 .prd-confirm-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.3rem;
   font-weight: 700;
   color: #2a1f0a;
@@ -1034,7 +1030,7 @@
 }
 
 .prd-state-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.5rem;
   font-weight: 700;
   color: #2a1f0a;
@@ -1243,7 +1239,7 @@
 }
 
 .pmt-section__title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.1rem;
   font-weight: 700;
   color: #2a1f0a;
@@ -1282,7 +1278,7 @@
   font-size: 1.45rem;
   font-weight: 800;
   color: #7a5010;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
 }
 
 .pmt-section-error {
@@ -1336,4 +1332,12 @@
 @media (max-width: 520px) {
   .pmt-section__body { flex-direction: column; align-items: stretch; }
   .pmt-pay-btn { width: 100%; justify-content: center; }
+}
+
+/* ── Dark mode ─────────────────────────────────────────────── */
+:host-context([data-bo-theme='dark']) .prd-action-bar,
+:host-context([data-bo-theme='dark']) .prd-card {
+  border-color: var(--bo-border-surface-hover);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }

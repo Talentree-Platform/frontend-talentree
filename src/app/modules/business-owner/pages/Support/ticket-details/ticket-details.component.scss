@@ -1,36 +1,35 @@
-@import '../../../core/shared/variables.scss';
 
 // ═══════════════════════════════════════════════════════════════
 //  Design Tokens
 // ═══════════════════════════════════════════════════════════════
 :host {
   // Gold palette
-  --gold:           #C9A84C;
+  --gold:           var(--bo-accent, #C9A84C);
   --gold-light:     #E2C97E;
   --gold-glow:      rgba(201, 168, 76, 0.18);
   --gold-glow-soft: rgba(201, 168, 76, 0.08);
-  --gold-border:    rgba(201, 168, 76, 0.25);
+  --gold-border:    var(--bo-border-surface, rgba(201, 168, 76, 0.25));
 
   // Cream / warm base
-  --cream:          #FDFBF5;
-  --cream-dark:     #F5F0E4;
-  --cream-muted:    #EDE8DC;
+  --cream:          var(--bo-bg-page, #FDFBF5);
+  --cream-dark:     var(--bo-bg-surface-hover, #F5F0E4);
+  --cream-muted:    var(--bo-bg-surface-hover, #EDE8DC);
 
   // Ink text
-  --ink:            #1C1810;
-  --ink-mid:        #5C4F38;
-  --ink-muted:      #8A7A60;
+  --ink:            var(--bo-color-text, #1C1810);
+  --ink-mid:        var(--bo-color-text-muted, #5C4F38);
+  --ink-muted:      var(--bo-color-text-muted, #8A7A60);
   --ink-ghost:      #B8AC98;
 
   // Glass
-  --glass-bg:       rgba(253, 251, 245, 0.72);
-  --glass-border:   rgba(201, 168, 76, 0.18);
-  --glass-shadow:   0 8px 32px rgba(28, 24, 16, 0.08), 0 1.5px 4px rgba(28, 24, 16, 0.04);
+  --glass-bg:       var(--bo-bg-surface, rgba(253, 251, 245, 0.72));
+  --glass-border:   var(--bo-border-surface-hover, rgba(201, 168, 76, 0.18));
+  --glass-shadow:   var(--bo-shadow-card, 0 8px 32px rgba(28, 24, 16, 0.08), 0 1.5px 4px rgba(28, 24, 16, 0.04));
 
   // Bubbles
-  --bubble-user-from: #C9A84C;
+  --bubble-user-from: var(--bo-accent, #C9A84C);
   --bubble-user-to:   #A8893A;
-  --bubble-admin-bg:  rgba(253, 251, 245, 0.9);
+  --bubble-admin-bg:  var(--bo-bg-surface, rgba(253, 251, 245, 0.9));
 
   // Transitions
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -44,12 +43,12 @@
   display: grid;
   grid-template-columns: 1fr 272px;
   gap: 22px;
-  max-width: 1120px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 28px 24px 0;
   height: calc(100vh - 64px);
-  background: var(--cream);
-  font-family: 'Playfair Display', 'Georgia', serif;
+  background: transparent;
+  font-family: var(--bo-font-heading);
 
   @media (max-width: 860px) {
     grid-template-columns: 1fr;

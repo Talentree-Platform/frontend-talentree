@@ -9,36 +9,36 @@
 ═══════════════════════════════════════════════════════════ */
 
 :host, .po-page {
-  --gold:        #C9A84C;
+  --gold:        var(--bo-accent, #C9A84C);
   --gold-light:  #e2c675;
   --gold-dark:   #a8863a;
   --gold-glow:   rgba(201, 168, 76, .32);
   --gold-glow-soft: rgba(201, 168, 76, .16);
 
-  --bg-main: #FFFDF9;
-  --bg-soft: #FEF8EC;
-  --bg-card: linear-gradient(145deg, #fffdf7 0%, #fdf6e8 60%, #faf0d7 100%);
+  --bg-main: var(--bo-bg-page, #FFFDF9);
+  --bg-soft: var(--bo-bg-surface, #FEF8EC);
+  --bg-card: var(--bo-card-gradient, linear-gradient(145deg, #fffdf7 0%, #fdf6e8 60%, #faf0d7 100%));
 
-  --text-primary: #2a1f0a;
-  --text-muted:   #7a6040;
+  --text-primary: var(--bo-color-text, #2a1f0a);
+  --text-muted:   var(--bo-color-text-muted, #7a6040);
   --text-faint:   #b3a07c;
 
   --ink-900: #12110e;
   --ink-800: #181410;
   --ink-700: #211c15;
 
-  --border-gold: rgba(201, 168, 76, .18);
-  --border-gold-strong: rgba(201, 168, 76, .35);
+  --border-gold: var(--bo-border-surface, rgba(201, 168, 76, .18));
+  --border-gold-strong: var(--bo-border-surface-hover, rgba(201, 168, 76, .35));
 
   --radius-sm:  8px;
-  --radius-md:  14px;
-  --radius-lg:  22px;
+  --radius-md:  var(--bo-radius-card, 14px);
+  --radius-lg:  var(--bo-radius-section, 22px);
   --radius-xl:  28px;
-  --radius-pill: 999px;
+  --radius-pill: var(--bo-radius-pill, 999px);
 
   --shadow-soft: 0 2px 12px rgba(42, 31, 10, .06);
-  --shadow-card: 0 8px 28px rgba(42, 31, 10, .08), 0 1px 3px rgba(42, 31, 10, .05);
-  --shadow-lift: 0 18px 44px rgba(42, 31, 10, .14), 0 4px 12px rgba(201, 168, 76, .12);
+  --shadow-card: var(--bo-shadow-card, 0 8px 28px rgba(42, 31, 10, .08), 0 1px 3px rgba(42, 31, 10, .05));
+  --shadow-lift: var(--bo-shadow-card-hover, 0 18px 44px rgba(42, 31, 10, .14), 0 4px 12px rgba(201, 168, 76, .12));
   --shadow-modal: 0 30px 80px rgba(18, 17, 14, .35), 0 8px 24px rgba(42, 31, 10, .12);
 
   --ease: cubic-bezier(.22, 1, .36, 1);
@@ -46,7 +46,7 @@
   --t-base: 260ms var(--ease);
   --t-slow: 420ms var(--ease);
 
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-display: var(--bo-font-heading, 'Playfair Display', Georgia, serif);
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-mono: 'DM Mono', 'Fira Code', monospace;
 
@@ -81,13 +81,13 @@
 
 /* ── Page Shell ──────────────────────────────────────────── */
 .po-page {
-  width: min(1440px, calc(100% - 48px));
-  max-width: 1440px;
+  width: min(1100px, calc(100% - 48px));
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 0 4rem;
   font-family: var(--font-sans);
   color: var(--text-primary);
-  background: var(--bg-main);
+  background: transparent;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -95,13 +95,17 @@
 ═══════════════════════════════════════════════════════════ */
 .po-hero {
   position: relative;
-  background: var(--ink-900);
-  border-radius: var(--radius-xl);
+  background-image:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    var(--bo-hero-bg);
+  border-radius: var(--bo-radius-section, var(--radius-xl));
   margin: 0 0 2.25rem;
   padding: 3.25rem 2.5rem 2rem;
   overflow: hidden;
   isolation: isolate;
   animation: po-fade-up 0.6s var(--ease) both;
+  transition: background-color var(--bo-transition, 0.2s ease);
 }
 
 .po-hero__blob {
@@ -196,7 +200,7 @@
   font-size: clamp(2.1rem, 4vw, 3.15rem);
   line-height: 1.08;
   letter-spacing: -0.01em;
-  color: #fbf6ea;
+  color: var(--bo-color-text, #fbf6ea);
   margin: 0 0 .85rem;
 }
 
@@ -211,7 +215,7 @@
 .po-hero__subtitle {
   font-size: .98rem;
   line-height: 1.6;
-  color: rgba(251, 246, 234, .62);
+  color: var(--bo-color-text-muted, rgba(251, 246, 234, .62));
   margin: 0 0 1.75rem;
   max-width: 38ch;
 }
@@ -245,8 +249,8 @@
   display: flex;
   align-items: stretch;
   gap: 0;
-  background: rgba(255, 255, 255, .045);
-  border: 1px solid rgba(255, 255, 255, .08);
+  background: var(--bo-bg-surface-hover, rgba(255, 255, 255, .045));
+  border: var(--bo-border-surface-hover, rgba(255, 255, 255, .08));
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-radius: var(--radius-lg);
@@ -267,14 +271,14 @@
   font-weight: 600;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: rgba(251, 246, 234, .45);
+  color: var(--bo-color-text-muted, rgba(251, 246, 234, .45));
 }
 
 .po-hero__stat-value {
   font-family: var(--font-display);
   font-size: 1.45rem;
   font-weight: 600;
-  color: #fbf6ea;
+  color: var(--bo-color-text, #fbf6ea);
   letter-spacing: -.01em;
 }
 
@@ -1091,3 +1095,8 @@
   .po-balance-card__amount { font-size: 1.5rem; }
   .po-hero__title { font-size: 1.85rem; }
 }
+
+/* Dark mode: --bg-main / --bg-soft / --bg-card / --text-primary /
+   --text-muted / --gold above already reference the shared
+   var(--bo-*) tokens directly, so every rule in this file that
+   consumes them repaints automatically when data-bo-theme flips. */

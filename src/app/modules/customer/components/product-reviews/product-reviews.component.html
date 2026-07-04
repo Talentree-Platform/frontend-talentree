@@ -1,0 +1,371 @@
+<!-- ═══════════════════════════════════════════════════════
+     PRODUCT REVIEWS SECTION
+     Compatible with Talentree customer design system
+     ═══════════════════════════════════════════════════════ -->
+
+<section class="rv-section" id="product-reviews">
+
+  <!-- ── SECTION HEADER ──────────────────────────────────── -->
+  <div class="rv-header">
+    <div class="rv-header__left">
+      <span class="rv-eyebrow">Verified Buyers</span>
+      <h2 class="rv-title">Customer Reviews</h2>
+    </div>
+    <button
+      type="button"
+      class="rv-write-btn"
+      (click)="showForm.set(!showForm())"
+    >
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M13.586 3.586a2 2 0 1 1 2.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+          stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      {{ showForm() ? 'Cancel' : 'Write a Review' }}
+    </button>
+  </div>
+
+  <!-- ── RATING OVERVIEW + DISTRIBUTION ─────────────────── -->
+  @if (distLoading()) {
+    <div class="rv-overview rv-overview--loading">
+      <div class="rv-skel rv-skel--circle"></div>
+      <div class="rv-dist-skel">
+        <div class="rv-skel rv-skel--bar"></div>
+        <div class="rv-skel rv-skel--bar"></div>
+        <div class="rv-skel rv-skel--bar"></div>
+        <div class="rv-skel rv-skel--bar"></div>
+        <div class="rv-skel rv-skel--bar"></div>
+      </div>
+    </div>
+  } @else if (distribution()) {
+    <div class="rv-overview">
+      <!-- Left: Big Score -->
+      <div class="rv-score">
+        <span class="rv-score__number">{{ avgRating().toFixed(1) }}</span>
+        <div class="rv-score__stars" aria-hidden="true">
+          @for (s of starsArray(5); track s) {
+            <svg class="rv-star" [class.rv-star--filled]="s <= avgRating()" viewBox="0 0 20 20">
+              <path d="M10 1l2.39 4.84L18 6.83l-4 3.9.94 5.5L10 13.77l-4.94 2.46.94-5.5-4-3.9 5.61-.99L10 1z"/>
+            </svg>
+          }
+        </div>
+        <span class="rv-score__count">{{ totalCount() }} review{{ totalCount() !== 1 ? 's' : '' }}</span>
+      </div>
+
+      <!-- Divider -->
+      <div class="rv-overview__divider"></div>
+
+      <!-- Right: Star Bars -->
+      <div class="rv-dist">
+        @for (row of starBreakdown(); track row.star) {
+          <button
+            type="button"
+            class="rv-dist__row"
+            [class.rv-dist__row--active]="ratingFilter() === row.star"
+            (click)="setRatingFilter(ratingFilter() === row.star ? null : row.star)"
+            [attr.aria-label]="row.star + ' star reviews (' + row.count + ')'"
+          >
+            <span class="rv-dist__label">{{ row.star }}★</span>
+            <div class="rv-dist__bar-wrap">
+              <div class="rv-dist__bar" [style.width.%]="row.pct"></div>
+            </div>
+            <span class="rv-dist__count">{{ row.count }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    @if (ratingFilter() !== null) {
+      <div class="rv-filter-active">
+        Showing {{ ratingFilter() }}-star reviews only
+        <button type="button" class="rv-filter-clear" (click)="setRatingFilter(null)">
+          Clear filter
+        </button>
+      </div>
+    }
+  }
+
+  <!-- ── WRITE REVIEW FORM ────────────────────────────────── -->
+  @if (showForm()) {
+    <div class="rv-form-wrap">
+      <h3 class="rv-form__title">Share Your Experience</h3>
+
+      <!-- Star selector -->
+      <div class="rv-form__field">
+        <label class="rv-form__label">Your Rating <span class="rv-required">*</span></label>
+        <div class="rv-star-picker" (mouseleave)="clearHover()">
+          @for (s of starsArray(5); track s) {
+            <button
+              type="button"
+              class="rv-star-btn"
+              [class.rv-star-btn--filled]="s <= (formHoverRating || formRating)"
+              (mouseenter)="hoverRating(s)"
+              (click)="setFormRating(s)"
+              [attr.aria-label]="s + ' stars'"
+            >★</button>
+          }
+        </div>
+        @if (formRating > 0) {
+          <span class="rv-form__hint">{{ ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][formRating] }}</span>
+        }
+      </div>
+
+      <!-- Title -->
+      <div class="rv-form__field">
+        <label class="rv-form__label" for="rv-title">Review Title</label>
+        <input
+          id="rv-title"
+          type="text"
+          class="rv-form__input"
+          placeholder="Summarise your experience…"
+          [(ngModel)]="formTitle"
+          maxlength="120"
+        />
+      </div>
+
+      <!-- Body -->
+      <div class="rv-form__field">
+        <label class="rv-form__label" for="rv-body">Review <span class="rv-required">*</span></label>
+        <textarea
+          id="rv-body"
+          class="rv-form__textarea"
+          rows="4"
+          placeholder="Tell us what you think about this product…"
+          [(ngModel)]="formText"
+          maxlength="2000"
+        ></textarea>
+        <span class="rv-form__char-count">{{ formText.length }}/2000</span>
+      </div>
+
+      <!-- Photos -->
+      <div class="rv-form__field">
+        <label class="rv-form__label" for="rv-photos">Photos (optional, up to 5)</label>
+        <label class="rv-photo-upload" for="rv-photos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M21 15V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          {{ formPhotos.length > 0 ? formPhotos.length + ' file(s) selected' : 'Upload photos' }}
+        </label>
+        <input
+          id="rv-photos"
+          type="file"
+          multiple
+          accept="image/*"
+          class="rv-form__file-input"
+          (change)="onPhotosChange($event)"
+        />
+      </div>
+
+      <!-- Anonymous -->
+      <div class="rv-form__field rv-form__field--row">
+        <label class="rv-toggle" for="rv-anon">
+          <input
+            id="rv-anon"
+            type="checkbox"
+            [(ngModel)]="formAnonymous"
+          />
+          <span class="rv-toggle__track"></span>
+          <span class="rv-toggle__label">Post anonymously</span>
+        </label>
+      </div>
+
+      <!-- Error / Success -->
+      @if (submitError()) {
+        <div class="rv-alert rv-alert--error">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="10" cy="10" r="8"/>
+            <path d="M10 6v4M10 14h.01"/>
+          </svg>
+          {{ submitError() }}
+        </div>
+      }
+      @if (submitSuccess()) {
+        <div class="rv-alert rv-alert--success">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="10" cy="10" r="8"/>
+            <path d="M7 10l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Review submitted successfully! Thank you.
+        </div>
+      }
+
+      <!-- Actions -->
+      <div class="rv-form__actions">
+        <button
+          type="button"
+          class="rv-btn rv-btn--ghost"
+          (click)="showForm.set(false)"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="rv-btn rv-btn--primary"
+          [disabled]="formRating === 0 || !formText.trim() || submitting()"
+          (click)="submitReview()"
+        >
+          @if (submitting()) {
+            <span class="rv-spinner"></span> Submitting…
+          } @else {
+            Submit Review
+          }
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- ── SORT + FILTER TOOLBAR ──────────────────────────── -->
+  <div class="rv-toolbar">
+    <span class="rv-toolbar__label">Sort by:</span>
+    <div class="rv-sort-tabs">
+      @for (opt of [{val:'newest', label:'Newest'}, {val:'highest', label:'Highest Rated'}, {val:'lowest', label:'Lowest Rated'}, {val:'helpful', label:'Most Helpful'}]; track opt.val) {
+        <button
+          type="button"
+          class="rv-sort-tab"
+          [class.rv-sort-tab--active]="sortBy() === opt.val"
+          (click)="setSortBy(opt.val)"
+        >{{ opt.label }}</button>
+      }
+    </div>
+  </div>
+
+  <!-- ── REVIEWS LIST ────────────────────────────────────── -->
+  @if (reviewsLoading()) {
+    <div class="rv-list">
+      @for (n of [1,2,3]; track n) {
+        <div class="rv-card rv-card--skeleton">
+          <div class="rv-skel rv-skel--avatar"></div>
+          <div class="rv-skel-lines">
+            <div class="rv-skel rv-skel--line" style="width:40%"></div>
+            <div class="rv-skel rv-skel--line" style="width:20%"></div>
+            <div class="rv-skel rv-skel--line" style="width:100%"></div>
+            <div class="rv-skel rv-skel--line" style="width:80%"></div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (reviewsError()) {
+    <div class="rv-empty">
+      <svg viewBox="0 0 60 60" fill="none" aria-hidden="true">
+        <circle cx="30" cy="30" r="28" stroke="#E8D5A3" stroke-width="2"/>
+        <path d="M22 22l16 16M38 22L22 38" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <p>{{ reviewsError() }}</p>
+      <button type="button" class="rv-btn rv-btn--ghost" (click)="loadReviews()">Try Again</button>
+    </div>
+  } @else if (reviewList().length === 0) {
+    <div class="rv-empty">
+      <svg viewBox="0 0 60 60" fill="none" aria-hidden="true">
+        <circle cx="30" cy="30" r="28" stroke="#E8D5A3" stroke-width="2"/>
+        <path d="M20 30h20M30 20v20" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <p>No reviews yet. Be the first to share your experience!</p>
+    </div>
+  } @else {
+    <div class="rv-list">
+      @for (review of reviewList(); track review.id) {
+        <article class="rv-card">
+          <!-- Card header -->
+          <div class="rv-card__header">
+            <div class="rv-card__avatar">{{ getInitials(review.isAnonymous ? 'Anonymous' : review.customerName) }}</div>
+            <div class="rv-card__meta">
+              <span class="rv-card__name">{{ review.isAnonymous ? 'Anonymous' : review.customerName }}</span>
+              <div class="rv-card__stars" [attr.aria-label]="review.rating + ' out of 5 stars'">
+                @for (s of starsArray(5); track s) {
+                  <svg class="rv-mini-star" [class.rv-mini-star--filled]="s <= review.rating" viewBox="0 0 20 20">
+                    <path d="M10 1l2.39 4.84L18 6.83l-4 3.9.94 5.5L10 13.77l-4.94 2.46.94-5.5-4-3.9 5.61-.99L10 1z"/>
+                  </svg>
+                }
+              </div>
+            </div>
+            <span class="rv-card__date">{{ formatDate(review.createdAt) }}</span>
+          </div>
+
+          <!-- Review title -->
+          @if (review.reviewTitle) {
+            <h4 class="rv-card__review-title">{{ review.reviewTitle }}</h4>
+          }
+
+          <!-- Review body -->
+          <p class="rv-card__body">{{ review.reviewText }}</p>
+
+          <!-- Photos -->
+          @if (review.photoUrls.length > 0) {
+            <div class="rv-card__photos">
+              @for (url of review.photoUrls; track url) {
+                <img [src]="url" [alt]="'Review photo'" class="rv-card__photo" loading="lazy" />
+              }
+            </div>
+          }
+
+          <!-- Owner response -->
+          @if (review.ownerResponse) {
+            <div class="rv-card__response">
+              <span class="rv-card__response-label">Seller Response</span>
+              <p>{{ review.ownerResponse }}</p>
+            </div>
+          }
+
+          <!-- Footer -->
+          <div class="rv-card__footer">
+            <span class="rv-card__helpful-label">Helpful?</span>
+            <button
+              type="button"
+              class="rv-card__helpful-btn"
+              [class.rv-card__helpful-btn--voted]="votedIds().has(review.id)"
+              [disabled]="votedIds().has(review.id)"
+              (click)="voteHelpful(review)"
+              [attr.aria-label]="'Mark review as helpful (' + review.helpfulVotes + ')'"
+            >
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                <path d="M14 10h3l-4-7v4H6a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h5l3-6z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ review.helpfulVotes }}
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+
+    <!-- Pagination -->
+    @if (totalPages() > 1) {
+      <nav class="rv-pagination" aria-label="Reviews pagination">
+        <button
+          type="button"
+          class="rv-page-btn"
+          [disabled]="!hasPrev()"
+          (click)="goToPage(currentPage() - 1)"
+          aria-label="Previous page"
+        >
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M10 3L5 8l5 5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        @for (p of pages(); track p) {
+          <button
+            type="button"
+            class="rv-page-btn rv-page-btn--number"
+            [class.rv-page-btn--active]="p === currentPage()"
+            (click)="goToPage(p)"
+            [attr.aria-current]="p === currentPage() ? 'page' : null"
+          >{{ p }}</button>
+        }
+
+        <button
+          type="button"
+          class="rv-page-btn"
+          [disabled]="!hasNext()"
+          (click)="goToPage(currentPage() + 1)"
+          aria-label="Next page"
+        >
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M6 3l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </nav>
+    }
+  }
+
+</section>

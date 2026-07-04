@@ -1,0 +1,207 @@
+<div class="dashboard-page animate-fade-in" [class.light-theme]="themeSvc.isLight">
+  
+  <!-- Grain Overlay for texture matching user style -->
+  <div class="page-grain"></div>
+
+  <!-- Header Panel -->
+  <header class="dashboard-header">
+    <div class="header-main">
+      <div class="title-section">
+        <span class="eyebrow">AI POWERED DECISION ENGINE</span>
+        <h1 class="headline">Business Insights <em>Control Center</em></h1>
+        <p class="sub-headline">Real-time indicators, machine learning audit reports, and predictive analysis.</p>
+      </div>
+
+      <!-- Actions wrapper containing reporting filters (theme is switched from the shared top-nav toggle) -->
+      <div class="actions-wrapper">
+        <div class="controls-section" *ngIf="activeTab !== 'predictions'">
+          <label for="periodSelect" class="filter-label">Reporting Range:</label>
+          <div class="select-wrap">
+            <select id="periodSelect" [(ngModel)]="selectedPeriod" (change)="onPeriodChange()" [disabled]="loadingAnalytics" class="period-select">
+              <option value="Daily">Daily Activity</option>
+              <option value="Weekly">Weekly Timeline</option>
+              <option value="Monthly">Monthly Summary</option>
+              <option value="Yearly">Yearly Analysis</option>
+            </select>
+            <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs-wrapper">
+      <nav class="nav-tabs" aria-label="Dashboard sections">
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'overview'" 
+          (click)="switchTab('overview')">
+          <span class="tab-icon"><i class="fa-solid fa-gauge-high"></i></span>
+          <span class="tab-text">Overview Metrics</span>
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'revenue'" 
+          (click)="switchTab('revenue')">
+          <span class="tab-icon"><i class="fa-solid fa-chart-column"></i></span>
+          <span class="tab-text">Revenue & Orders</span>
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'reviews'" 
+          (click)="switchTab('reviews')">
+          <span class="tab-icon"><i class="fa-solid fa-brain"></i></span>
+          <span class="tab-text">Review Intelligence</span>
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'predictions'"
+          (click)="switchTab('predictions')">
+          <span class="tab-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+          <span class="tab-text">AI Prediction Center</span>
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'platform'"
+          (click)="switchTab('platform')">
+          <span class="tab-icon"><i class="fa-solid fa-scale-balanced"></i></span>
+          <span class="tab-text">Benchmark &amp; Tools</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Error Banners -->
+  <div class="error-container glass-card" *ngIf="errorOverview || errorAnalytics">
+    <div class="error-content">
+      <span class="error-icon"><i class="fa-solid fa-circle-exclamation"></i></span>
+      <div class="error-desc">
+        <h3>Connection Interrupted</h3>
+        <p>Could not connect to the business AI statistics server. Please check your network or try again.</p>
+      </div>
+      <button (click)="retryLoad()" class="btn-primary retry-btn">
+        <i class="fa-solid fa-rotate-right"></i> Retry Connection
+      </button>
+    </div>
+  </div>
+
+  <!-- Main View Area -->
+  <main class="dashboard-body" *ngIf="!errorOverview && !errorAnalytics">
+    
+    <!-- Tab 1: Overview KPIs -->
+    @if (activeTab === 'overview') {
+      <div class="tab-content animate-slide-up">
+        <app-dashboard-cards 
+          [overview]="overviewData" 
+          [loading]="loadingOverview">
+        </app-dashboard-cards>
+      </div>
+    }
+
+    <!-- Tab 2: Revenue Analytics -->
+    @if (activeTab === 'revenue') {
+      <div class="tab-content animate-slide-up">
+        
+        <!-- Summary Strip -->
+        <div class="analytics-summary-row" *ngIf="revenueData && !loadingAnalytics">
+          <div class="summary-item glass-card">
+            <span class="lbl">Total Revenue</span>
+            <span class="val highlight-gold">{{ revenueData.total_revenue | currency:'USD':'symbol':'1.2-2' }}</span>
+            <div class="trend-badge" [ngClass]="revenueData.overall_trend.toLowerCase().includes('ris') ? 'trend-up' : 'trend-down'">
+              <i class="fa-solid" [ngClass]="revenueData.overall_trend.toLowerCase().includes('ris') ? 'fa-circle-arrow-up' : 'fa-circle-arrow-down'"></i>
+              {{ revenueData.overall_trend }}
+            </div>
+          </div>
+          
+          <div class="summary-item glass-card">
+            <span class="lbl">Avg Order Value</span>
+            <span class="val">{{ revenueData.avg_order_value | currency:'USD':'symbol':'1.2-2' }}</span>
+            <span class="desc">Per completed purchase</span>
+          </div>
+
+          <div class="summary-item glass-card">
+            <span class="lbl">Total Orders Count</span>
+            <span class="val">{{ revenueData.orders_count }}</span>
+            <span class="desc">Placed in current range</span>
+          </div>
+        </div>
+
+        <!-- Shimmer loading state -->
+        <div class="shimmer-analytics" *ngIf="loadingAnalytics">
+          <div class="shimmer-strip">
+            <div class="s-card"></div>
+            <div class="s-card"></div>
+            <div class="s-card"></div>
+          </div>
+          <div class="shimmer-charts">
+            <div class="s-chart"></div>
+            <div class="s-chart"></div>
+          </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-section" *ngIf="revenueData && !loadingAnalytics">
+          <!-- Line chart for Revenue over time -->
+          <app-custom-chart
+            title="Revenue Timeline"
+            subtitle="Gross income trends over selected reporting period"
+            [points]="revenueChartPoints"
+            type="area"
+            strokeColor="var(--chart-revenue-stroke)"
+            fillColor="var(--chart-revenue-fill)"
+            gradientId="revenueGrad"
+            yFormat="currency">
+          </app-custom-chart>
+
+          <!-- Bar chart for Orders -->
+          <app-custom-chart
+            title="Order Submissions Count"
+            subtitle="Volume distribution over selected reporting period"
+            [points]="ordersChartPoints"
+            type="bar"
+            fillColor="var(--chart-orders-fill)"
+            gradientId="ordersGrad"
+            yFormat="number">
+          </app-custom-chart>
+        </div>
+
+      </div>
+    }
+
+    <!-- Tab 3: Reviews Intelligence -->
+    @if (activeTab === 'reviews') {
+      <div class="tab-content animate-slide-up">
+        <app-review-insights 
+          [trends]="reviewTrendsData" 
+          [loading]="loadingAnalytics">
+        </app-review-insights>
+      </div>
+    }
+
+    <!-- Tab 4: AI Predictions -->
+    @if (activeTab === 'predictions') {
+      <div class="tab-content animate-slide-up">
+        <app-prediction-panel></app-prediction-panel>
+      </div>
+    }
+
+    <!-- Tab 5: Benchmark & Tools -->
+    @if (activeTab === 'platform') {
+      <div class="tab-content animate-slide-up platform-tab-grid">
+        <app-ai-benchmark-panel></app-ai-benchmark-panel>
+        <app-ai-model-status-panel></app-ai-model-status-panel>
+        <app-ai-self-service-tools></app-ai-self-service-tools>
+
+        <a class="platform-tools-link glass-card" routerLink="/businessowner/ai-platform-tools">
+          <div class="platform-tools-link__text">
+            <span class="platform-tools-link__title"><i class="fa-solid fa-server"></i> Platform-Wide AI Maintenance</span>
+            <span class="platform-tools-link__desc">Recompute data, retrain models, and run notification sweeps for the whole platform.</span>
+          </div>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    }
+
+  </main>
+
+</div>

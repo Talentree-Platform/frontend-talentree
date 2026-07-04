@@ -1,24 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 :host {
-  --gold:        #B8860B;
+  --gold:        var(--bo-accent, #B8860B);
   --gold-light:  #C9952A;
-  --gold-pale:   #FBF3E2;
-  --gold-border: #E8D5A3;
-  --cream:       #FDFAF4;
-  --surface:     #FFFFFF;
-  --border:      #EDE8DF;
-  --border-soft: #F4EFE7;
-  --text-dark:   #18130A;
-  --text-mid:    #5C5244;
-  --text-soft:   #A09280;
+  --gold-pale:   var(--bo-accent-soft, #FBF3E2);
+  --gold-border: var(--bo-border-surface-hover, #E8D5A3);
+  --cream:       var(--bo-bg-page, #FDFAF4);
+  --surface:     var(--bo-bg-surface, #FFFFFF);
+  --border:      var(--bo-border-surface, #EDE8DF);
+  --border-soft: var(--bo-border-surface, #F4EFE7);
+  --text-dark:   var(--bo-color-text, #18130A);
+  --text-mid:    var(--bo-color-text-muted, #5C5244);
+  --text-soft:   var(--bo-color-text-muted, #A09280);
   --green:       #27A06B;
   --green-pale:  #EDFAF4;
   --red:         #D94040;
   --red-pale:    #FEF2F2;
-  --shadow-sm:   0 1px 3px rgba(184,134,11,.07), 0 1px 2px rgba(0,0,0,.04);
-  --shadow-md:   0 4px 20px rgba(184,134,11,.12), 0 2px 8px rgba(0,0,0,.06);
-  --shadow-lg:   0 8px 32px rgba(184,134,11,.16), 0 4px 12px rgba(0,0,0,.08);
+  --shadow-sm:   var(--bo-shadow-card, 0 1px 3px rgba(184,134,11,.07), 0 1px 2px rgba(0,0,0,.04));
+  --shadow-md:   var(--bo-shadow-card, 0 4px 20px rgba(184,134,11,.12), 0 2px 8px rgba(0,0,0,.06));
+  --shadow-lg:   var(--bo-shadow-card-hover, 0 8px 32px rgba(184,134,11,.16), 0 4px 12px rgba(0,0,0,.08));
+
+  display: block;
 }
 
 /* ══════════════════════════════════════
@@ -26,11 +28,11 @@
 ══════════════════════════════════════ */
 .rmp-page {
   font-family: 'DM Sans', sans-serif;
-  background: var(--cream);
+  background: transparent;
   min-height: 100vh;
   padding: 28px;
   box-sizing: border-box;
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   animation: fadeUp .4s cubic-bezier(.22,1,.36,1) both;
 }
@@ -168,7 +170,7 @@
 }
 
 .rmp-details__name {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.9rem;
   font-weight: 700;
   color: var(--text-dark);
@@ -386,7 +388,7 @@
 }
 
 .rmp-section__title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--text-dark);

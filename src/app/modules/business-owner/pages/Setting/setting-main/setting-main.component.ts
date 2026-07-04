@@ -20,6 +20,7 @@ export class SettingMainComponent implements OnInit, OnDestroy {
 
   profilePhoto?: File;
   profilePreview: string | null = null;
+  readonly defaultAvatar = 'https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg';
 
   currentProfile: ProfileData | null = null;
   private profileSub?: Subscription;
@@ -83,6 +84,13 @@ export class SettingMainComponent implements OnInit, OnDestroy {
     }
   }
 
+  onAvatarError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (img.src !== this.defaultAvatar) {
+      img.src = this.defaultAvatar;
+    }
+  }
+
   submit() {
     if (this.profileForm.invalid) return;
     this.isLoading = true;
@@ -94,6 +102,7 @@ export class SettingMainComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.isLoading = false;
         this._ToastrService.info(res.message, 'Talentree', { timeOut: 2000, closeButton: true });
+        this._OwnerSettingService.refreshCurrentProfile();
       },
       error: (err) => {
         this.isLoading = false;

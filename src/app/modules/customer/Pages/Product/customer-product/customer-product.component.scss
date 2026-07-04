@@ -26,8 +26,12 @@ $bp-sm: 600px;
 // ── Page header ───────────────────────────────────────────────────────────────
 .catalog-header {
   background: linear-gradient(135deg, #1c1508 0%, #2b1c07 100%);
-  padding: 36px 0 32px;
+  padding: 120px 0 32px;
   border-bottom: 1px solid rgba($gold-border, 0.15);
+
+  @media (max-width: $bp-md) {
+    padding: 96px 0 24px;
+  }
 }
 
 .catalog-header__inner {

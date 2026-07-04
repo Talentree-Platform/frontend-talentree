@@ -1,0 +1,627 @@
+// ==========================================================================
+// Talentree — Customer Marketplace Navbar
+// Modern luxury industrial marketplace aesthetic
+// ==========================================================================
+
+:host {
+  // Brand Color Tokens
+  --nav-bg-deep: #18130a;
+  --nav-bg-deep-alt: #1a1108;
+  --nav-gold: #b8860b;
+  --nav-gold-bright: #c9952a;
+  --nav-gold-soft: rgba(201, 149, 42, 0.12);
+  --nav-text: #fbf3e2;
+  --nav-text-muted: rgba(251, 243, 226, 0.65);
+  --nav-danger: #c97a5a;
+
+  // Glassmorphism System
+  --nav-glass-bg: rgba(24, 19, 10, 0.45); // Highly transparent over hero
+  --nav-glass-bg-scrolled: rgba(24, 19, 10, 0.85); // More opaque when scrolled over content
+  --nav-blur: 16px;
+  
+  --nav-radius: 40px;
+  --nav-margin-top: 16px;
+  --nav-margin-x: 24px;
+  --nav-transition: 350ms cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  display: contents;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+// --------------------------------------------------------------------------
+// Positioning & Shell
+// --------------------------------------------------------------------------
+
+.navbar-shell {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  pointer-events: none; // only the navbar is interactive
+  padding: var(--nav-margin-top) var(--nav-margin-x) 0;
+  transition: padding var(--nav-transition);
+}
+
+.navbar {
+  position: relative;
+  pointer-events: auto;
+  width: 100%;
+  max-width: 1240px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 12px 28px;
+
+  background: var(--nav-glass-bg);
+  backdrop-filter: blur(var(--nav-blur));
+  -webkit-backdrop-filter: blur(var(--nav-blur));
+  border: 1px solid rgba(201, 149, 42, 0.15);
+  border-radius: var(--nav-radius);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.25),
+    0 1px 0 rgba(255, 255, 255, 0.05) inset;
+
+  overflow: hidden;
+  animation: navbar-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    padding var(--nav-transition),
+    background var(--nav-transition),
+    box-shadow var(--nav-transition),
+    border-color var(--nav-transition),
+    border-radius var(--nav-transition);
+
+  &--scrolled {
+    padding: 8px 24px;
+    background: var(--nav-glass-bg-scrolled);
+    border-color: rgba(201, 149, 42, 0.28);
+    box-shadow: 
+      0 12px 35px rgba(0, 0, 0, 0.35),
+      0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  }
+}
+
+@keyframes navbar-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Glass reflection overlay
+.navbar__glass-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  mix-blend-mode: overlay;
+}
+
+// Scroll progress bar
+.navbar__scroll-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1.5px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--nav-gold) 0%, var(--nav-gold-bright) 100%);
+  box-shadow: 0 0 6px rgba(201, 149, 42, 0.5);
+  transition: width 100ms linear;
+}
+
+// --------------------------------------------------------------------------
+// Logo Section
+// --------------------------------------------------------------------------
+
+.navbar__logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 4px;
+  text-decoration: none;
+  transition: transform var(--nav-transition);
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--nav-gold-bright);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+}
+
+.navbar__logo-glow {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 149, 42, 0.2) 0%, rgba(201, 149, 42, 0) 70%);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity var(--nav-transition), transform var(--nav-transition);
+}
+
+.navbar__logo-img {
+  position: relative;
+  height: 30px;
+  width: auto;
+  display: block;
+  transition: filter var(--nav-transition);
+}
+
+.navbar__logo:hover .navbar__logo-glow {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.navbar__logo:hover .navbar__logo-img {
+  filter: drop-shadow(0 0 8px rgba(201, 149, 42, 0.4));
+}
+
+// --------------------------------------------------------------------------
+// Navigation Links
+// --------------------------------------------------------------------------
+
+.navbar__links {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar__link-item {
+  display: flex;
+}
+
+.navbar__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8px 18px;
+  color: var(--nav-text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transition: color var(--nav-transition);
+
+  // Hide the dot indicator for a cleaner look
+  .navbar__link-dot {
+    display: none !important;
+  }
+
+  &:hover {
+    color: var(--nav-text);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--nav-gold-bright);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  &--active {
+    color: #ffffff;
+    font-weight: 600;
+  }
+}
+
+.navbar__link-underline {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 0px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--nav-gold) 0%, var(--nav-gold-bright) 100%);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform 300ms cubic-bezier(0.25, 0.8, 0.25, 1), opacity 300ms ease;
+
+  &.is-visible {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.navbar__link:hover .navbar__link-underline:not(.is-visible) {
+  transform: scaleX(0.5);
+  opacity: 0.5;
+}
+
+// --------------------------------------------------------------------------
+// Actions (Cart, Wishlist, Logout)
+// --------------------------------------------------------------------------
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.navbar__divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(201, 149, 42, 0.2);
+  margin: 0 4px;
+}
+
+.navbar__icon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--nav-text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color var(--nav-transition),
+    background var(--nav-transition),
+    border-color var(--nav-transition),
+    transform var(--nav-transition),
+    box-shadow var(--nav-transition);
+
+  &:hover,
+  &:focus-visible {
+    color: #ffffff;
+    background: rgba(201, 149, 42, 0.15);
+    border-color: rgba(201, 149, 42, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(201, 149, 42, 0.15);
+  }
+
+  &--active {
+    color: #ffffff;
+    border-color: rgba(201, 149, 42, 0.35);
+    background: rgba(201, 149, 42, 0.12);
+  }
+}
+
+.navbar__icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.8;
+}
+
+.navbar__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  color: #18130a;
+  background: linear-gradient(135deg, #fbf3e2, var(--nav-gold-bright));
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(201, 149, 42, 0.4);
+  animation: badge-pulse 2s infinite;
+}
+
+@keyframes badge-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(201, 149, 42, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 6px rgba(201, 149, 42, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(201, 149, 42, 0);
+  }
+}
+
+// Sleek Logout Button
+.navbar__logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--nav-radius);
+  border: 1px solid rgba(201, 149, 42, 0.2);
+  background: transparent;
+  color: var(--nav-text-muted);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    color var(--nav-transition),
+    background var(--nav-transition),
+    border-color var(--nav-transition),
+    transform var(--nav-transition);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--nav-danger);
+    background: rgba(201, 122, 90, 0.08);
+    border-color: rgba(201, 122, 90, 0.3);
+    transform: translateY(-1px);
+  }
+}
+
+.navbar__logout-label {
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+// Hamburger menu button (Mobile only)
+.navbar__hamburger {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 149, 42, 0.2);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: background var(--nav-transition), border-color var(--nav-transition);
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(201, 149, 42, 0.1);
+    border-color: rgba(201, 149, 42, 0.3);
+  }
+}
+
+.navbar__hamburger-line {
+  width: 16px;
+  height: 1.5px;
+  background: var(--nav-text);
+  border-radius: 2px;
+  transition: transform 250ms ease, opacity 250ms ease;
+
+  &:nth-child(1).is-open {
+    transform: translateY(5.5px) rotate(45deg);
+  }
+  &:nth-child(2).is-open {
+    opacity: 0;
+  }
+  &:nth-child(3).is-open {
+    transform: translateY(-5.5px) rotate(-45deg);
+  }
+}
+
+// --------------------------------------------------------------------------
+// Responsive Rules
+// --------------------------------------------------------------------------
+
+@media (max-width: 1024px) {
+  :host {
+    --nav-margin-x: 16px;
+    --nav-margin-top: 12px;
+  }
+
+  .navbar {
+    gap: 16px;
+    padding: 10px 20px;
+  }
+
+  .navbar__link {
+    padding: 6px 12px;
+    font-size: 13.5px;
+  }
+}
+
+@media (max-width: 780px) {
+  :host {
+    --nav-margin-x: 12px;
+    --nav-margin-top: 12px;
+  }
+
+  .navbar__links {
+    display: none;
+  }
+
+  .navbar__hamburger {
+    display: flex;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Mobile Drawer & Overlay
+// --------------------------------------------------------------------------
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  background: rgba(10, 8, 4, 0.6);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--nav-transition);
+
+  &.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1002;
+  width: min(300px, 80vw);
+  display: flex;
+  flex-direction: column;
+  background: rgba(18, 14, 8, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(201, 149, 42, 0.18);
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.6);
+  border-radius: 20px 0 0 20px;
+  padding: 24px;
+  transform: translateX(100%);
+  transition: transform 300ms cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  &.is-open {
+    transform: translateX(0);
+  }
+}
+
+.drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.drawer__title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nav-text-muted);
+}
+
+.drawer__close {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 149, 42, 0.2);
+  background: transparent;
+  color: var(--nav-text);
+  cursor: pointer;
+  transition: background var(--nav-transition);
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(201, 149, 42, 0.1);
+  }
+}
+
+.drawer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drawer__link {
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--nav-text-muted);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: color var(--nav-transition), background var(--nav-transition);
+
+  &:hover,
+  &:focus-visible {
+    color: #ffffff;
+    background: rgba(201, 149, 42, 0.08);
+  }
+
+  &--active {
+    color: #ffffff;
+    background: rgba(201, 149, 42, 0.12);
+    border-left: 3px solid var(--nav-gold-bright);
+    border-radius: 0 12px 12px 0;
+  }
+}
+
+.drawer__footer {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(201, 149, 42, 0.12);
+}
+
+.drawer__logout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(201, 149, 42, 0.2);
+  background: transparent;
+  color: var(--nav-text-muted);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--nav-transition), background var(--nav-transition), border-color var(--nav-transition);
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--nav-danger);
+    background: rgba(201, 122, 90, 0.08);
+    border-color: rgba(201, 122, 90, 0.3);
+  }
+}
+
+// --------------------------------------------------------------------------
+// Accessibility: Reduced Motion
+// --------------------------------------------------------------------------
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar,
+  .navbar__logo-glow,
+  .navbar__icon-btn,
+  .navbar__link,
+  .navbar__link-underline,
+  .drawer,
+  .drawer-backdrop,
+  .navbar__hamburger-line,
+  .navbar__badge {
+    animation: none !important;
+    transition-duration: 1ms !important;
+  }
+}

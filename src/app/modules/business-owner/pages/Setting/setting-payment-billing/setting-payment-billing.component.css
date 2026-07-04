@@ -2,23 +2,23 @@
    TOKENS  (mirror of settings-main)
 ───────────────────────────────────────────────────────────── */
 :host {
-  --gold:          #C9A84C;
+  --gold:          var(--bo-accent, #C9A84C);
   --gold-light:    #e2c675;
   --gold-dim:      rgba(201,168,76,.15);
   --gold-glow:     rgba(201,168,76,.28);
 
-  --surface-0:     #fffdf7;
-  --surface-1:     #fdf6e8;
+  --surface-0:     var(--bo-bg-surface, #fffdf7);
+  --surface-1:     var(--bo-bg-surface-hover, #fdf6e8);
 
-  --ink:           #2a1f0a;
+  --ink:           var(--bo-color-text, #2a1f0a);
   --ink-mid:       #5a4520;
-  --ink-muted:     #7a6040;
+  --ink-muted:     var(--bo-color-text-muted, #7a6040);
   --ink-faint:     #b89d72;
 
-  --border:        rgba(201,168,76,.22);
-  --border-mid:    rgba(201,168,76,.40);
-  --radius-card:   22px;
-  --radius-input:  14px;
+  --border:        var(--bo-border-surface, rgba(201,168,76,.22));
+  --border-mid:    var(--bo-border-surface-hover, rgba(201,168,76,.40));
+  --radius-card:   var(--bo-radius-section, 22px);
+  --radius-input:  var(--bo-radius-input, 14px);
 
   --shadow-sm:     0 2px 8px  rgba(42,31,10,.06);
   --shadow-md:     0 8px 28px rgba(42,31,10,.10);
@@ -27,7 +27,7 @@
   --tr: 0.26s cubic-bezier(.4,0,.2,1);
 
   display: block;
-  background: var(--surface-0);
+  background: transparent;
   font-family: 'Inter','Segoe UI',system-ui,sans-serif;
   color: var(--ink);
 }
@@ -40,8 +40,8 @@
   flex-direction: column;
   gap: 28px;
   padding: 28px 24px 48px;
-  max-width: 1440px;
-  width: min(1440px, calc(100% - 48px));
+  max-width: 1100px;
+  width: min(1100px, calc(100% - 48px));
   margin: 0 auto;
 }
 
@@ -51,7 +51,10 @@
 .hero {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--surface-1) 0%, var(--surface-0) 60%, #fff9ee 100%);
+  background-image:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    var(--bo-hero-bg, none);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   padding: 44px 48px;
@@ -104,7 +107,7 @@
 }
 
 .hero-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: clamp(28px, 4vw, 42px);
   font-weight: 700;
   line-height: 1.18;
@@ -151,7 +154,7 @@
    PROFILE CARD  (shared with profile page)
 ───────────────────────────────────────────────────────────── */
 .profile-card {
-  background: #fff;
+  background: var(--bo-bg-surface, #fff);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   padding: 40px 44px 44px;
@@ -166,7 +169,7 @@
 .card-header-text   { margin-bottom: 14px; }
 
 .card-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 22px;
   font-weight: 700;
   color: var(--ink);
@@ -252,7 +255,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  background: var(--surface-0);
+  background: transparent;
   border: 1.5px solid var(--border-mid);
   border-radius: var(--radius-input);
   height: 58px;
@@ -264,7 +267,7 @@
 .input-shell.focused {
   border-color: var(--gold);
   box-shadow: 0 0 0 3.5px var(--gold-dim);
-  background: #fff;
+  background: var(--bo-bg-surface, #fff);
 }
 .input-shell.error {
   border-color: #e57373;
@@ -350,7 +353,7 @@
   gap: 8px;
   height: 58px;
   padding: 0 26px;
-  background: var(--surface-0);
+  background: transparent;
   border: 1.5px solid var(--border-mid);
   border-radius: var(--radius-input);
   color: var(--gold);
@@ -498,4 +501,18 @@
     transition-duration: .01ms !important;
     animation-duration: .01ms !important;
   }
+}
+
+
+/* ── Dark mode ─────────────────────────────────────────────── */
+:host-context([data-bo-theme='dark']) .hero {
+  backdrop-filter: blur(6px);
+  border-color: var(--bo-border-surface-hover);
+}
+:host-context([data-bo-theme='dark']) .profile-card {
+  background-color: transparent;
+  background-image: var(--bo-card-gradient);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: var(--bo-border-surface-hover);
 }

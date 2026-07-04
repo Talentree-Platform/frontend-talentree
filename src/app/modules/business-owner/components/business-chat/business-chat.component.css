@@ -37,9 +37,12 @@
 
 /* POPUP BOX */
 .popup {
-  background: white;
+  background: var(--bo-bg-surface, white);
+  border: var(--bo-border-surface, transparent);
+  color: var(--bo-color-text, inherit);
   padding: 20px;
-  border-radius: 12px;
+  border-radius: var(--bo-radius-card, 12px);
+  box-shadow: var(--bo-shadow-card-hover, 0 20px 60px rgba(0,0,0,0.25));
   width: 450px;
   top: 120px;
   bottom: 0;
@@ -47,7 +50,7 @@
   position: fixed;
   animation: fadeIn 0.3s ease;
   z-index: 1000;
-  
+
   /* Add this */
   overflow: hidden; /* lets chat-box handle the scroll, not popup */
 }
@@ -168,7 +171,8 @@
 /* BOT (شمال - أبيض) */
 .bot-message {
   align-self: flex-start;
-  background: #ffffff;
+  background: var(--bo-bg-surface-hover, #ffffff);
+  color: var(--bo-color-text, inherit);
   border-bottom-left-radius: 2px;
 }
 
@@ -180,7 +184,7 @@
   top: 0;
   width: 0;
   height: 0;
-  border-right: 6px solid #ffffff;
+  border-right: 6px solid var(--bo-bg-surface-hover, #ffffff);
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
 }
