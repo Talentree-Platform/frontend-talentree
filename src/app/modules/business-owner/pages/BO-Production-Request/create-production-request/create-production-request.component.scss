@@ -5,9 +5,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap');
 /* ── Tokens ────────────────────────────────────────────────────────────────── */
-:root {
+:host {
   /* Gold palette */
-  --cpr-gold:          #C9A84C;
+  --cpr-gold:          var(--bo-accent);
   --cpr-gold-light:    #e2c675;
   --cpr-gold-bright:   #f0d060;
   --cpr-gold-dim:      rgba(201,168,76,0.14);
@@ -38,10 +38,10 @@
   --cpr-red-soft:      rgba(239,68,68,0.08);
 
   /* Shape */
-  --cpr-radius-card:   24px;
+  --cpr-radius-card:   var(--bo-radius-section);
   --cpr-radius-in:     14px;       /* ← rounded inputs */
   --cpr-radius-btn:    14px;
-  --cpr-radius-pill:   100px;
+  --cpr-radius-pill:   var(--bo-radius-pill);
 
   /* Motion */
   --cpr-tr:            0.22s cubic-bezier(0.4,0,0.2,1);
@@ -51,9 +51,22 @@
 --cpr-font-display:  'Playfair Display', Georgia, serif;
 }
 
+/* Dark mode — redefining these local tokens at the host level cascades to
+   every rule below that already references var(--cpr-cream-*)/--cpr-ink/
+   --cpr-muted/--cpr-border, giving the whole form a real dark counterpart
+   without touching each individual rule. */
+:host-context([data-bo-theme='dark']) {
+  --cpr-cream-1: var(--bo-bg-surface);
+  --cpr-cream-2: var(--bo-bg-surface-hover);
+  --cpr-cream-3: rgba(20, 14, 8, 0.85);
+  --cpr-ink: var(--bo-color-text);
+  --cpr-muted: var(--bo-color-text-muted);
+  --cpr-border: var(--bo-border-surface-hover);
+}
+
 /* ── Page wrapper ──────────────────────────────────────────────────────────── */
 .cpr-page {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 1.25rem 3.5rem;
   display: flex;
@@ -67,15 +80,16 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 .cpr-hero {
   position: relative;
-  background: #0f0c06;
   background-image:
     radial-gradient(ellipse 60% 65% at 88% 15%, rgba(201,168,76,0.22) 0%, transparent 65%),
     radial-gradient(ellipse 45% 55% at 8%  85%, rgba(124,58,237,0.14) 0%, transparent 65%),
-    radial-gradient(ellipse 35% 40% at 50% 50%, rgba(245,158,11,0.07) 0%, transparent 70%);
-  border-radius: 26px;
+    radial-gradient(ellipse 35% 40% at 50% 50%, rgba(245,158,11,0.07) 0%, transparent 70%),
+    var(--bo-hero-bg);
+  border-radius: var(--bo-radius-section);
   overflow: hidden;
   padding: 2.5rem 2.75rem 2.25rem;
   isolation: isolate;
+  transition: background-color var(--bo-transition);
 }
 
 .cpr-hero,
@@ -144,7 +158,7 @@
   font-family: var(--cpr-font-display) !important;
   font-size: clamp(1.6rem, 3.5vw, 2.3rem) !important;
   font-weight: 700 !important;
-  color: #f5f0e8 !important;
+  color: var(--bo-color-text) !important;
   margin: 0 0 0.75rem !important;
   line-height: 1.2 !important;
   letter-spacing: -0.02em;
@@ -152,7 +166,7 @@
 
 .cpr-hero__subtitle {
   font-size: 0.88rem !important;
-  color: rgba(245,240,232,0.55) !important;
+  color: var(--bo-color-text-muted) !important;
   line-height: 1.6;
   margin: 0 0 1.4rem !important;
   max-width: 480px;
@@ -187,7 +201,7 @@
 }
 .cpr-hero-metric__label {
   font-size: 0.63rem !important;
-  color: rgba(245,240,232,0.45) !important;
+  color: var(--bo-color-text-muted) !important;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 600;
@@ -195,7 +209,7 @@
 .cpr-hero-metric__value {
   font-size: 1.05rem !important;
   font-weight: 700 !important;
-  color: #f5f0e8 !important;
+  color: var(--bo-color-text) !important;
   line-height: 1;
 }
 .cpr-hero-metric--gold .cpr-hero-metric__value { color: #f0d060 !important; }
@@ -799,6 +813,38 @@
   flex-shrink: 0;
 }
 @keyframes cpr-spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE — a few surfaces have hardcoded cream backgrounds rather than
+   the local cream/ink tokens (already redefined above), so they need
+   direct overrides too.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  .cpr-card {
+    background: var(--bo-card-gradient);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .cpr-card__header,
+  .cpr-item-card__header {
+    background: rgba(0, 0, 0, 0.18);
+  }
+  .cpr-input,
+  .cpr-textarea {
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .cpr-input:hover,
+  .cpr-input:focus,
+  .cpr-textarea:hover,
+  .cpr-textarea:focus {
+    background: rgba(255, 255, 255, 0.09);
+  }
+  .cpr-item-card {
+    background: var(--bo-card-gradient);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    RESPONSIVE

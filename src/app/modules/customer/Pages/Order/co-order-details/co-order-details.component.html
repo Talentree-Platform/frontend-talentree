@@ -156,7 +156,7 @@
   </div>
 
   <!-- ── MODALS ──────────────────────────────────────────────────────────────── -->
-  @if (showPaymentModal() && order()) {
+  @if (activeModal() === 'payment' && order()) {
     <app-co-payment-modal
       [orderId]="order()!.id"
       [amount]="order()!.totalAmount"
@@ -166,7 +166,7 @@
     ></app-co-payment-modal>
   }
 
-  @if (showCancelModal() && order()) {
+  @if (activeModal() === 'cancel' && order()) {
     <app-co-cancel-modal
       [orderId]="order()!.id"
       [orderNumber]="order()!.orderNumber"
@@ -175,7 +175,7 @@
     ></app-co-cancel-modal>
   }
 
-  @if (showRefundModal() && refundTargetItem() && order()) {
+  @if (activeModal() === 'refund' && refundTargetItem() && order()) {
     <app-co-refund-modal
       [orderId]="order()!.id"
       [item]="refundTargetItem()!"

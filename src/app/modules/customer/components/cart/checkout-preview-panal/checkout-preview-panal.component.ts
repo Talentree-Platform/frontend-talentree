@@ -22,9 +22,12 @@ export class CheckoutPreviewPanelComponent implements OnInit {
   @Input() preview: CheckoutPreview | null = null;
   @Input() loading = false;
   @Input() error: string | null = null;
+  // Bind this to ordersService.checkoutSubmitting() in the parent container
+  @Input() submitting = false;
 
   @Output() close = new EventEmitter<void>();
   @Output() loadPreview = new EventEmitter<ShippingAddress>();
+  @Output() placeOrder = new EventEmitter<ShippingAddress>();
 
   address = signal<ShippingAddress>({
     fullName: '',
@@ -54,6 +57,11 @@ export class CheckoutPreviewPanelComponent implements OnInit {
     this.formSubmitted.set(true);
     if (!this.isFormValid) return;
     this.loadPreview.emit(this.address());
+  }
+
+  onPlaceOrder(): void {
+    if (!this.preview || this.submitting) return;
+    this.placeOrder.emit(this.address());
   }
 
   onBackdropClick(e: Event): void {

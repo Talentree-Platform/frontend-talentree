@@ -1,38 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap');
 
 /* ===================== */
 /* Page shell             */
 /* ===================== */
 
+:host { display: block; }
+
 .financial-page {
-  max-width: 1440px;
-  width: min(1440px, calc(100% - 48px));
+  max-width: 1100px;
+  width: min(1100px, calc(100% - 48px));
   margin: 0 auto;
   padding: 40px 0 64px;
-  background: linear-gradient(145deg, #fffdf7 0%, #fdf6e8 60%, #faf0d7 100%);
+  background: transparent;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* ===================== */
-/* Header                 */
+/* Hero                   */
 /* ===================== */
 
 .page-header {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 24px;
   flex-wrap: wrap;
   margin-bottom: 36px;
-  padding: 28px 32px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(201, 168, 76, 0.18);
-  box-shadow: 0 18px 40px -24px rgba(150, 110, 30, 0.35);
-  backdrop-filter: blur(6px);
+  padding: 2.5rem 2.75rem;
+  border-radius: var(--bo-radius-section, 24px);
+  background-image:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    var(--bo-hero-bg);
+  border: var(--bo-border-surface-hover, rgba(201, 168, 76, 0.18));
+  box-shadow: var(--bo-shadow-card, 0 18px 40px -24px rgba(150, 110, 30, 0.35));
+  transition: background-color var(--bo-transition, 0.2s ease);
+}
+
+.hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-blob--1 {
+  width: 300px; height: 300px;
+  background: rgba(201,168,76,0.2);
+  top: -120px; right: 20px;
+}
+.hero-blob--2 {
+  width: 220px; height: 220px;
+  background: rgba(99,102,241,0.12);
+  bottom: -100px; left: 15%;
 }
 
 .header-left {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 18px;
@@ -51,23 +78,41 @@
   box-shadow: 0 10px 22px -10px rgba(201, 168, 76, 0.65);
 }
 
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bo-accent-soft, rgba(201,168,76,0.18));
+  border: var(--bo-border-surface-hover, rgba(201,168,76,0.4));
+  color: var(--bo-accent, #8a6d1f);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 100px;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+
 .header-text h1 {
   margin: 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--bo-font-heading);
   font-weight: 800;
   font-size: 32px;
   letter-spacing: 0.2px;
-  color: #4a3a14;
+  color: var(--bo-color-text, #4a3a14);
 }
 
 .subtitle {
   margin: 6px 0 0;
   font-size: 14px;
-  color: #9c8456;
+  color: var(--bo-color-text-muted, #9c8456);
   letter-spacing: 0.2px;
 }
 
 .date-filters {
+  position: relative;
+  z-index: 1;
   display: flex;
   gap: 16px;
 }
@@ -178,7 +223,7 @@
 
 .card .value {
   position: relative;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--bo-font-heading);
   font-weight: 700;
   font-size: 28px;
   letter-spacing: 0.2px;
@@ -306,7 +351,7 @@
 
 .section-title h2 {
   margin: 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--bo-font-heading);
   font-weight: 700;
   font-size: 22px;
   color: #4a3a14;
@@ -363,7 +408,7 @@ thead tr {
 th {
   text-align: left;
   padding: 16px 20px;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--bo-font-heading);
   font-weight: 700;
   font-size: 12.5px;
   letter-spacing: 0.07em;
@@ -394,17 +439,17 @@ tbody tr:last-child td {
 .cell-date { color: #a98f55; font-size: 13px; }
 .cell-desc { color: #4a3a14; font-weight: 500; }
 .cell-ref { color: #a98f55; font-size: 13px; }
-.cell-balance { font-family: 'Playfair Display', serif; font-weight: 600; color: #5a4720; }
+.cell-balance { font-family: var(--bo-font-heading); font-weight: 600; color: #5a4720; }
 
 .amount-positive {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--bo-font-heading);
   font-weight: 700;
   font-size: 15px;
   color: #1f8a5e;
 }
 
 .amount-negative {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--bo-font-heading);
   font-weight: 700;
   font-size: 15px;
   color: #b94a4a;
@@ -420,7 +465,7 @@ tbody tr:last-child td {
   gap: 7px;
   padding: 6px 14px;
   border-radius: 999px;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--bo-font-heading);
   font-weight: 600;
   font-size: 12.5px;
   border: 1px solid transparent;
@@ -504,7 +549,7 @@ tbody tr:last-child td {
 
 .empty-state p {
   margin: 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--bo-font-heading);
   font-weight: 600;
   font-size: 16px;
   color: #9c8456;
@@ -551,7 +596,7 @@ tbody tr:last-child td {
 }
 
 .page-indicator {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--bo-font-heading);
   font-weight: 600;
   font-size: 14px;
   color: #5a4720;
@@ -606,4 +651,87 @@ tbody tr:last-child td {
   table {
     min-width: 640px;
   }
+}
+
+/* ===================== */
+/* Dark mode               */
+/* ===================== */
+
+:host-context([data-bo-theme='dark']) .transactions-section {
+  background: var(--bo-card-gradient);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: var(--bo-border-surface-hover);
+}
+
+:host-context([data-bo-theme='dark']) .page-header {
+  backdrop-filter: blur(6px);
+  border-color: var(--bo-border-surface-hover);
+}
+
+:host-context([data-bo-theme='dark']) .header-text h1,
+:host-context([data-bo-theme='dark']) .section-title h2,
+:host-context([data-bo-theme='dark']) .cell-desc {
+  color: var(--bo-color-text);
+}
+
+:host-context([data-bo-theme='dark']) .subtitle,
+:host-context([data-bo-theme='dark']) .section-sub,
+:host-context([data-bo-theme='dark']) .cell-date,
+:host-context([data-bo-theme='dark']) .cell-ref,
+:host-context([data-bo-theme='dark']) .date-field label,
+:host-context([data-bo-theme='dark']) .empty-state p {
+  color: var(--bo-color-text-muted);
+}
+
+:host-context([data-bo-theme='dark']) .date-field input,
+:host-context([data-bo-theme='dark']) .select-wrap select,
+:host-context([data-bo-theme='dark']) .pagination button {
+  background: var(--bo-bg-surface);
+  border-color: var(--bo-border-surface-hover);
+  color: var(--bo-color-text);
+}
+
+:host-context([data-bo-theme='dark']) .table-wrapper {
+  background: var(--bo-bg-surface);
+  border-color: var(--bo-border-surface-hover);
+}
+
+:host-context([data-bo-theme='dark']) th {
+  background: var(--bo-bg-surface-hover);
+  border-color: var(--bo-border-surface-hover);
+  color: var(--bo-accent);
+}
+
+:host-context([data-bo-theme='dark']) td {
+  color: var(--bo-color-text);
+  border-color: var(--bo-border-surface-hover);
+}
+
+:host-context([data-bo-theme='dark']) tbody tr:hover {
+  background: var(--bo-bg-surface-hover);
+}
+
+:host-context([data-bo-theme='dark']) .cell-balance {
+  color: var(--bo-color-text);
+}
+
+:host-context([data-bo-theme='dark']) .page-indicator {
+  background: var(--bo-bg-surface);
+  border-color: var(--bo-border-surface-hover);
+  color: var(--bo-color-text);
+}
+
+:host-context([data-bo-theme='dark']) .card-revenue { background: linear-gradient(155deg, rgba(31,138,94,0.16) 0%, rgba(20,14,8,0.6) 100%); color: #6ee7b7; }
+:host-context([data-bo-theme='dark']) .card-expenses { background: linear-gradient(155deg, rgba(185,74,74,0.16) 0%, rgba(20,14,8,0.6) 100%); color: #fca5a5; }
+:host-context([data-bo-theme='dark']) .card-profit   { background: linear-gradient(155deg, rgba(201,168,76,0.18) 0%, rgba(20,14,8,0.6) 100%); color: var(--bo-accent); }
+:host-context([data-bo-theme='dark']) .card-balance  { background: linear-gradient(155deg, rgba(192,107,39,0.16) 0%, rgba(20,14,8,0.6) 100%); color: #fbbf7a; }
+:host-context([data-bo-theme='dark']) .card-pending  { background: linear-gradient(155deg, rgba(192,86,127,0.16) 0%, rgba(20,14,8,0.6) 100%); color: #f3a8c5; }
+:host-context([data-bo-theme='dark']) .card {
+  border-color: var(--bo-border-surface-hover);
+}
+:host-context([data-bo-theme='dark']) .empty-illustration {
+  background: var(--bo-accent-soft);
+  border-color: var(--bo-border-surface-hover);
+  color: var(--bo-accent);
 }

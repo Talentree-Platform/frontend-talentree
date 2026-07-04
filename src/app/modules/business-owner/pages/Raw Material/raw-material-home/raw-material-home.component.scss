@@ -8,14 +8,14 @@
 
 /* ── Tokens ───────────────────────────────────────────────────────────────── */
 :host {
-  --rmh-gold:        #C9A84C;
+  --rmh-gold:        var(--bo-accent);
   --rmh-gold-light:  #e2c675;
   --rmh-gold-dim:    rgba(201, 168, 76, 0.14);
   --rmh-gold-glow:   rgba(201, 168, 76, 0.32);
   --rmh-cream-1:     #fffdf7;
   --rmh-cream-2:     #fdf6e8;
   --rmh-cream-3:     #faf0d7;
-  --rmh-radius:      20px;
+  --rmh-radius:      var(--bo-radius-section);
   --rmh-transition:  0.24s cubic-bezier(0.4, 0, 0.2, 1);
 
   display: block;
@@ -37,14 +37,15 @@
    ═══════════════════════════════════════════════════════════ */
 .rmh-hero {
   position: relative;
-  background: #12110e;
   background-image:
     radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 70%);
-  border-radius: 22px;
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    var(--bo-hero-bg);
+  border-radius: var(--bo-radius-section);
   overflow: hidden;
   padding: 2.5rem 2.75rem 0;
   isolation: isolate;
+  transition: background-color var(--bo-transition);
 }
 
 /* Blobs */
@@ -82,9 +83,40 @@
   position: relative;
   z-index: 1;
   display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.rmh-hero__left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
   flex-direction: column;
   gap: 0;
-  margin-bottom: 2rem;
+}
+
+.rmh-hero__illustration {
+  flex-shrink: 0;
+  width: 190px;
+  opacity: 0.92;
+  animation: rmh-illustration-float 6s ease-in-out infinite;
+}
+
+.rmh-hero__illustration-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@keyframes rmh-illustration-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+
+@media (max-width: 720px) {
+  .rmh-hero__inner { flex-wrap: wrap; }
+  .rmh-hero__illustration { display: none; }
 }
 
 .rmh-hero__badge {
@@ -109,7 +141,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(1.6rem, 3.5vw, 2.4rem);
   font-weight: 700;
-  color: #f5f0e8;
+  color: var(--bo-color-text);
   margin: 0 0 0.6rem;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -117,7 +149,7 @@
 
 .rmh-hero__subtitle {
   font-size: 0.88rem;
-  color: rgba(245,240,232,0.48);
+  color: var(--bo-color-text-muted);
   margin: 0 0 1.35rem;
   max-width: 480px;
   line-height: 1.6;
@@ -149,7 +181,7 @@
 
 .rmh-hero-metric__label {
   font-size: 0.68rem;
-  color: rgba(245,240,232,0.48);
+  color: var(--bo-color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.07em;
   font-weight: 600;
@@ -158,7 +190,7 @@
 .rmh-hero-metric__value {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #f5f0e8;
+  color: var(--bo-color-text);
   line-height: 1;
 
   .rmh-hero-metric--gold & { color: #e2c675; }
@@ -462,6 +494,68 @@
   color: #b0946a;
   padding: 0 0.25rem;
   font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DARK MODE — the filter bar / grid / empty state / buttons
+   below the hero are cream by design; this gives them a real
+   dark counterpart instead of staying cream regardless of theme.
+   ═══════════════════════════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  .rmh-filter-bar {
+    background: var(--bo-card-gradient);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-color: var(--bo-border-surface-hover);
+    box-shadow: var(--bo-shadow-card);
+
+    &:hover {
+      box-shadow: var(--bo-shadow-card-hover);
+      border-color: var(--bo-accent-ring);
+    }
+  }
+
+  .rmh-filter-label { color: var(--bo-color-text-muted); }
+
+  .rmh-input,
+  .rmh-select {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--bo-border-surface-hover);
+    color: var(--bo-color-text);
+
+    &::placeholder { color: var(--bo-color-text-muted); }
+  }
+
+  .rmh-section-title { color: var(--bo-color-text); }
+
+  .rmh-empty {
+    background: var(--bo-card-gradient);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-color: var(--bo-border-surface-hover);
+
+    &__title { color: var(--bo-color-text); }
+    &__msg { color: var(--bo-color-text-muted); }
+  }
+
+  .rmh-btn--ghost {
+    color: var(--bo-color-text);
+    border-color: var(--bo-border-surface-hover);
+
+    &:hover { background: var(--bo-accent-soft); }
+  }
+
+  .rmh-page-btn {
+    background: var(--bo-bg-surface);
+    color: var(--bo-color-text);
+    border-color: var(--bo-border-surface-hover);
+
+    &--active {
+      color: var(--bo-color-on-accent);
+    }
+  }
+
+  .rmh-page-ellipsis { color: var(--bo-color-text-muted); }
 }
 
 /* ═══════════════════════════════════════════════════════════

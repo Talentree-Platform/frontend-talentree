@@ -4,12 +4,10 @@
    Matches Production Request / Orders / My-Orders gold system
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap');
-
-:root {
-  --od-gold: #C9A84C;
+:host {
+  --od-gold: var(--bo-accent, #C9A84C);
   --od-gold-light: #e2c675;
-  --od-radius: 20px;
+  --od-radius: var(--bo-radius-section, 20px);
   --od-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 
   --od-amber: #f59e0b;
@@ -24,7 +22,7 @@
 
 // ── Page wrapper ────────────────────────────────────────────────────────────
 .od-page {
-  max-width: 920px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 1.5rem 0 3rem;
 }
@@ -58,8 +56,40 @@
   margin-bottom: 1.75rem;
 }
 
+// ── Header card = hero band ──────────────────────────────────────────────────
+.od-header-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-image:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    var(--bo-hero-bg);
+  transition: background-color var(--od-transition);
+}
+
+.od-hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+.od-hero-blob--1 {
+  width: 260px; height: 260px;
+  background: rgba(201,168,76,0.2);
+  top: -100px; right: 20px;
+}
+.od-hero-blob--2 {
+  width: 200px; height: 200px;
+  background: rgba(99,102,241,0.12);
+  bottom: -80px; left: 10%;
+}
+
 // ── Header row ───────────────────────────────────────────────────────────────
 .od-header-row {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -73,16 +103,16 @@
 }
 
 .od-order-id {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2a1f0a;
+  color: var(--bo-color-text, #2a1f0a);
   margin: 0 0 4px;
 }
 
 .od-created-date {
   font-size: 0.83rem;
-  color: #a89060;
+  color: var(--bo-color-text-muted, #a89060);
   margin: 0;
 }
 
@@ -95,6 +125,8 @@
 
 // ── Inline error ──────────────────────────────────────────────────────────────
 .od-inline-error {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -111,6 +143,8 @@
 
 // ── Info grid ────────────────────────────────────────────────────────────────
 .od-info-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
@@ -159,7 +193,7 @@
 }
 
 .od-info-card-amount {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.4rem;
   font-weight: 700;
   color: #2a1f0a;
@@ -176,7 +210,7 @@
 
 // ── Section label ────────────────────────────────────────────────────────────
 .od-section-label {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 0.95rem;
   font-weight: 700;
   color: #2a1f0a;
@@ -208,7 +242,7 @@
 .od-table th {
   padding: 14px 18px;
   text-align: left;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 0.76rem;
   font-weight: 700;
   color: #8a6010;
@@ -240,7 +274,7 @@
 
 // ── Cell variants ─────────────────────────────────────────────────────────────
 .od-row-index {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 0.8rem;
   color: #a89060;
   width: 50px;
@@ -277,7 +311,7 @@
 }
 
 .od-total-cell {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-weight: 700;
   color: #2a1f0a;
 }
@@ -298,7 +332,7 @@
 }
 
 .od-foot-total {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.1rem;
   font-weight: 700;
   color: #2a1f0a;
@@ -310,7 +344,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -466,5 +500,87 @@
 
   .od-order-id {
     font-size: 1.25rem;
+  }
+}
+
+// ── Dark mode overrides ───────────────────────────────────────────────────────
+:host-context([data-bo-theme='dark']) {
+  .od-back-link {
+    color: var(--bo-color-text-muted);
+
+    &:hover { color: var(--bo-accent); }
+  }
+
+  .od-card:not(.od-header-card),
+  .od-table-wrap {
+    background: var(--bo-card-gradient);
+    backdrop-filter: blur(14px);
+    border-color: var(--bo-border-surface-hover);
+    box-shadow: var(--bo-shadow-card);
+  }
+
+  .od-header-card {
+    backdrop-filter: blur(6px);
+    border-color: var(--bo-border-surface-hover);
+  }
+
+  .od-order-id,
+  .od-info-card-primary,
+  .od-info-card-amount,
+  .od-section-label,
+  .od-material-name,
+  .od-total-cell,
+  .od-foot-total {
+    color: var(--bo-color-text);
+  }
+
+  .od-created-date,
+  .od-unit-cell,
+  .od-price-cell,
+  .od-row-index,
+  .od-loading-state,
+  .od-currency,
+  .od-info-card-title {
+    color: var(--bo-color-text-muted);
+  }
+
+  .od-info-card {
+    background: var(--bo-bg-surface);
+    border-color: var(--bo-border-surface-hover);
+
+    &--highlight {
+      background: var(--bo-accent-soft);
+      border-color: var(--bo-border-surface-hover);
+    }
+  }
+
+  .od-table th {
+    background: var(--bo-bg-surface);
+    border-color: var(--bo-border-surface-hover);
+    color: var(--bo-accent);
+  }
+
+  .od-table td {
+    color: var(--bo-color-text);
+    border-color: var(--bo-border-surface-hover);
+  }
+
+  .od-table tbody tr:hover td {
+    background: var(--bo-bg-surface-hover);
+  }
+
+  .od-qty-badge {
+    background: var(--bo-accent-soft);
+    border-color: var(--bo-border-surface-hover);
+    color: var(--bo-accent);
+  }
+
+  .od-table tfoot tr {
+    background: var(--bo-bg-surface);
+  }
+
+  .od-foot-label {
+    color: var(--bo-accent);
+    border-color: var(--bo-border-surface-hover);
   }
 }

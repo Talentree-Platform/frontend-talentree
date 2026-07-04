@@ -7,41 +7,68 @@
     <div class="rmh-hero__blob rmh-hero__blob--3"></div>
 
     <div class="rmh-hero__inner">
-      <span class="rmh-hero__badge">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-        </svg>
-        Raw Materials Marketplace
-      </span>
+      <div class="rmh-hero__left">
+        <span class="rmh-hero__badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          </svg>
+          Raw Materials Marketplace
+        </span>
 
-      <h1 class="rmh-hero__title">Discover Raw Materials</h1>
+        <h1 class="rmh-hero__title">Discover Raw Materials</h1>
 
-      <p class="rmh-hero__subtitle">
-        Source premium materials from trusted suppliers — filtered, paginated, and ready to order.
-      </p>
+        <p class="rmh-hero__subtitle">
+          Source premium materials from trusted suppliers — filtered, paginated, and ready to order.
+        </p>
 
-      @if(totalCount > 0) {
-        <div class="rmh-hero__metrics">
-          <div class="rmh-hero-metric">
-            <span class="rmh-hero-metric__label">Total Materials</span>
-            <span class="rmh-hero-metric__value">{{ totalCount }}</span>
-          </div>
-          <div class="rmh-hero-metric rmh-hero-metric--gold">
-            <span class="rmh-hero-metric__label">Page</span>
-            <span class="rmh-hero-metric__value">{{ pageIndex }} / {{ totalPages }}</span>
-          </div>
-          @if(categoryChoise) {
+        @if(totalCount > 0) {
+          <div class="rmh-hero__metrics">
             <div class="rmh-hero-metric">
-              <span class="rmh-hero-metric__label">Category</span>
-              <span class="rmh-hero-metric__value">{{ categoryChoise }}</span>
+              <span class="rmh-hero-metric__label">Total Materials</span>
+              <span class="rmh-hero-metric__value">{{ totalCount }}</span>
             </div>
-          }
-        </div>
-      }
-    </div>
+            <div class="rmh-hero-metric rmh-hero-metric--gold">
+              <span class="rmh-hero-metric__label">Page</span>
+              <span class="rmh-hero-metric__value">{{ pageIndex }} / {{ totalPages }}</span>
+            </div>
+            @if(categoryChoise) {
+              <div class="rmh-hero-metric">
+                <span class="rmh-hero-metric__label">Category</span>
+                <span class="rmh-hero-metric__value">{{ categoryChoise }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
 
-    
+      <div class="rmh-hero__illustration" aria-hidden="true">
+        <svg class="rmh-hero__illustration-svg" viewBox="0 0 240 220" xmlns="http://www.w3.org/2000/svg">
+          <!-- Back crate -->
+          <rect x="24" y="78" width="92" height="92" rx="12" fill="rgba(201,168,76,0.14)" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+          <line x1="24" y1="110" x2="116" y2="110" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+          <line x1="70" y1="78" x2="70" y2="170" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+
+          <!-- Fabric roll -->
+          <ellipse cx="58" cy="52" rx="30" ry="15" fill="rgba(99,102,241,0.14)" stroke="rgba(99,102,241,0.35)" stroke-width="1.5"/>
+          <rect x="28" y="52" width="60" height="30" fill="rgba(99,102,241,0.1)" stroke="rgba(99,102,241,0.3)" stroke-width="1.5"/>
+          <ellipse cx="58" cy="82" rx="30" ry="15" fill="rgba(99,102,241,0.14)" stroke="rgba(99,102,241,0.35)" stroke-width="1.5"/>
+
+          <!-- Front crate -->
+          <rect x="92" y="108" width="118" height="98" rx="14" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.45)" stroke-width="1.5"/>
+          <line x1="92" y1="145" x2="210" y2="145" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+          <line x1="151" y1="108" x2="151" y2="206" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+
+          <!-- Gold ribbon accent -->
+          <path d="M182 58 L204 36 L226 58 L204 80 Z" fill="rgba(201,168,76,0.3)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5"/>
+
+          <!-- Sparkles -->
+          <circle cx="214" cy="26" r="3" fill="rgba(201,168,76,0.7)"/>
+          <circle cx="16" cy="36" r="2" fill="rgba(201,168,76,0.5)"/>
+          <circle cx="176" cy="196" r="2.5" fill="rgba(99,102,241,0.5)"/>
+        </svg>
+      </div>
+    </div>
   </section>
 
   <!-- ── FILTER BAR ────────────────────────────────────────────────────────── -->

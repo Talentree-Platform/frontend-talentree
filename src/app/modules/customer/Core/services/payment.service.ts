@@ -105,44 +105,30 @@ export class PaymentService {
     return this.stripeInstance;
   }
 
-  // ───────────────────────────────────────────────────────────────────────
-  // Customer order payment intent
-  // POST /api/customer/orders/{id}/payment-intent
-  // id is int32 on the backend — orderId arrives as string from @Input,
-  // so it gets coerced with Number(...) before going on the URL.
-  // ───────────────────────────────────────────────────────────────────────
-  createCustomerOrderPaymentIntent(orderId: string): Observable<CustomerOrderPaymentIntent> {
+
+ createCustomerOrderPaymentIntent(orderId: string): Observable<CustomerOrderPaymentIntent> {
     const numericId = Number(orderId);
     return this.http
       .post<ApiResponse<CustomerOrderPaymentIntent>>(
-        `${this.baseUrl}/customer/orders/${numericId}/payment-intent`,
+        `${this.baseUrl}/api/customer/orders/${numericId}/payment-intent`,
         {}
       )
       .pipe(map((res) => res.data));
   }
 
-  // ───────────────────────────────────────────────────────────────────────
-  // Production request payment intent (business owner side)
-  // POST /api/Payment/production-requests/{requestId}/create-intent
-  // ───────────────────────────────────────────────────────────────────────
   createProductionRequestIntent(requestId: string | number): Observable<ProductionRequestPaymentIntent> {
     return this.http
       .post<ApiResponse<ProductionRequestPaymentIntent>>(
-        `${this.baseUrl}/Payment/production-requests/${requestId}/create-intent`,
+        `${this.baseUrl}/api/Payment/production-requests/${requestId}/create-intent`,
         {}
       )
       .pipe(map((res) => res.data));
   }
 
-  // ───────────────────────────────────────────────────────────────────────
-  // Material order payment intent (business owner side)
-  // Adjust the path below to match your real endpoint if it differs —
-  // kept consistent with the production-request shape for now.
-  // ───────────────────────────────────────────────────────────────────────
   createMaterialOrderIntent(orderId: string | number): Observable<MaterialOrderPaymentIntent> {
     return this.http
       .post<ApiResponse<MaterialOrderPaymentIntent>>(
-        `${this.baseUrl}/Payment/material-orders/${orderId}/create-intent`,
+        `${this.baseUrl}/api/Payment/material-orders/${orderId}/create-intent`,
         {}
       )
       .pipe(map((res) => res.data));

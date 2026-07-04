@@ -1,21 +1,19 @@
-:root {
-  --primary: #d1a33e;
-  --bg-soft: #f7f8fb;
-  --border-soft: #e5e7eb;
-  --text-main: #111827;
-  --text-muted: #6b7280;
-}
-
 :host {
+  --primary: var(--bo-accent, #d1a33e);
+  --bg-soft: var(--bo-bg-surface, #f7f8fb);
+  --border-soft: var(--bo-border-surface-hover, #e5e7eb);
+  --text-main: var(--bo-color-text, #111827);
+  --text-muted: var(--bo-color-text-muted, #6b7280);
+
   display: block;
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   color: var(--text-main);
-  background: var(--bg-soft);
+  background: transparent;
 }
 
 /* Page wrapper */
 .notifications-page {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 24px 16px 48px;
 }

@@ -199,75 +199,62 @@
 
     <div class="owner-products-filters">
 
-      <!-- STATUS chips -->
-      <div class="owner-products-filter-group">
-        <span class="owner-products-filter-label">Status</span>
-        <div class="owner-products-status-chips" role="group" aria-label="Filter by status">
-          @for (opt of statusOptions; track opt.value) {
-            <button
-              type="button"
-              class="owner-products-chip"
-              [class.owner-products-chip--active]="statusFilter === opt.value"
-              (click)="statusFilter = opt.value">
-              {{ opt.label }}
-            </button>
-          }
+      <!-- STATUS -->
+      <div class="owner-products-filter-field">
+        <label class="owner-products-filter-label" for="op-status">
+          <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Status
+        </label>
+        <div class="owner-products-input-wrap">
+          <select id="op-status" class="owner-products-select" [(ngModel)]="statusFilter">
+            @for (opt of statusOptions; track opt.value) {
+              <option [value]="opt.value">{{ opt.label }}</option>
+            }
+          </select>
         </div>
       </div>
 
-      <!-- CATEGORY gallery -->
-      <div class="owner-products-filter-group">
-        <span class="owner-products-filter-label">Category</span>
-        <div class="owner-products-category-gallery" role="group" aria-label="Filter by category">
-          @for (c of categories; track c) {
-            <button
-              type="button"
-              class="owner-products-cat-card"
-              [class.owner-products-cat-card--active]="categoryFilter === c"
-              (click)="categoryFilter = c">
-              <span class="owner-products-cat-icon" aria-hidden="true">
-                @switch (c) {
-                  @case ('all')        { 🛍️ }
-                  @case ('Apparel')    { 👕 }
-                  @case ('Home')       { 🏠 }
-                  @case ('Beauty')     { 💄 }
-                  @case ('Electronics'){ 💻 }
-                  @case ('Food')       { 🍎 }
-                  @case ('Sports')     { 🏃 }
-                  @default             { 📦 }
-                }
-              </span>
-              <span class="owner-products-cat-name">{{ c === 'all' ? 'All' : c }}</span>
-              @if (c !== 'all') {
-                <span class="owner-products-cat-count">
-                  {{ getCategoryCount(c) }}
-                </span>
-              }
-            </button>
-          }
+      <!-- CATEGORY -->
+      <div class="owner-products-filter-field">
+        <label class="owner-products-filter-label" for="op-category">
+          <i class="fa-solid fa-tags" aria-hidden="true"></i> Category
+        </label>
+        <div class="owner-products-input-wrap">
+          <select id="op-category" class="owner-products-select" [(ngModel)]="categoryFilter">
+            @for (c of categories; track c) {
+              <option [value]="c">{{ c === 'all' ? 'All Categories' : c }}</option>
+            }
+          </select>
         </div>
       </div>
 
-      <!-- PRICE chips -->
-      <div class="owner-products-filter-group">
-        <span class="owner-products-filter-label">Price range</span>
-        <div class="owner-products-price-chips" role="group" aria-label="Filter by price">
-          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="priceRange === 'all'"      (click)="priceRange = 'all'">Any Price</button>
-          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="priceRange === 'under25'"  (click)="priceRange = 'under25'">Under $25</button>
-          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="priceRange === '25-100'"  (click)="priceRange = '25-100'">$25 – $100</button>
-          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="priceRange === '100-500'" (click)="priceRange = '100-500'">$100 – $500</button>
-          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="priceRange === '500plus'" (click)="priceRange = '500plus'">$500+</button>
+      <!-- PRICE -->
+      <div class="owner-products-filter-field">
+        <label class="owner-products-filter-label" for="op-price">
+          <i class="fa-solid fa-tag" aria-hidden="true"></i> Price range
+        </label>
+        <div class="owner-products-input-wrap">
+          <select id="op-price" class="owner-products-select" [(ngModel)]="priceRange">
+            <option value="all">Any Price</option>
+            <option value="under25">Under $25</option>
+            <option value="25-100">$25 – $100</option>
+            <option value="100-500">$100 – $500</option>
+            <option value="500plus">$500+</option>
+          </select>
         </div>
       </div>
 
-      <!-- SORT chips -->
-      <div class="owner-products-filter-group">
-        <span class="owner-products-filter-label">Sort by</span>
-        <div class="owner-products-sort-chips" role="group" aria-label="Sort products">
-          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="sortBy === 'date'"     (click)="sortBy = 'date'">📅 Newest</button>
-          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="sortBy === 'sales'"    (click)="sortBy = 'sales'">🏆 Top Sales</button>
-          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="sortBy === 'priceAsc'" (click)="sortBy = 'priceAsc'">Price ↑</button>
-          <button type="button" class="owner-products-chip" [class.owner-products-chip--active]="sortBy === 'priceDesc'"(click)="sortBy = 'priceDesc'">Price ↓</button>
+      <!-- SORT -->
+      <div class="owner-products-filter-field">
+        <label class="owner-products-filter-label" for="op-sort">
+          <i class="fa-solid fa-arrow-down-wide-short" aria-hidden="true"></i> Sort by
+        </label>
+        <div class="owner-products-input-wrap">
+          <select id="op-sort" class="owner-products-select" [(ngModel)]="sortBy">
+            <option value="date">Newest</option>
+            <option value="sales">Top Sales</option>
+            <option value="priceAsc">Price ↑</option>
+            <option value="priceDesc">Price ↓</option>
+          </select>
         </div>
       </div>
 

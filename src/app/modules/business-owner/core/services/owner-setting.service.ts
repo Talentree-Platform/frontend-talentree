@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { ProfileResponse } from '../interfaces/i-setting';
@@ -24,6 +24,30 @@ export class OwnerSettingService {
 
   getCurrentProfile(): Observable<ProfileResponse> {
     return this.http.get<ProfileResponse>(`${this.baseUrl}/profile`);
+  }
+
+  // ── Shared profile photo + display name, consumed by the top-nav
+  //    and side-nav so both stay in sync without duplicate requests ──
+  private profileImageSubject = new BehaviorSubject<string | null>(null);
+  profileImage$ = this.profileImageSubject.asObservable();
+
+  private displayNameSubject = new BehaviorSubject<string | null>(null);
+  displayName$ = this.displayNameSubject.asObservable();
+
+  refreshCurrentProfile(): void {
+    this.getCurrentProfile().subscribe({
+      next: (res) => {
+        this.profileImageSubject.next(
+          res.data.profilePhotoUrl ? environment.AzureUrl + res.data.profilePhotoUrl : null
+        );
+        this.displayNameSubject.next(res.data.displayName || null);
+      },
+      error: () => this.profileImageSubject.next(null)
+    });
+  }
+
+  setProfileImage(url: string | null): void {
+    this.profileImageSubject.next(url);
   }
 
   updateProfile(formValue: any, profilePhoto?: File, businessLogo?: File): Observable<ProfileResponse> {

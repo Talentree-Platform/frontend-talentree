@@ -39,8 +39,12 @@ $bp-sm: 600px;
 
 .co-details {
   background: $bg-main;
-  padding: 44px 0 72px;
+  padding: 120px 0 72px;
   min-height: 70vh;
+
+  @media (max-width: $bp-md) {
+    padding: 96px 0 48px;
+  }
 }
 
 .co-details__header {

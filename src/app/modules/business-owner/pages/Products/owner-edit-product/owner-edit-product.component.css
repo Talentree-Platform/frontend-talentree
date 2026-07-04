@@ -12,11 +12,25 @@
 /* ── Reset & base ─────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-
+/* ── Local token bridge (scoped to this page only, doesn't
+   touch the shared --ap-* globals other modules also read) ── */
+:host {
+  --text: var(--bo-color-text, #111827);
+  --ap-surface: var(--bo-bg-surface, #ffffff);
+  --ap-border: var(--bo-border-surface, #e5e7eb);
+  --ap-text-muted: var(--bo-color-text-muted, #6b7280);
+  --ap-shadow-sm: var(--bo-shadow-card, 0 1px 4px rgba(0,0,0,0.06));
+  --ap-shadow-card: var(--bo-shadow-card-hover, 0 4px 24px rgba(0,0,0,0.07));
+  --ap-radius-card: var(--bo-radius-card, 14px);
+  --ap-radius-input: var(--bo-radius-input, 10px);
+  --ap-radius-pill: var(--bo-radius-pill, 999px);
+  display: block;
+}
 
 /* ── Page wrapper ─────────────────────────── */
 .ap-page {
-  width: min(1200px, 94%);
+  max-width: 1100px;
+  width: min(1100px, 94%);
   margin: 0 auto;
   padding: 36px 0 64px;
 }
@@ -185,56 +199,78 @@
 .ap-form-group { display: flex; flex-direction: column; }
 .ap-form-group + .ap-form-group { margin-top: 0; }
 
-.ap-label {
+.ap-label,
+.feild {
   display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 6px;
-  letter-spacing: 0.01em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ap-text-muted);
+  margin-bottom: 8px;
 }
-.ap-required { color: var(--ap-error); }
+.ap-required { color: var(--bo-accent); }
 
 .ap-helper { font-size: 12px; color: var(--ap-text-light); margin-top: 4px; }
 .ap-error   { font-size: 12px; color: var(--ap-error);      margin-top: 4px; min-height: 17px; }
 
-/* ── Inputs ───────────────────────────────── */
+/* ── Inputs (matches Create Production Request) ──────────── */
 .ap-input,
 .ap-select,
-.ap-textarea {
+.ap-textarea,
+input.input-main,
+select.select-main,
+textarea.textarea-main {
   width: 100%;
-  padding: 10px 14px;
-  border: 1.5px solid var(--ap-border);
-  border-radius: var(--ap-radius-input);
-  font-size: 14px;
-  font-family: var(--ap-font);
-  color: var(--text);
-  background: #fff;
+  padding: 11px 15px;
+  border: 1.5px solid var(--bo-border-surface-hover, rgba(201,168,76,0.28));
+  border-radius: var(--bo-radius-input, 14px);
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: var(--bo-color-text, var(--text));
+  background: var(--bo-bg-surface, #fff);
   outline: none;
-  transition: border-color var(--ap-transition), box-shadow var(--ap-transition);
+  transition: border-color var(--bo-transition, 0.2s ease), box-shadow var(--bo-transition, 0.2s ease), background var(--bo-transition, 0.2s ease);
   appearance: none;
   -webkit-appearance: none;
 }
 .ap-input::placeholder,
-.ap-textarea::placeholder { color: var(--ap-text-light); }
+.ap-textarea::placeholder,
+input.input-main::placeholder,
+textarea.textarea-main::placeholder { color: var(--ap-text-light); }
+.ap-input:hover,
+.ap-select:hover,
+.ap-textarea:hover,
+input.input-main:hover,
+select.select-main:hover,
+textarea.textarea-main:hover {
+  border-color: var(--bo-accent-ring, rgba(201,168,76,0.5));
+}
 .ap-input:focus,
 .ap-select:focus,
-.ap-textarea:focus {
-  border-color: var(--ap-gold);
-  box-shadow: 0 0 0 3px var(--ap-gold-ring);
+.ap-textarea:focus,
+input.input-main:focus,
+select.select-main:focus,
+textarea.textarea-main:focus {
+  border-color: var(--bo-accent);
+  background: var(--bo-bg-surface-hover, #fff);
+  box-shadow: 0 0 0 4px var(--bo-accent-ring, rgba(201,168,76,0.2)), 0 0 0 1px var(--bo-accent);
 }
 .ap-input--error { border-color: var(--ap-error) !important; box-shadow: 0 0 0 3px rgba(239,68,68,0.12) !important; }
 .ap-input--success { border-color: var(--ap-success); box-shadow: 0 0 0 3px rgba(34,197,94,0.12); }
 
 /* Select arrow */
-.ap-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+.ap-select,
+select.select-main {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23C9A13B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   padding-right: 36px;
 }
 
-.ap-textarea { resize: vertical; min-height: 110px; }
+.ap-textarea,
+textarea.textarea-main { resize: vertical; min-height: 110px; line-height: 1.6; }
 
 /* Price prefix */
 .ap-input-prefix { position: relative; }
@@ -248,7 +284,8 @@
   font-size: 15px;
   pointer-events: none;
 }
-.ap-input--prefixed { padding-left: 28px; }
+.ap-input--prefixed,
+input.input-main.ap-input--prefixed { padding-left: 28px; }
 
 /* ── 2-col row ────────────────────────────── */
 .ap-row {

@@ -5,7 +5,6 @@ import { debounceTime, distinctUntilChanged, switchMap, startWith, catchError, o
 import { SupportService } from '../../../core/services/support.service';
 import { Faq, FaqCategory } from '../../../core/interfaces/i-support';
 import { NgFor, NgIf } from '@angular/common';
-import { ToastContainerComponent } from '../../../components/toast-container/toast-container.component';
 import { SkeletonComponent } from '../../../components/skeleton/skeleton.component';
 import { StatusBadgeComponent } from '../../../components/statues-badge/statues-badge.component';
 import { JsonSumPipe } from '../../../core/pipe/json-sum.pipe';
@@ -14,7 +13,6 @@ import { JsonSumPipe } from '../../../core/pipe/json-sum.pipe';
   selector: 'app-faq',
   standalone: true,
   imports: [
-    ToastContainerComponent,
         SkeletonComponent,
         ReactiveFormsModule,
         StatusBadgeComponent,

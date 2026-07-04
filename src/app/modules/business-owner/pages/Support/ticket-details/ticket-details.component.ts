@@ -1,5 +1,4 @@
 import { SkeletonComponent } from './../../../components/skeleton/skeleton.component';
-import { ToastContainerComponent } from './../../../components/toast-container/toast-container.component';
 import {
   Component, OnInit, OnDestroy, inject,
   ViewChild, ElementRef, AfterViewChecked,
@@ -18,7 +17,6 @@ import { StatusBadgeComponent } from '../../../components/statues-badge/statues-
   selector: 'app-ticket-details',
   standalone: true,
   imports: [
-    ToastContainerComponent,
     SkeletonComponent,
     ReactiveFormsModule,
     StatusBadgeComponent,

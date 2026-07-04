@@ -7,6 +7,7 @@ import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'public/landingpage', pathMatch: 'full' },
+  { path: 'business-owner/ai-dashboard', redirectTo: 'businessowner/ai-dashboard', pathMatch: 'full' },
   {
 
     path: 'public',

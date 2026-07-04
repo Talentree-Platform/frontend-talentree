@@ -24,8 +24,8 @@
 
 /* ── Dialog card ──────────────────────────────────────────────────────────── */
 .pmt-dialog {
-  background: var(--prd-cream-1, #fffdf7);
-  border: 1px solid rgba(201, 168, 76, 0.22);
+  background: var(--bo-bg-surface, #fffdf7);
+  border: var(--bo-border-surface, rgba(201, 168, 76, 0.22));
   border-radius: 24px;
   padding: 2rem 2rem 1.6rem;
   max-width: 480px;
@@ -72,17 +72,17 @@
 }
 
 .pmt-dialog__title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.2rem;
   font-weight: 700;
-  color: #2a1f0a;
+  color: var(--bo-color-text, #2a1f0a);
   margin: 0 0 0.15rem;
   line-height: 1.2;
 }
 
 .pmt-dialog__subtitle {
   font-size: 0.77rem;
-  color: #b0946a;
+  color: var(--bo-color-text-muted, #b0946a);
   margin: 0;
 }
 
@@ -95,7 +95,7 @@
   border-radius: 50%;
   background: transparent;
   border: 1px solid rgba(201, 168, 76, 0.2);
-  color: #b0946a;
+  color: var(--bo-color-text-muted, #b0946a);
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.18s, border-color 0.18s, color 0.18s;
@@ -103,7 +103,7 @@
   &:hover:not(:disabled) {
     background: rgba(201, 168, 76, 0.08);
     border-color: rgba(201, 168, 76, 0.4);
-    color: #7a5010;
+    color: var(--bo-accent, #7a5010);
   }
 
   &:disabled {
@@ -128,14 +128,14 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: #b0946a;
+  color: var(--bo-color-text-muted, #b0946a);
 }
 
 .pmt-amount-value {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #7a5010;
-  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--bo-accent, #7a5010);
+  font-family: var(--bo-font-heading);
 }
 
 /* ── Stripe wrapper ───────────────────────────────────────────────────────── */
@@ -283,8 +283,8 @@
 }
 
 .pmt-dialog {
-  background: var(--prd-cream-1, #fffdf7);
-  border: 1px solid rgba(201, 168, 76, 0.22);
+  background: var(--bo-bg-surface, #fffdf7);
+  border: var(--bo-border-surface, rgba(201, 168, 76, 0.22));
   border-radius: 24px;
   padding: 2rem 2rem 1.6rem;
   max-width: 480px;
@@ -299,4 +299,11 @@
   gap: 1.25rem;
   animation: pmt-dialog-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   margin: auto; // ← ADD THIS (keeps it centered when overlay scrolls)
+}
+
+/* ── Dark mode ────────────────────────────────────────────────────────────── */
+:host-context([data-bo-theme='dark']) .pmt-dialog {
+  background: var(--bo-card-gradient);
+  backdrop-filter: blur(14px);
+  border-color: var(--bo-border-surface-hover);
 }

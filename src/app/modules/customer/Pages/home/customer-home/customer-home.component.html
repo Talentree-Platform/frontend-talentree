@@ -1,5 +1,9 @@
 <!-- ═══════════════════════════════════════════════════════
-     TALENTREE · Customer Marketplace Home
+     TALENTREE · Customer Marketplace Home  (UPDATED + BRANDS)
+     - Categories link to /customer/categoryProduct/:id
+     - NEW: Brands section sourced from svc.loadBrands() / brandsData()
+       links to /customer/brandProduct/:id
+     - Featured + Trending unchanged
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ── HERO ────────────────────────────────────────────────────────────────── -->
@@ -56,7 +60,8 @@
   </div>
 </section>
 
-<!-- ── CATEGORIES ────────────────────────────────────────────────────────────── -->
+<!-- ── CATEGORIES ─────────────────────────────────────────────────────────── -->
+<!-- Categories sourced from GET /api/customer/categories via loadCategories() -->
 <section class="section section--categories">
   <div class="container">
     <div class="section__header">
@@ -64,13 +69,13 @@
         <span class="section__eyebrow">Browse by Type</span>
         <h2 class="section__title">Material Categories</h2>
       </div>
-      <a routerLink="/marketplace/products" class="section__link">
+      <a routerLink="/customer/customerCategory" class="section__link">
         View all categories
         <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
 
-    @if (svc.homepageLoading()) {
+    @if (svc.categoriesLoading()) {
       <div class="categories-grid">
         @for (n of skeletonArray; track $index) {
           <div class="category-card category-card--skeleton">
@@ -79,33 +84,117 @@
           </div>
         }
       </div>
-    } @else if (svc.homepageError()) {
+    } @else if (svc.categoriesError()) {
       <div class="error-state">
-        <p>{{ svc.homepageError() }}</p>
-        <button class="btn-retry" (click)="svc.loadHomepage()">Retry</button>
+        <p>{{ svc.categoriesError() }}</p>
+        <button class="btn-retry" (click)="svc.loadCategories()">Retry</button>
       </div>
     } @else if (categories.length === 0) {
       <div class="empty-state">
-        <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="#E8D5A3" stroke-width="2"/><path d="M20 30h20M30 20v20" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" stroke="#E8D5A3" stroke-width="2"/>
+          <path d="M20 30h20M30 20v20" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/>
+        </svg>
         <p>No categories found.</p>
       </div>
     } @else {
       <div class="categories-grid">
         @for (cat of categories; track cat.id) {
-          <a [routerLink]="['/marketplace/products']" [queryParams]="{categoryId: cat.id}" class="category-card">
+          <a [routerLink]="['/customer/categoryProduct', cat.id]" class="category-card">
             @if (cat.imageUrl) {
               <div class="category-card__img-wrap">
                 <img [src]="cat.imageUrl" [alt]="cat.name" loading="lazy"/>
               </div>
             } @else {
               <div class="category-card__img-placeholder">
-                <svg viewBox="0 0 40 40" fill="none"><rect x="6" y="6" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="6" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="22" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="22" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/></svg>
+                <svg viewBox="0 0 40 40" fill="none">
+                  <rect x="6" y="6" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/>
+                  <rect x="22" y="6" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/>
+                  <rect x="6" y="22" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/>
+                  <rect x="22" y="22" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
               </div>
             }
             <div class="category-card__body">
               <span class="category-card__name">{{ cat.name }}</span>
+              @if (cat.description) {
+                <span class="category-card__desc">{{ cat.description }}</span>
+              }
               @if (cat.productCount != null) {
                 <span class="category-card__count">{{ cat.productCount }} products</span>
+              }
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ── NEW: BRANDS ────────────────────────────────────────────────────────────
+     Sourced from GET /api/customer/brands via svc.loadBrands().
+     Reuses the exact .category-card visual pattern (logo as image, business
+     name as title, category as the "desc" line, product count badge) so it
+     reads as a sibling section to Categories, not a foreign component.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section section--brands">
+  <div class="container">
+    <div class="section__header">
+      <div>
+        <span class="section__eyebrow">Shop by Vendor</span>
+        <h2 class="section__title">Featured Brands</h2>
+      </div>
+      <a routerLink="/customer/customerBrands" class="section__link">
+        View all brands
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    @if (svc.brandsLoading()) {
+      <div class="categories-grid">
+        @for (n of skeletonArray; track $index) {
+          <div class="category-card category-card--skeleton">
+            <div class="cat-skeleton-img"></div>
+            <div class="cat-skeleton-text"></div>
+          </div>
+        }
+      </div>
+    } @else if (svc.brandsError()) {
+      <div class="error-state">
+        <p>{{ svc.brandsError() }}</p>
+        <button class="btn-retry" (click)="svc.loadBrands()">Retry</button>
+      </div>
+    } @else if (brands.length === 0) {
+      <div class="empty-state">
+        <svg viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" stroke="#E8D5A3" stroke-width="2"/>
+          <path d="M20 30h20M30 20v20" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <p>No brands found.</p>
+      </div>
+    } @else {
+      <div class="categories-grid">
+        @for (brand of brands; track brand.id) {
+          <a [routerLink]="['/customer/brandProduct', brand.id]" class="category-card brand-card">
+            @if (brand.businessLogoUrl) {
+              <div class="category-card__img-wrap brand-card__logo-wrap">
+                <img [src]="brand.businessLogoUrl" [alt]="brand.businessName" loading="lazy"/>
+              </div>
+            } @else {
+              <div class="category-card__img-placeholder">
+                <svg viewBox="0 0 40 40" fill="none">
+                  <circle cx="20" cy="14" r="7" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M7 34c0-7.2 5.8-13 13-13s13 5.8 13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+            }
+            <div class="category-card__body">
+              <span class="category-card__name">{{ brand.businessName || 'Unnamed Brand' }}</span>
+              @if (brand.businessCategory) {
+                <span class="category-card__desc">{{ brand.businessCategory }}</span>
+              }
+              @if (brand.productCount != null) {
+                <span class="category-card__count">{{ brand.productCount }} products</span>
               }
             </div>
           </a>
@@ -137,7 +226,10 @@
       </div>
     } @else if (featuredProducts.length === 0 && !svc.homepageLoading()) {
       <div class="empty-state">
-        <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="#E8D5A3" stroke-width="2"/><path d="M30 20v10l6 4" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" stroke="#E8D5A3" stroke-width="2"/>
+          <path d="M30 20v10l6 4" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/>
+        </svg>
         <p>No featured products available right now.</p>
       </div>
     } @else {

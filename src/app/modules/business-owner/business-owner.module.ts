@@ -38,6 +38,8 @@ import { FaqComponent } from './pages/Support/faq/faq.component';
 import { ToastContainerComponent } from './components/toast-container/toast-container.component';
 import { SkeletonComponent } from './components/skeleton/skeleton.component';
 import { StatusBadgeComponent } from '../admin/Components/status-badge/status-badge.component';
+import { BusinessOwnerAiDashboardComponent } from './pages/business-owner-ai-dashboard/business-owner-ai-dashboard.component';
+
 
 
 
@@ -81,7 +83,9 @@ import { StatusBadgeComponent } from '../admin/Components/status-badge/status-ba
     FaqComponent,
     ToastContainerComponent,
     SkeletonComponent,
-    StatusBadgeComponent
+    StatusBadgeComponent,
+    BusinessOwnerAiDashboardComponent
+
 
   
     

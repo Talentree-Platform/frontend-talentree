@@ -1,33 +1,34 @@
-@import '../../../core/shared/variables.scss';
 
 // ── Design tokens ────────────────────────────
 :host {
-  --gold:            #C9A84C;
+  --gold:            var(--bo-accent, #C9A84C);
   --gold-light:      #F0D080;
   --gold-dark:       #A07020;
   --gold-glow:       rgba(201,168,76,.18);
-  --cream:           #FDFBF5;
-  --cream2:          #F5F0E0;
-  --ink:             #1C1810;
-  --ink2:            #4A4030;
-  --ink3:            #8A7A60;
-  --glass:           rgba(255,252,240,.72);
-  --border-gold:     rgba(201,168,76,.25);
-  --border-gold-str: rgba(201,168,76,.5);
+  --cream:           var(--bo-bg-page, #FDFBF5);
+  --cream2:          var(--bo-bg-surface-hover, #F5F0E0);
+  --ink:             var(--bo-color-text, #1C1810);
+  --ink2:            var(--bo-color-text-muted, #4A4030);
+  --ink3:            var(--bo-color-text-muted, #8A7A60);
+  --glass:           var(--bo-bg-surface, rgba(255,252,240,.72));
+  --border-gold:     var(--bo-border-surface, rgba(201,168,76,.25));
+  --border-gold-str: var(--bo-border-surface-hover, rgba(201,168,76,.5));
+
+  display: block;
 }
 
 // ── Page shell ───────────────────────────────
 .page {
   position: relative;
   min-height: 100vh;
-  background: var(--cream);
+  background: transparent;
   overflow: hidden;
 }
 
 .content-wrap {
   position: relative;
   z-index: 1;
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 40px 24px 80px;
 }
@@ -79,7 +80,7 @@
 }
 
 .page-title {
-  font-family: 'Playfair Display', 'Georgia', serif;
+  font-family: var(--bo-font-heading);
   font-size: 52px;
   font-weight: 800;
   line-height: 1.1;
@@ -321,7 +322,7 @@
 .illus-svg { width: 100%; max-width: 200px; display: block; margin: 0 auto; }
 
 .illus-title {
-  font-family: 'Playfair Display', 'Georgia', serif;
+  font-family: var(--bo-font-heading);
   font-size: 18px;
   font-weight: 700;
   color: var(--ink);
