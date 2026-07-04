@@ -40,7 +40,7 @@
    ============================================================================= */
 :root,
 [data-bo-theme="dark"] {
-  --bo-bg-page: linear-gradient(148deg, #18130a 0%, #2e2008 40%, #130f07 100%);
+  --bo-bg-page: linear-gradient(148deg, #0b0b0b 0%, #191919 40%, #080808 100%);
   --bo-hero-bg: var(--bo-bg-page);
   --bo-color-text: #ffffff;
   --bo-color-text-muted: rgba(255, 255, 255, 0.65);
@@ -49,11 +49,11 @@
   --bo-accent-ring: 1px solid rgba(218, 165, 32, 0.25);
   --bo-accent-gradient: linear-gradient(90deg, #d1a33e, #ffd875);
 
-  --bo-bg-surface: rgba(25, 18, 10, 0.6);
+  --bo-bg-surface: rgba(20, 20, 20, 0.6);
   --bo-border-surface: 1px solid rgba(218, 165, 32, 0.12);
-  --bo-bg-surface-hover: rgba(25, 18, 10, 0.7);
+  --bo-bg-surface-hover: rgba(24, 24, 24, 0.7);
   --bo-border-surface-hover: rgba(218, 165, 32, 0.3);
-  --bo-card-gradient: linear-gradient(150deg, rgba(32, 23, 12, 0.75) 0%, rgba(20, 14, 8, 0.55) 100%);
+  --bo-card-gradient: linear-gradient(150deg, rgba(28, 28, 28, 0.75) 0%, rgba(16, 16, 16, 0.55) 100%);
 
   --bo-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
   --bo-shadow-card-hover: 0 8px 30px rgba(218, 165, 32, 0.08);

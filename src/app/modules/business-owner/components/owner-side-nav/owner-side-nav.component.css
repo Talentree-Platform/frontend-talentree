@@ -1,29 +1,28 @@
 .sidebar {
-  /* Premium gold gradient — intentionally fixed regardless of [data-bo-theme],
-     this is the app's signature nav surface, not a themed page surface. */
-  --sb-gold-1: #b8860b;
-  --sb-gold-2: #d1a33e;
-  --sb-gold-3: #f0d68a;
-  --sb-text: var(--bo-color-on-accent);
-  --sb-text-muted: rgba(31, 21, 10, 0.62);
-  --sb-hover-bg: rgba(255, 255, 255, 0.16);
-  --sb-active-bg: rgba(255, 255, 255, 0.3);
-  --sb-active-border: 1px solid rgba(255, 255, 255, 0.55);
-  --sb-active-shadow: 0 6px 18px rgba(42, 28, 5, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  /* Themed surface — matches the top-nav's surface exactly so both bars read
+     as one continuous chrome, in both light and dark mode. */
+  --sb-text: var(--bo-color-text);
+  --sb-text-muted: var(--bo-color-text-muted);
+  --sb-hover-bg: var(--bo-accent-soft);
+  --sb-active-bg: var(--bo-accent-soft);
+  --sb-active-border: var(--bo-accent-ring);
+  --sb-active-shadow: var(--bo-shadow-card-hover);
 
   position: fixed;
   left: 0;
   top: 0;
   height: 100vh;
   width: 80px;
-  background: linear-gradient(165deg, var(--sb-gold-1) 0%, var(--sb-gold-2) 55%, var(--sb-gold-3) 100%);
-  border-right: 1px solid rgba(255, 255, 255, 0.25);
+  background-color: var(--bo-bg-surface);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-right: var(--bo-border-surface);
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease;
+  transition: background-color var(--bo-transition), border-color var(--bo-transition), box-shadow var(--bo-transition), width 0.3s ease;
   z-index: 10000;
   overflow: visible;
-  box-shadow: 0 8px 28px rgba(90, 62, 6, 0.28);
+  box-shadow: var(--bo-shadow-card);
 
   &.expanded {
     width: 300px;
@@ -38,8 +37,8 @@
   width: 100%;
   height: 50px;
   border: none;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  background-color: transparent;
+  border-bottom: 1px solid var(--bo-border-surface-hover);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -104,7 +103,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.35);
+    background-color: var(--bo-border-surface-hover);
     border-radius: 2px;
   }
 }
@@ -190,8 +189,8 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  background-color: rgba(255, 255, 255, 0.12);
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  background-color: var(--bo-bg-surface-hover);
+  border-top: 1px solid var(--bo-border-surface-hover);
 
   ul{
     display: flex;
@@ -235,9 +234,9 @@
 
 /* Profile Section */
 .profile-section {
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 1px solid var(--bo-border-surface-hover);
   padding: 12px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--bo-bg-surface-hover);
 }
 
 .profile-info {
@@ -252,7 +251,7 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid var(--bo-border-surface-hover);
 }
 
 .profile-details {
@@ -281,7 +280,7 @@
   width: 100%;
   /* padding: 8px 12px; */
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--bo-border-surface-hover);
   border-radius: 6px;
   color: var(--sb-text);
   font-size: 13px;
@@ -332,16 +331,23 @@
   }
 }
 
-.white-logo{
-  width:120px;
-  height:100px;
+.tt-sidebar-logo {
   display: flex;
-  margin: auto;
-}
-.white-logo img{
-  width:100%;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  gap: 6px;
+  margin: 8px auto 16px;
+}
+.tt-sidebar-logo-icon {
+  width: 40px;
+  height: 40px;
+}
+.tt-sidebar-logo-text {
+  font-family: var(--bo-font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--bo-accent);
+  letter-spacing: 0.02em;
 }
 
 /* ══════════════════════════════════════
