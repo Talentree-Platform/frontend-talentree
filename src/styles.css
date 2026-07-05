@@ -32,9 +32,78 @@
   --white: #ffffff;
 }
 
+
 html {
   scroll-behavior: smooth;
 }
+
+/* =============================================================================
+   Business Owner module — shared design tokens
+   Single source of truth for the business-owner dark/light theme, sourced
+   from the AI Insights dashboard reference implementation. Toggled by
+   BoThemeService via the [data-bo-theme] attribute on <html>.
+   ============================================================================= */
+:root,
+[data-bo-theme="dark"] {
+  --bo-bg-page: linear-gradient(148deg, #0b0b0b 0%, #191919 40%, #080808 100%);
+  --bo-hero-bg: var(--bo-bg-page);
+  --bo-color-text: #ffffff;
+  --bo-color-text-muted: rgba(255, 255, 255, 0.65);
+  --bo-accent: #d1a33e;
+  --bo-accent-soft: rgba(209, 149, 42, 0.1);
+  --bo-accent-ring: 1px solid rgba(218, 165, 32, 0.25);
+  --bo-accent-gradient: linear-gradient(90deg, #d1a33e, #ffd875);
+
+  --bo-bg-surface: rgba(20, 20, 20, 0.6);
+  --bo-border-surface: 1px solid rgba(218, 165, 32, 0.12);
+  --bo-bg-surface-hover: rgba(24, 24, 24, 0.7);
+  --bo-border-surface-hover: rgba(218, 165, 32, 0.3);
+  --bo-card-gradient: linear-gradient(150deg, rgba(28, 28, 28, 0.75) 0%, rgba(16, 16, 16, 0.55) 100%);
+
+  --bo-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
+  --bo-shadow-card-hover: 0 8px 30px rgba(218, 165, 32, 0.08);
+
+  --bo-radius-input: 10px;
+  --bo-radius-card: 14px;
+  --bo-radius-pill: 100px;
+  --bo-radius-section: 22px;
+
+  --bo-font-heading: 'Cormorant Garamond', serif;
+  --bo-transition: 0.2s ease;
+  --bo-color-on-accent: #1f150a;
+}
+
+[data-bo-theme="light"] {
+  --bo-bg-page: linear-gradient(148deg, #FAF8F2 0%, #F5EFE0 40%, #FAF8F2 100%);
+  /* Soft pastel wash reserved for hero sections — gold cream → baby blue → baby pink */
+  --bo-hero-bg: linear-gradient(135deg, #FDF6E8 0%, #EAF3FB 45%, #FBE9F0 100%);
+  --bo-color-text: #18130A;
+  --bo-color-text-muted: #5C5244;
+  --bo-accent: #b8860b;
+  --bo-accent-soft: rgba(201, 168, 76, 0.12);
+  --bo-accent-ring: 1px solid rgba(201, 168, 76, 0.3);
+  --bo-accent-gradient: linear-gradient(90deg, #b8860b, #c9952a);
+
+  --bo-bg-surface: rgba(255, 255, 255, 0.85);
+  --bo-border-surface: 1px solid rgba(201, 168, 76, 0.18);
+  --bo-bg-surface-hover: #ffffff;
+  --bo-border-surface-hover: rgba(201, 168, 76, 0.35);
+  --bo-card-gradient: linear-gradient(150deg, rgba(255, 255, 255, 0.92) 0%, rgba(253, 246, 232, 0.75) 100%);
+
+  --bo-shadow-card: 0 4px 24px rgba(184, 134, 11, 0.08);
+  --bo-shadow-card-hover: 0 10px 30px rgba(184, 134, 11, 0.12);
+
+  --bo-radius-input: 10px;
+  --bo-radius-card: 14px;
+  --bo-radius-pill: 100px;
+  --bo-radius-section: 22px;
+
+  --bo-font-heading: 'Cormorant Garamond', serif;
+  --bo-transition: 0.2s ease;
+  --bo-color-on-accent: #1f150a;
+}
+
+
 
 body {
   font-family: var(--font-family) !important;
@@ -285,7 +354,7 @@ textarea.textarea-main:focus {
    ============================================================================= */
 
 .owner-products-page {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 1.25rem 3rem;
   font-family: var(--font-family);
@@ -549,13 +618,6 @@ textarea.textarea-main:focus {
   color: var(--ap-text-muted);
 }
 
-.owner-products-table-scroll {
-  overflow-x: auto;
-  border: 1px solid var(--ap-border);
-  border-radius: var(--ap-radius-card);
-  background: var(--ap-surface);
-  box-shadow: var(--ap-shadow-sm);
-}
 
 .owner-products-table {
   width: 100%;

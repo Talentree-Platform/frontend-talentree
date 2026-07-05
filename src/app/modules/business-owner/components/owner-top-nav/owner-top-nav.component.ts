@@ -1,43 +1,75 @@
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { MaterialCartService } from '../../core/services/material-cart.service';
+import { BoThemeService } from '../../core/services/bo-theme.service';
+import { AuthService } from '../../../auth/services/auth.service';
+import { OwnerSettingService } from '../../core/services/owner-setting.service';
+
 
 @Component({
   selector: 'app-owner-top-nav',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterLink , RouterLinkActive],
   templateUrl: './owner-top-nav.component.html',
   styleUrl: './owner-top-nav.component.css'
 })
-export class OwnerTopNavComponent implements OnInit {
-  cartCount = 0;
-  dropdownOpen = false;
 
+export class OwnerTopNavComponent implements OnInit {
   constructor(
     private _MaterialCartService: MaterialCartService,
-    private router: Router
-  ) { }
+    public themeSvc: BoThemeService,
+    private authService: AuthService,
+    private _OwnerSettingService: OwnerSettingService,
+    private elementRef: ElementRef
+  ) {}
 
-  ngOnInit() {
-    this._MaterialCartService.loadCartCount();
-    this._MaterialCartService.count$.subscribe(count => {
-      this.cartCount = count;
-    });
-  }
+cartCount = 0;
+isProfileMenuOpen = false;
+userName = '';
+userEmail = '';
+profileImageUrl: string | null = null;
+readonly defaultAvatar = './assets/images/olive.jpg';
 
-  toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen;
-  }
+ngOnInit() {
+  this._MaterialCartService.loadCartCount();
+  this._MaterialCartService.count$.subscribe(count => {
+    this.cartCount = count;
+  });
 
-  navigateTo(path: string) {
-    this.dropdownOpen = false;
-    this.router.navigate([path]);
-  }
+  this.authService.currentUser$.subscribe(user => {
+    this.userName = user ? `${user.firstName} ${user.lastName}`.trim() : '';
+    this.userEmail = user?.email ?? '';
+  });
 
-  logout() {
-    this.dropdownOpen = false;
-    localStorage.clear();
-    this.router.navigate(['/auth/login']);
+  this._OwnerSettingService.profileImage$.subscribe(url => {
+    this.profileImageUrl = url;
+  });
+  this._OwnerSettingService.refreshCurrentProfile();
+}
+
+onAvatarError(event: Event): void {
+  const img = event.target as HTMLImageElement;
+  img.src = this.defaultAvatar;
+}
+
+toggleTheme() {
+  this.themeSvc.toggle();
+}
+
+toggleProfileMenu() {
+  this.isProfileMenuOpen = !this.isProfileMenuOpen;
+}
+
+logout() {
+  this.isProfileMenuOpen = false;
+  this.authService.logout().subscribe();
+}
+
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent) {
+  if (this.isProfileMenuOpen && !this.elementRef.nativeElement.contains(event.target)) {
+    this.isProfileMenuOpen = false;
   }
+}
+
 }

@@ -16,6 +16,15 @@
         <div class="co-spinner co-spinner--lg"></div>
         <p>Preparing secure payment…</p>
       </div>
+    } @else if (phase() === 'blocked') {
+      <div class="co-modal-state">
+        <svg viewBox="0 0 60 60" fill="none" width="48" height="48">
+          <circle cx="30" cy="30" r="28" stroke="#A09280" stroke-width="2"/>
+          <path d="M30 18v18M30 42h.1" stroke="#A09280" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <h3>Payment Not Available</h3>
+        <p>{{ blockedMessage() }}</p>
+      </div>
     } @else if (phase() === 'success') {
       <div class="co-modal-state co-modal-state--success">
         <div class="co-success-icon">

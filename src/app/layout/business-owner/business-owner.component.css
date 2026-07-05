@@ -1,7 +1,10 @@
 .setting{
-    padding-top: 90px;
+    padding-top: 84px;
     padding-left: 80px;
     margin:auto;
+    min-height: 100vh;
+    background: var(--bo-bg-page);
+    transition: background-color var(--bo-transition, 0.2s ease);
 }
 
 .content {

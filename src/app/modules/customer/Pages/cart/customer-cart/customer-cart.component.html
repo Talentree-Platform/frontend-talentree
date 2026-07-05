@@ -122,7 +122,9 @@
     [preview]="cartSvc.checkoutPreview()"
     [loading]="cartSvc.previewLoading()"
     [error]="cartSvc.previewError()"
+    [submitting]="ordersSvc.checkoutSubmitting()"
     (close)="onClosePreview()"
     (loadPreview)="onCheckoutPreviewRequested($event)"
+    (placeOrder)="onPlaceOrder($event)"
   />
 }

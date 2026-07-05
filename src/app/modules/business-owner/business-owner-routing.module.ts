@@ -33,6 +33,9 @@ import { TicketsListComponent } from './pages/Support/tickets-list/tickets-list.
 import { TicketDetailsComponent } from './pages/Support/ticket-details/ticket-details.component';
 import { FaqComponent } from './pages/Support/faq/faq.component';
 import { TicketCreateComponent } from './pages/Support/ticket-create/ticket-create.component';
+import { BusinessOwnerAiDashboardComponent } from './pages/business-owner-ai-dashboard/business-owner-ai-dashboard.component';
+import { AiPlatformToolsComponent } from './pages/ai-platform-tools/ai-platform-tools.component';
+
 
 const routes: Routes = [
   {
@@ -74,7 +77,9 @@ const routes: Routes = [
       {
         path: 'account',
         loadChildren: () => import('../account/account.routes').then(m => m.ACCOUNT_ROUTES)
-      }
+      },
+      { path: 'ai-dashboard', component: BusinessOwnerAiDashboardComponent },
+      { path: 'ai-platform-tools', component: AiPlatformToolsComponent }
     ]
   }
 

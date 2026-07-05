@@ -190,6 +190,18 @@ export interface CoOrderDetails {
   canRequestRefund: boolean;
 }
 
+// ── Business rules (single source of truth — do not re-derive in components) ─
+
+/**
+ * Whether an order still needs payment action from the customer.
+ * Lives here so any page (details, list, notification banner) can reuse the
+ * same rule instead of re-deriving it locally.
+ */
+export function needsPayment(order: Pick<CoOrderDetails, 'paymentStatus'> | null | undefined): boolean {
+  if (!order) return false;
+  return order.paymentStatus === 'unpaid' || order.paymentStatus === 'failed';
+}
+
 // ── Payment ───────────────────────────────────────────────────────────────────
 export interface CoPaymentIntentResponse {
   clientSecret: string;
@@ -222,38 +234,6 @@ export interface CoAsyncState<T> {
   data: T | null;
   loading: boolean;
   error: string | null;
-}
-export interface CoCreateOrderItem {
-  productId: string;          // API returns number; coerced with String() in normalizer
-  productName: string;
-  productImageUrl: string | null;
-  sellerName: string;
-  unitPrice: number;
-  quantity: number;
-  lineTotal: number;
-}
-
-export interface CoCreateOrderStatusHistoryEntry {
-  status: OrderStatus;
-  notes: string;
-  changedAt: string;
-}
-
-export interface CoCreateOrderResponse {
-  id: string;                 // API returns number; coerced with String()
-  createdAt: string;
-  delivery: CoShippingAddress;
-  subtotalAmount: number;
-  shippingAmount: number;
-  totalAmount: number;
-  status: OrderStatus;
-  paymentStatus: PaymentStatus;
-  paymentMethod: string;      // e.g. "CreditCard" — raw string from backend, not yet mapped to CoPaymentMethod
-  trackingNumber: string | null;
-  estimatedDeliveryDate: string | null;
-  actualDeliveryDate: string | null;
-  items: CoCreateOrderItem[];
-  statusHistory: CoCreateOrderStatusHistoryEntry[];
 }
 
 export function coInitialAsyncState<T>(): CoAsyncState<T> {

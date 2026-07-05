@@ -1,0 +1,14 @@
+.content-area {
+  /* The navbar is fixed and floating at the top of the page.
+     By setting padding-top to 0, pages can extend underneath
+     the floating glass navbar, and they will define their own
+     top padding to align content. */
+  padding-top: 0;
+  min-height: 100vh;
+}
+
+@media (max-width: 780px) {
+  .content-area {
+    padding-top: 0;
+  }
+}

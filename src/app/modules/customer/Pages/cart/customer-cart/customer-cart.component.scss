@@ -48,9 +48,13 @@ $bp-sm: 600px;
   align-items: flex-end;
   justify-content: space-between;
   gap: 32px;
-  padding-top: 48px;
+  padding-top: 112px;
   padding-bottom: 48px;
   flex-wrap: wrap;
+
+  @media (max-width: $bp-md) {
+    padding-top: 92px;
+  }
 }
 
 .cart-hero__eyebrow {

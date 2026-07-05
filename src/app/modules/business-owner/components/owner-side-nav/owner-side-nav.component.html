@@ -10,8 +10,23 @@
 
   <!-- Logo -->
   @if (isExpanded) {
-    <div class="white-logo">
-      <img src="./assets/images/white logo 2.png" alt="Logo">
+    <div class="tt-sidebar-logo">
+      <svg class="tt-sidebar-logo-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M17 31V19" stroke="url(#tt-sidebar-logo-gold)" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M17 23L10.5 17.5M17 20.5L24 15M17 18.5V12" stroke="url(#tt-sidebar-logo-gold)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="17" cy="10" r="4.2" fill="url(#tt-sidebar-logo-gold)"/>
+        <circle cx="8.5" cy="15.5" r="3.1" fill="url(#tt-sidebar-logo-gold)" opacity="0.85"/>
+        <circle cx="25.5" cy="13.5" r="3.1" fill="url(#tt-sidebar-logo-gold)" opacity="0.85"/>
+        <circle cx="10.5" cy="8.3" r="2.1" fill="url(#tt-sidebar-logo-gold)" opacity="0.65"/>
+        <circle cx="24" cy="6.8" r="2.1" fill="url(#tt-sidebar-logo-gold)" opacity="0.65"/>
+        <defs>
+          <linearGradient id="tt-sidebar-logo-gold" x1="4" y1="4" x2="30" y2="31" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#F0D080"/>
+            <stop offset="1" stop-color="#B8860B"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="tt-sidebar-logo-text">Talentree</span>
     </div>
   }
 
@@ -33,17 +48,7 @@
             [routerLink]="item.route ? [item.route] : null" >
 
             <span class="icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-6">
-
-                <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="item.icon" />
-
-              </svg>
+              <i class="fa-solid" [ngClass]="item.icon"></i>
             </span>
 
             @if (isExpanded) {
@@ -70,8 +75,8 @@
 
                 <li>
                   <a
-                    (click)="setActive(sub.key)"
-                    [class.active]="activeItem === sub.key"
+                    (click)="setActiveSub(item.key, sub.key)"
+                    [class.active]="activeSubItem === sub.key"
                     [routerLink]="sub.route ? [sub.route] : null">
 
                     {{ sub.label }}
@@ -99,13 +104,14 @@
 
         <div class="profile-info">
           <img
-            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=100&q=80"
+            [src]="profileImageUrl || defaultAvatar"
+            (error)="onAvatarError($event)"
             alt="Profile"
             class="profile-img"/>
 
           <div class="profile-details">
             <div class="profile-name">
-              John Doe
+              {{ userName || 'Business Owner' }}
             </div>
 
             <div class="profile-role">

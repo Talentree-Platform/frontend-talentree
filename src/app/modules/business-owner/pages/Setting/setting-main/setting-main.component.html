@@ -19,8 +19,40 @@
     </div>
 
     <div class="hero-visual">
-      <div class="hero-img-frame">
-        <img src="../../../../../assets/images/setting.jfif" alt="Settings illustration" />
+      <div class="hero-img-frame hero-img-frame--illustration" aria-hidden="true">
+        <svg class="hero-illustration-svg" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+          <!-- Soft glow -->
+          <circle cx="120" cy="120" r="98" fill="rgba(201,168,76,0.08)"/>
+
+          <!-- Rotating gear (security / preferences) -->
+          <g class="hero-illus-gear">
+            <path d="M176 52 L180 52 L182 60 L189 63 L196 58 L200 62 L195 69 L198 76 L206 78 L206 82 L198 84 L195 91 L200 98 L196 102 L189 97 L182 100 L180 108 L176 108 L174 100 L167 97 L160 102 L156 98 L161 91 L158 84 L150 82 L150 78 L158 76 L161 69 L156 62 L160 58 L167 63 L174 60 Z"
+              fill="rgba(201,168,76,0.16)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="178" cy="80" r="10" fill="rgba(20,14,8,0.12)" stroke="rgba(201,168,76,0.45)" stroke-width="1.5"/>
+          </g>
+
+          <!-- Profile card (account) -->
+          <rect x="34" y="96" width="118" height="92" rx="14" fill="rgba(201,168,76,0.14)" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+          <circle cx="66" cy="130" r="16" fill="rgba(99,102,241,0.16)" stroke="rgba(99,102,241,0.4)" stroke-width="1.5"/>
+          <rect x="90" y="121" width="48" height="6" rx="3" fill="rgba(201,168,76,0.32)"/>
+          <rect x="90" y="133" width="34" height="5" rx="2.5" fill="rgba(201,168,76,0.2)"/>
+          <rect x="50" y="156" width="86" height="6" rx="3" fill="rgba(201,168,76,0.14)"/>
+          <rect x="50" y="168" width="60" height="6" rx="3" fill="rgba(201,168,76,0.14)"/>
+
+          <!-- Toggle switch (preferences) -->
+          <rect x="140" y="150" width="46" height="24" rx="12" fill="rgba(201,168,76,0.22)" stroke="rgba(201,168,76,0.45)" stroke-width="1.5"/>
+          <circle class="hero-illus-toggle" cx="174" cy="162" r="8" fill="rgba(201,168,76,0.85)"/>
+
+          <!-- Shield (security) -->
+          <path d="M182 118 L200 124 V138 C200 150 192 158 182 162 C172 158 164 150 164 138 V124 Z"
+            fill="rgba(99,102,241,0.14)" stroke="rgba(99,102,241,0.4)" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M174 138 L180 144 L191 130" fill="none" stroke="rgba(99,102,241,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- Sparkles -->
+          <circle class="hero-illus-sparkle hero-illus-sparkle--1" cx="44" cy="70" r="3" fill="rgba(201,168,76,0.6)"/>
+          <circle class="hero-illus-sparkle hero-illus-sparkle--2" cx="206" cy="182" r="2.5" fill="rgba(99,102,241,0.55)"/>
+          <circle class="hero-illus-sparkle hero-illus-sparkle--3" cx="120" cy="60" r="2" fill="rgba(201,168,76,0.5)"/>
+        </svg>
       </div>
     </div>
   </section>
@@ -43,7 +75,8 @@
       <div class="avatar-wrap">
         <img
           class="avatar-img"
-          [src]="profilePreview || 'https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg'"
+          [src]="profilePreview || defaultAvatar"
+          (error)="onAvatarError($event)"
           alt="Profile avatar"
         />
         <button type="button" class="avatar-edit-btn" (click)="fileInput.click()" title="Change photo">

@@ -186,9 +186,17 @@
             </p>
           </div>
 
-          <button class="checkout-confirm-btn">
-            Place Order
-            <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <button
+            class="checkout-confirm-btn"
+            (click)="onPlaceOrder()"
+            [disabled]="submitting"
+          >
+            @if (submitting) {
+              <span class="btn-spinner"></span> Placing Order…
+            } @else {
+              Place Order
+              <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            }
           </button>
         </div>
       }

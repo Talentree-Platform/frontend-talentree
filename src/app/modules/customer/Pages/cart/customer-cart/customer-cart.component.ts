@@ -5,9 +5,11 @@ import {
   Component, OnInit, inject, ChangeDetectionStrategy, signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CustomerCartService, ShippingAddress } from '../../../Core/services/cart-service.service';
 import { ToastService } from '../../../Core/services/toast.service';
+import { CustomerOrdersService } from '../../../Core/services/customer-orders.service';
+import { CoCreateOrderRequest, CoCreateOrderResponse } from '../../../Core/models/co-order.models';
 import { CartItemCardComponent } from '../../../components/cart/cart-item-card/cart-item-card.component';
 import { CartSummaryCardComponent } from '../../../components/cart/cart-summary-card/cart-summary-card.component';
 import { CartLoadingSkeletonComponent } from '../../../components/cart/cart-loading-skeleton/cart-loading-skeleton.component';
@@ -34,7 +36,9 @@ import { CheckoutPreviewPanelComponent } from '../../../components/cart/checkout
 })
 export class CustomerCartComponent implements OnInit {
   protected readonly cartSvc = inject(CustomerCartService);
+  protected readonly ordersSvc = inject(CustomerOrdersService);
   private readonly toastSvc = inject(ToastService);
+  private readonly router = inject(Router);
 
   readonly showCheckoutPreview = signal(false);
   readonly clearConfirmVisible = signal(false);
@@ -82,6 +86,33 @@ export class CustomerCartComponent implements OnInit {
 
   onCheckoutPreviewRequested(address: ShippingAddress): void {
     this.cartSvc.loadCheckoutPreview(address);
+  }
+
+  onPlaceOrder(address: ShippingAddress): void {
+    if (this.ordersSvc.checkoutSubmitting()) return; // guard against double-click
+
+    const payload: CoCreateOrderRequest = {
+      fullName: address.fullName,
+      phoneNumber: address.phoneNumber,
+      street: address.street,
+      city: address.city,
+      postalCode: address.postalCode,
+      country: address.country,
+    };
+
+    // 'card' is the only confirmed payment-method code today (method=0).
+    // Wire in a real selection here if a payment-method step gets added.
+    this.ordersSvc.createOrder(payload, 'card').subscribe({
+      next: (order: CoCreateOrderResponse) => {
+        this.toastSvc.success('Order placed', `Order #${order.id} created successfully`);
+        this.cartSvc.clearCart().subscribe();
+        this.showCheckoutPreview.set(false);
+        this.router.navigate(['/customer/orderDetails', order.id]);
+      },
+      error: () => {
+        this.toastSvc.error('Order failed', this.ordersSvc.checkoutError() ?? 'Could not place order');
+      },
+    });
   }
 
   onRetry(): void {

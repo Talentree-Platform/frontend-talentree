@@ -12,6 +12,8 @@ import {
   CoPaginatedOrders,
   CoOrderListItem,
   CoOrderDetails,
+  CoOrderItem,
+  CoOrderTimelineStep,
   CoPaymentIntentResponse,
   CoCancelOrderResponse,
   CoRefundRequestPayload,
@@ -19,8 +21,8 @@ import {
   CoShippingAddress,
   OrderStatus,
   PaymentStatus,
+  OrderStatusCode,
   ORDER_STATUS_STRING_TO_CODE,
-  mapOrderStatus,
 } from '../models/co-order.models';
 import { environment } from '../../../../core/environment/envirinment';
 
@@ -104,6 +106,44 @@ interface RawCreateOrderResponse {
   actualDeliveryDate: string | null;
   items: RawCreateOrderItem[];
   statusHistory: RawCreateOrderStatusHistoryEntry[];
+}
+
+// ── Shape exactly as returned by GET /api/customer/orders/{id}.
+// Confirmed from real Network response on 2026-07-01 — the field is
+// "delivery" (NOT "shippingAddress"), and there is no orderNumber,
+// statusCode, timeline, canCancel, canRequestRefund, taxAmount, or
+// discount on the wire at all. All of those are derived below.
+interface RawOrderDetailsItem {
+  productId: number;
+  productName: string;
+  productImageUrl: string;
+  sellerName: string;
+  unitPrice: number;
+  quantity: number;
+  lineTotal: number;
+}
+
+interface RawOrderDetailsStatusHistoryEntry {
+  status: string;
+  notes: string;
+  changedAt: string;
+}
+
+interface RawOrderDetails {
+  id: number;
+  createdAt: string;
+  delivery: CoShippingAddress;
+  subtotalAmount: number;
+  shippingAmount: number;
+  totalAmount: number;
+  status: string;
+  paymentStatus: string;
+  paymentMethod: string;
+  trackingNumber: string | null;
+  estimatedDeliveryDate: string | null;
+  actualDeliveryDate: string | null;
+  items: RawOrderDetailsItem[];
+  statusHistory: RawOrderDetailsStatusHistoryEntry[];
 }
 
 const BASE = `${environment.baseUrl}/api/customer/orders`;
@@ -221,7 +261,7 @@ export class CustomerOrdersService {
     this._detailsError.set(null);
     this._orderDetails.set(null);
 
-    this.http.get<ApiResponse<CoOrderDetails>>(`${BASE}/${orderId}`).pipe(
+    this.http.get<ApiResponse<RawOrderDetails>>(`${BASE}/${orderId}`).pipe(
       tap((res) => this._orderDetails.set(normalizeOrderDetails(res.data))),
       catchError((err) => {
         this._detailsError.set(extractErrorMessage(err, 'Could not load this order.'));
@@ -246,29 +286,37 @@ export class CustomerOrdersService {
 
   // ═══════════════════════════════════════════════════════════════════════
   // CANCEL ORDER  →  POST /api/customer/orders/{id}/cancel
+  // Confirmed from real Network response on 2026-07-01: `data` is null.
+  // The backend does NOT return orderId/status/cancelledAt — those are
+  // synthesized locally on success rather than read off the response body.
   // ═══════════════════════════════════════════════════════════════════════
   cancelOrder(orderId: string): Observable<CoCancelOrderResponse> {
     this._cancelLoading.set(true);
     this._cancelError.set(null);
 
-    return this.http.post<CoCancelOrderResponse>(`${BASE}/${orderId}/cancel`, {}).pipe(
-      tap((res) => {
-        // Optimistic update of details signal if loaded
+    return this.http.post<ApiResponse<null>>(`${BASE}/${orderId}/cancel`, {}).pipe(
+      map((): CoCancelOrderResponse => ({
+        orderId,
+        status: 'cancelled',
+        cancelledAt: new Date().toISOString(),
+      })),
+      tap(() => {
+        // Full refetch of details (not a partial patch) — cancelling changes
+        // more than just `status`/`canCancel`; the `timeline` array also
+        // gains a new step, which a partial optimistic patch can't express
+        // correctly. Only refetch if these are the details currently loaded.
         const current = this._orderDetails();
         if (current && current.id === orderId) {
-          this._orderDetails.set({
-            ...current,
-            status: res.status,
-            canCancel: false,
-          });
+          this.loadOrderDetails(orderId);
         }
-        // Optimistic update of list signal if present
+        // Optimistic update of list signal if present — list view has no
+        // timeline to keep in sync, so a partial patch is safe here.
         const list = this._orders();
         if (list) {
           this._orders.set({
             ...list,
             data: list.data.map((o: CoOrderListItem) =>
-              o.id === orderId ? { ...o, status: res.status } : o
+              o.id === orderId ? { ...o, status: 'cancelled' as OrderStatus, statusCode: OrderStatusCode.Cancelled } : o
             ),
           });
         }
@@ -387,10 +435,85 @@ function normalizePaymentStatusString(raw: string): PaymentStatus {
   return (valid as string[]).includes(lowered) ? (lowered as PaymentStatus) : 'unpaid';
 }
 
-function normalizeOrderDetails(res: CoOrderDetails): CoOrderDetails {
+// Human-readable labels for timeline steps, keyed by the same lowercase
+// OrderStatus union used everywhere else in this file.
+const TIMELINE_LABELS: Record<OrderStatus, string> = {
+  pending: 'Order Placed',
+  processing: 'Processing',
+  shipped: 'Shipped',
+  delivered: 'Delivered',
+  cancelled: 'Cancelled',
+  refunded: 'Refunded',
+};
+
+// Remaps the RAW order-details shape (numeric id, `delivery` field instead
+// of `shippingAddress`, no orderNumber/statusCode/timeline/canCancel/
+// canRequestRefund/taxAmount/discount on the wire) into CoOrderDetails as
+// defined in co-order.models.ts. Confirmed from the real Network response
+// on 2026-07-01 for GET /api/customer/orders/{id}.
+function normalizeOrderDetails(res: RawOrderDetails): CoOrderDetails {
+  const status = normalizeOrderStatusString(res.status);
+  const paymentStatus = normalizePaymentStatusString(res.paymentStatus);
+
+  // Timeline is built from statusHistory — the API gives no separate
+  // "timeline" field. Every entry that has already happened is marked
+  // completed; the most recent entry is also flagged as current.
+  const timeline: CoOrderTimelineStep[] = res.statusHistory.map((entry, index) => {
+    const entryStatus = normalizeOrderStatusString(entry.status);
+    const isLast = index === res.statusHistory.length - 1;
+    return {
+      status: entryStatus,
+      label: TIMELINE_LABELS[entryStatus] ?? entry.status,
+      timestamp: entry.changedAt,
+      completed: true,
+      current: isLast,
+    };
+  });
+
+  // ASSUMPTION — backend has no canCancel/canRequestRefund flags on this
+  // endpoint. canCancel is derived: only orders still in pending/processing
+  // can be cancelled. canRequestRefund is conservatively false until the
+  // backend exposes a real rule; confirm with backend before relying on it.
+  const canCancel = status === 'pending' || status === 'processing';
+  const canRequestRefund = false;
+
   return {
-    ...res,
-    status: res.status ?? mapOrderStatus(res.statusCode),
+    id: String(res.id),
+    orderNumber: `#${res.id}`,
+    status,
+    statusCode: ORDER_STATUS_STRING_TO_CODE[status],
+    paymentStatus,
+    createdAt: res.createdAt,
+    estimatedDeliveryDate: res.estimatedDeliveryDate,
+    shippingAddress: res.delivery,
+    items: res.items.map((it): CoOrderItem => ({
+      // API has no per-item order-line id — productId is used as a stand-in.
+      // Replace with a real item id if/when the backend adds one.
+      id: String(it.productId),
+      productId: String(it.productId),
+      productName: it.productName,
+      imageUrl: it.productImageUrl,
+      sellerName: it.sellerName,
+      unitPrice: it.unitPrice,
+      quantity: it.quantity,
+      lineTotal: it.lineTotal,
+      // API doesn't return currency per item — hardcoded to match the
+      // order-level currency assumption used elsewhere in this file.
+      currency: 'EGP',
+      // API doesn't return refund status per item on this endpoint.
+      refundStatus: 'none',
+    })),
+    subtotal: res.subtotalAmount,
+    shippingFee: res.shippingAmount,
+    // API doesn't return tax or discount on this endpoint — 0 until the
+    // backend adds these fields.
+    taxAmount: 0,
+    discount: 0,
+    totalAmount: res.totalAmount,
+    currency: 'EGP',
+    timeline,
+    canCancel,
+    canRequestRefund,
   };
 }
 

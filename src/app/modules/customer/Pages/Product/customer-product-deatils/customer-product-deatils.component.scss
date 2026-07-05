@@ -43,11 +43,11 @@ $bp-sm: 600px;
   max-width: 1240px;
   margin-inline: auto;
   padding-inline: 24px;
-  padding-block: 32px 64px;
+  padding-block: 112px 64px;
 
   @media (max-width: $bp-sm) {
     padding-inline: 16px;
-    padding-block: 20px 48px;
+    padding-block: 92px 48px;
   }
 }
 

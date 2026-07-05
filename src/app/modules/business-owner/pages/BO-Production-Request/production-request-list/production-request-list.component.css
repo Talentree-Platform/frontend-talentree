@@ -4,21 +4,19 @@
    Builds on global owner-products- design system
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap');
-
 /* ─────────────────────────────────────────────────────────
    CSS Custom Props
    ───────────────────────────────────────────────────────── */
-:root {
-  --pr-gold: #C9A84C;
+:host {
+  --pr-gold: var(--bo-accent, #C9A84C);
   --pr-gold-light: #e2c675;
   --pr-gold-dim: rgba(201, 168, 76, 0.14);
   --pr-gold-glow: rgba(201, 168, 76, 0.32);
-  --pr-card-radius: 20px;
+  --pr-card-radius: var(--bo-radius-section, 20px);
   --pr-transition: 0.26s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Card warm gradient */
-  --pr-card-bg: linear-gradient(145deg, #fffdf7 0%, #fdf6e8 60%, #faf0d7 100%);
+  --pr-card-bg: var(--bo-card-gradient, linear-gradient(145deg, #fffdf7 0%, #fdf6e8 60%, #faf0d7 100%));
   --pr-card-bg-hover: linear-gradient(145deg, #fffef9 0%, #fef8ec 60%, #fdf3e0 100%);
 
   /* Status colours */
@@ -34,6 +32,8 @@
   --pr-green-bg: rgba(16, 185, 129, 0.12);
   --pr-red: #ef4444;
   --pr-red-bg: rgba(239, 68, 68, 0.12);
+
+  display: block;
 }
 
 .pr-list-page {
@@ -45,24 +45,16 @@
    ───────────────────────────────────────────────────────── */
 .pr-hero {
   position: relative;
-  background: #12110e !important;
   background-image:
     radial-gradient(ellipse 60% 50% at 80% 30%, rgba(201,168,76,0.13) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 60% at 10% 70%, rgba(201,168,76,0.07) 0%, transparent 70%) !important;
-  border-radius: 22px;
+    radial-gradient(ellipse 40% 60% at 10% 70%, rgba(201,168,76,0.07) 0%, transparent 70%),
+    var(--bo-hero-bg) !important;
+  border-radius: var(--bo-radius-section, 22px);
   overflow: hidden;
   padding: 3rem 3rem 0;
   margin-bottom: 2.5rem;
   isolation: isolate;
-}
-
-/* Force all text inside hero to correct light colours */
-.pr-hero *,
-.pr-hero h1,
-.pr-hero p,
-.pr-hero span,
-.pr-hero button {
-  color: inherit;
+  transition: background-color var(--bo-transition, 0.2s ease);
 }
 
 /* Blobs */
@@ -124,9 +116,9 @@
   display: inline-flex !important;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(201, 168, 76, 0.18) !important;
-  border: 1px solid rgba(201, 168, 76, 0.4) !important;
-  color: #e2c675 !important;
+  background: var(--bo-accent-soft, rgba(201, 168, 76, 0.18)) !important;
+  border: var(--bo-border-surface-hover, rgba(201, 168, 76, 0.4)) !important;
+  color: var(--bo-accent, #e2c675) !important;
   font-size: 0.71rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -138,11 +130,11 @@
 }
 
 .pr-hero__heading {
-  font-family: 'Playfair Display', Georgia, serif !important;
+  font-family: var(--bo-font-heading) !important;
   font-size: clamp(1.9rem, 4vw, 2.9rem) !important;
   font-weight: 700 !important;
   line-height: 1.15 !important;
-  color: #f5f0e8 !important;
+  color: var(--bo-color-text, #f5f0e8) !important;
   margin: 0 0 1rem !important;
   letter-spacing: -0.02em;
 }
@@ -156,7 +148,7 @@
 
 .pr-hero__subtitle {
   font-size: 0.92rem !important;
-  color: rgba(245, 240, 232, 0.58) !important;
+  color: var(--bo-color-text-muted, rgba(245, 240, 232, 0.58)) !important;
   line-height: 1.68 !important;
   max-width: 490px;
   margin: 0 0 1.85rem !important;
@@ -188,8 +180,8 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border-top: 1px solid rgba(201, 168, 76, 0.18);
-  background: rgba(255, 255, 255, 0.025);
+  border-top: var(--bo-border-surface-hover, rgba(201, 168, 76, 0.18));
+  background: var(--bo-bg-surface-hover, rgba(255, 255, 255, 0.025));
   backdrop-filter: blur(6px);
   padding: 1.35rem 1rem;
   gap: 0.5rem;
@@ -204,16 +196,16 @@
 }
 
 .pr-stat__value {
-  font-family: 'Playfair Display', Georgia, serif !important;
+  font-family: var(--bo-font-heading) !important;
   font-size: 1.75rem !important;
   font-weight: 700 !important;
-  color: #e2c675 !important;
+  color: var(--bo-accent, #e2c675) !important;
   line-height: 1;
 }
 
 .pr-stat__label {
   font-size: 0.72rem !important;
-  color: rgba(245, 240, 232, 0.48) !important;
+  color: var(--bo-color-text-muted, rgba(245, 240, 232, 0.48)) !important;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: 500;
@@ -333,7 +325,7 @@
 }
 
 .pr-empty__title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--text);
@@ -372,7 +364,7 @@
 .pr-card {
   position: relative;
   /* Warm creamy gradient background */
-  background: linear-gradient(145deg, #fffdf7 0%, #fdf6e8 60%, #faf0d7 100%);
+  background: var(--pr-card-bg);
   /* No harsh border — just a whisper of gold */
   border: 1px solid rgba(201, 168, 76, 0.18);
   border-radius: var(--pr-card-radius);
@@ -411,7 +403,7 @@
 /* Hover — bigger lift, warm glow */
 .pr-card:hover {
   transform: translateY(-8px) scale(1.012);
-  background: linear-gradient(145deg, #fffef9 0%, #fef8ec 55%, #fdf3e0 100%);
+  background: var(--pr-card-bg-hover);
   border-color: rgba(201, 168, 76, 0.45);
   box-shadow:
     0 16px 40px rgba(180, 140, 40, 0.16),
@@ -470,7 +462,7 @@
 .pr-card__id {
   font-size: 0.77rem;
   font-weight: 600;
-  color: #a89060;
+  color: var(--bo-color-text-muted, #a89060);
   letter-spacing: 0.05em;
   font-variant-numeric: tabular-nums;
 }
@@ -484,7 +476,7 @@
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
-  color: #2a1f0a;
+  color: var(--bo-color-text, #2a1f0a);
   line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -517,7 +509,7 @@
 .pr-metric__icon {
   display: flex;
   align-items: center;
-  color: #a89060;
+  color: var(--bo-color-text-muted, #a89060);
   flex-shrink: 0;
 }
 
@@ -528,11 +520,11 @@
 .pr-metric__value {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #3a2a0a;
+  color: var(--bo-color-text, #3a2a0a);
 }
 
 .pr-metric--gold .pr-metric__value {
-  color: #8a6010;
+  color: var(--bo-accent, #8a6010);
 }
 
 /* ── Card Footer ─────────────────────── */
@@ -578,13 +570,13 @@
 .pr-btn--view {
   background: rgba(201, 168, 76, 0.1);
   border: 1.5px solid rgba(201, 168, 76, 0.3);
-  color: #8a6010;
+  color: var(--bo-accent, #8a6010);
 }
 
 .pr-btn--view:hover {
   background: rgba(201, 168, 76, 0.18);
   border-color: rgba(201, 168, 76, 0.55);
-  color: #6a4a00;
+  color: var(--bo-accent, #6a4a00);
   transform: translateX(2px);
 }
 
@@ -614,7 +606,7 @@
 
 .pr-btn--cancel:disabled {
   border-color: rgba(0,0,0,0.12);
-  color: #a89060;
+  color: var(--bo-color-text-muted, #a89060);
 }
 
 /* Spinner inside buttons */
@@ -831,16 +823,16 @@
 }
 
 .pr-confirm-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--bo-font-heading);
   font-size: 1.3rem;
   font-weight: 700;
-  color: #2a1f0a;
+  color: var(--bo-color-text, #2a1f0a);
   margin: 0 0 0.6rem;
 }
 
 .pr-confirm-msg {
   font-size: 0.88rem;
-  color: #7a6040;
+  color: var(--bo-color-text-muted, #7a6040);
   line-height: 1.62;
   margin: 0 0 1.5rem;
 }
@@ -875,7 +867,7 @@
   gap: 0.4rem;
   background: linear-gradient(145deg, #fffdf7, #fdf6e8);
   border: 1.5px solid rgba(201, 168, 76, 0.25);
-  color: #7a6040;
+  color: var(--bo-color-text-muted, #7a6040);
   font-size: 0.83rem;
   font-weight: 600;
   padding: 8px 18px;
@@ -887,7 +879,7 @@
 
 .pr-page-btn:hover:not(:disabled) {
   border-color: rgba(201, 168, 76, 0.5);
-  color: #5a4010;
+  color: var(--bo-accent, #5a4010);
   background: linear-gradient(145deg, #fef8ec, #fdf0d0);
   box-shadow: 0 2px 10px rgba(180, 140, 40, 0.12);
 }
@@ -912,7 +904,7 @@
   border-radius: 11px;
   border: 1.5px solid transparent;
   background: transparent;
-  color: #a89060;
+  color: var(--bo-color-text-muted, #a89060);
   font-size: 0.83rem;
   font-weight: 600;
   cursor: pointer;
@@ -922,7 +914,7 @@
 
 .pr-page-num:hover:not(.pr-page-num--active) {
   border-color: rgba(201, 168, 76, 0.28);
-  color: #5a4010;
+  color: var(--bo-accent, #5a4010);
   background: rgba(201, 168, 76, 0.08);
 }
 
@@ -936,7 +928,7 @@
 .pr-page-ellipsis {
   width: 32px;
   text-align: center;
-  color: #c0a070;
+  color: var(--bo-accent, #c0a070);
   font-size: 0.85rem;
 }
 
@@ -969,4 +961,20 @@
 @media (max-width: 480px) {
   .pr-card__footer { flex-wrap: nowrap; justify-content: space-between; }
   .pr-btn { flex: 1; justify-content: center; padding: 6px 10px; font-size: 0.75rem; }
+}
+
+/* ── Dark mode ─────────────────────────────────────────────── */
+:host-context([data-bo-theme='dark']) {
+  --pr-card-bg-hover: linear-gradient(150deg, rgba(38, 28, 15, 0.85) 0%, rgba(24, 17, 10, 0.65) 100%);
+}
+
+:host-context([data-bo-theme='dark']) .pr-card,
+:host-context([data-bo-theme='dark']) .pr-skeleton-card {
+  border-color: var(--bo-border-surface-hover);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+:host-context([data-bo-theme='dark']) .pr-card:hover {
+  border-color: var(--bo-accent-ring, rgba(201, 168, 76, 0.45));
 }

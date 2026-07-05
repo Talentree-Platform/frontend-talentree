@@ -1,6 +1,20 @@
 
 <div class="home-page">
 
+  <!-- Quick Access -->
+  <div class="widget quick-links-widget">
+    <div class="widget-header">
+      <h3>Quick Access</h3>
+    </div>
+    <div class="quick-links-grid">
+      <a class="quick-link-card" *ngFor="let link of quickLinks" [routerLink]="link.route">
+        <span class="quick-link-icon"><i class="fa-solid" [ngClass]="link.icon"></i></span>
+        <span class="quick-link-label">{{ link.label }}</span>
+        <span class="quick-link-desc">{{ link.description }}</span>
+      </a>
+    </div>
+  </div>
+
   <!-- Financial Summary -->
   <div class="widget" *ngIf="!loading && summary">
     <div class="widget-header">

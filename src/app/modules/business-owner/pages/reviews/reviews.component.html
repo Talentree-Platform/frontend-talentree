@@ -1,123 +1,171 @@
-<div class="reviews-page">
+<div class="rv-page">
 
-  <!-- Header -->
-  <div class="page-header">
-    <h1>Customer Reviews</h1>
-  </div>
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="rv-hero">
+    <span class="rv-hero-blob rv-hero-blob--1"></span>
+    <span class="rv-hero-blob rv-hero-blob--2"></span>
+    <span class="rv-hero-blob rv-hero-blob--3"></span>
 
-  <!-- Analytics Cards -->
-  <div class="analytics-cards" *ngIf="analytics">
-    <div class="card">
-      <span class="label">Avg Rating</span>
-      <span class="value">{{ analytics.averageRating | number:'1.1-1' }} ⭐</span>
-    </div>
-    <div class="card">
-      <span class="label">Total Reviews</span>
-      <span class="value">{{ analytics.totalReviews }}</span>
-    </div>
-    <div class="card">
-      <span class="label">Responded</span>
-      <span class="value">{{ analytics.totalResponded }}</span>
-    </div>
-    <div class="card">
-      <span class="label">Response Rate</span>
-      <span class="value">{{ analytics.responseRate | number:'1.0-0' }}%</span>
-    </div>
-  </div>
+    <div class="rv-hero__inner">
+      <span class="rv-hero-badge">Customer Feedback</span>
+      <h1 class="rv-hero__title">Customer Reviews</h1>
+      <p class="rv-hero__subtitle">See what customers are saying about your products and respond to build trust.</p>
 
-  <!-- Distribution -->
-  <div class="distribution" *ngIf="analytics">
-    <div class="dist-row" *ngFor="let star of [5,4,3,2,1]">
-      <span class="star-label">{{ star }}★</span>
-      <div class="bar-wrap">
-        <div class="bar" [style.width.%]="analytics.totalReviews
-          ? (getStar(star) / analytics.totalReviews) * 100 : 0"></div>
-      </div>
-      <span class="count">{{ getStar(star) }}</span>
-    </div>
-  </div>
-
-  <!-- Filters -->
-  <div class="filters">
-    <input type="text" [(ngModel)]="search" (input)="onFilterChange()" placeholder="Search reviews..." />
-    <select [(ngModel)]="rating" (change)="onFilterChange()">
-      <option value="">All Ratings</option>
-      <option [value]="5">5 ★</option>
-      <option [value]="4">4 ★</option>
-      <option [value]="3">3 ★</option>
-      <option [value]="2">2 ★</option>
-      <option [value]="1">1 ★</option>
-    </select>
-    <select [(ngModel)]="sortBy" (change)="onFilterChange()">
-      <option value="createdAt">Latest</option>
-      <option value="rating">Rating</option>
-    </select>
-  </div>
-
-  <!-- Reviews List -->
-  <div class="loading" *ngIf="loadingReviews">Loading reviews...</div>
-  <div class="error"   *ngIf="errorReviews">{{ errorReviews }}</div>
-
-  <div class="review-list" *ngIf="!loadingReviews">
-    <div class="review-card" *ngFor="let review of reviews" [class.toxic]="review.flaggedToxic">
-
-      <div class="review-header">
-        <div class="reviewer">
-          <span class="name">{{ review.isAnonymous ? 'Anonymous' : review.customerName }}</span>
-          <span class="product">{{ review.productName }}</span>
+      <div class="rv-hero__metrics" *ngIf="analytics">
+        <div class="rv-hero-metric rv-hero-metric--gold">
+          <span class="rv-hero-metric__label">Avg Rating</span>
+          <span class="rv-hero-metric__value">{{ analytics.averageRating | number:'1.1-1' }} ★</span>
         </div>
-        <div class="meta">
-          <span class="stars">
-            <span *ngFor="let s of stars(review.rating)">★</span>
-            <span class="empty" *ngFor="let s of emptyStars(review.rating)">★</span>
+        <div class="rv-hero-metric">
+          <span class="rv-hero-metric__label">Total Reviews</span>
+          <span class="rv-hero-metric__value">{{ analytics.totalReviews }}</span>
+        </div>
+        <div class="rv-hero-metric">
+          <span class="rv-hero-metric__label">Responded</span>
+          <span class="rv-hero-metric__value">{{ analytics.totalResponded }}</span>
+        </div>
+        <div class="rv-hero-metric">
+          <span class="rv-hero-metric__label">Response Rate</span>
+          <span class="rv-hero-metric__value">{{ analytics.responseRate | number:'1.0-0' }}%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Distribution + filters ───────────────────────────────────────── -->
+  <div class="rv-toolbar-row">
+
+    <div class="rv-distribution" *ngIf="analytics">
+      <div class="rv-dist-row" *ngFor="let star of [5,4,3,2,1]">
+        <span class="rv-star-label">{{ star }}★</span>
+        <div class="rv-bar-wrap">
+          <div class="rv-bar" [style.width.%]="analytics.totalReviews ? (getStar(star) / analytics.totalReviews) * 100 : 0"></div>
+        </div>
+        <span class="rv-count">{{ getStar(star) }}</span>
+      </div>
+    </div>
+
+    <div class="rv-filter-bar">
+      <div class="rv-filter-field rv-filter-field--grow">
+        <label class="rv-filter-label" for="rvSearch">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search
+        </label>
+        <div class="rv-input-wrap">
+          <svg class="rv-input-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="rv-input" id="rvSearch" type="text" [(ngModel)]="search" (input)="onFilterChange()" placeholder="Search reviews…" />
+        </div>
+      </div>
+
+      <div class="rv-filter-field">
+        <label class="rv-filter-label" for="rvRating">Rating</label>
+        <div class="rv-input-wrap">
+          <select class="rv-select" id="rvRating" [(ngModel)]="rating" (change)="onFilterChange()">
+            <option value="">All Ratings</option>
+            <option [value]="5">5 ★</option>
+            <option [value]="4">4 ★</option>
+            <option [value]="3">3 ★</option>
+            <option [value]="2">2 ★</option>
+            <option [value]="1">1 ★</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="rv-filter-field">
+        <label class="rv-filter-label" for="rvSort">Sort By</label>
+        <div class="rv-input-wrap">
+          <select class="rv-select" id="rvSort" [(ngModel)]="sortBy" (change)="onFilterChange()">
+            <option value="createdAt">Latest</option>
+            <option value="rating">Rating</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Reviews list ─────────────────────────────────────────────────── -->
+  <div class="rv-state rv-loading" *ngIf="loadingReviews">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rv-spin"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+    Loading reviews…
+  </div>
+  <div class="rv-state rv-error" *ngIf="errorReviews">{{ errorReviews }}</div>
+
+  <div class="rv-list" *ngIf="!loadingReviews">
+    <article class="rv-card" *ngFor="let review of reviews" [class.rv-card--toxic]="review.flaggedToxic">
+
+      <div class="rv-card__header">
+        <div class="rv-avatar">{{ review.isAnonymous ? 'A' : (review.customerName | slice:0:1) }}</div>
+
+        <div class="rv-reviewer">
+          <span class="rv-name">{{ review.isAnonymous ? 'Anonymous' : review.customerName }}</span>
+          <span class="rv-product">{{ review.productName }}</span>
+        </div>
+
+        <div class="rv-meta">
+          <span class="rv-stars">
+            <span class="rv-star rv-star--filled" *ngFor="let s of stars(review.rating)">★</span>
+            <span class="rv-star" *ngFor="let s of emptyStars(review.rating)">★</span>
           </span>
-          <span class="date">{{ review.createdAt | date:'mediumDate' }}</span>
+          <span class="rv-date">{{ review.createdAt | date:'mediumDate' }}</span>
         </div>
       </div>
 
-      <p class="review-text">{{ review.reviewText }}</p>
+      <p class="rv-text">{{ review.reviewText }}</p>
 
-      <div class="sentiment">
-        <span class="sentiment-badge" [class]="'sentiment-' + review.sentimentLabel?.toLowerCase()">
+      <div class="rv-badges">
+        <span class="rv-sentiment-badge" [class]="'rv-sentiment-' + review.sentimentLabel?.toLowerCase()">
           {{ review.sentimentLabel }}
         </span>
-        <span class="toxic-badge" *ngIf="review.flaggedToxic">⚠ Flagged</span>
+        <span class="rv-toxic-badge" *ngIf="review.flaggedToxic">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Flagged
+        </span>
       </div>
 
-      <!-- Owner Response -->
-      <div class="owner-response" *ngIf="review.hasResponse && respondingId !== review.id">
-        <span class="response-label">Your Response:</span>
+      <!-- Owner response -->
+      <div class="rv-owner-response" *ngIf="review.hasResponse && respondingId !== review.id">
+        <span class="rv-response-label">Your Response</span>
         <p>{{ review.ownerResponse }}</p>
-        <button class="edit-btn" *ngIf="review.canEditResponse" (click)="openRespond(review)">Edit</button>
+        <button class="rv-edit-btn" *ngIf="review.canEditResponse" (click)="openRespond(review)">Edit response</button>
       </div>
 
-      <!-- Respond Form -->
-      <div class="respond-form" *ngIf="respondingId === review.id">
-        <textarea [(ngModel)]="responseText" rows="3" placeholder="Write your response..."></textarea>
-        <div class="form-actions">
-          <button class="submit-btn" (click)="submitResponse(review)" [disabled]="respondBusy">
+      <!-- Respond form -->
+      <div class="rv-respond-form" *ngIf="respondingId === review.id">
+        <textarea class="rv-textarea" [(ngModel)]="responseText" rows="3" placeholder="Write your response..."></textarea>
+        <div class="rv-form-actions">
+          <button class="btn-main btn-gold" (click)="submitResponse(review)" [disabled]="respondBusy">
             {{ respondBusy ? 'Saving...' : 'Submit' }}
           </button>
-          <button class="cancel-btn" (click)="cancelRespond()">Cancel</button>
+          <button class="btn-main btn-border" (click)="cancelRespond()">Cancel</button>
         </div>
       </div>
 
-      <button class="respond-btn"
+      <button class="rv-respond-btn"
         *ngIf="!review.hasResponse && respondingId !== review.id"
         (click)="openRespond(review)">
-        Respond
+        Respond to review
       </button>
 
-    </div>
+    </article>
 
-    <div class="empty" *ngIf="!reviews.length">No reviews found.</div>
+    <div class="rv-empty" *ngIf="!reviews.length">
+      <div class="rv-empty-icon">★</div>
+      <h3>No reviews found</h3>
+      <p>Reviews matching your filters will appear here.</p>
+    </div>
   </div>
 
-  <!-- Pagination -->
-  <div class="pagination" *ngIf="pagination && pagination.totalPages > 1">
-    <button (click)="prev()" [disabled]="!pagination.hasPrevious">← Prev</button>
-    <span>Page {{ page + 1 }} of {{ pagination.totalPages }}</span>
-    <button (click)="next()" [disabled]="!pagination.hasNext">Next →</button>
+  <!-- ── Pagination ───────────────────────────────────────────────────── -->
+  <div class="rv-pagination" *ngIf="pagination && pagination.totalPages > 1">
+    <button class="rv-page-btn" (click)="prev()" [disabled]="!pagination.hasPrevious">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18L9 12L15 6"/></svg>
+      Prev
+    </button>
+    <span class="rv-page-info">Page {{ page + 1 }} of {{ pagination.totalPages }}</span>
+    <button class="rv-page-btn" (click)="next()" [disabled]="!pagination.hasNext">
+      Next
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18L15 12L9 6"/></svg>
+    </button>
   </div>
 
 </div>

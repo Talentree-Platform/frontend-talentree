@@ -234,6 +234,11 @@
         </div>
       </div>
 
+      <!-- ═══ CUSTOMER REVIEWS ═══ -->
+      @if (productIdNum(); as pid) {
+        <app-product-reviews [productId]="pid" />
+      }
+
       <!-- ═══ RELATED PRODUCTS ═══ -->
       @if (relatedProducts().length > 0) {
         <section class="pd-related">

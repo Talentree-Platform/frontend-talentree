@@ -1,1 +1,98 @@
-<p>product-search works!</p>
+<div class="search-container">
+  <!-- Search Input Box -->
+  <div class="search-box" [class.search-box--focused]="svc.autocompleteVisible()">
+    <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+    </svg>
+
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search for materials, brands..."
+      [(ngModel)]="searchQuery"
+      (input)="onInput()"
+      (keydown)="onKeydown($event)"
+      aria-label="Search inputs"
+    />
+
+    <!-- Clear Search Button -->
+    @if (searchQuery) {
+      <button
+        type="button"
+        class="search-clear"
+        (click)="clearSearch()"
+        aria-label="Clear search"
+      >
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+        </svg>
+      </button>
+    }
+
+    <!-- Search Loader Spinner -->
+    @if (svc.autocompleteLoading()) {
+      <div class="search-spinner" aria-hidden="true"></div>
+    }
+
+    <button
+      type="button"
+      class="search-submit"
+      (click)="onSearch()"
+    >
+      Search
+    </button>
+  </div>
+
+  <!-- Autocomplete Suggestions Dropdown -->
+  @if (svc.autocompleteVisible() && (svc.autocompleteResults().length > 0 || svc.autocompleteLoading())) {
+    <div class="autocomplete-dropdown">
+      @if (svc.autocompleteLoading() && svc.autocompleteResults().length === 0) {
+        <!-- Skeleton Loaders -->
+        @for (n of [1, 2, 3]; track n) {
+          <div class="autocomplete-item autocomplete-item--skeleton">
+            <div class="ac-skeleton-img"></div>
+            <div class="ac-skeleton-text">
+              <div class="ac-skeleton-line ac-skeleton-line--lg"></div>
+              <div class="ac-skeleton-line ac-skeleton-line--sm"></div>
+            </div>
+          </div>
+        }
+      } @else {
+        <!-- Dynamic suggestion items -->
+        @for (item of svc.autocompleteResults(); track item.id) {
+          <button
+            type="button"
+            class="autocomplete-item"
+            (click)="selectSuggestion(item)"
+          >
+            @if (item.imageUrl) {
+              <img
+                [src]="item.imageUrl"
+                [alt]="item.name"
+                class="ac-thumb"
+                loading="lazy"
+              />
+            } @else {
+              <div class="ac-thumb-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                  <line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg>
+              </div>
+            }
+
+            <div class="ac-text">
+              <span class="ac-name">{{ item.name }}</span>
+              <span class="ac-category">{{ item.category }}</span>
+            </div>
+
+            <svg class="ac-arrow" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        }
+      }
+    </div>
+  }
+</div>

@@ -3,10 +3,12 @@ import { OwnerTopNavComponent } from './../../modules/business-owner/components/
 import { RouterOutlet } from '@angular/router';
 import { Component } from '@angular/core';
 import { ChatbotWidgetComponent } from '../../modules/business-owner/shared/chatbot-widget/chatbot-widget.component';
+import { ToastContainerComponent } from '../../modules/business-owner/components/toast-container/toast-container.component';
+
 @Component({
   selector: 'app-business-owner',
   standalone: true,
-  imports: [RouterOutlet, OwnerTopNavComponent, OwnerSideNavComponent, ChatbotWidgetComponent],
+  imports: [RouterOutlet, OwnerTopNavComponent, OwnerSideNavComponent, ChatbotWidgetComponent, ToastContainerComponent],
   templateUrl: './business-owner.component.html',
   styleUrl: './business-owner.component.css'
 })

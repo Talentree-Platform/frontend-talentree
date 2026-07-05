@@ -12,13 +12,14 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { CustomerMarketplaceService } from '../../../Core/services/customer-marketplace.service';
 import { CustomerProductCardComponent } from '../../../components/customer-product-card/customer-product-card.component';
+import { ProductReviewsComponent } from '../../../components/product-reviews/product-reviews.component';
 
 type DetailsTab = 'description' | 'specifications' | 'shipping';
 
 @Component({
   selector: 'app-customer-product-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, CustomerProductCardComponent],
+  imports: [CommonModule, RouterLink, CustomerProductCardComponent, ProductReviewsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './customer-product-deatils.component.html',
   styleUrl: './customer-product-deatils.component.scss',
@@ -80,6 +81,12 @@ export class CustomerProductDetailsComponent implements OnInit, OnDestroy {
   protected readonly isAtMinQuantity = computed(() => this.quantity() <= 1);
 
   private productId: string | null = null;
+
+  /** Numeric product ID exposed to the reviews child component */
+  protected readonly productIdNum = computed(() => {
+    const p = this.product();
+    return p ? p.id : null;
+  });
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get('id');
