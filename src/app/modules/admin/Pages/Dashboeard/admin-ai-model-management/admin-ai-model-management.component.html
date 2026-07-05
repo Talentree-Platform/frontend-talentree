@@ -1,0 +1,274 @@
+<div class="page">
+
+    <div class="page-header">
+        <div class="breadcrumb">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+            Admin&nbsp;/&nbsp;AI Model Management
+        </div>
+        <h1 class="page-title">AI model management</h1>
+        <p class="header-meta">Retrain models, recompute business owner metrics, and export reports.</p>
+    </div>
+
+    <!-- ═══════════ CRITICAL UX WARNING (matches the guide) ═══════════ -->
+    <div class="warn-banner">
+        <span class="warn-banner-icon">⚠️</span>
+        <div>
+            <div class="warn-banner-title">Mandatory loading state</div>
+            <div class="warn-banner-text">These actions take <strong>1 to 5 minutes</strong> to complete. The button
+                disables itself and shows a spinner immediately on click to prevent double-submissions — wait for the
+                success confirmation before navigating away.</div>
+        </div>
+    </div>
+
+    <!-- ═══════════ TRAIN / COMPUTE ═══════════ -->
+    <div class="action-grid">
+
+        <!-- Train Forecast -->
+        <div class="action-card">
+            <div class="action-card-head">
+                <div>
+                    <h2 class="action-title">Revenue forecast model</h2>
+                    <p class="action-desc">Retrains the platform-wide revenue forecasting model on the latest data.</p>
+                </div>
+                <div class="action-card-cta">
+                    @if (actionDuration('trainForecast'); as d) {
+                    <span class="duration-badge">{{ d }}</span>
+                    }
+                    <button type="button" class="action-btn" [disabled]="isLoading('trainForecast')"
+                        (click)="runTrainForecast()">
+                        @if (isLoading('trainForecast')) {
+                        <span class="btn-spinner"></span> Training…
+                        } @else {
+                        🔄 Retrain forecast
+                        }
+                    </button>
+                </div>
+            </div>
+
+            @if (errorFor('trainForecast')) {
+            <div class="inline-error">{{ errorFor('trainForecast') }}</div>
+            }
+
+            @if (forecastResult(); as res) {
+            @if (isForecastSkipped(res)) {
+            <div class="result-skipped">
+                <span class="result-skipped-icon">ℹ️</span>
+                <span>{{ res.reason }} <span class="muted">({{ res.rows }} row(s) available)</span></span>
+            </div>
+            } @else {
+            <div class="result-success">
+                <span class="result-success-icon">✓</span>
+                <span>Model trained successfully.</span>
+            </div>
+            <pre class="json-preview">{{ jsonPreview(res) }}</pre>
+            }
+            }
+        </div>
+
+        <!-- Train RFM -->
+        <div class="action-card">
+            <div class="action-card-head">
+                <div>
+                    <h2 class="action-title">RFM segmentation model</h2>
+                    <p class="action-desc">Retrains the customer Recency/Frequency/Monetary clustering model.</p>
+                </div>
+                <div class="action-card-cta">
+                    @if (actionDuration('trainRfm'); as d) {
+                    <span class="duration-badge">{{ d }}</span>
+                    }
+                    <button type="button" class="action-btn" [disabled]="isLoading('trainRfm')" (click)="runTrainRfm()">
+                        @if (isLoading('trainRfm')) {
+                        <span class="btn-spinner"></span> Training…
+                        } @else {
+                        🔄 Retrain RFM
+                        }
+                    </button>
+                </div>
+            </div>
+
+            @if (errorFor('trainRfm')) {
+            <div class="inline-error">{{ errorFor('trainRfm') }}</div>
+            }
+
+            @if (rfmResult(); as res) {
+            <div class="result-success">
+                <span class="result-success-icon">✓</span>
+                <span>Trained on {{ res.train.n_customers }} customers into {{ res.train.k_clusters }} clusters.</span>
+            </div>
+
+            <div class="rfm-result-grid">
+                <div>
+                    <div class="rfm-result-label">Cluster labels</div>
+                    <div class="pill-list">
+                        @for (l of rfmLabelEntries(res.train.label_map); track l.key) {
+                        <div class="pill-row">
+                            <span>Cluster {{ l.key }}</span>
+                            <span class="pill-count">{{ l.value }}</span>
+                        </div>
+                        }
+                    </div>
+                </div>
+                <div>
+                    <div class="rfm-result-label">Segments written to DB
+                        <span class="muted">({{ res.segmentation.written_to_db }}/{{ res.segmentation.total }},
+                            {{ res.segmentation.skipped }} skipped)</span>
+                    </div>
+                    <div class="pill-list">
+                        @for (d of rfmDistributionEntries(res.segmentation.distribution); track d.segment) {
+                        <div class="pill-row">
+                            <span>{{ d.segment }}</span>
+                            <span class="pill-count">{{ d.count }}</span>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="trained-at">Trained at {{ res.train.trained_at }}</div>
+            }
+        </div>
+
+        <!-- Train All BO -->
+        <div class="action-card">
+            <div class="action-card-head">
+                <div>
+                    <h2 class="action-title">Retrain all business owners</h2>
+                    <p class="action-desc">Retrains per-seller models across the whole platform. May take a while.</p>
+                </div>
+                <div class="action-card-cta">
+                    @if (actionDuration('trainAllBo'); as d) {
+                    <span class="duration-badge duration-warn">{{ d }}</span>
+                    }
+                    <button type="button" class="action-btn action-btn-warn" [disabled]="isLoading('trainAllBo')"
+                        (click)="runTrainAllBo()">
+                        @if (isLoading('trainAllBo')) {
+                        <span class="btn-spinner"></span> Running…
+                        } @else {
+                        ⚡ Retrain all
+                        }
+                    </button>
+                </div>
+            </div>
+
+            @if (errorFor('trainAllBo')) {
+            <div class="inline-error">{{ errorFor('trainAllBo') }}</div>
+            }
+
+            @if (allBoResult(); as res) {
+            <div class="result-success">
+                <span class="result-success-icon">✓</span>
+                <span>{{ res.status || 'Request completed.' }}</span>
+            </div>
+            <pre class="json-preview">{{ jsonPreview(res) }}</pre>
+            <div class="unconfirmed-note">Response shape not yet confirmed with backend — showing raw output.</div>
+            }
+        </div>
+
+        <!-- Compute All BO -->
+        <div class="action-card">
+            <div class="action-card-head">
+                <div>
+                    <h2 class="action-title">Recompute all metrics</h2>
+                    <p class="action-desc">Recomputes derived KPIs and metrics for every business owner. May take a
+                        while.</p>
+                </div>
+                <div class="action-card-cta">
+                    @if (actionDuration('computeAllBo'); as d) {
+                    <span class="duration-badge duration-warn">{{ d }}</span>
+                    }
+                    <button type="button" class="action-btn action-btn-warn" [disabled]="isLoading('computeAllBo')"
+                        (click)="runComputeAllBo()">
+                        @if (isLoading('computeAllBo')) {
+                        <span class="btn-spinner"></span> Running…
+                        } @else {
+                        ⚡ Recompute all
+                        }
+                    </button>
+                </div>
+            </div>
+
+            @if (errorFor('computeAllBo')) {
+            <div class="inline-error">{{ errorFor('computeAllBo') }}</div>
+            }
+
+            @if (computeAllBoResult(); as res) {
+            <div class="result-success">
+                <span class="result-success-icon">✓</span>
+                <span>{{ res.status || 'Request completed.' }}</span>
+            </div>
+            <pre class="json-preview">{{ jsonPreview(res) }}</pre>
+            <div class="unconfirmed-note">Response shape not yet confirmed with backend — showing raw output.</div>
+            }
+        </div>
+
+    </div>
+
+    <!-- ═══════════ EXPORTS ═══════════ -->
+    <div class="panel-section">
+        <h2>Reports &amp; exports</h2>
+
+        <div class="export-row">
+            <div class="export-item">
+                <div>
+                    <div class="export-title">Admin KPI report</div>
+                    <div class="export-desc">Platform-wide KPIs as an Excel file (.xlsx)</div>
+                </div>
+                <button type="button" class="action-btn" [disabled]="isLoading('exportKpis')" (click)="runExportKpis()">
+                    @if (isLoading('exportKpis')) {
+                    <span class="btn-spinner"></span> Exporting…
+                    } @else {
+                    📥 Export KPIs
+                    }
+                </button>
+            </div>
+            @if (errorFor('exportKpis')) {
+            <div class="inline-error">{{ errorFor('exportKpis') }}</div>
+            }
+        </div>
+
+        <div class="export-row">
+            <div class="export-item">
+                <div>
+                    <div class="export-title">Business owner financial report</div>
+                    <div class="export-desc">Per-seller financial breakdown as a CSV file</div>
+                </div>
+                <div class="export-controls">
+                    <input type="text" class="export-input" placeholder="Business owner ID" [(ngModel)]="boUserId" />
+                    <button type="button" class="action-btn" [disabled]="isLoading('exportFinancial')"
+                        (click)="runExportFinancial()">
+                        @if (isLoading('exportFinancial')) {
+                        <span class="btn-spinner"></span> Exporting…
+                        } @else {
+                        📄 Export CSV
+                        }
+                    </button>
+                </div>
+            </div>
+            @if (errorFor('exportFinancial')) {
+            <div class="inline-error">{{ errorFor('exportFinancial') }}</div>
+            }
+        </div>
+
+        @if (lastExportedFile(); as filename) {
+        <div class="last-exported">Last downloaded: <strong>{{ filename }}</strong></div>
+        }
+    </div>
+
+    <!-- ═══════════ CONFIRM MODAL (replaces native confirm()) ═══════════ -->
+    @if (confirmDialog(); as dialog) {
+    <div class="confirm-overlay" (click)="confirmDialogCancel()">
+        <div class="confirm-modal" role="alertdialog" aria-modal="true" (click)="$event.stopPropagation()">
+            <div class="confirm-modal-icon">⚠️</div>
+            <h3 class="confirm-modal-title">{{ dialog.title }}</h3>
+            <p class="confirm-modal-message">{{ dialog.message }}</p>
+            <div class="confirm-modal-actions">
+                <button type="button" class="confirm-btn-cancel" (click)="confirmDialogCancel()">Cancel</button>
+                <button type="button" class="confirm-btn-accept" (click)="confirmDialogAccept()">{{ dialog.confirmLabel }}</button>
+            </div>
+        </div>
+    </div>
+    }
+
+</div>

@@ -1,0 +1,58 @@
+<div class="owner-products-modal-backdrop" (click)="onBackdropClick()" role="presentation"></div>
+<div
+  class="owner-products-modal admin-request-changes-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="request-changes-title"
+  (click)="$event.stopPropagation()"
+>
+  <h2 id="request-changes-title" class="owner-products-modal-title">Request Changes</h2>
+
+  <p class="owner-products-modal-text">
+    <strong>{{ productName }}</strong>
+  </p>
+
+  @if (productId == null) {
+    <p class="admin-request-changes-modal__error">This product has no valid id.</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="confirm()" novalidate>
+    <div class="admin-request-changes-modal__field">
+      <label class="admin-request-changes-modal__label" for="request-changes-textarea">
+        What needs to change?
+      </label>
+      <textarea
+        id="request-changes-textarea"
+        class="admin-request-changes-modal__textarea"
+        rows="5"
+        formControlName="changes"
+        placeholder="e.g. Please add clearer product photos and correct the size chart."
+      ></textarea>
+      @if (form.controls.changes.invalid && form.controls.changes.touched) {
+        <span class="admin-request-changes-modal__error">
+          @if (form.controls.changes.errors?.['required']) {
+            This field is required.
+          } @else if (form.controls.changes.errors?.['minlength']) {
+            Please provide a bit more detail.
+          }
+        </span>
+      }
+    </div>
+
+    <div class="owner-products-modal-actions">
+      <button type="button" class="btn-main btn-secondary" [disabled]="submitting" (click)="dismiss()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn-main btn-analytics admin-request-changes-modal__confirm"
+        [disabled]="submitting || productId == null"
+      >
+        @if (submitting) {
+          <span class="admin-request-changes-modal__spinner" aria-hidden="true"></span>
+        }
+        Send Request
+      </button>
+    </div>
+  </form>
+</div>

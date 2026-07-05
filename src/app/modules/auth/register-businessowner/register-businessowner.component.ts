@@ -1,7 +1,7 @@
 import { AuthService } from './../services/auth.service';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { error } from 'console';
+
 import { Router } from '@angular/router';
 
 @Component({

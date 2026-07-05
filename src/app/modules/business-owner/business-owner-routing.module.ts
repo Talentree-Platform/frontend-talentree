@@ -1,5 +1,4 @@
 
-import { BusinessChatComponent } from './components/business-chat/business-chat.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
 import { BusinessOwnerComponent } from './../../layout/business-owner/business-owner.component';
 import { RawMaterialCheckoutComponent } from './pages/Raw Material/raw-material-checkout/raw-material-checkout.component';
@@ -61,7 +60,6 @@ const routes: Routes = [
       { path: 'ownerProductionRequestList', component: ProductionRequestListComponent },
       { path: 'ownerProductionRequestCreate', component: CreateProductionRequestComponent },
       { path: 'ownerProductionRequestdetails/:id', component: ProductionRequestDetailsComponent },
-      { path: 'businessChat', component: BusinessChatComponent }, //to be removed
       { path: 'knowledge-base', component: KbHomeComponent },
       { path: 'knowledge-base/bookmarks', component: KbBookmarksComponent },
       { path: 'knowledge-base/:id', component: KbDetailsComponent },
@@ -73,7 +71,6 @@ const routes: Routes = [
       { path: 'tickets/create', component: TicketCreateComponent },
       { path: 'tickets/:id', component: TicketDetailsComponent },
       { path: 'faq', component: FaqComponent },
-      { path: 'businessChat', component: BusinessChatComponent }, //to be removed
       {
         path: 'account',
         loadChildren: () => import('../account/account.routes').then(m => m.ACCOUNT_ROUTES)

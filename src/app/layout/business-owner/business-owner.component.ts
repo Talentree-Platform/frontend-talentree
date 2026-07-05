@@ -2,12 +2,11 @@ import { OwnerSideNavComponent } from './../../modules/business-owner/components
 import { OwnerTopNavComponent } from './../../modules/business-owner/components/owner-top-nav/owner-top-nav.component';
 import { RouterOutlet } from '@angular/router';
 import { Component } from '@angular/core';
-import { BusinessChatComponent } from "../../modules/business-owner/components/business-chat/business-chat.component";
-
+import { ChatbotWidgetComponent } from '../../modules/business-owner/shared/chatbot-widget/chatbot-widget.component';
 @Component({
   selector: 'app-business-owner',
   standalone: true,
-  imports: [RouterOutlet, OwnerTopNavComponent, OwnerSideNavComponent, BusinessChatComponent],
+  imports: [RouterOutlet, OwnerTopNavComponent, OwnerSideNavComponent, ChatbotWidgetComponent],
   templateUrl: './business-owner.component.html',
   styleUrl: './business-owner.component.css'
 })

@@ -1,60 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
 /* ══════════════════════════════════════════════════════
    TALENTREE — Design Tokens · Light Gold
+   (aligned to the shared cream/gold reference palette)
 ══════════════════════════════════════════════════════ */
 :host {
-  /* Gold palette */
+  /* Gold palette — --gold-500/400/300 are the exact reference Gold / Gold Light / Gold Border */
   --gold-50: #FFFDF5;
-  --gold-100: #FEF9E7;
-  --gold-200: #FCF0C0;
-  --gold-300: #F0D060;
-  --gold-400: #D4A017;
+  --gold-100: #FBF3E2;
+  --gold-200: #F2E4B8;
+  --gold-300: #E8D5A3;
+  --gold-400: #C9952A;
   --gold-500: #B8860B;
   --gold-600: #9A7209;
-  --gold-glow: rgba(212, 160, 23, 0.15);
-  --gold-ring: rgba(212, 160, 23, 0.25);
+  --gold-glow: rgba(184, 134, 11, 0.15);
+  --gold-ring: rgba(184, 134, 11, 0.25);
 
   /* Surfaces */
   --white: #FFFFFF;
-  --bg: #F8F7F2;
-  --surface: #F3F1EA;
-  --surface-2: #EDEADE;
+  --bg: #FDFAF4;
+  --surface: #F8F4EA;
+  --surface-2: #F1ECDD;
   --card: #FFFFFF;
 
   /* Borders */
-  --border: #E8E2D0;
-  --border-soft: #F0EBD8;
+  --border: #EDE8DF;
+  --border-soft: #F4EFE7;
 
   /* Text */
-  --text-primary: #1A1408;
-  --text-secondary: #3D3018;
-  --text-muted: #7A6840;
-  --text-subtle: #A89060;
+  --text-primary: #18130A;
+  --text-secondary: #5C5244;
+  --text-muted: #5C5244;
+  --text-subtle: #A09280;
 
-  /* Semantic */
-  --green-bg: #ECFDF5;
-  --green-border: #6EE7B7;
-  --green-text: #065F46;
-  --amber-bg: #FFFBEB;
-  --amber-border: #FCD34D;
-  --amber-text: #78350F;
-  --red-bg: #FFF1F2;
-  --red-border: #FECDD3;
-  --red-text: #9F1239;
+  /* Semantic (aligned to the rest of the admin suite) */
+  --green-bg: #EDFAF4;
+  --green-border: #B8EACC;
+  --green-text: #145738;
+  --amber-bg: #FFF8EC;
+  --amber-border: #F5D98A;
+  --amber-text: #7A4E00;
+  --red-bg: #FEF2F2;
+  --red-border: #FBB8B8;
+  --red-text: #7A1A1A;
   --gray-bg: #F3F4F6;
   --gray-border: #D1D5DB;
   --gray-text: #374151;
-  --blue-bg: #EFF6FF;
-  --blue-border: #93C5FD;
-  --blue-text: #1E40AF;
+  --blue-bg: #EEF3FF;
+  --blue-border: #C0D4FA;
+  --blue-text: #1A3A8B;
 
   /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(154, 114, 9, 0.06);
-  --shadow-sm: 0 1px 4px rgba(154, 114, 9, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px rgba(154, 114, 9, 0.10), 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 12px 40px rgba(154, 114, 9, 0.14), 0 4px 12px rgba(0, 0, 0, 0.07);
-  --shadow-gold: 0 4px 20px rgba(212, 160, 23, 0.28);
+  --shadow-xs: 0 1px 2px rgba(184, 134, 11, 0.06);
+  --shadow-sm: 0 1px 4px rgba(184, 134, 11, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(184, 134, 11, 0.10), 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 12px 40px rgba(184, 134, 11, 0.14), 0 4px 12px rgba(0, 0, 0, 0.07);
+  --shadow-gold: 0 4px 20px rgba(184, 134, 11, 0.28);
 
   /* Radii */
   --r-sm: 6px;
@@ -63,7 +64,7 @@
   --r-xl: 18px;
   --r-2xl: 24px;
 
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   display: block;
   color: var(--text-primary);
   background: var(--bg);
@@ -85,18 +86,55 @@
   background: var(--bg);
   min-height: 100%;
   overflow-y: auto;
+  animation: fadeUp .4s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ══════════════════════════════════════════════════════
-   PAGE TITLE
+   PAGE HEADER
 ══════════════════════════════════════════════════════ */
+.page-header-block {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--gold-300);
+  position: relative;
+}
+
+.page-header-block::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 64px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-500), transparent);
+  border-radius: 2px;
+}
+
+.breadcrumb {
+  font-size: 12px;
+  color: var(--text-subtle);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.breadcrumb svg { color: var(--gold-400); }
+
 .page-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 26px;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.3px;
-  margin-bottom: 24px;
 }
 
 .page-title span {
@@ -199,7 +237,7 @@
 }
 
 .stat-card.gold::before {
-  background: linear-gradient(90deg, var(--gold-400), var(--gold-300), var(--gold-200));
+  background: linear-gradient(90deg, var(--gold-500), var(--gold-400), var(--gold-300));
 }
 
 .stat-card.gold .stat-value {
@@ -225,7 +263,7 @@
 }
 
 .stat-card.green .stat-label {
-  color: #065F46;
+  color: var(--green-text);
 }
 
 /* Amber */
@@ -243,7 +281,7 @@
 }
 
 .stat-card.amber .stat-label {
-  color: #78350F;
+  color: var(--amber-text);
 }
 
 /* Red */
@@ -261,11 +299,11 @@
 }
 
 .stat-card.red .stat-label {
-  color: #9F1239;
+  color: var(--red-text);
 }
 
 .stat-value {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 36px;
   font-weight: 700;
   color: var(--text-primary);
@@ -332,7 +370,7 @@
   transition: all 0.2s ease;
   border: none;
   background: transparent;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   letter-spacing: 0.1px;
 }
 
@@ -383,7 +421,7 @@
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   font-size: 13px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   background: var(--white);
   color: var(--text-primary);
   outline: none;
@@ -404,7 +442,7 @@
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   font-size: 13px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   background: var(--white);
   color: var(--text-secondary);
   outline: none;
@@ -455,13 +493,13 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   align-items: center;
   gap: 6px;
   padding: 9px 18px;
-  background: linear-gradient(135deg, var(--gold-400) 0%, var(--gold-500) 100%);
+  background: var(--gold-500);
   color: #fff;
   border: none;
   border-radius: var(--r-md);
   font-size: 13px;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   cursor: pointer;
   letter-spacing: 0.2px;
   transition: all 0.2s ease;
@@ -469,7 +507,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .btn-gold:hover {
-  background: linear-gradient(135deg, var(--gold-300) 0%, var(--gold-400) 100%);
+  background: var(--gold-400);
   box-shadow: var(--shadow-gold);
   transform: translateY(-1px);
 }
@@ -489,7 +527,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   border-radius: var(--r-md);
   font-size: 13px;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -510,7 +548,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   font-size: 13px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   cursor: pointer;
   transition: all 0.15s;
 }
@@ -531,7 +569,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   background: var(--white);
   font-size: 12px;
   font-weight: 500;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.15s;
@@ -554,7 +592,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   background: var(--white);
   font-size: 12px;
   font-weight: 500;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   color: var(--red-text);
   cursor: pointer;
   transition: all 0.15s;
@@ -570,14 +608,23 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
    LOADING
 ══════════════════════════════════════════════════════ */
 .loading-row {
-  padding: 56px;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 13px;
+  padding: 24px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--border-soft) 25%, var(--border) 50%, var(--border-soft) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+  height: 46px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .spinner {
@@ -601,7 +648,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
    TABLE
 ══════════════════════════════════════════════════════ */
 .table-wrap {
-  overflow-x: auto;
+  overflow: auto;
+  max-height: 640px;
 }
 
 table {
@@ -611,6 +659,9 @@ table {
 }
 
 thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   padding: 12px 20px;
   text-align: left;
   font-size: 10px;
@@ -621,7 +672,7 @@ thead th {
   border-bottom: 1px solid var(--border);
   background: var(--surface);
   white-space: nowrap;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 
 tbody tr {
@@ -644,12 +695,44 @@ td {
   color: var(--text-secondary);
 }
 
+/* ── Empty state ── */
 .empty-cell {
-  text-align: center;
+  padding: 0;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 56px 20px;
   color: var(--text-subtle);
+  text-align: center;
+}
+
+.empty-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--gold-100);
+  border: 1px solid var(--gold-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-400);
+  margin-bottom: 4px;
+}
+
+.empty-state p {
   font-size: 13px;
-  padding: 56px 16px;
-  font-style: italic;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.empty-state span {
+  font-size: 12px;
+  color: var(--text-subtle);
 }
 
 /* ── User Cell ── */
@@ -669,7 +752,7 @@ td {
   font-size: 14px;
   font-weight: 700;
   flex-shrink: 0;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   border: 2px solid transparent;
   transition: transform 0.15s;
 }
@@ -856,7 +939,7 @@ tbody tr:hover .avatar {
   background: var(--white);
   cursor: pointer;
   font-size: 12px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   color: var(--text-muted);
   transition: all 0.15s ease;
   display: flex;
@@ -886,7 +969,7 @@ tbody tr:hover .avatar {
   display: flex !important;
   position: fixed !important;
   inset: 0 !important;
-  background: rgba(26, 20, 8, 0.55) !important;
+  background: rgba(24, 19, 10, 0.55) !important;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   z-index: 99999 !important;
@@ -917,8 +1000,8 @@ tbody tr:hover .avatar {
   max-width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  border: 1.5px solid var(--gold-300, #F0D060) !important;
-  box-shadow: var(--shadow-lg), 0 10px 40px rgba(154, 114, 9, 0.2) !important;
+  border: 1.5px solid var(--gold-300, #E8D5A3) !important;
+  box-shadow: var(--shadow-lg), 0 10px 40px rgba(184, 134, 11, 0.2) !important;
   animation: modalSlide 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
   scrollbar-width: thin;
   scrollbar-color: var(--gold-300) transparent;
@@ -989,7 +1072,7 @@ tbody tr:hover .avatar {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 22px;
   font-weight: 700;
   flex-shrink: 0;
@@ -1000,28 +1083,28 @@ tbody tr:hover .avatar {
   background: linear-gradient(135deg, var(--gold-200), var(--gold-100));
   color: var(--gold-500);
   border-color: var(--gold-400);
-  box-shadow: 0 3px 12px rgba(212, 160, 23, 0.22);
+  box-shadow: 0 3px 12px rgba(184, 134, 11, 0.22);
 }
 
 .modal-avatar.av-blue {
   background: linear-gradient(135deg, var(--blue-bg), #DBEAFE);
   color: var(--blue-text);
   border-color: var(--blue-border);
-  box-shadow: 0 3px 12px rgba(30, 64, 175, 0.15);
+  box-shadow: 0 3px 12px rgba(26, 58, 139, 0.15);
 }
 
 .modal-avatar.av-green {
   background: linear-gradient(135deg, var(--green-bg), #D1FAE5);
   color: var(--green-text);
   border-color: var(--green-border);
-  box-shadow: 0 3px 12px rgba(6, 95, 70, 0.15);
+  box-shadow: 0 3px 12px rgba(20, 87, 56, 0.15);
 }
 
 .modal-avatar.av-red {
   background: linear-gradient(135deg, var(--red-bg), #FFE4E6);
   color: var(--red-text);
   border-color: var(--red-border);
-  box-shadow: 0 3px 12px rgba(159, 18, 57, 0.15);
+  box-shadow: 0 3px 12px rgba(122, 26, 26, 0.15);
 }
 
 .modal-title-group {
@@ -1030,7 +1113,7 @@ tbody tr:hover .avatar {
 }
 
 .modal-name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 19px;
   font-weight: 700;
   color: var(--text-primary);
@@ -1206,7 +1289,7 @@ tbody tr:hover .avatar {
 }
 
 .cs-value {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 30px;
   font-weight: 700;
   color: var(--gold-500);

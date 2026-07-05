@@ -1,0 +1,219 @@
+<div class="ap-page">
+
+  <!-- ═══════════ Header ═══════════ -->
+  <header class="ap-header">
+    <nav class="ap-breadcrumb" aria-label="Breadcrumb">
+      <span>Admin</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+      <span class="ap-breadcrumb__current">Products</span>
+    </nav>
+
+    <div class="ap-header__row">
+      <div class="ap-header__text">
+        <h1 class="ap-title">All Products</h1>
+        <p class="ap-subtitle">
+          Browse every listing on the marketplace. Hide, feature, or recategorize products as needed.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════ Error banner ═══════════ -->
+  <p *ngIf="loadError" class="ap-banner" role="alert">{{ loadError }}</p>
+
+  <!-- ═══════════ Toolbar: search + status filter ═══════════ -->
+  <section class="ap-toolbar" aria-label="Search and filter products">
+    <div class="ap-search">
+      <svg class="ap-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <label class="visually-hidden" for="admin-all-products-search">Search products</label>
+      <input
+        id="admin-all-products-search"
+        type="search"
+        class="ap-search__input"
+        placeholder="Search by product name, category, or business…"
+        [ngModel]="searchQuery"
+        (ngModelChange)="onSearchChange($event)"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="ap-tabs" role="tablist" aria-label="Filter by status">
+      <button type="button" class="ap-tab" [class.active]="statusFilter === 'all'" (click)="setStatusFilter('all')">All</button>
+      <button type="button" class="ap-tab" [class.active]="statusFilter === 'active'" (click)="setStatusFilter('active')">Active</button>
+      <button type="button" class="ap-tab" [class.active]="statusFilter === 'hidden'" (click)="setStatusFilter('hidden')">Hidden</button>
+      <button type="button" class="ap-tab" [class.active]="statusFilter === 'featured'" (click)="setStatusFilter('featured')">Featured</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ Table card ═══════════ -->
+  <div class="ap-card ap-fade-up">
+
+    <!-- Loading skeleton -->
+    <div *ngIf="loading" class="ap-skeleton" role="status" aria-label="Loading products">
+      <div class="ap-skeleton__row" *ngFor="let i of [1,2,3,4,5,6]">
+        <div class="ap-skeleton__thumb"></div>
+        <div class="ap-skeleton__lines">
+          <div class="ap-skeleton__line ap-skeleton__line--wide"></div>
+          <div class="ap-skeleton__line ap-skeleton__line--narrow"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!loading && filteredProducts.length === 0" class="ap-empty">
+      <div class="ap-empty__icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0" />
+        </svg>
+      </div>
+      <p class="ap-empty__title">No products found</p>
+      <p class="ap-empty__text">Nothing matches your search or filter right now.</p>
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="!loading && filteredProducts.length > 0" class="ap-table-scroll">
+      <table class="ap-table">
+        <thead>
+          <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Business</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of filteredProducts; trackBy: trackByProductId">
+
+            <!-- Product: thumb + name together -->
+            <td>
+              <div class="ap-product-cell">
+                <div class="ap-thumb">
+                  <img [src]="imageSrc(p)" [alt]="p.name" loading="lazy" (error)="onImageError($event)" />
+                </div>
+                <span class="ap-product-cell__name">{{ p.name }}</span>
+              </div>
+            </td>
+
+            <td class="ap-muted">{{ p.categoryName || '—' }}</td>
+            <td class="ap-price">{{ formatMoney(p.price) }}</td>
+            <td class="ap-muted">{{ p.stockQuantity ?? p.stock }}</td>
+            <td class="ap-muted">{{ p.businessName || p.sellerName || '—' }}</td>
+
+            <!-- Status badges -->
+            <td>
+              <div class="ap-badges">
+                <span class="ap-badge" [class.ap-badge--red]="p.isHidden" [class.ap-badge--green]="!p.isHidden">
+                  {{ p.isHidden ? 'Hidden' : 'Active' }}
+                </span>
+                <span *ngIf="p.isFeatured" class="ap-badge ap-badge--gold">Featured</span>
+              </div>
+            </td>
+
+            <!-- Actions -->
+            <td>
+              <div class="ap-actions">
+                <button
+                  type="button"
+                  class="ap-btn ap-btn--sm"
+                  [class.ap-btn--danger]="!p.isHidden"
+                  [class.ap-btn--success]="p.isHidden"
+                  [disabled]="isBusy(p)"
+                  (click)="toggleHidden(p)"
+                >
+                  {{ p.isHidden ? 'Restore' : 'Hide' }}
+                </button>
+                <button
+                  type="button"
+                  class="ap-btn ap-btn--sm ap-btn--secondary"
+                  [disabled]="isBusy(p)"
+                  (click)="toggleFeatured(p)"
+                >
+                  {{ p.isFeatured ? 'Unfeature' : 'Feature' }}
+                </button>
+                <button type="button" class="ap-btn ap-btn--sm ap-btn--secondary" (click)="openChangeCategory(p)">
+                  Category
+                </button>
+                <button type="button" class="ap-btn ap-btn--sm ap-btn--secondary" (click)="openAnalytics(p)">
+                  Analytics
+                </button>
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!loading && filteredProducts.length > 0" class="ap-pagination">
+      <button type="button" class="ap-btn ap-btn--secondary ap-btn--sm" [disabled]="!hasPrevious" (click)="goToPage(-1)">
+        Previous
+      </button>
+      <span class="ap-pagination__label">Page {{ pageIndex }} of {{ totalPages }}</span>
+      <button type="button" class="ap-btn ap-btn--secondary ap-btn--sm" [disabled]="!hasNext" (click)="goToPage(1)">
+        Next
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ Change Category Modal ═══════════ -->
+  <app-change-category-modal *ngIf="selectedForCategory"
+    [productName]="selectedForCategory.name"
+    [productId]="selectedForCategory.id"
+    [currentCategoryId]="currentCategoryIdFor(selectedForCategory)"
+    [categories]="categories"
+    (changed)="onCategoryChanged($event)"
+    (closed)="onCategoryModalClosed()">
+  </app-change-category-modal>
+
+  <!-- ═══════════ Analytics Modal ═══════════ -->
+  <div class="ap-modal-backdrop" *ngIf="showAnalytics" (click)="closeAnalytics()">
+    <div class="ap-modal" (click)="$event.stopPropagation()">
+      <div class="ap-modal__head">
+        <h3>Product Analytics</h3>
+        <button class="ap-modal__close" (click)="closeAnalytics()" aria-label="Close">✕</button>
+      </div>
+      <div class="ap-modal__body">
+        <div *ngIf="analyticsLoading" class="ap-modal__state">
+          <span class="ap-spinner" aria-hidden="true"></span>
+          <span>Loading analytics…</span>
+        </div>
+        <div *ngIf="!analyticsLoading && analyticsError" class="ap-modal__state ap-modal__state--error">
+          <p>{{ analyticsError }}</p>
+        </div>
+        <div *ngIf="!analyticsLoading && !analyticsError && analytics" class="ap-kpi-grid">
+          <div class="ap-kpi">
+            <span class="ap-kpi__label">Total Views</span>
+            <span class="ap-kpi__value">{{ analytics.totalViews | number }}</span>
+          </div>
+          <div class="ap-kpi">
+            <span class="ap-kpi__label">Add to Cart</span>
+            <span class="ap-kpi__value">{{ analytics.addToCartCount | number }}</span>
+          </div>
+          <div class="ap-kpi">
+            <span class="ap-kpi__label">Purchases</span>
+            <span class="ap-kpi__value">{{ analytics.purchaseCount | number }}</span>
+          </div>
+          <div class="ap-kpi">
+            <span class="ap-kpi__label">Conversion Rate</span>
+            <span class="ap-kpi__value">{{ analytics.conversionRate | number:'1.1-1' }}%</span>
+          </div>
+          <div class="ap-kpi ap-kpi--gold">
+            <span class="ap-kpi__label">Revenue Generated</span>
+            <span class="ap-kpi__value">${{ analytics.revenueGenerated | number:'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

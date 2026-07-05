@@ -1,0 +1,55 @@
+.admin-request-changes-modal {
+  max-width: 420px;
+}
+
+.admin-request-changes-modal__field {
+  margin-bottom: 1.25rem;
+}
+
+.admin-request-changes-modal__label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ap-text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.admin-request-changes-modal__textarea {
+  width: 100%;
+  resize: vertical;
+  border-radius: var(--ap-radius-input) !important;
+  padding: 0.6rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  border: 1px solid var(--ap-border, #d0d0d0);
+}
+
+.admin-request-changes-modal__error {
+  display: block;
+  margin: 0.35rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--ap-error);
+}
+
+.admin-request-changes-modal__confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 8rem;
+}
+
+.admin-request-changes-modal__spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgb(255 255 255 / 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: admin-request-changes-modal-spin 0.65s linear infinite;
+}
+
+@keyframes admin-request-changes-modal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

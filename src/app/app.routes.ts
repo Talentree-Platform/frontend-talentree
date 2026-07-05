@@ -35,12 +35,12 @@ export const routes: Routes = [
       import('./modules/auth/auth.module').then(m => m.AuthModule)
   },
   {
-    path: 'admin',
-    canActivate: [authGuardGuard, roleGuardGuard],
-    data: { roles: ['Admin'] },
-    loadChildren: () =>
-      import('./modules/admin/admin.module').then(a => a.AdminModule)
-  },
+  path: 'admin',
+  canActivate: [authGuardGuard, roleGuardGuard],
+  data: { roles: ['Admin', 'SuperAdmin'] },   // ✅ ضيفي SuperAdmin هنا
+  loadChildren: () =>
+    import('./modules/admin/admin.module').then(a => a.AdminModule)
+},
   { path: 'unotherized', component: UnotheriaedComponent },
 
   { path: '**', component: NotFoundComponent }

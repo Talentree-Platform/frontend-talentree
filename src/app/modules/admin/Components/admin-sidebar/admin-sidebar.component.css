@@ -26,8 +26,8 @@
 .sidebar {
   position: fixed;
   left: 0;
-  top: 60px;
-  height: calc(100vh - 60px);
+  top: 82px;
+  height: calc(100vh - 82px);
   width: 80px;
   background: var(--bg-surface);
   border-right: 1px solid var(--border-light);

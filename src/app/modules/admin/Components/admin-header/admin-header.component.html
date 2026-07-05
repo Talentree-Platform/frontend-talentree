@@ -15,15 +15,7 @@
 
     <div class="collapse navbar-collapse" id="adminNav">
 
-      <!-- Search Bar -->
-      <div class="search-container mx-auto my-2 my-lg-0">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.35-4.35"></path>
-        </svg>
-        <input type="text" class="search-input" placeholder="Search owners, products, requests…">
-        <span class="search-shortcut">⌘K</span>
-      </div>
+
 
       <!-- Right Icons -->
       <div class="nav-icons d-flex align-items-center gap-2 ms-lg-2">
@@ -47,8 +39,8 @@
             <span class="avatar-fallback">A</span>
           </div>
           <div class="admin-meta">
-            <span class="admin-name">Super Admin</span>
-            <span class="admin-role">Administrator</span>
+            <span class="admin-name">{{ currentUserName }}</span>
+            <span class="admin-role">{{ currentUserRoleLabel }}</span>
           </div>
           <svg class="chevron" [class.rotated]="dropdownOpen" width="11" height="11" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2.5">
@@ -64,8 +56,8 @@
                 <span class="avatar-fallback">A</span>
               </div>
               <div>
-                <p class="dropdown-name">Super Admin</p>
-                <p class="dropdown-role">Administrator</p>
+                <p class="dropdown-name">{{ currentUserName }}</p>
+                <p class="dropdown-role">{{ currentUserRoleLabel }}</p>
               </div>
             </div>
 
@@ -109,7 +101,7 @@
         <a class="nav-tab" routerLink="/admin/production-requests" routerLinkActive="active">Orders</a>
         <a class="nav-tab" routerLink="/admin/suppliers" routerLinkActive="active">Suppliers</a>
         <a class="nav-tab" routerLink="/admin/rawmaterials" routerLinkActive="active">Raw Materials</a>
-        <a class="nav-tab" routerLink="/admin/adminlist" routerLinkActive="active">Admins</a>
+        <a *ngIf="isSuperAdmin" class="nav-tab" routerLink="/admin/adminlist" routerLinkActive="active">Admins</a>
         <a class="nav-tab" routerLink="/account" routerLinkActive="active">Account</a>
       </div>
 

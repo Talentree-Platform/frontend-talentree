@@ -1,0 +1,108 @@
+<div class="panel ai-panel">
+
+    <div class="panel-head">
+        <div>
+            <span class="panel-title">Platform AI Insights</span>
+            <span class="panel-subtitle">Real-time performance signals</span>
+        </div>
+    </div>
+
+    @if (loading()) {
+
+    <div class="ai-health-hero">
+        <div class="skeleton" style="width:92px; height:92px; border-radius:50%;"></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+            <div class="skeleton" style="width:90px; height:20px;"></div>
+            <div class="skeleton" style="width:280px; height:11px;"></div>
+        </div>
+    </div>
+
+    <div class="ai-group">
+        <div class="ai-kpi-row ai-kpi-row--hero">
+            @for (i of [1,2,3,4,5]; track i) {
+            <div class="ai-kpi-card ai-kpi-card--hero">
+                <div class="skeleton-val"></div>
+            </div>
+            }
+        </div>
+    </div>
+
+    } @else {
+
+    <!-- ── Health Gauge (Chart.js canvas gauge, rendered via #gaugeCanvas in the .ts) ── -->
+    <div class="ai-health-hero">
+        <div class="ring-wrap">
+            <canvas #gaugeCanvas></canvas>
+            <div class="ring-value" [class]="'text-' + healthColor(healthScore() || 0)">
+                {{ healthScore() }}
+            </div>
+        </div>
+
+        <div class="ai-health-meta">
+            <span class="stat-badge" [class.success]="healthColor(healthScore() || 0) === 'green'"
+                [class.warn]="healthColor(healthScore() || 0) === 'amber'"
+                [class.danger]="healthColor(healthScore() || 0) === 'red'">
+                {{ healthLabel() }}
+            </span>
+
+            @if (healthComponents(); as hc) {
+            <div class="ai-health-components">
+                <span><b>{{ hc.avg_rating }}</b> avg rating</span>
+                <span class="dot">·</span>
+                <span><b>{{ hc.conversion_rate_pct }}%</b> conversion</span>
+                <span class="dot">·</span>
+                <span><b>{{ hc.churn_rate_pct }}%</b> churn</span>
+                <span class="dot">·</span>
+                <span><b>{{ hc.fraud_rate_pct }}%</b> fraud</span>
+                <span class="dot">·</span>
+                <span><b>{{ hc.anomaly_rate_pct }}%</b> anomaly</span>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- ── 5 headline KPI cards, driven by topKpiCards() ── -->
+    <div class="ai-group">
+        <div class="ai-kpi-row ai-kpi-row--hero">
+            @for (card of topKpiCards(); track card.key) {
+            <div class="ai-kpi-card ai-kpi-card--hero" [class]="card.color">
+                <span class="ai-kpi-icon">{{ card.icon }}</span>
+                <span class="ai-kpi-label">{{ card.label }}</span>
+                <span class="ai-kpi-value">{{ card.value }}</span>
+                <span class="ai-kpi-sub">{{ card.sub }}</span>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- ── Remaining operational metrics not already covered above ── -->
+    @if (kpis(); as k) {
+    <div class="ai-group">
+        <div class="ai-group-head">
+            <span class="ai-group-dot amber-dot"></span>
+            <span class="ai-group-label">Operations</span>
+        </div>
+        <div class="ai-kpi-row ai-kpi-row--four">
+            <div class="ai-kpi-card">
+                <span class="ai-kpi-value">{{ k.product_approval_rate }}%</span>
+                <span class="ai-kpi-label">Product Approval</span>
+            </div>
+            <div class="ai-kpi-card">
+                <span class="ai-kpi-value">{{ k.avg_fulfillment_hours }} hrs</span>
+                <span class="ai-kpi-label">Avg Fulfillment</span>
+            </div>
+            <div class="ai-kpi-card">
+                <span class="ai-kpi-value">{{ k.avg_seller_profile_completeness }}%</span>
+                <span class="ai-kpi-label">Profile Completeness</span>
+            </div>
+            <div class="ai-kpi-card">
+                <span class="ai-kpi-value">{{ k.transaction_anomaly_rate }}%</span>
+                <span class="ai-kpi-label">Anomaly Rate</span>
+            </div>
+        </div>
+    </div>
+    }
+
+    }
+
+</div>

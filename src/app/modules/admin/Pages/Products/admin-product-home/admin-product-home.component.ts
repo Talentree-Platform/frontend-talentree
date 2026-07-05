@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ApproveProductModalComponent } from '../../../Components/approve-product-modal/approve-product-modal.component';
 import { RejectProductModalComponent } from '../../../Components/reject-product-modal/reject-product-modal.component';
+import { RequestChangesModalComponent } from '../../../Components/request-changes-modal/request-changes-modal.component';
+import { BulkApproveModalComponent } from '../../../Components/bulk-approve-modal/bulk-approve-modal.component';
+import { BulkRejectModalComponent } from '../../../Components/bulk-reject-modal/bulk-reject-modal.component';
 import { AdminProductService, LowStockProduct, ProductAnalytics } from '../../../core/services/admin-products.service';
 import { ApiResponse, PaginatedResponse } from '../../../core/Interfaces/ibusiness-owner';
 import { ToastrService } from 'ngx-toastr';
@@ -15,7 +18,15 @@ const PLACEHOLDER_IMAGE = '/assets/images/placeholder-product.svg';
 @Component({
   selector: 'app-admin-product-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, ApproveProductModalComponent, RejectProductModalComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ApproveProductModalComponent,
+    RejectProductModalComponent,
+    RequestChangesModalComponent,
+    BulkApproveModalComponent,
+    BulkRejectModalComponent
+  ],
   templateUrl: './admin-product-home.component.html',
   styleUrl: './admin-product-home.component.css'
 })
@@ -29,6 +40,12 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
 
   selectedForApprove: any | null = null;
   selectedForReject: any | null = null;
+  selectedForRequestChanges: any | null = null;
+
+  // ── Bulk selection ─────────────────────────────────────────────────────────
+  selectedIds = new Set<number>();
+  showBulkApprove = false;
+  showBulkReject = false;
 
   private readonly pageIndex = 1;
   private readonly pageSize = 20;
@@ -67,6 +84,7 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
       this.adminProductService.getPendingProducts(this.pageIndex, this.pageSize).subscribe({
         next: (res) => {
           this.products = this.extractProductList(res);
+          this.selectedIds.clear();
           this.loading = false;
         },
         error: (err: unknown) => {
@@ -76,6 +94,88 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  // ── Bulk selection ─────────────────────────────────────────────────────────
+
+  isSelected(p: any): boolean {
+    const id = this.getNumericProductId(p);
+    return id != null && this.selectedIds.has(id);
+  }
+
+  toggleSelect(p: any, checked: boolean): void {
+    const id = this.getNumericProductId(p);
+    if (id == null) return;
+    if (checked) this.selectedIds.add(id);
+    else this.selectedIds.delete(id);
+  }
+
+  get allVisibleSelected(): boolean {
+    const visible = this.filteredProducts;
+    if (visible.length === 0) return false;
+    return visible.every((p) => this.isSelected(p));
+  }
+
+  toggleSelectAll(checked: boolean): void {
+    for (const p of this.filteredProducts) {
+      const id = this.getNumericProductId(p);
+      if (id == null) continue;
+      if (checked) this.selectedIds.add(id);
+      else this.selectedIds.delete(id);
+    }
+  }
+
+  get selectedCount(): number {
+    return this.selectedIds.size;
+  }
+
+  clearSelection(): void {
+    this.selectedIds.clear();
+  }
+
+  openBulkApprove(): void {
+    if (this.selectedCount === 0) return;
+    this.showBulkApprove = true;
+  }
+
+  openBulkReject(): void {
+    if (this.selectedCount === 0) return;
+    this.showBulkReject = true;
+  }
+
+  onBulkApproveModalClosed(): void {
+    this.showBulkApprove = false;
+  }
+
+  onBulkRejectModalClosed(): void {
+    this.showBulkReject = false;
+  }
+
+  onBulkApproveSuccess(ids: number[]): void {
+    this.removeProductsFromList(ids);
+  }
+
+  onBulkRejectSuccess(ids: number[]): void {
+    this.removeProductsFromList(ids);
+  }
+
+  get selectedProductIds(): number[] {
+    return Array.from(this.selectedIds);
+  }
+
+  // ── Request Changes ────────────────────────────────────────────────────────
+
+  openRequestChanges(event: Event, product: any): void {
+    event.stopPropagation();
+    this.selectedForRequestChanges = product;
+  }
+
+  onRequestChangesModalClosed(): void {
+    this.selectedForRequestChanges = null;
+  }
+
+  onRequestChangesSuccess(): void {
+    if (this.selectedForRequestChanges) this.removeProductFromList(this.selectedForRequestChanges);
   }
 
   // ── Low Stock ──────────────────────────────────────────────────────────────
@@ -226,9 +326,19 @@ export class AdminProductHomeComponent implements OnInit, OnDestroy {
     const id = this.getNumericProductId(product);
     if (id != null) {
       this.products = this.products.filter((x) => this.getNumericProductId(x) !== id);
+      this.selectedIds.delete(id);
     } else {
       this.products = this.products.filter((x) => x !== product);
     }
+  }
+
+  private removeProductsFromList(ids: number[]): void {
+    const idSet = new Set(ids);
+    this.products = this.products.filter((x) => {
+      const id = this.getNumericProductId(x);
+      return id == null || !idSet.has(id);
+    });
+    for (const id of ids) this.selectedIds.delete(id);
   }
 
   pickName(p: any): string {

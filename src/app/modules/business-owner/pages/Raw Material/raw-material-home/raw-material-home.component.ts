@@ -7,7 +7,7 @@ import { Component, inject } from '@angular/core';
 import { ProductCardComponent } from "../../../components/product-card/product-card.component";
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { Subscription } from 'rxjs';
-import { log } from 'node:console';
+
 import { RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 

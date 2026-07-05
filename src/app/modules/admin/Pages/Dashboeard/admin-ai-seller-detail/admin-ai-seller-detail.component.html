@@ -1,0 +1,163 @@
+<div class="page">
+
+    @if (loading()) {
+    <div class="page-header">
+        <div class="skeleton" style="width:200px; height:28px;"></div>
+    </div>
+    <div class="panel">
+        <div class="ai-group">
+            <div class="ai-kpi-row">
+                @for (i of [1,2,3,4]; track i) {
+                <div class="ai-kpi-card">
+                    <div class="skeleton-val"></div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+    } @else if (!seller()) {
+    <div class="empty-state">
+        <p>Seller not found</p>
+        <button class="back-btn" (click)="goBack()">← Back to Sellers</button>
+    </div>
+    } @else {
+
+    @if (seller(); as s) {
+
+    <div class="page-header">
+        <div>
+            <p class="breadcrumb">
+                <a (click)="goBack()" class="breadcrumb-link">Sellers</a> / {{ s.business_name || s.email }}
+            </p>
+            <h1 class="page-title">{{ s.business_name || s.email }}</h1>
+            <div class="header-badges">
+                <span class="stat-badge" [class]="approvalClass(s.approval_status)">
+                    {{ approvalLabel(s.approval_status) }}
+                </span>
+                <span class="stat-badge" [class]="riskClass(s.risk_level)">
+                    {{ s.risk_level }}
+                </span>
+                <span class="header-meta">{{ s.category }} · {{ s.email }}</span>
+            </div>
+        </div>
+
+        <!-- 📑 Download Financials — per the guide's Seller Financial Report export -->
+        <div class="header-actions">
+            <button type="button" class="download-btn" [disabled]="exportingFinancial()"
+                (click)="downloadFinancials()">
+                @if (exportingFinancial()) {
+                <span class="btn-spinner"></span> Exporting…
+                } @else {
+                📑 Download Financials
+                }
+            </button>
+            @if (exportError()) {
+            <div class="inline-error">{{ exportError() }}</div>
+            }
+        </div>
+    </div>
+
+    <!-- Profile -->
+    <div class="panel">
+        <div class="ai-group">
+            <div class="ai-group-head">
+                <span class="ai-group-dot blue-dot"></span>
+                <span class="ai-group-label">Profile</span>
+            </div>
+            <div class="ai-kpi-row">
+                <div class="ai-kpi-card">
+                    <span class="ai-kpi-value">{{ s.profile_completeness }}%</span>
+                    <span class="ai-kpi-label">Profile Completeness</span>
+                </div>
+                <div class="ai-kpi-card">
+                    <span class="ai-kpi-value">{{ s.products_count }}</span>
+                    <span class="ai-kpi-label">Total Products</span>
+                </div>
+                <div class="ai-kpi-card">
+                    <span class="ai-kpi-value">{{ s.approved_products }}</span>
+                    <span class="ai-kpi-label">Approved Products</span>
+                </div>
+                <div class="ai-kpi-card">
+                    <span class="ai-kpi-value">{{ s.joined_date | date:'MMM d, y' }}</span>
+                    <span class="ai-kpi-label">Joined</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance -->
+        <div class="ai-group">
+            <div class="ai-group-head">
+                <span class="ai-group-dot green-dot"></span>
+                <span class="ai-group-label">Performance</span>
+            </div>
+            <div class="ai-kpi-row">
+                <div class="ai-kpi-card">
+                    <span class="ai-kpi-value">EGP {{ s.total_revenue | number:'1.0-0' }}</span>
+                    <span class="ai-kpi-label">Total Revenue</span>
+                </div>
+                <div class="ai-kpi-card">
+                    <span class="ai-kpi-value">{{ s.b2b_orders_total }}</span>
+                    <span class="ai-kpi-label">B2B Orders</span>
+                </div>
+                <div class="ai-kpi-card">
+                    <span class="ai-kpi-value">{{ s.b2b_orders_completed }}</span>
+                    <span class="ai-kpi-label">Orders Completed</span>
+                </div>
+                <div class="ai-kpi-card">
+                    <span class="ai-kpi-value">{{ s.avg_fulfillment_hours }} hrs</span>
+                    <span class="ai-kpi-label">Avg Fulfillment</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quality & Risk (AI) -->
+        <div class="ai-group">
+            <div class="ai-group-head">
+                <span class="ai-group-dot red-dot"></span>
+                <span class="ai-group-label">Quality &amp; Risk 🤖 AI</span>
+            </div>
+            <div class="ai-kpi-row">
+                <div class="ai-kpi-card">
+                    <span class="ai-kpi-value">⭐ {{ s.avg_customer_rating }}</span>
+                    <span class="ai-kpi-label">Avg Rating</span>
+                </div>
+                <div class="ai-kpi-card">
+                    <span class="ai-kpi-value">{{ s.avg_quality_score }}</span>
+                    <span class="ai-kpi-label">Quality Score</span>
+                </div>
+                <div class="ai-kpi-card">
+                    <span class="ai-badge" [class]="fraudScoreClass(s.avg_fraud_score)">
+                        <span class="ai-badge-dot"></span> {{ s.avg_fraud_score | number:'1.2-3' }}
+                    </span>
+                    <span class="ai-kpi-label">Fraud Score</span>
+                </div>
+                <div class="ai-kpi-card">
+                    <span class="ai-badge" [class]="churnRiskClass(s.churn_risk_score)">
+                        <span class="ai-badge-dot"></span>
+                        {{ churnRiskPct(s.churn_risk_score) | number:'1.1-1' }}% {{ churnRiskLabel(s.churn_risk_score) }}
+                    </span>
+                    <span class="ai-kpi-label">Churn Risk</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Revenue Trend -->
+    @if (s.revenue_trend?.length) {
+    <div class="panel">
+        <div class="panel-head">
+            <div>
+                <span class="panel-title">Revenue Trend</span>
+            </div>
+        </div>
+        <div class="chart-canvas-wrap">
+            <canvas #revenueTrendCanvas></canvas>
+        </div>
+    </div>
+    }
+
+    }
+
+    }
+
+</div>

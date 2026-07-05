@@ -420,13 +420,13 @@
   </div>
 
   <!-- BANNER CREATE/EDIT MODAL -->
-  <div class="modal-overlay" *ngIf="showBannerModal" (click)="closeBannerModal()">
-    <div class="modal" (click)="$event.stopPropagation()">
-      <div class="modal-head">
+  <div class="ap-modal-overlay" *ngIf="showBannerModal" (click)="closeBannerModal()">
+    <div class="ap-modal-box" (click)="$event.stopPropagation()">
+      <div class="ap-modal-head">
         <h3>{{ editingBanner ? 'Edit Banner' : 'New Banner' }}</h3>
-        <button class="modal-close" (click)="closeBannerModal()">✕</button>
+        <button class="ap-modal-close" (click)="closeBannerModal()">✕</button>
       </div>
-      <div class="modal-body">
+      <div class="ap-modal-body">
         <div class="form-grid">
           <div class="form-group full">
             <label>Title *</label>
@@ -455,7 +455,7 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="ap-modal-footer">
         <button class="btn-outline" (click)="closeBannerModal()">Cancel</button>
         <button class="btn-gold" (click)="submitBanner()">Save Banner</button>
       </div>
@@ -463,13 +463,13 @@
   </div>
 
   <!-- CATEGORY CREATE/EDIT MODAL -->
-  <div class="modal-overlay" *ngIf="showCatModal" (click)="closeCatModal()">
-    <div class="modal" (click)="$event.stopPropagation()">
-      <div class="modal-head">
+  <div class="ap-modal-overlay" *ngIf="showCatModal" (click)="closeCatModal()">
+    <div class="ap-modal-box" (click)="$event.stopPropagation()">
+      <div class="ap-modal-head">
         <h3>{{ editingCat ? 'Edit Category' : 'New Category' }}</h3>
-        <button class="modal-close" (click)="closeCatModal()">✕</button>
+        <button class="ap-modal-close" (click)="closeCatModal()">✕</button>
       </div>
-      <div class="modal-body">
+      <div class="ap-modal-body">
         <div class="form-grid">
           <div class="form-group full">
             <label>Name *</label>
@@ -489,7 +489,7 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="ap-modal-footer">
         <button class="btn-outline" (click)="closeCatModal()">Cancel</button>
         <button class="btn-gold" (click)="submitCategory()">Save Category</button>
       </div>
@@ -497,13 +497,13 @@
   </div>
 
   <!-- FEATURED BRAND SELECTOR MODAL -->
-  <div class="modal-overlay" *ngIf="showFeaturedBrandModal" (click)="showFeaturedBrandModal = false">
-    <div class="modal" (click)="$event.stopPropagation()">
-      <div class="modal-head">
+  <div class="ap-modal-overlay" *ngIf="showFeaturedBrandModal" (click)="showFeaturedBrandModal = false">
+    <div class="ap-modal-box" (click)="$event.stopPropagation()">
+      <div class="ap-modal-head">
         <h3>Select Featured Brands</h3>
-        <button class="modal-close" (click)="showFeaturedBrandModal = false">✕</button>
+        <button class="ap-modal-close" (click)="showFeaturedBrandModal = false">✕</button>
       </div>
-      <div class="modal-body max-height-selector">
+      <div class="ap-modal-body max-height-selector">
         <div class="selector-grid">
           <label class="selector-item-card" *ngFor="let br of allBrands" [class.selected]="selectedBrandIds[br.id]">
             <input type="checkbox" [(ngModel)]="selectedBrandIds[br.id]" class="selector-checkbox">
@@ -514,7 +514,7 @@
           </label>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="ap-modal-footer">
         <button class="btn-outline" (click)="showFeaturedBrandModal = false">Cancel</button>
         <button class="btn-gold" (click)="saveFeaturedBrands()" [disabled]="savingBrands">
           {{ savingBrands ? 'Saving...' : 'Save Selection' }}
@@ -524,13 +524,13 @@
   </div>
 
   <!-- FEATURED PRODUCT SELECTOR MODAL -->
-  <div class="modal-overlay" *ngIf="showFeaturedProductModal" (click)="showFeaturedProductModal = false">
-    <div class="modal" (click)="$event.stopPropagation()">
-      <div class="modal-head">
+  <div class="ap-modal-overlay" *ngIf="showFeaturedProductModal" (click)="showFeaturedProductModal = false">
+    <div class="ap-modal-box" (click)="$event.stopPropagation()">
+      <div class="ap-modal-head">
         <h3>Select Featured Products</h3>
-        <button class="modal-close" (click)="showFeaturedProductModal = false">✕</button>
+        <button class="ap-modal-close" (click)="showFeaturedProductModal = false">✕</button>
       </div>
-      <div class="modal-body max-height-selector">
+      <div class="ap-modal-body max-height-selector">
         <div class="selector-grid">
           <label class="selector-item-card" *ngFor="let pr of allProducts" [class.selected]="selectedProductIds[pr.id]">
             <input type="checkbox" [(ngModel)]="selectedProductIds[pr.id]" class="selector-checkbox">
@@ -542,7 +542,7 @@
           </label>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="ap-modal-footer">
         <button class="btn-outline" (click)="showFeaturedProductModal = false">Cancel</button>
         <button class="btn-gold" (click)="saveFeaturedProducts()" [disabled]="savingProducts">
           {{ savingProducts ? 'Saving...' : 'Save Selection' }}

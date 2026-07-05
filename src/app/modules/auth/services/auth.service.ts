@@ -42,6 +42,7 @@ export interface User {
   phoneNumber: string;
   isEmailVerified: boolean;
   createdAt: string;
+  forcePasswordChange: boolean;
 }
 
 export interface VerifyEmailData {
@@ -156,12 +157,12 @@ export class AuthService {
           console.log('✅ Registration successful', response);
           this.clearAuthData();
           this.setPendingVerification(userData.email);
-          
+
           // Send verification email - backend generates code
           this.sendVerificationEmail(userData.email).subscribe({
             error: (err) => console.warn('Email sending failed:', err)
           });
-          
+
           this.router.navigate(['/auth/verify-email'], {
             queryParams: {
               email: userData.email,
@@ -180,7 +181,7 @@ export class AuthService {
 
   sendVerificationEmail(email: string): Observable<any> {
     console.log('📧 Backend sending verification email to:', email);
-    
+
     // ✅ ONLY call backend - NO fake code generation
     return this.http.post(`${this.apiUrl}/Auth/forgot-password`, { email })
       .pipe(
@@ -217,43 +218,43 @@ export class AuthService {
   }
 
   // =============== ✅ 4. VERIFY EMAIL ===============
-verifyEmail(data: VerifyEmailData): Observable<{ message: string }> {
-  console.log('✅ Sending verification code to backend:', data.otpCode);
-  
-  // ✅ THIS IS WHAT YOUR API EXPECTS - EXACT MATCH!
-  const requestBody = {
-    email: data.email,
-    otpCode: data.otpCode  // Must be EXACTLY 'otpCode'
-  };
+  verifyEmail(data: VerifyEmailData): Observable<{ message: string }> {
+    console.log('✅ Sending verification code to backend:', data.otpCode);
 
-  console.log('📤 Request body:', JSON.stringify(requestBody, null, 2));
+    // ✅ THIS IS WHAT YOUR API EXPECTS - EXACT MATCH!
+    const requestBody = {
+      email: data.email,
+      otpCode: data.otpCode  // Must be EXACTLY 'otpCode'
+    };
 
-  return this.http.post<{ message: string }>(`${this.apiUrl}/Auth/verify-email`, requestBody)
-    .pipe(
-      tap((response) => {
-        console.log('✅ Email verified successfully!', response);
-        this.clearVerificationState();
-      }),
-      catchError((error: HttpErrorResponse) => {
-        console.error('❌ Verification failed:', error);
-        console.error('❌ Status:', error.status);
-        console.error('❌ Response:', error.error);
-        return throwError(() => error);
-      })
-    );
-}
+    console.log('📤 Request body:', JSON.stringify(requestBody, null, 2));
+
+    return this.http.post<{ message: string }>(`${this.apiUrl}/Auth/verify-email`, requestBody)
+      .pipe(
+        tap((response) => {
+          console.log('✅ Email verified successfully!', response);
+          this.clearVerificationState();
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('❌ Verification failed:', error);
+          console.error('❌ Status:', error.status);
+          console.error('❌ Response:', error.error);
+          return throwError(() => error);
+        })
+      );
+  }
 
   // =============== 🔄 5. RESEND VERIFICATION CODE ===============
 
   resendVerificationCode(email: string): Observable<{ message: string }> {
     console.log('🔄 Backend resending verification code to:', email);
-    
+
     this.setPendingVerification(email);
-    
+
     // ✅ ONLY call backend - NO fake code
     return this.forgotPassword({ email }).pipe(
-      map((response) => ({ 
-        message: response.message || 'Verification code sent to your email' 
+      map((response) => ({
+        message: response.message || 'Verification code sent to your email'
       })),
       catchError((error) => {
         console.error('❌ Backend failed to resend code:', error);
@@ -328,8 +329,8 @@ verifyEmail(data: VerifyEmailData): Observable<{ message: string }> {
     );
   }
   // =============== 👋 9. Register Business Owner ===============
-  registerOwner(ownerData:object):Observable<any>{
-    return this.http.post(`https://talentreeplateform.runasp.net/api/Auth/register-business-owner`,ownerData)
+  registerOwner(ownerData: object): Observable<any> {
+    return this.http.post(`https://talentreeplateform.runasp.net/api/Auth/register-business-owner`, ownerData)
   }
   // =============== 👋 10. LOGOUT ===============
 
@@ -403,7 +404,11 @@ verifyEmail(data: VerifyEmailData): Observable<{ message: string }> {
     this.clearVerificationState();
 
     if (this.isBrowser) {
-      this.redirectBasedOnRole(normalizedResponse.user.role);
+      if (normalizedResponse.user.forcePasswordChange) {
+        this.router.navigate(['/auth/change-forced-password']); // ⬅️ جديد
+      } else {
+        this.redirectBasedOnRole(normalizedResponse.user.role);
+      }
     }
   }
 
@@ -434,27 +439,26 @@ verifyEmail(data: VerifyEmailData): Observable<{ message: string }> {
   }
 
   private normalizeLoginResponse(response: any): LoginResponse {
+    const data = response.data || response;
+    const user = data.user || {};
 
-  const data = response.data || response;
-
-  const user = data.user || {};
-
-  return {
-    token: data.accessToken || data.token || '',
-    refreshToken: data.refreshToken || '',
-    expiresIn: 3600,
-    user: {
-      id: user.id || '',
-      email: user.email || '',
-      firstName: user.displayName?.split(' ')[0] || '',
-      lastName: user.displayName?.split(' ')[1] || '',
-      role: user.roles?.[0] || user.role || 'Customer', // 🔥 VERY IMPORTANT
-      phoneNumber: user.phoneNumber || '',
-      isEmailVerified: user.isEmailVerified || false,
-      createdAt: user.createdAt || new Date().toISOString()
-    }
-  };
-}
+    return {
+      token: data.accessToken || data.token || '',
+      refreshToken: data.refreshToken || '',
+      expiresIn: 3600,
+      user: {
+        id: user.id || '',
+        email: user.email || '',
+        firstName: user.displayName?.split(' ')[0] || '',
+        lastName: user.displayName?.split(' ')[1] || '',
+        role: user.roles?.[0] || user.role || 'Customer',
+        phoneNumber: user.phoneNumber || '',
+        isEmailVerified: user.isEmailVerified || false,
+        createdAt: user.createdAt || new Date().toISOString(),
+        forcePasswordChange: user.forcePasswordChange ?? user.mustChangePassword ?? false // ⬅️ جديد
+      }
+    };
+  }
 
   private parseExpiresIn(expiresIn: any): number {
     if (typeof expiresIn === 'number') return expiresIn;
@@ -465,7 +469,7 @@ verifyEmail(data: VerifyEmailData): Observable<{ message: string }> {
     return 3600;
   }
 
-  private redirectBasedOnRole(role: string): void {
+  public redirectBasedOnRole(role: string): void {
     if (!this.isBrowser) return;
 
     const lowerRole = role.toLowerCase();
@@ -479,6 +483,7 @@ verifyEmail(data: VerifyEmailData): Observable<{ message: string }> {
         this.router.navigate(['/businessowner/bohome']);
         break;
       case 'admin':
+      case 'superadmin':
         this.router.navigate(['/admin/dashboard']);
         break;
       default:

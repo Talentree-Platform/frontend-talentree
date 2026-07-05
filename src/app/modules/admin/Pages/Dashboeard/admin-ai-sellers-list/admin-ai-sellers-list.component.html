@@ -1,0 +1,96 @@
+<div class="page">
+
+    <div class="page-header">
+        <div>
+            <p class="breadcrumb">Admin Panel</p>
+            <h1 class="page-title">Sellers</h1>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-head">
+            <div>
+                <span class="panel-title">All Sellers</span>
+                <span class="panel-subtitle">Sorted by churn risk, highest first</span>
+            </div>
+        </div>
+
+        @if (loading()) {
+        @for (i of [1,2,3,4,5]; track i) {
+        <div class="seller-card">
+            <div class="skeleton-avatar"></div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                <div class="skeleton" style="width:160px; height:12px;"></div>
+                <div class="skeleton" style="width:100px; height:10px;"></div>
+            </div>
+            <div class="skeleton" style="width:80px; height:22px; border-radius:99px;"></div>
+        </div>
+        }
+        } @else if (sellers().length === 0) {
+        <div class="empty-state">
+            <p>No sellers found</p>
+        </div>
+        } @else {
+
+        <div class="sellers-list">
+            @for (seller of sellers(); track seller.seller_id) {
+            <div class="seller-card" (click)="openSeller(seller.seller_id)">
+
+                <div class="seller-card-top">
+                    <div class="business-cell">
+                        <div class="avatar">{{ initials(seller.business_name || seller.email) }}</div>
+                        <div class="row-info">
+                            <span class="row-name">{{ seller.business_name || '—' }}</span>
+                            <span class="row-meta">{{ seller.email }} · {{ seller.category }}</span>
+                        </div>
+                    </div>
+                    <span class="stat-badge" [class]="approvalClass(seller.approval_status)">
+                        {{ approvalLabel(seller.approval_status) }}
+                    </span>
+                </div>
+
+                <div class="seller-card-stats">
+                    <div class="stat-chip">
+                        <span class="stat-chip-label">Revenue</span>
+                        <span class="stat-chip-value">EGP {{ seller.total_revenue | number:'1.0-0' }}</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-chip-label">Products</span>
+                        <span class="stat-chip-value">{{ seller.products_count }}</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-chip-label">Rating</span>
+                        <span class="stat-chip-value">⭐ {{ seller.avg_customer_rating ?? '—' }}</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-chip-label">Churn risk 🤖</span>
+                        <span class="ai-badge" [class]="churnRiskClass(seller)">
+                            <span class="ai-badge-dot"></span>
+                            {{ churnRiskPct(seller) | number:'1.1-1' }}% {{ churnRiskLabel(seller) }}
+                        </span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-chip-label">Fraud score 🤖</span>
+                        <span class="ai-badge" [class]="fraudScoreClass(seller)">
+                            {{ fraudScore(seller) | number:'1.2-3' }}
+                        </span>
+                    </div>
+                    <div class="stat-chip profile-chip">
+                        <span class="stat-chip-label">Profile %</span>
+                        <div class="mini-progress-cell">
+                            <div class="mini-progress-track">
+                                <div class="mini-progress-fill" [class]="profileBarColorClass(seller)"
+                                    [style.width.%]="profileCompletenessPct(seller)"></div>
+                            </div>
+                            <span class="mini-progress-label">{{ profileCompletenessPct(seller) }}%</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            }
+        </div>
+        }
+    </div>
+
+</div>

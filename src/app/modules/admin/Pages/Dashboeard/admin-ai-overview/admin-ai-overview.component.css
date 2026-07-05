@@ -1,0 +1,416 @@
+/* ── Google Font (same as dashboard) ── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+/* ── CSS Variables (copied from dashboard - Angular encapsulation needs its own copy) ── */
+:host {
+    --gold: #B8860B;
+    --gold-light: #C9952A;
+    --gold-pale: #FBF3E2;
+    --gold-border: #E8D5A3;
+    --cream: #FDFAF4;
+    --surface: #FFFFFF;
+    --border: #EDE8DF;
+    --border-soft: #F4EFE7;
+    --text-dark: #18130A;
+    --text-mid: #5C5244;
+    --text-soft: #A09280;
+    --green: #27A06B;
+    --green-pale: #EDFAF4;
+    --amber: #C9952A;
+    --amber-pale: #FFF8EC;
+    --red: #D94040;
+    --red-pale: #FEF2F2;
+    --terracotta: #B8621A;
+    --shadow-sm: 0 1px 3px rgba(184, 134, 11, .07), 0 1px 2px rgba(0, 0, 0, .04);
+    --shadow-md: 0 4px 20px rgba(184, 134, 11, .12), 0 2px 8px rgba(0, 0, 0, .06);
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Panel ── */
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    margin-top: 16px;
+}
+
+.panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-soft);
+    background: linear-gradient(135deg, var(--cream) 0%, var(--surface) 100%);
+}
+
+.panel-head>div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.panel-title {
+    font-size: .875rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    letter-spacing: -.01em;
+}
+
+.panel-subtitle {
+    font-size: .72rem;
+    color: var(--text-soft);
+    font-weight: 400;
+}
+
+/* ── Status badge ── */
+.stat-badge {
+    font-size: .59rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 99px;
+    white-space: nowrap;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    align-self: flex-start;
+}
+
+.stat-badge.warn {
+    background: #FFF3DB;
+    color: #7A4E00;
+    border: 1px solid #F5D98A;
+}
+
+.stat-badge.success {
+    background: var(--green-pale);
+    color: #145738;
+    border: 1px solid #B8EACC;
+}
+
+.stat-badge.danger {
+    background: var(--red-pale);
+    color: #7A1A1A;
+    border: 1px solid #FBB8B8;
+}
+
+/* ── Health Hero ── */
+.ai-health-hero {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 26px 20px;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+/* Gauge: Chart.js renders a <canvas> inside this wrapper (see component .ts).
+   The old SVG stroke-dasharray ring approach has been removed — .ring-value
+   is kept as the centered score overlay that sits on top of the canvas arc. */
+.ring-wrap {
+    /* A half-doughnut (rotation:-90, circumference:180) is a WIDE shape,
+       not a circle — it needs roughly a 2:1 box or the arc gets squished
+       and clipped. This replaces the old square box sized for a full-circle
+       SVG ring, which no longer matches what's actually being rendered. */
+    position: relative;
+    width: 168px;
+    height: 96px;
+    flex-shrink: 0;
+}
+
+.ring-wrap canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.ring-value {
+    /* Sits at the flat base of the arc, not centered in the full box —
+       the arc only occupies the top half of the space. */
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 2px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    font-variant-numeric: tabular-nums;
+}
+
+.ring-value.text-green {
+    color: var(--green);
+}
+
+.ring-value.text-amber {
+    color: var(--amber);
+}
+
+.ring-value.text-red {
+    color: var(--red);
+}
+
+.ai-health-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.ai-health-components {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+    font-size: .78rem;
+    color: var(--text-mid);
+}
+
+.ai-health-components b {
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.ai-health-components .dot {
+    color: var(--text-soft);
+    font-weight: 700;
+}
+
+/* ── Grouped Sections ── */
+.ai-group {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.ai-group:last-child {
+    border-bottom: none;
+}
+
+.ai-group-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.ai-group-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.ai-group-dot.green-dot {
+    background: var(--green);
+    box-shadow: 0 0 0 3px rgba(39, 160, 107, .15);
+}
+
+.ai-group-dot.red-dot {
+    background: var(--red);
+    box-shadow: 0 0 0 3px rgba(217, 64, 64, .15);
+}
+
+.ai-group-dot.amber-dot {
+    background: var(--amber);
+    box-shadow: 0 0 0 3px rgba(201, 149, 42, .15);
+}
+
+.ai-group-label {
+    font-size: .68rem;
+    font-weight: 700;
+    color: var(--text-mid);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.ai-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+/* Operations row has 4 metrics — its own column count on wide screens */
+.ai-kpi-row--four {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.ai-kpi-card {
+    background: var(--cream);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    transition: border-color .2s, background .2s;
+}
+
+.ai-kpi-card:hover {
+    border-color: var(--gold-border);
+    background: var(--surface);
+}
+
+.ai-kpi-value {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.ai-kpi-label {
+    font-size: .68rem;
+    color: var(--text-soft);
+    font-weight: 500;
+    letter-spacing: .03em;
+}
+
+/* ── Hero KPI cards (top 5, driven by topKpiCards()) ──
+   TS emits color keys green/blue/purple/orange/red for semantic distinction;
+   rendered hues are mapped onto the gold/cream palette so the row stays
+   on-brand instead of introducing literal blue/purple accents. */
+.ai-kpi-row--hero {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.ai-kpi-card--hero {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 16px 16px 14px;
+    overflow: hidden;
+    transition: border-color .2s, transform .15s, box-shadow .2s;
+}
+
+.ai-kpi-card--hero:hover {
+    border-color: var(--gold-border);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.ai-kpi-card--hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+}
+
+.ai-kpi-card--hero.green::before {
+    background: var(--green);
+}
+
+.ai-kpi-card--hero.blue::before {
+    background: var(--gold);
+}
+
+.ai-kpi-card--hero.purple::before {
+    background: var(--gold-light);
+}
+
+.ai-kpi-card--hero.orange::before {
+    /* NOT --amber: --amber and --gold-light share the same hex (#C9952A),
+       which made Fraud Rate and Satisfaction render identical accent
+       colors. Fraud is a risk metric — it should read distinctly from
+       Satisfaction's gold-light at a glance. */
+    background: var(--terracotta);
+}
+
+.ai-kpi-card--hero.red::before {
+    background: var(--red);
+}
+
+.ai-kpi-icon {
+    float: right;
+    font-size: 1.1rem;
+    opacity: .85;
+    line-height: 1;
+}
+
+.ai-kpi-card--hero .ai-kpi-label {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: 8px;
+}
+
+.ai-kpi-card--hero .ai-kpi-value {
+    display: block;
+    font-size: 1.35rem;
+}
+
+.ai-kpi-sub {
+    display: block;
+    font-size: .66rem;
+    color: var(--text-soft);
+    margin-top: 5px;
+}
+
+/* ── Skeletons ── */
+.skeleton {
+    background: linear-gradient(90deg, var(--border-soft) 25%, var(--border) 50%, var(--border-soft) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+.skeleton-val {
+    width: 100%;
+    height: 34px;
+    background: linear-gradient(90deg, var(--border-soft) 25%, var(--border) 50%, var(--border-soft) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .ai-kpi-row--hero {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .ai-kpi-row--four {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .ai-kpi-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ai-kpi-row--hero {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .ai-health-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .ring-wrap {
+        width: 140px;
+        height: 80px;
+    }
+
+    .ai-kpi-row,
+    .ai-kpi-row--hero,
+    .ai-kpi-row--four {
+        grid-template-columns: 1fr;
+    }
+}

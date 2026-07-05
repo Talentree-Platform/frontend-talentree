@@ -23,8 +23,8 @@
   --amber-pale: #FFF8EC;
   --red: #D94040;
   --red-pale: #FEF2F2;
-  --purple: #7C5CBF;
-  --purple-pale: #F3EEFF;
+  --bronze: #A6743A;
+  --bronze-pale: #F6EEE1;
   --shadow-sm: 0 1px 3px rgba(184, 134, 11, .07), 0 1px 2px rgba(0, 0, 0, .04);
   --shadow-md: 0 4px 20px rgba(184, 134, 11, .12), 0 2px 8px rgba(0, 0, 0, .06);
 }
@@ -95,7 +95,7 @@
 }
 
 .stat-card.total::before {
-  background: radial-gradient(circle, rgba(124, 92, 191, .12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(166, 116, 58, .12) 0%, transparent 70%);
 }
 
 .stat-card.active::before {
@@ -123,8 +123,8 @@
 }
 
 .stat-icon.purple {
-  background: var(--purple-pale);
-  color: var(--purple);
+  background: var(--bronze-pale);
+  color: var(--bronze);
 }
 
 .stat-icon.green {
@@ -171,9 +171,9 @@
 }
 
 .badge-purple {
-  background: var(--purple-pale);
-  color: #4A2D8B;
-  border: 1px solid #D8B4FE;
+  background: var(--bronze-pale);
+  color: #5C3D18;
+  border: 1px solid #E0C596;
 }
 
 .badge-green {
@@ -198,6 +198,7 @@
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   margin-bottom: 28px;
+  font-family: 'DM Sans', sans-serif;
 }
 
 /* ── Toggle Header ── */
@@ -245,6 +246,7 @@
 }
 
 .perf-subtitle {
+  font-family: 'DM Sans', sans-serif;
   font-size: .75rem;
   color: var(--text-soft);
   margin: 0;
@@ -280,6 +282,7 @@
   gap: 12px;
   padding: 40px 24px;
   color: var(--text-soft);
+  font-family: 'DM Sans', sans-serif;
   font-size: .85rem;
 }
 
@@ -315,6 +318,7 @@
   gap: 10px;
   padding: 40px 24px;
   color: var(--text-soft);
+  font-family: 'DM Sans', sans-serif;
   font-size: .85rem;
 }
 
@@ -381,8 +385,8 @@
 }
 
 .kpi-icon.kpi-purple {
-  background: var(--purple-pale);
-  color: var(--purple);
+  background: var(--bronze-pale);
+  color: var(--bronze);
 }
 
 .kpi-icon.kpi-green {
@@ -416,6 +420,7 @@
 }
 
 .kpi-label {
+  font-family: 'DM Sans', sans-serif;
   font-size: .68rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -424,6 +429,7 @@
 }
 
 .kpi-value {
+  font-family: 'DM Sans', sans-serif;
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--text-dark);
@@ -443,9 +449,11 @@
 }
 
 .kpi-pct {
+  font-family: 'DM Sans', sans-serif;
   font-size: .85rem;
   font-weight: 700;
   color: var(--text-dark);
+  font-variant-numeric: tabular-nums;
 }
 
 .score-high {
@@ -601,10 +609,12 @@
 }
 
 .inline-pct {
+  font-family: 'DM Sans', sans-serif;
   font-size: .78rem;
   font-weight: 600;
   color: var(--text-mid);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .inline-stars {
@@ -623,16 +633,19 @@
 }
 
 .rating-num {
+  font-family: 'DM Sans', sans-serif;
   font-size: .78rem;
   font-weight: 600;
   color: var(--text-mid);
   margin-left: 4px;
+  font-variant-numeric: tabular-nums;
 }
 
 .score-pill {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 99px;
+  font-family: 'DM Sans', sans-serif;
   font-size: .72rem;
   font-weight: 700;
   letter-spacing: .03em;
@@ -877,7 +890,7 @@
   font-weight: 700;
   color: #fff;
   flex-shrink: 0;
-  background: var(--purple);
+  background: var(--bronze);
 }
 
 .supplier-name {

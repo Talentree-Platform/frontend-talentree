@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { ProductionRequestComponent } from './Pages/production-request/production-request.component';
 import { AdminLayoutComponent } from './../../layout/admin/admin.component';
-import { AdminListComponent } from './Pages/Admin/admin-list/admin-list.component';
-import { CreateAdminComponent } from './Pages/Admin/create-admin/create-admin.component';
+import { AdminListComponent } from './Pages/Admin/admin-managment/admin-list/admin-list.component';
 import { BoDetailsComponent } from './Pages/business-owner/bo-details/bo-details.component';
 import { PendingBoComponent } from './Pages/business-owner/pending-bo/pending-bo.component';
 import { DashboardComponent } from './Pages/Dashboeard/admin-dashboard/admin-dashboard.component';
@@ -33,7 +32,6 @@ import { AdminPlatformComponent } from './Pages/admin-platform/admin-platform.co
     AdminRoutingModule,
     AdminLayoutComponent,
     AdminListComponent,
-    CreateAdminComponent,
     BoDetailsComponent,
     PendingBoComponent,
     DashboardComponent,

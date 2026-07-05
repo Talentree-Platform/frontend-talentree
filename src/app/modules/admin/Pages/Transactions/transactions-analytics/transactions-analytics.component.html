@@ -1,87 +1,87 @@
 <div class="analytics-section">
 
-    <!-- Loading Skeleton -->
-    <div *ngIf="loading" class="kpi-grid">
-        <div *ngFor="let i of [1,2,3,4,5,6,7,8,9]" class="kpi-card skeleton">
-            <div class="skeleton-label"></div>
-            <div class="skeleton-value"></div>
-        </div>
+  <!-- Loading Skeleton -->
+  <div *ngIf="loading" class="kpi-grid">
+    <div *ngFor="let i of [1,2,3,4,5,6,7,8,9]" class="kpi-card skeleton">
+      <div class="skeleton-label"></div>
+      <div class="skeleton-value"></div>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div *ngIf="!loading" class="kpi-grid">
+
+    <div class="kpi-card tone-gold">
+      <div class="kpi-icon"><i class="fas fa-receipt"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">Total Transactions</span>
+        <span class="kpi-value">{{ formatNumber(kpis.total) }}</span>
+      </div>
     </div>
 
-    <!-- KPI Cards -->
-    <div *ngIf="!loading" class="kpi-grid">
-
-        <div class="kpi-card primary">
-            <div class="kpi-icon"><i class="fas fa-receipt"></i></div>
-            <div class="kpi-content">
-                <span class="kpi-label">Total Transactions</span>
-                <span class="kpi-value">{{ formatNumber(kpis.total) }}</span>
-            </div>
-        </div>
-
-        <div class="kpi-card success">
-            <div class="kpi-icon"><i class="fas fa-credit-card"></i></div>
-            <div class="kpi-content">
-                <span class="kpi-label">Payments</span>
-                <span class="kpi-value">{{ formatNumber(kpis.payments) }}</span>
-            </div>
-        </div>
-
-        <div class="kpi-card info">
-            <div class="kpi-icon"><i class="fas fa-undo"></i></div>
-            <div class="kpi-content">
-                <span class="kpi-label">Refunds</span>
-                <span class="kpi-value">{{ formatNumber(kpis.refunds) }}</span>
-            </div>
-        </div>
-
-        <div class="kpi-card warning">
-            <div class="kpi-icon"><i class="fas fa-arrow-up"></i></div>
-            <div class="kpi-content">
-                <span class="kpi-label">Withdrawals</span>
-                <span class="kpi-value">{{ formatNumber(kpis.withdrawals) }}</span>
-            </div>
-        </div>
-
-        <div class="kpi-card neutral">
-            <div class="kpi-icon"><i class="fas fa-arrow-down"></i></div>
-            <div class="kpi-content">
-                <span class="kpi-label">Deposits</span>
-                <span class="kpi-value">{{ formatNumber(kpis.deposits) }}</span>
-            </div>
-        </div>
-
-        <div class="kpi-card primary">
-            <div class="kpi-icon"><i class="fas fa-exchange-alt"></i></div>
-            <div class="kpi-content">
-                <span class="kpi-label">Transfers</span>
-                <span class="kpi-value">{{ formatNumber(kpis.transfers) }}</span>
-            </div>
-        </div>
-
-        <div class="kpi-card gold">
-            <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
-            <div class="kpi-content">
-                <span class="kpi-label">Total Inflow</span>
-                <span class="kpi-value">{{ formatCurrency(kpis.totalInflow) }}</span>
-            </div>
-        </div>
-
-        <div class="kpi-card gold-light">
-            <div class="kpi-icon"><i class="fas fa-reply"></i></div>
-            <div class="kpi-content">
-                <span class="kpi-label">Total Outflow</span>
-                <span class="kpi-value">{{ formatCurrency(kpis.totalOutflow) }}</span>
-            </div>
-        </div>
-
-        <div *ngIf="kpis.anomalyCount > 0" class="kpi-card flagged">
-            <div class="kpi-icon"><i class="fas fa-flag"></i></div>
-            <div class="kpi-content">
-                <span class="kpi-label">Anomaly Flagged</span>
-                <span class="kpi-value">{{ formatNumber(kpis.anomalyCount) }}</span>
-            </div>
-        </div>
-
+    <div class="kpi-card tone-green">
+      <div class="kpi-icon"><i class="fas fa-credit-card"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">Payments</span>
+        <span class="kpi-value">{{ formatNumber(kpis.payments) }}</span>
+      </div>
     </div>
+
+    <div class="kpi-card tone-blue">
+      <div class="kpi-icon"><i class="fas fa-undo"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">Refunds</span>
+        <span class="kpi-value">{{ formatNumber(kpis.refunds) }}</span>
+      </div>
+    </div>
+
+    <div class="kpi-card tone-amber">
+      <div class="kpi-icon"><i class="fas fa-arrow-up"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">Withdrawals</span>
+        <span class="kpi-value">{{ formatNumber(kpis.withdrawals) }}</span>
+      </div>
+    </div>
+
+    <div class="kpi-card tone-neutral">
+      <div class="kpi-icon"><i class="fas fa-arrow-down"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">Deposits</span>
+        <span class="kpi-value">{{ formatNumber(kpis.deposits) }}</span>
+      </div>
+    </div>
+
+    <div class="kpi-card tone-purple">
+      <div class="kpi-icon"><i class="fas fa-exchange-alt"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">Transfers</span>
+        <span class="kpi-value">{{ formatNumber(kpis.transfers) }}</span>
+      </div>
+    </div>
+
+    <div class="kpi-card tone-gold-strong">
+      <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">Total Inflow</span>
+        <span class="kpi-value">{{ formatCurrency(kpis.totalInflow) }}</span>
+      </div>
+    </div>
+
+    <div class="kpi-card tone-gold-light">
+      <div class="kpi-icon"><i class="fas fa-reply"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">Total Outflow</span>
+        <span class="kpi-value">{{ formatCurrency(kpis.totalOutflow) }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="kpis.anomalyCount > 0" class="kpi-card tone-red">
+      <div class="kpi-icon"><i class="fas fa-flag"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">Anomaly Flagged</span>
+        <span class="kpi-value">{{ formatNumber(kpis.anomalyCount) }}</span>
+      </div>
+    </div>
+
+  </div>
 </div>

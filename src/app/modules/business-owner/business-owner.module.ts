@@ -1,4 +1,4 @@
-import { BusinessChatComponent } from './components/business-chat/business-chat.component';
+
 import { OwnerAddProductComponent } from './pages/Products/owner-add-product/owner-add-product.component';
 import { OwnerTopNavComponent } from './components/owner-top-nav/owner-top-nav.component';
 import { OwnerSideNavComponent } from './components/owner-side-nav/owner-side-nav.component';
@@ -52,7 +52,6 @@ import { StatusBadgeComponent } from '../admin/Components/status-badge/status-ba
     ProductionRequestDetailsComponent,
     ProductionRequestListComponent,
     CreateProductionRequestComponent,
-    BusinessChatComponent,
     OwnerProductsComponent,
     OwnerProductDetailsComponent,
     OwnerAddProductComponent,

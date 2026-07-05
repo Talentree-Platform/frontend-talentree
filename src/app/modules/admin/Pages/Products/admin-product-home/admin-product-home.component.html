@@ -8,7 +8,7 @@
         <span class="admin-product-home__queue-badge" role="status">Pending Approval</span>
       </div>
       <p class="owner-products-subtitle">
-        Review listings awaiting approval. Approve or reject each product when you are ready.
+        Review listings awaiting approval. Approve, reject, or request changes for each product.
       </p>
     </div>
   </header>
@@ -28,6 +28,22 @@
   <!-- Queue label -->
   <div class="owner-products-main-head">
     <h2 class="owner-products-section-title">Queue</h2>
+  </div>
+
+  <!-- Bulk action bar -->
+  <div class="bulk-action-bar" *ngIf="selectedCount > 0">
+    <span class="bulk-action-bar__count">{{ selectedCount }} selected</span>
+    <div class="bulk-action-bar__actions">
+      <button type="button" class="btn-main btn-success" (click)="openBulkApprove()">
+        Bulk Approve
+      </button>
+      <button type="button" class="btn-main btn-danger" (click)="openBulkReject()">
+        Bulk Reject
+      </button>
+      <button type="button" class="btn-main btn-secondary" (click)="clearSelection()">
+        Clear
+      </button>
+    </div>
   </div>
 
   <!-- Loading -->
@@ -50,6 +66,10 @@
     <table class="owner-products-table">
       <thead>
         <tr>
+          <th scope="col" class="owner-products-table__checkbox-col">
+            <input type="checkbox" aria-label="Select all pending products" [checked]="allVisibleSelected"
+              (change)="toggleSelectAll($any($event.target).checked)" />
+          </th>
           <th scope="col">Image</th>
           <th scope="col">Name</th>
           <th scope="col">Category</th>
@@ -62,7 +82,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let p of filteredProducts; trackBy: trackByProductId">
+        <tr *ngFor="let p of filteredProducts; trackBy: trackByProductId" [class.is-selected]="isSelected(p)">
+
+          <!-- Select -->
+          <td class="owner-products-table__checkbox-col">
+            <input type="checkbox" [attr.aria-label]="'Select ' + pickName(p)" [checked]="isSelected(p)"
+              (change)="toggleSelect(p, $any($event.target).checked)" />
+          </td>
 
           <!-- Image -->
           <td>
@@ -101,6 +127,13 @@
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
                 Reject
+              </button>
+              <button type="button" class="btn-main btn-warn" (click)="openRequestChanges($event, p)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                </svg>
+                Request Changes
               </button>
               <button type="button" class="btn-main btn-analytics" (click)="openAnalytics(p); $event.stopPropagation()">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -194,6 +227,19 @@
     [productId]="getNumericProductId(selectedForReject)" (rejected)="onRejectSuccess()"
     (closed)="onRejectModalClosed()">
   </app-reject-product-modal>
+
+  <app-request-changes-modal *ngIf="selectedForRequestChanges" [productName]="pickName(selectedForRequestChanges)"
+    [productId]="getNumericProductId(selectedForRequestChanges)" (closed)="onRequestChangesModalClosed()"
+    (changed)="onRequestChangesSuccess()">
+  </app-request-changes-modal>
+
+  <app-bulk-approve-modal *ngIf="showBulkApprove" [productIds]="selectedProductIds"
+    (approved)="onBulkApproveSuccess($event)" (closed)="onBulkApproveModalClosed()">
+  </app-bulk-approve-modal>
+
+  <app-bulk-reject-modal *ngIf="showBulkReject" [productIds]="selectedProductIds"
+    (rejected)="onBulkRejectSuccess($event)" (closed)="onBulkRejectModalClosed()">
+  </app-bulk-reject-modal>
 
   <!-- Analytics Modal -->
   <div class="modal-overlay" *ngIf="showAnalytics" (click)="closeAnalytics()">

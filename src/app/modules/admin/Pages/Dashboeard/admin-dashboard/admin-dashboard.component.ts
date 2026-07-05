@@ -1,15 +1,18 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AdminService } from '../../../core/services/admin.service';
 import { AdminManagementService } from '../../../core/services/adminManagment.service';
 import { AdminProductService } from '../../../core/services/admin-products.service';
+import { AdminAiOverviewComponent } from '../admin-ai-overview/admin-ai-overview.component';
+import { AuthService } from '../../../../auth/services/auth.service'; // ⚠️ عدّلي المسار حسب مكانه عندك لو مختلف
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AdminAiOverviewComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })
@@ -21,23 +24,47 @@ export class DashboardComponent implements OnInit {
   activeAdminsCount = signal(0);
   recentOwners = signal<any[]>([]);
 
+  // ── Role flags (تتحدد مرة واحدة من بيانات اليوزر المسجل دخوله) ──
+  isSuperAdmin = false;
+  isAdmin = false;
+
   constructor(
     private adminService: AdminService,
     private adminManagementService: AdminManagementService,
-    private productService: AdminProductService,  // ← أضيفي ده
-  ) { }
+    private productService: AdminProductService,
+    private authService: AuthService,
+  ) {
+    const role = (this.authService.getCurrentUser()?.role ?? '').trim().toLowerCase();
+    this.isSuperAdmin = role === 'superadmin';
+    this.isAdmin = role === 'admin';
+  }
 
   ngOnInit(): void {
     forkJoin({
-      owners: this.adminService.getPendingBusinessOwner({ pageIndex: 1, pageSize: 4 }),
-      admins: this.adminManagementService.getAllAdmins(),
-      products: this.productService.getPendingProducts(1, 4),
+      // Pending owners: مشتركة بين Admin و SuperAdmin
+      owners: this.adminService.getPendingBusinessOwner({ pageIndex: 1, pageSize: 4 }).pipe(
+        catchError(() => of(null))
+      ),
+      // Pending products: Admin بس
+      products: this.isAdmin
+        ? this.productService.getPendingProducts(1, 4).pipe(catchError(() => of(null)))
+        : of(null),
+      // Active admins: SuperAdmin بس
+      admins: this.isSuperAdmin
+        ? this.adminManagementService.getAllAdmins().pipe(catchError(() => of(null)))
+        : of(null),
     }).subscribe({
-      next: (results) => {   // ← بدل destructuring، استخدمي results
-        this.pendingOwnersCount.set(results.owners.data.count);
-        this.pendingProductsCount.set(results.products.data.count);
-        this.activeAdminsCount.set(results.admins.data.filter((a: any) => a.isActive).length);
-        this.recentOwners.set(results.owners.data.data);
+      next: (results) => {
+        if (results.owners) {
+          this.pendingOwnersCount.set(results.owners.data.count);
+          this.recentOwners.set(results.owners.data.data);
+        }
+        if (results.products) {
+          this.pendingProductsCount.set(results.products.data.count);
+        }
+        if (results.admins) {
+          this.activeAdminsCount.set(results.admins.data.filter((a: any) => a.isActive).length);
+        }
         this.loading.set(false);
       },
       error: () => this.loading.set(false),

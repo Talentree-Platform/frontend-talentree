@@ -1,0 +1,34 @@
+<div class="apw-page">
+
+  <div class="apw-tabs" role="tablist" aria-label="Products view">
+    <button
+      type="button"
+      role="tab"
+      class="apw-tab"
+      [class.active]="activeTab === 'pending'"
+      [attr.aria-selected]="activeTab === 'pending'"
+      (click)="setTab('pending')"
+    >
+      Pending
+    </button>
+    <button
+      type="button"
+      role="tab"
+      class="apw-tab"
+      [class.active]="activeTab === 'all'"
+      [attr.aria-selected]="activeTab === 'all'"
+      (click)="setTab('all')"
+    >
+      All Products
+    </button>
+  </div>
+
+  <div class="apw-panel apw-fade-up">
+    @if (activeTab === 'pending') {
+      <app-admin-product-home></app-admin-product-home>
+    } @else {
+      <app-admin-all-products></app-admin-all-products>
+    }
+  </div>
+
+</div>

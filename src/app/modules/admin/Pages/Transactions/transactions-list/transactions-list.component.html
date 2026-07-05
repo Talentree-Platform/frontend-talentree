@@ -187,20 +187,20 @@
         (closed)="closeDetails()"></app-transaction-details>
 
     <!-- ── Export Modal ── -->
-    <div *ngIf="showExportModal" class="modal-backdrop" (click)="closeExportModal()">
-        <div class="export-modal" (click)="$event.stopPropagation()">
-            <div class="export-header">
+    <div *ngIf="showExportModal" class="ap-modal-backdrop" (click)="closeExportModal()">
+        <div class="ap-modal-panel export-modal" (click)="$event.stopPropagation()">
+            <div class="ap-modal-header">
                 <h3>Export Report</h3>
                 <button class="close-btn" (click)="closeExportModal()"><i class="fas fa-times"></i></button>
             </div>
-            <div class="export-body">
+            <div class="ap-modal-body">
                 <p class="export-desc">Select a date range for the report (optional).</p>
                 <div class="export-fields">
                     <label>From <input type="date" class="filter-select" [(ngModel)]="exportFrom" /></label>
                     <label>To <input type="date" class="filter-select" [(ngModel)]="exportTo" /></label>
                 </div>
             </div>
-            <div class="export-footer">
+            <div class="ap-modal-footer">
                 <button class="btn-clear" (click)="closeExportModal()">Cancel</button>
                 <button class="btn-gold" (click)="exportReport()">
                     <i class="fas fa-download"></i> Download

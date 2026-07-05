@@ -1,0 +1,48 @@
+<div class="owner-products-modal-backdrop" (click)="onBackdropClick()" role="presentation"></div>
+<div
+  class="owner-products-modal owner-products-modal--wide admin-bulk-approve-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="bulk-approve-title"
+  (click)="$event.stopPropagation()"
+>
+  <h2 id="bulk-approve-title" class="owner-products-modal-title">Approve {{ count }} Product{{ count === 1 ? '' : 's' }}</h2>
+
+  <p class="owner-products-modal-text">
+    This will approve all <strong>{{ count }}</strong> selected products at once.
+  </p>
+
+  <form [formGroup]="form" (ngSubmit)="confirm()" novalidate>
+    <div class="admin-bulk-approve-modal__field">
+      <label class="admin-bulk-approve-modal__label" for="bulk-approve-notes">
+        Admin notes <span class="admin-bulk-approve-modal__optional">(optional, applied to all)</span>
+      </label>
+      <textarea
+        id="bulk-approve-notes"
+        class="textarea-main admin-bulk-approve-modal__textarea"
+        formControlName="notes"
+        rows="3"
+        placeholder="Internal notes for this batch…"
+      ></textarea>
+      @if (form.controls.notes.invalid && form.controls.notes.touched) {
+        <span class="admin-bulk-approve-modal__error">Notes are too long (max 2000 characters).</span>
+      }
+    </div>
+
+    <div class="owner-products-modal-actions">
+      <button type="button" class="btn-main btn-secondary" [disabled]="submitting" (click)="dismiss()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn-main btn-success admin-bulk-approve-modal__confirm"
+        [disabled]="submitting || count === 0 || form.invalid"
+      >
+        @if (submitting) {
+          <span class="admin-bulk-approve-modal__spinner" aria-hidden="true"></span>
+        }
+        Approve All
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,8 +1,42 @@
-/* ── Backdrop + Panel ── */
-.modal-backdrop {
+:host {
+    --gold: #B8860B;
+    --gold-light: #C9952A;
+    --gold-border: #E8D5A3;
+    --cream: #FDFAF4;
+    --surface: #FFFFFF;
+    --border: #EDE8DF;
+    --text-dark: #18130A;
+    --text-mid: #5C5244;
+    --text-soft: #A09280;
+
+    --blue-bg: #EFF3FC;
+    --blue-text: #2C5AA0;
+    --green-bg: #EFF8F0;
+    --green-text: #2F7A3D;
+    --red-bg: #FCEFEF;
+    --red-text: #B3392C;
+    --purple-bg: #F5F0FA;
+    --purple-text: #7A4FA3;
+    --amber-bg: #FBF3E3;
+    --amber-text: #A3721A;
+
+    --font-title: 'Cormorant Garamond', serif;
+    --font-ui: 'DM Sans', sans-serif;
+
+    font-family: var(--font-ui);
+}
+
+/* ════════════════════════════════════════════════════════════
+   Modal — renamed to ap-modal-* to avoid colliding with
+   Bootstrap's global .modal-backdrop / .modal-header / .modal-body
+   / .modal-footer classes. Bootstrap defines these with its own
+   display/position/z-index rules that silently win over this
+   component's CSS for any property left unset here.
+   ════════════════════════════════════════════════════════════ */
+.ap-modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(17, 24, 39, .45);
+    background: rgba(24, 19, 10, .5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,16 +45,17 @@
     animation: fadeIn .2s ease;
 }
 
-.modal-panel {
-    background: #fff;
+.ap-modal-panel {
+    background: var(--surface);
     border-radius: 20px;
     width: 100%;
     max-width: 780px;
     max-height: 90vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+    box-shadow: 0 24px 64px rgba(24, 19, 10, .2);
     animation: slideUp .25s ease;
+    position: relative;
 }
 
 @keyframes fadeIn {
@@ -46,12 +81,12 @@
 }
 
 /* ── Header ── */
-.modal-header {
+.ap-modal-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 1.75rem 2rem 1.25rem;
-    border-bottom: 1px solid #f3f4f6;
+    padding: 1.85rem 2rem 1.35rem;
+    border-bottom: 1px solid var(--border);
 }
 
 .modal-title-row {
@@ -62,102 +97,129 @@
 }
 
 .modal-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #111827;
+    font-family: var(--font-title);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-dark);
     margin: 0;
 }
 
+.type-chip {
+    display: inline-block;
+    padding: .25rem .7rem;
+    background: var(--blue-bg);
+    color: var(--blue-text);
+    border-radius: 20px;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
 .close-btn {
-    background: #f9fafb;
+    background: var(--cream);
     border: none;
     border-radius: 10px;
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #6b7280;
+    color: var(--text-mid);
     font-size: .9rem;
     transition: background .15s, color .15s;
 }
 
 .close-btn:hover {
-    background: #f3f4f6;
-    color: #111827;
+    background: var(--gold-border);
+    color: var(--text-dark);
 }
 
 /* ── Body ── */
-.modal-body {
+.ap-modal-body {
     overflow-y: auto;
-    padding: 1.5rem 2rem;
+    padding: 1.6rem 2rem;
     flex: 1;
 }
 
 /* ── Sections ── */
 .detail-section {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.85rem;
+}
+
+.detail-section:last-child {
+    margin-bottom: 0;
 }
 
 .section-title {
-    font-size: .85rem;
+    font-size: .78rem;
     font-weight: 700;
-    color: #c9a84c;
+    color: var(--gold);
     text-transform: uppercase;
     letter-spacing: .08em;
-    margin: 0 0 1rem;
+    margin: 0 0 1.1rem;
     display: flex;
     align-items: center;
     gap: .5rem;
 }
 
 .section-title i {
-    font-size: .9rem;
+    font-size: .85rem;
 }
 
 /* ── Grid ── */
 .detail-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: .85rem 1.5rem;
+    gap: .9rem 1.5rem;
 }
 
 .detail-item {
     display: flex;
     flex-direction: column;
-    gap: .2rem;
+    gap: .25rem;
+    padding: .75rem .9rem;
+    background: var(--cream);
+    border-radius: 10px;
 }
 
 .detail-label {
-    font-size: .75rem;
-    color: #9ca3af;
-    font-weight: 500;
+    font-size: .72rem;
+    color: var(--text-soft);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .03em;
 }
 
 .detail-value {
-    font-size: .9rem;
-    color: #1f2937;
+    font-size: .92rem;
+    color: var(--text-dark);
     font-weight: 500;
 }
 
 .detail-value.mono {
     font-family: 'Courier New', monospace;
-    font-size: .82rem;
+    font-size: .84rem;
 }
 
 .detail-value.amount-value {
-    font-size: 1.1rem;
+    font-family: var(--font-title);
+    font-size: 1.25rem;
     font-weight: 700;
-    color: #c9a84c;
+    color: var(--gold);
+}
+
+.detail-value.amount-value.amount-negative {
+    color: var(--red-text);
 }
 
 .flag-yes {
-    color: #dc2626;
+    color: var(--red-text);
 }
 
 .flag-no {
-    color: #16a34a;
+    color: var(--green-text);
 }
 
 /* ── Badges ── */
@@ -166,42 +228,44 @@
     align-items: center;
     padding: .3rem .85rem;
     border-radius: 20px;
-    font-size: .78rem;
-    font-weight: 600;
+    font-size: .74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
 }
 
 .status-pending {
-    background: #fffbeb;
-    color: #d97706;
+    background: var(--amber-bg);
+    color: var(--amber-text);
 }
 
 .status-completed {
-    background: #f0fdf4;
-    color: #16a34a;
+    background: var(--green-bg);
+    color: var(--green-text);
 }
 
 .status-failed {
-    background: #fef2f2;
-    color: #dc2626;
+    background: var(--red-bg);
+    color: var(--red-text);
 }
 
 .status-cancelled {
-    background: #f9fafb;
-    color: #6b7280;
+    background: var(--purple-bg);
+    color: var(--purple-text);
 }
 
 .status-refunded {
-    background: #eff6ff;
-    color: #2563eb;
+    background: var(--blue-bg);
+    color: var(--blue-text);
 }
 
 /* ── Timeline ── */
 .timeline {
     display: flex;
     flex-direction: column;
-    gap: .6rem;
-    padding-left: 1rem;
-    border-left: 2px solid #e5e7eb;
+    gap: .65rem;
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--border);
 }
 
 .timeline-item {
@@ -216,26 +280,26 @@
     height: 12px;
     border-radius: 50%;
     border: 2px solid #fff;
-    box-shadow: 0 0 0 2px #e5e7eb;
+    box-shadow: 0 0 0 2px var(--border);
     flex-shrink: 0;
     margin-top: .1rem;
     position: absolute;
-    left: -1.55rem;
+    left: -1.65rem;
 }
 
 .timeline-dot.created {
-    background: #c9a84c;
-    box-shadow: 0 0 0 2px #c9a84c;
+    background: var(--gold);
+    box-shadow: 0 0 0 2px var(--gold);
 }
 
 .timeline-dot.updated {
-    background: #6366f1;
-    box-shadow: 0 0 0 2px #6366f1;
+    background: var(--purple-text);
+    box-shadow: 0 0 0 2px var(--purple-text);
 }
 
 .timeline-dot.completed {
-    background: #22c55e;
-    box-shadow: 0 0 0 2px #22c55e;
+    background: var(--green-text);
+    box-shadow: 0 0 0 2px var(--green-text);
 }
 
 .timeline-content {
@@ -244,23 +308,23 @@
 }
 
 .timeline-label {
-    font-size: .78rem;
+    font-size: .8rem;
     font-weight: 600;
-    color: #374151;
+    color: var(--text-dark);
 }
 
 .timeline-date {
     font-size: .75rem;
-    color: #9ca3af;
+    color: var(--text-soft);
 }
 
 /* ── Notes ── */
 .notes-text {
     font-size: .9rem;
-    color: #374151;
-    line-height: 1.6;
-    padding: 1rem;
-    background: #f9fafb;
+    color: var(--text-mid);
+    line-height: 1.65;
+    padding: 1rem 1.1rem;
+    background: var(--cream);
     border-radius: 10px;
     margin: 0;
 }
@@ -269,55 +333,57 @@
 .metadata-grid {
     display: flex;
     flex-direction: column;
-    gap: .4rem;
+    gap: .45rem;
 }
 
 .metadata-item {
     display: flex;
     gap: 1rem;
     font-size: .85rem;
-    padding: .4rem .75rem;
-    background: #f9fafb;
+    padding: .45rem .8rem;
+    background: var(--cream);
     border-radius: 8px;
 }
 
 .meta-key {
-    color: #6b7280;
+    color: var(--text-soft);
     font-weight: 600;
     min-width: 140px;
 }
 
 .meta-value {
-    color: #1f2937;
+    color: var(--text-dark);
     word-break: break-all;
 }
 
 /* ── Footer ── */
-.modal-footer {
-    padding: 1rem 2rem 1.5rem;
+.ap-modal-footer {
+    padding: 1.1rem 2rem 1.6rem;
     display: flex;
     justify-content: flex-end;
-    border-top: 1px solid #f3f4f6;
+    border-top: 1px solid var(--border);
 }
 
 .btn-secondary {
-    padding: .6rem 1.5rem;
+    padding: .65rem 1.6rem;
     border-radius: 10px;
-    background: #f3f4f6;
-    border: none;
-    color: #374151;
-    font-weight: 600;
+    background: var(--surface);
+    border: 1.5px solid var(--gold-border);
+    color: var(--gold);
+    font-weight: 700;
     cursor: pointer;
     font-size: .9rem;
-    transition: background .15s;
+    font-family: var(--font-ui);
+    transition: all .15s;
 }
 
 .btn-secondary:hover {
-    background: #e5e7eb;
+    background: #fdf8ea;
+    border-color: var(--gold);
 }
 
 @media (max-width: 600px) {
-    .modal-panel {
+    .ap-modal-panel {
         border-radius: 16px;
     }
 
@@ -325,9 +391,9 @@
         grid-template-columns: 1fr;
     }
 
-    .modal-header,
-    .modal-body,
-    .modal-footer {
+    .ap-modal-header,
+    .ap-modal-body,
+    .ap-modal-footer {
         padding-left: 1.25rem;
         padding-right: 1.25rem;
     }

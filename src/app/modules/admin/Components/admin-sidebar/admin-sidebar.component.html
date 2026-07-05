@@ -3,76 +3,74 @@
   <!-- Sidebar Header -->
   <div class="sidebar-header">
     @if (isExpanded) {
-      <div class="nav-logo">
-        <img src="../../../../../assets/images/logo.jpg" alt="Logo">
-      </div>
+    <div class="nav-logo">
+      <img src="../../../../../assets/images/logo.jpg" alt="Logo">
+    </div>
     }
-    <button class="sidebar-toggle-btn" [class.collapsed]="!isExpanded" (click)="toggleSidebar()" aria-label="Toggle Sidebar">
+    <button class="sidebar-toggle-btn" [class.collapsed]="!isExpanded" (click)="toggleSidebar()"
+      aria-label="Toggle Sidebar">
       <i class="fa-solid" [class.fa-bars]="!isExpanded" [class.fa-arrow-left]="isExpanded"></i>
     </button>
   </div>
 
   <!-- Navigation Sections -->
   <nav class="nav-menu">
-    @for (section of navSections; track section.title) {
-      <div class="menu-section">
-        @if (isExpanded) {
-          <div class="menu-section-header">{{ section.title }}</div>
-        } @else {
-          <div class="menu-section-divider"></div>
-        }
-        <ul class="menu-list">
-          @for (item of section.items; track item.key) {
-            <li class="menu-item" 
-                [class.active]="activeItem === item.key" 
-                (mouseenter)="onIconMouseEnter($event, item.key)"
-                (mouseleave)="onIconMouseLeave()">
+    @for (section of visibleNavSections; track section.title) {
+    <div class="menu-section">
+      @if (isExpanded) {
+      <div class="menu-section-header">{{ section.title }}</div>
+      } @else {
+      <div class="menu-section-divider"></div>
+      }
+      <ul class="menu-list">
+        @for (item of section.items; track item.key) {
+        <li class="menu-item" [class.active]="activeItem === item.key" (mouseenter)="onIconMouseEnter($event, item.key)"
+          (mouseleave)="onIconMouseLeave()">
 
-              <a class="menu-link" 
-                 (click)="setActive(item.key)"
-                 [routerLink]="[item.route]">
-                <span class="icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="item.icon" />
-                  </svg>
-                </span>
+          <a class="menu-link" (click)="setActive(item.key)" [routerLink]="[item.route]">
+            <span class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="item.icon" />
+              </svg>
+            </span>
 
-                @if (isExpanded) {
-                  <span class="text">{{ item.label }}</span>
-                  @if (item.badge) {
-                    <span class="item-badge" [class]="'badge-' + (item.badgeColor ?? 'warn')">
-                      {{ item.badge }}
-                    </span>
-                  }
-                }
-              </a>
+            @if (isExpanded) {
+            <span class="text">{{ item.label }}</span>
+            @if (item.badge) {
+            <span class="item-badge" [class]="'badge-' + (item.badgeColor ?? 'warn')">
+              {{ item.badge }}
+            </span>
+            }
+            }
+          </a>
 
-              <!-- Badge dot on icon when collapsed -->
-              @if (!isExpanded && item.badge) {
-                <span class="icon-badge-dot" [class]="'dot-' + (item.badgeColor ?? 'warn')"></span>
-              }
-            </li>
+          <!-- Badge dot on icon when collapsed -->
+          @if (!isExpanded && item.badge) {
+          <span class="icon-badge-dot" [class]="'dot-' + (item.badgeColor ?? 'warn')"></span>
           }
-        </ul>
-      </div>
+        </li>
+        }
+      </ul>
+    </div>
     }
   </nav>
 
   <!-- Profile Section -->
   <div class="profile-section" [class.collapsed]="!isExpanded">
     <div class="profile-info">
-      <div class="profile-avatar">SA</div>
+      <div class="profile-avatar">{{ currentUserInitials }}</div>
       @if (isExpanded) {
-        <div class="profile-details">
-          <div class="profile-name">Super Admin</div>
-          <div class="profile-role">Administrator</div>
-        </div>
+      <div class="profile-details">
+        <div class="profile-name">{{ currentUserName }}</div>
+        <div class="profile-role">{{ currentUserRoleLabel }}</div>
+      </div>
       }
     </div>
     <button class="logout-btn" (click)="signOut()" [title]="isExpanded ? '' : 'Sign Out'">
       <span class="icon"><i class="fa-solid fa-right-from-bracket"></i></span>
       @if (isExpanded) {
-        <span>Sign out</span>
+      <span>Sign out</span>
       }
     </button>
   </div>
@@ -81,15 +79,15 @@
 
 <!-- Floating Tooltip Portal -->
 @if (!isExpanded && hoveredItem) {
-  @for (section of navSections; track section.title) {
-    @for (item of section.items; track item.key) {
-      @if (item.key === hoveredItem) {
-        <div class="nav-tooltip" [style.top.px]="tooltipTop">
-          <div class="nav-tooltip-arrow"></div>
-          <div class="nav-tooltip-title">{{ item.label }}</div>
-          <div class="nav-tooltip-desc">{{ item.description }}</div>
-        </div>
-      }
-    }
-  }
+@for (section of navSections; track section.title) {
+@for (item of section.items; track item.key) {
+@if (item.key === hoveredItem) {
+<div class="nav-tooltip" [style.top.px]="tooltipTop">
+  <div class="nav-tooltip-arrow"></div>
+  <div class="nav-tooltip-title">{{ item.label }}</div>
+  <div class="nav-tooltip-desc">{{ item.description }}</div>
+</div>
+}
+}
+}
 }

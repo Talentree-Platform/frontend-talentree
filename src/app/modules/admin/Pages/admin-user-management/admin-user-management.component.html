@@ -77,11 +77,23 @@
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
     <circle cx="12" cy="7" r="4" />
   </svg></ng-template>
+<ng-template #iconUsers><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg></ng-template>
 
 <div class="content">
 
-  <!-- PAGE TITLE -->
-  <h1 class="page-title">User <span>Management</span></h1>
+  <!-- PAGE HEADER -->
+  <div class="page-header-block">
+    <div class="breadcrumb">
+      <ng-container *ngTemplateOutlet="iconUsers"></ng-container>
+      Admin&nbsp;/&nbsp;User Management
+    </div>
+    <h1 class="page-title">User <span>Management</span></h1>
+  </div>
 
   <!-- ERROR BANNER -->
   <div class="error-banner" *ngIf="errorMsg">
@@ -162,9 +174,13 @@
       </button>
     </div>
 
-    <!-- LOADING -->
-    <div class="loading-row" *ngIf="isLoading">
-      <span class="spinner"></span> Loading...
+    <!-- LOADING (skeleton rows) -->
+    <div class="loading-row" *ngIf="isLoading" aria-busy="true" aria-live="polite">
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
     </div>
 
     <!-- BUSINESS OWNERS TABLE -->
@@ -184,7 +200,19 @@
         </thead>
         <tbody>
           <tr *ngIf="businessOwners.length === 0">
-            <td colspan="8" class="empty-cell">No business owners found.</td>
+            <td colspan="8" class="empty-cell">
+              <div class="empty-state">
+                <div class="empty-icon-wrap">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </div>
+                <p>No business owners found</p>
+                <span>Try adjusting your search or filters.</span>
+              </div>
+            </td>
           </tr>
           <tr *ngFor="let bo of businessOwners" (click)="openBOModal(bo.id)">
             <td>
@@ -257,7 +285,19 @@
         </thead>
         <tbody>
           <tr *ngIf="customers.length === 0">
-            <td colspan="7" class="empty-cell">No customers found.</td>
+            <td colspan="7" class="empty-cell">
+              <div class="empty-state">
+                <div class="empty-icon-wrap">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </div>
+                <p>No customers found</p>
+                <span>Try adjusting your search or filters.</span>
+              </div>
+            </td>
           </tr>
           <!-- ✅ FIX: Added (click)="openCustomerModal(cu)" to make rows clickable -->
           <tr *ngFor="let cu of customers" (click)="openCustomerModal(cu)">

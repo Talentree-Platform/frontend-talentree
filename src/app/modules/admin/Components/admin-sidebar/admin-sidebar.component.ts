@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../modules/auth/services/auth.service';
+import { roleSatisfies, UserRole } from '../../../../core/constants/roles.constants'; // عدّلي المسار حسب مكانه عندك
 
 export interface SubmenuItem {
   key: string;
@@ -18,6 +19,7 @@ export interface NavItem {
   badge?: number;
   badgeColor?: 'warn' | 'danger' | 'info';
   submenu?: SubmenuItem[];
+  roles?: string[];
 }
 
 export interface NavSection {
@@ -54,6 +56,35 @@ export class AdminSideNavComponent implements OnInit {
       ]
     },
     {
+      title: 'AI',
+      items: [
+        {
+          key: 'ai-sellers',
+          label: 'AI Sellers',
+          description: 'AI-ranked seller risk & performance (read-only analytics)',
+          route: '/admin/ai-sellers',
+          roles: [UserRole.SuperAdmin, UserRole.Admin],
+          icon: `M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456Z`
+        },
+        {
+          key: 'ai-insights',
+          label: 'AI Insights',
+          description: 'Analytics, forecast & segmentation',
+          route: '/admin/ai-insights',
+          roles: [UserRole.SuperAdmin, UserRole.Admin],
+          icon: `M3 13.5 8.25 8.25l4.5 4.5L21 3.75M21 3.75h-5.25M21 3.75v5.25M3 21h18`
+        },
+        {
+          key: 'ai-model-management',
+          label: 'Model Management',
+          description: 'Retrain models, recompute metrics & export reports',
+          route: '/admin/ai-model-management',
+          roles: [UserRole.SuperAdmin, UserRole.Admin],
+          icon: `M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z`
+        }
+      ]
+    },
+    {
       title: 'User Management',
       items: [
         {
@@ -63,21 +94,24 @@ export class AdminSideNavComponent implements OnInit {
           route: '/admin/pendingbo',
           badge: 12,
           badgeColor: 'warn',
-          icon: `M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8m14 14v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75`
+          icon: `M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8m14 14v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75`,
+          roles: [UserRole.SuperAdmin, UserRole.Admin]
         },
         {
           key: 'adminlist',
           label: 'Admins',
           description: 'Manage administrator accounts',
           route: '/admin/adminlist',
+          roles: [UserRole.SuperAdmin],
           icon: `M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z`
         },
         {
           key: 'user-management',
-          label: 'User Management',
-          description: 'Manage customers and account states',
+          label: 'Accounts',
+          description: 'Manage business owners & customers — status, actions & history',
           route: '/admin/user-management',
-          icon: `M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z`
+          icon: `M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z`,
+          roles: [UserRole.Admin]
         }
       ]
     },
@@ -91,6 +125,7 @@ export class AdminSideNavComponent implements OnInit {
           route: '/admin/producthome',
           badge: 8,
           badgeColor: 'warn',
+          roles: [UserRole.Admin],
           icon: `M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0`
         },
         {
@@ -98,6 +133,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Production Requests',
           description: 'Review requests to start manufacture',
           route: '/admin/production-requests',
+          roles: [UserRole.Admin] ,
           icon: `M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25M6.72 6.72a.75.75 0 0 1 1.06 0L12 10.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L13.06 12l4.22 4.22a.75.75 0 1 1-1.06 1.06L12 13.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L10.94 12 6.72 7.78a.75.75 0 0 1 0-1.06Z`
         },
         {
@@ -105,6 +141,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Raw Materials',
           description: 'Manage platform raw materials directory',
           route: '/admin/rawmaterials',
+          roles: [UserRole.Admin],
           icon: `M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16zM3.27 6.96 12 12.01l8.73-5.05M12 22.08V12`
         },
         {
@@ -112,6 +149,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Suppliers Directory',
           description: 'View registered supply chain organizations',
           route: '/admin/suppliers',
+          roles: [UserRole.Admin],
           icon: `M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772`
         }
       ]
@@ -124,6 +162,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Auto-Blocks',
           description: 'Automated restriction approvals',
           route: '/admin/auto-blocks',
+          roles: [UserRole.Admin],
           icon: `M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z`
         }
       ]
@@ -136,6 +175,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Orders',
           description: 'Manage and monitor all customer orders',
           route: '/admin/orders',
+           roles: [UserRole.SuperAdmin, UserRole.Admin],
           icon: `M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z`
         },
         {
@@ -143,6 +183,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Refunds',
           description: 'Review and manage customer refunds',
           route: '/admin/refunds',
+           roles: [UserRole.SuperAdmin, UserRole.Admin],
           icon: `M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3`
         },
         {
@@ -150,6 +191,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Transactions',
           description: 'Monitor and manage financial transactions',
           route: '/admin/transactions',
+          roles: [UserRole.SuperAdmin, UserRole.Admin],
           icon: `M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15`
         }
       ]
@@ -162,6 +204,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Complaints & Support',
           description: 'Helpdesk and ticketing actions',
           route: '/admin/adminsupportcomplaint',
+          roles: [UserRole.Admin],
           icon: `M12 20.25c4.556 0 8.25-3.694 8.25-8.25S16.556 3.75 12 3.75 3.75 7.444 3.75 12s3.694 8.25 8.25 8.25Z M8.25 12h.008v.008H8.25V12Zm4 0h.008v.008H12V12Zm4 0h.008v.008H16V12Z`
         },
         {
@@ -169,6 +212,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Interactions History',
           description: 'View customer security audit events',
           route: '/admin/interactions',
+          roles: [UserRole.Admin],
           icon: `M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.137-.089l4.023-5.631Z`
         }
       ]
@@ -181,6 +225,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Knowledge Base',
           description: 'Manage help articles and guides',
           route: '/admin/knowledge',
+          roles: [UserRole.Admin],
           icon: `M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25`
         }
       ]
@@ -193,6 +238,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Homepage Design',
           description: 'Configure hero banners and announcements',
           route: '/admin/platform/homepage',
+          roles: [UserRole.Admin],
           icon: `M2.25 12a9.75 9.75 0 1 1 19.5 0 9.75 9.75 0 0 1-19.5 0Z M12 8.25a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Z`
         },
         {
@@ -200,6 +246,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Category Catalog',
           description: 'Configure hierarchical product categories',
           route: '/admin/platform/categories',
+          roles: [UserRole.Admin],
           icon: `M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25A2.25 2.25 0 0 1 13.5 8.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z`
         },
         {
@@ -207,6 +254,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Commission Rules',
           description: 'Configure standard and category commission rates',
           route: '/admin/platform/commission',
+          roles: [UserRole.Admin],
           icon: `M12 6v12m-3-2.818.879.11A1.13 1.13 0 0 1 12 12.44V12.44m0-4.88V6m0 12v.5m0-12.5V3m0 12a3 3 0 1 1-3-3m3 3h3a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3m0 0V3m0 3H9`
         },
         {
@@ -214,6 +262,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Legal Policies',
           description: 'Draft and publish system terms and policies',
           route: '/admin/platform/policies',
+          roles: [UserRole.Admin],
           icon: `M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z`
         },
         {
@@ -221,6 +270,7 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Shipping & Tax Settings',
           description: 'Configure standard rates and defaults',
           route: '/admin/platform/shipping-tax',
+          roles: [UserRole.Admin],
           icon: `M8.25 18.75a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM19.5 18.75a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z M2.25 3.75h1.5m1.5 0h11.375m0 0L19.5 12h-12M19.5 12v3.75m0 0H7.5m12 0L21 12`
         }
       ]
@@ -246,6 +296,38 @@ export class AdminSideNavComponent implements OnInit {
         }
       }
     }
+  }
+
+  get visibleNavSections(): NavSection[] {
+    const currentRole = this.authService.getCurrentUser()?.role;
+
+    return this.navSections
+      .map(section => ({
+        ...section,
+        items: section.items.filter(item =>
+          !item.roles || roleSatisfies(currentRole, item.roles)
+        )
+      }))
+      .filter(section => section.items.length > 0);
+  }
+
+  get currentUserName(): string {
+    const user = this.authService.getCurrentUser();
+    if (!user) return 'Admin';
+    const fullName = `${user.firstName} ${user.lastName}`.trim();
+    return fullName || user.email || 'Admin';
+  }
+
+  get currentUserRoleLabel(): string {
+    return this.authService.getCurrentUser()?.role || 'Administrator';
+  }
+
+  get currentUserInitials(): string {
+    const name = this.currentUserName;
+    const parts = name.split(' ').filter(Boolean);
+    if (parts.length === 0) return 'A';
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
   }
 
   toggleSidebar(): void {

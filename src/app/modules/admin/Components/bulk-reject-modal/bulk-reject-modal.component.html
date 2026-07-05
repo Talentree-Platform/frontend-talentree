@@ -1,0 +1,58 @@
+<div class="owner-products-modal-backdrop" (click)="onBackdropClick()" role="presentation"></div>
+<div
+  class="owner-products-modal owner-products-modal--wide admin-bulk-reject-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="bulk-reject-title"
+  (click)="$event.stopPropagation()"
+>
+  <h2 id="bulk-reject-title" class="owner-products-modal-title">Reject {{ count }} Product{{ count === 1 ? '' : 's' }}</h2>
+
+  <p class="owner-products-modal-text">
+    This will reject all <strong>{{ count }}</strong> selected products with the same reason.
+  </p>
+
+  <form [formGroup]="form" (ngSubmit)="confirm()" novalidate>
+    <div class="admin-bulk-reject-modal__field">
+      <label class="admin-bulk-reject-modal__label" for="bulk-reject-reason">
+        Rejection reason <span class="admin-bulk-reject-modal__required" aria-hidden="true">*</span>
+      </label>
+      <textarea
+        id="bulk-reject-reason"
+        class="textarea-main admin-bulk-reject-modal__textarea"
+        formControlName="reason"
+        rows="4"
+        placeholder="Explain why these listings are being rejected…"
+        [attr.aria-invalid]="form.controls.reason.invalid && form.controls.reason.touched"
+        [attr.aria-describedby]="
+          form.controls.reason.invalid && form.controls.reason.touched ? 'bulk-reject-reason-error' : null
+        "
+      ></textarea>
+      @if (form.controls.reason.invalid && form.controls.reason.touched) {
+        <span id="bulk-reject-reason-error" class="admin-bulk-reject-modal__error" role="alert">
+          @if (form.controls.reason.errors?.['required']) {
+            Rejection reason is required.
+          } @else if (form.controls.reason.errors?.['maxlength']) {
+            Reason is too long (max 2000 characters).
+          }
+        </span>
+      }
+    </div>
+
+    <div class="owner-products-modal-actions">
+      <button type="button" class="btn-main btn-secondary" [disabled]="submitting" (click)="dismiss()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn-main btn-danger admin-bulk-reject-modal__submit"
+        [disabled]="submitting || count === 0"
+      >
+        @if (submitting) {
+          <span class="admin-bulk-reject-modal__spinner" aria-hidden="true"></span>
+        }
+        Reject All
+      </button>
+    </div>
+  </form>
+</div>

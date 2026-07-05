@@ -48,8 +48,8 @@ export class AdminOrdersService {
     }
 
     // ── GET /api/AdminOrders/stats ────────────────────────────────────────────
-    getStats(): Observable<ApiResponse<OrderStats>> {
-        return this._HttpClient.get<ApiResponse<OrderStats>>(`${this.apiUrl}/stats`);
+    getStats(): Observable<OrderStats> {
+        return this._HttpClient.get<OrderStats>(`${this.apiUrl}/stats`);
     }
 
     // ── PUT /api/AdminOrders/{id}/status ─────────────────────────────────────

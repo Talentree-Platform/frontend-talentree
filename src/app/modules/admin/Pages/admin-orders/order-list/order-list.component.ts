@@ -147,7 +147,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.statsLoading = false;
-          this.stats = res.data;
+          this.stats = res ;
         },
         error: (err) => {
           this.statsLoading = false;
