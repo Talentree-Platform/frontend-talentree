@@ -161,7 +161,7 @@ export class AdminSideNavComponent implements OnInit {
           key: 'support',
           label: 'Complaints & Support',
           description: 'Helpdesk and ticketing actions',
-          route: '/admin/adminsupportcomplaint',
+          route: '/admin/AdminSupportComplaint',
           icon: `M12 20.25c4.556 0 8.25-3.694 8.25-8.25S16.556 3.75 12 3.75 3.75 7.444 3.75 12s3.694 8.25 8.25 8.25Z M8.25 12h.008v.008H8.25V12Zm4 0h.008v.008H12V12Zm4 0h.008v.008H16V12Z`
         },
         {

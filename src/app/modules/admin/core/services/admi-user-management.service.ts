@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../core/environment/envirinment';
 
 // ── Shared ────────────────────────────────────────────────────────────────────
 
@@ -177,9 +176,9 @@ export interface CustomerFilterParams {
 @Injectable({ providedIn: 'root' })
 export class AdminUserManagementService {
 
-  private readonly apiUrl = `${environment.baseUrl}/api/admin/users`;
+  private readonly apiUrl = '/api/admin/users';
 
-  constructor(private _HttpClient: HttpClient) { }
+  constructor(private _HttpClient: HttpClient) {}
 
   // ── Business Owners ───────────────────────────────────────────────────────
 
@@ -188,14 +187,14 @@ export class AdminUserManagementService {
   ): Observable<ApiResponse<PaginatedResponse<BusinessOwnerListItem>>> {
     let httpParams = new HttpParams();
     if (params) {
-      if (params.searchQuery) httpParams = httpParams.set('searchQuery', params.searchQuery);
-      if (params.status) httpParams = httpParams.set('status', params.status);
-      if (params.accountStatus) httpParams = httpParams.set('accountStatus', params.accountStatus);
-      if (params.category) httpParams = httpParams.set('category', params.category);
+      if (params.searchQuery)          httpParams = httpParams.set('searchQuery', params.searchQuery);
+      if (params.status)               httpParams = httpParams.set('status', params.status);
+      if (params.accountStatus)        httpParams = httpParams.set('accountStatus', params.accountStatus);
+      if (params.category)             httpParams = httpParams.set('category', params.category);
       if (params.registrationDateFrom) httpParams = httpParams.set('registrationDateFrom', params.registrationDateFrom);
-      if (params.registrationDateTo) httpParams = httpParams.set('registrationDateTo', params.registrationDateTo);
-      if (params.pageIndex) httpParams = httpParams.set('pageIndex', params.pageIndex);
-      if (params.pageSize) httpParams = httpParams.set('pageSize', params.pageSize);
+      if (params.registrationDateTo)   httpParams = httpParams.set('registrationDateTo', params.registrationDateTo);
+      if (params.pageIndex)            httpParams = httpParams.set('pageIndex', params.pageIndex);
+      if (params.pageSize)             httpParams = httpParams.set('pageSize', params.pageSize);
     }
     return this._HttpClient.get<ApiResponse<PaginatedResponse<BusinessOwnerListItem>>>(
       `${this.apiUrl}/business-owners`, { params: httpParams }
@@ -247,12 +246,12 @@ export class AdminUserManagementService {
   ): Observable<ApiResponse<PaginatedResponse<CustomerListItem>>> {
     let httpParams = new HttpParams();
     if (params) {
-      if (params.searchQuery) httpParams = httpParams.set('searchQuery', params.searchQuery);
-      if (params.accountStatus) httpParams = httpParams.set('accountStatus', params.accountStatus);
+      if (params.searchQuery)          httpParams = httpParams.set('searchQuery', params.searchQuery);
+      if (params.accountStatus)        httpParams = httpParams.set('accountStatus', params.accountStatus);
       if (params.registrationDateFrom) httpParams = httpParams.set('registrationDateFrom', params.registrationDateFrom);
-      if (params.registrationDateTo) httpParams = httpParams.set('registrationDateTo', params.registrationDateTo);
-      if (params.pageIndex) httpParams = httpParams.set('pageIndex', params.pageIndex);
-      if (params.pageSize) httpParams = httpParams.set('pageSize', params.pageSize);
+      if (params.registrationDateTo)   httpParams = httpParams.set('registrationDateTo', params.registrationDateTo);
+      if (params.pageIndex)            httpParams = httpParams.set('pageIndex', params.pageIndex);
+      if (params.pageSize)             httpParams = httpParams.set('pageSize', params.pageSize);
     }
     return this._HttpClient.get<ApiResponse<PaginatedResponse<CustomerListItem>>>(
       `${this.apiUrl}/customers`, { params: httpParams }

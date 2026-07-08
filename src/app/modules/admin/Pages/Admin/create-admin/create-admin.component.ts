@@ -1,5 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
-import { AdminService, CreateAdminDto } from '../../../core/services/admin.service';
+import { AdminManagementService, CreateAdminDto } from '../../../core/services/adminManagment.service';
 import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -18,36 +18,37 @@ export class CreateAdminComponent implements OnDestroy {
   @Output() adminCreated = new EventEmitter<void>();
 
   constructor(
-    private _AdminService: AdminService,
+    private _AdminManagementService: AdminManagementService,
     private _ToastrService: ToastrService
-  ) {}
+  ) { }
 
   createSub!: Subscription;
   loading = false;
   error: string | null = null;
 
-  form: CreateAdminDto = {
+  form = {
     fullName: '',
     email: '',
+    phoneNumber: '',
+    role: '',
     password: '',
     confirmPassword: '',
-    phoneNumber: '',
-    role: 'SuperAdmin' // temporary default
   };
 
   submit(): void {
     this.error = null;
-
-    if (this.form.password !== this.form.confirmPassword) {
-      this.error = 'Passwords do not match.';
-      return;
-    }
-
     this.loading = true;
-    this.createSub = this._AdminService.createAdmin(this.form).subscribe({
+
+    this.createSub = this._AdminManagementService.createAdmin(this.form).subscribe({
       next: (res) => {
         this.loading = false;
-        this.adminCreated.emit();
+        if (res.success) {
+          this._ToastrService.success('Admin created successfully!', 'Talentree', { timeOut: 2000, closeButton: true });
+          this.adminCreated.emit();
+        } else {
+          this.error = res.message ?? 'Failed to create admin.';
+          this._ToastrService.error(this.error!, 'Talentree', { timeOut: 2000, closeButton: true });
+        }
       },
       error: (err) => {
         this.loading = false;

@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse, PaginatedResponse } from '../Interfaces/ibusiness-owner';
-import { environment } from '../../../../core/environment/envirinment';
 
 // ── Enums ─────────────────────────────────────────────────────────────────────
 
@@ -116,7 +115,7 @@ export interface AssignTicketDto {
 @Injectable({ providedIn: 'root' })
 export class AdminSupportService {
 
-  private readonly apiUrl = `${environment.baseUrl}/api/admin/support/tickets`;
+  private readonly apiUrl = '/api/admin/support/tickets';
 
   constructor(private _HttpClient: HttpClient) { }
 

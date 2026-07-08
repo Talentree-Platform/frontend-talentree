@@ -9,27 +9,26 @@ import {
   RestockMaterialDto,
   RawMaterialFilterParams
 } from '../Interfaces/iraw-material';
-import { environment } from '../../../../core/environment/envirinment';
 
 @Injectable({ providedIn: 'root' })
 export class RawMaterialService {
 
-  constructor(private _HttpClient: HttpClient) {}
+  constructor(private _HttpClient: HttpClient) { }
 
- apiUrl = `${environment.baseUrl}/api/AdminRawMaterial`;
-//  apiUrl='/api/AdminRawMaterial'
+
+  apiUrl = '/api/AdminRawMaterial'
   // ── GET all (with filters + pagination) ──────────────────────────────────
 
   getRawMaterials(params?: RawMaterialFilterParams)
     : Observable<ApiResponse<PaginatedResponse<RawMaterial>>> {
     let httpParams = new HttpParams();
     if (params) {
-      if (params.category)    httpParams = httpParams.set('category', params.category);
-      if (params.search)      httpParams = httpParams.set('search', params.search);
+      if (params.category) httpParams = httpParams.set('category', params.category);
+      if (params.search) httpParams = httpParams.set('search', params.search);
       if (params.isAvailable !== undefined)
-                              httpParams = httpParams.set('isAvailable', params.isAvailable);
-      if (params.pageIndex)   httpParams = httpParams.set('pageIndex', params.pageIndex);
-      if (params.pageSize)    httpParams = httpParams.set('pageSize', params.pageSize);
+        httpParams = httpParams.set('isAvailable', params.isAvailable);
+      if (params.pageIndex) httpParams = httpParams.set('pageIndex', params.pageIndex);
+      if (params.pageSize) httpParams = httpParams.set('pageSize', params.pageSize);
     }
     return this._HttpClient.get<ApiResponse<PaginatedResponse<RawMaterial>>>(
       this.apiUrl, { params: httpParams }

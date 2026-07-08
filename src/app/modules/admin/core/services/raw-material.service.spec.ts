@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RawMaterialService } from './raw-material.service';
+import { RawMaterialService } from '../raw-material.service';
 
 describe('RawMaterialService', () => {
   let service: RawMaterialService;

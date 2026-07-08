@@ -124,17 +124,17 @@ export class PendingBoComponent implements OnInit, OnDestroy {
         })
         .pipe(finalize(() => (this.isLoadingPending = false)))
         .subscribe({
-          next: (res: any) => {
+          next: (res) => {
             this.pendingOwners = res.data.data;
             this.hasNext = res.data.hasNext;
             this.hasPrevious = res.data.hasPrevious;
             this.totalPages = res.data.totalPages;
             this.pageIndex = res.data.pageIndex;
             this.totalPendingOwners = res.data.count;
-            this.AutoApprovalOwners = res.data.data.filter((item: BusinessOwner) => item.willAutoApprove).length;
-            this.ManualApprovalOwners = res.data.data.filter((item: BusinessOwner) => !item.willAutoApprove).length;
+            this.AutoApprovalOwners = res.data.data.filter((item) => item.willAutoApprove).length;
+            this.ManualApprovalOwners = res.data.data.filter((item) => !item.willAutoApprove).length;
           },
-          error: (err: any) => {
+          error: (err) => {
             console.error(err);
           }
         })
@@ -175,10 +175,10 @@ export class PendingBoComponent implements OnInit, OnDestroy {
     this.isApproveRequestPending = true;
     this.subs.add(
       this._AdminService
-        .ApproveOwner(owner.profileId, note)
+        .approveOwner(owner.profileId, note)
         .pipe(finalize(() => (this.isApproveRequestPending = false)))
         .subscribe({
-          next: (res: any) => {
+          next: (res) => {
             this.closeModal();
             this._ToastrService.success(res.message, 'Talentree', {
               timeOut: 2000,
@@ -186,7 +186,7 @@ export class PendingBoComponent implements OnInit, OnDestroy {
             });
             this.loadPendingOwners();
           },
-          error: (err: any) => {
+          error: (err) => {
             console.error(err);
             this._ToastrService.error(err.error?.message ?? 'Approval failed', 'Talentree', {
               timeOut: 2000,
@@ -225,7 +225,7 @@ export class PendingBoComponent implements OnInit, OnDestroy {
         .rejectOwner(owner.profileId, rejectionReason)
         .pipe(finalize(() => (this.isRejectRequestPending = false)))
         .subscribe({
-          next: (res: any) => {
+          next: (res) => {
             this._ToastrService.error(res.message, 'Talentree', { timeOut: 2000, closeButton: true });
             this.closeModal();
             this.loadPendingOwners();

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminSideNavComponent } from './admin-sidebar.component';
+import { AdminSidebarComponent } from './admin-sidebar.component';
 
-describe('AdminSideNavComponent', () => {
-  let component: AdminSideNavComponent;
-  let fixture: ComponentFixture<AdminSideNavComponent>;
+describe('AdminSidebarComponent', () => {
+  let component: AdminSidebarComponent;
+  let fixture: ComponentFixture<AdminSidebarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminSideNavComponent]
+      imports: [AdminSidebarComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AdminSideNavComponent);
+    fixture = TestBed.createComponent(AdminSidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

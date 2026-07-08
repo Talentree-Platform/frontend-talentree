@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
   }
 
   approveOwner(profileId: number): void {
-    this.adminService.ApproveOwner(profileId, '').subscribe(() => {
+    this.adminService.approveOwner(profileId, '').subscribe(() => {  // ← lowercase
       this.recentOwners.update(list => list.filter(o => o.profileId !== profileId));
       this.pendingOwnersCount.update(n => n - 1);
     });

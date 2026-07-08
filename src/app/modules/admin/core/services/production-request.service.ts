@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { environment } from '../../../../core/environment/envirinment';
 
 export interface ProductionRequest {
   id: number;
@@ -61,8 +60,8 @@ export const STATUS_MAP: Record<number, { label: string; color: string; bg: stri
 
 @Injectable({ providedIn: 'root' })
 export class ProductionRequestService {
-  private readonly base = `${environment.baseUrl}/api/AdminProductionRequest`;
-  //  private readonly base ='/api/AdminProductionRequest'
+
+  private readonly base = '/api/AdminProductionRequest'
 
   constructor(private http: HttpClient) { }
 
@@ -107,5 +106,13 @@ export class ProductionRequestService {
 
   reject(id: number, payload: RejectPayload): Observable<ApiResponse<unknown>> {
     return this.http.put<ApiResponse<unknown>>(`${this.base}/${id}/reject`, payload);
+  }
+
+  assign(id: number, payload: { assignedToId: string }): Observable<ApiResponse<unknown>> {
+    return this.http.put<ApiResponse<unknown>>(`${this.base}/${id}/assign`, payload);
+  }
+
+  addNote(id: number, payload: { note: string }): Observable<ApiResponse<unknown>> {
+    return this.http.put<ApiResponse<unknown>>(`${this.base}/${id}/add-note`, payload);
   }
 }

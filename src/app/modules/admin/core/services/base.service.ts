@@ -4,14 +4,13 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../../../../core/environment/envirinment';
-
+import { environment } from '../../../../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaseService {
-  protected apiUrl = environment.baseUrl;
+  protected apiUrl = 'https://talentree-api-d4ahaxdefvarbhah.austriaeast-01.azurewebsites.net';
 
   constructor(
     protected http: HttpClient,

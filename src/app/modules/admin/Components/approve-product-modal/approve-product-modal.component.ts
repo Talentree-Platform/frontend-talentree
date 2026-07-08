@@ -52,7 +52,7 @@ export class ApproveProductModalComponent {
     const notes = this.form.controls.notes.value.trim();
     this.submitting = true;
 
-    this.adminProductService.approveProduct(this.productId, notes)
+    this.adminProductService.approveProduct({ productId: this.productId, notes: notes })
       .pipe(finalize(() => (this.submitting = false)))
       .subscribe({
         next: (res) => {
