@@ -12,6 +12,8 @@ import { OfferComponent } from './pages/offer/offer.component';
 
 
 
+import { PolicyViewerComponent } from './pages/policy-viewer/policy-viewer.component';
+
 @NgModule({
   declarations: [ ],
   imports: [
@@ -24,7 +26,7 @@ import { OfferComponent } from './pages/offer/offer.component';
     LandingPageComponent,
     CommonModule,
     PublicRoutingModule,
-    
+    PolicyViewerComponent
   ]
 })
 export class PublicModule { }

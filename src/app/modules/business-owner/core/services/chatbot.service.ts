@@ -32,7 +32,7 @@ export class ChatbotService {
     return this.http.get<ChatbotSettings>(`${this.baseUrl}/settings`);
   }
 
-  updateSettings(settings: Partial<Pick<ChatbotSettings, 'targetAudience' | 'tone'>>): Observable<ChatbotSettings> {
+  updateSettings(settings: Pick<ChatbotSettings, 'targetAudience' | 'tone'>): Observable<ChatbotSettings> {
     return this.http.put<ChatbotSettings>(`${this.baseUrl}/settings`, settings);
   }
 
@@ -46,10 +46,13 @@ export class ChatbotService {
           this.messages.update(msgs => [...msgs, { sender: 'bot', text: res.response, timestamp: new Date() }]);
           this.isSending.set(false);
         },
-        error: () => {
+        error: (err) => {
+          const msg = err?.status === 503
+            ? 'The AI assistant is temporarily unavailable. Please try again later.'
+            : 'Sorry, something went wrong. Please try again.';
           this.messages.update(msgs => [
             ...msgs,
-            { sender: 'bot', text: 'Sorry, something went wrong. Please try again.', timestamp: new Date() }
+            { sender: 'bot', text: msg, timestamp: new Date() }
           ]);
           this.isSending.set(false);
         }

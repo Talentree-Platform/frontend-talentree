@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild, AfterViewChecked, signal } from '@ang
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatbotService } from '../../core/services/chatbot.service';
-
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'app-chatbot-widget',
   standalone: true,
@@ -11,6 +11,7 @@ import { ChatbotService } from '../../core/services/chatbot.service';
   styleUrls: ['./chatbot-widget.component.css']
 })
 export class ChatbotWidgetComponent implements AfterViewChecked {
+  
   @ViewChild('messagesContainer') messagesContainer?: ElementRef<HTMLDivElement>;
 
   isOpen = signal(false);
@@ -19,7 +20,19 @@ export class ChatbotWidgetComponent implements AfterViewChecked {
   messages = this.chatbotService.messages;
   isSending = this.chatbotService.isSending;
 
-  constructor(private chatbotService: ChatbotService) {}
+  constructor(
+  private chatbotService: ChatbotService,
+  private sanitizer: DomSanitizer
+) {}
+
+extractImageData(text: string): string | null {
+  const match = text.match(/data:image\/(png|jpe?g|gif|webp);base64,[A-Za-z0-9+/=]+/);
+  return match ? match[0] : null;
+}
+
+stripImageTag(text: string): string {
+  return text.replace(/<img[^>]*>/g, '').trim();
+}
 
   ngAfterViewChecked(): void {
     this.scrollToBottom();

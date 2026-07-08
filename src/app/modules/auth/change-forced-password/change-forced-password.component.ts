@@ -8,7 +8,11 @@ import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../core/environment/envirinment';
 import { ApiResponse } from '../../admin/core/Interfaces/ibusiness-owner';
 import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage.service';
+
 export interface ChangeForcedPasswordDto {
+  userId: string;
+  temporaryPassword: string;
   newPassword: string;
   confirmNewPassword: string;
 }
@@ -34,6 +38,7 @@ export class ChangeForcedPasswordComponent implements OnDestroy {
 
   form: FormGroup = this.fb.group(
     {
+      temporaryPassword: ['', [Validators.required]],
       newPassword: ['', [Validators.required, Validators.minLength(8)]],
       confirmNewPassword: ['', [Validators.required]]
     },
@@ -45,7 +50,8 @@ export class ChangeForcedPasswordComponent implements OnDestroy {
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private storageService: StorageService
   ) { }
 
   onSubmit(): void {
@@ -54,8 +60,18 @@ export class ChangeForcedPasswordComponent implements OnDestroy {
       return;
     }
 
+    const userId = this.storageService.getItem('forcedPasswordUserId', { prefix: '' });
+    console.log('forcedPasswordUserId:', userId);
+    if (!userId) {
+      this.toastr.error('Your session has expired. Please log in again.', 'Error');
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
     this.isSubmitting = true;
     const dto: ChangeForcedPasswordDto = {
+      userId,
+      temporaryPassword: this.form.value.temporaryPassword,
       newPassword: this.form.value.newPassword,
       confirmNewPassword: this.form.value.confirmNewPassword
     };
@@ -67,8 +83,9 @@ export class ChangeForcedPasswordComponent implements OnDestroy {
         next: (res) => {
           this.isSubmitting = false;
           if (res?.success) {
-            this.toastr.success('Password updated successfully.', 'Success');
-            this.authService.redirectBasedOnRole(this.authService.getCurrentUser()?.role || '');  // ⬅️ بدل السطر القديم
+            this.toastr.success('Password updated successfully. Please log in again.', 'Success');
+            this.storageService.removeItem('forcedPasswordUserId', { prefix: '' });
+            this.router.navigate(['/auth/login']);
           } else {
             this.toastr.error(res?.message || 'Failed to update password.', 'Error');
           }

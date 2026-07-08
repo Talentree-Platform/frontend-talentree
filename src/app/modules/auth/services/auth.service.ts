@@ -205,7 +205,30 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/Auth/login`, credentials)
       .pipe(
         tap((response: any) => {
-          console.log('✅ Login successful');
+          console.log('✅ Login successful', response);
+
+          // ⚠️ Backend returns a DIFFERENT shape when a password change is
+          // required: no `user`, empty `accessToken`, and the flag lives at
+          // `data.requiresPasswordChange` (not inside `user`). Handle this
+          // case BEFORE the normal normalize/save flow, since there is no
+          // valid token or user object to save yet.
+          const data = response?.data ?? response;
+          const requiresPasswordChange = !!data?.requiresPasswordChange;
+
+          if (requiresPasswordChange) {
+            const pendingUserId = data?.userId || '';
+            console.log('🔐 Password change required for user:', pendingUserId);
+
+            this.clearAuthData();
+
+            if (this.isBrowser && pendingUserId) {
+              this.storage.setItem('forcedPasswordUserId', pendingUserId, { prefix: '' });
+            }
+
+            this.router.navigate(['/auth/change-forced-password']);
+            return;
+          }
+
           const normalizedResponse = this.normalizeLoginResponse(response);
           this.handleAuthSuccess(normalizedResponse);
         }),
@@ -455,7 +478,7 @@ export class AuthService {
         phoneNumber: user.phoneNumber || '',
         isEmailVerified: user.isEmailVerified || false,
         createdAt: user.createdAt || new Date().toISOString(),
-        forcePasswordChange: user.forcePasswordChange ?? user.mustChangePassword ?? false // ⬅️ جديد
+        forcePasswordChange: user.forcePasswordChange ?? user.mustChangePassword ?? data.requiresPasswordChange ?? false
       }
     };
   }

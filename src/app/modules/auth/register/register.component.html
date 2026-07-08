@@ -169,8 +169,8 @@
           [class.is-invalid]="isFieldInvalid('acceptTerms')"
         />
         <label for="acceptTerms" class="form-check-label">
-          I agree to the <a href="#" target="_blank">Terms & Conditions</a> and 
-          <a href="#" target="_blank">Privacy Policy</a>
+          I agree to the <a routerLink="/terms-of-service" target="_blank">Terms &amp; Conditions</a> and 
+          <a routerLink="/privacy-policy" target="_blank">Privacy Policy</a>
         </label>
         <div *ngIf="isFieldInvalid('acceptTerms')" class="invalid-feedback">
           {{ getFieldError('acceptTerms') }}

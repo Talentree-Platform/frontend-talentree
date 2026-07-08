@@ -1,0 +1,64 @@
+<!-- src/app/modules/public/pages/policy-viewer/policy-viewer.component.html -->
+<div class="policy-page">
+  <!-- Dynamic Top Header Bar -->
+  <header class="policy-header">
+    <div class="policy-header-container">
+      <a routerLink="/" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Home</span>
+      </a>
+      <h1 class="policy-main-title">{{ policyTitle }}</h1>
+      <p class="policy-meta-subtitle" *ngIf="policyData">
+        Version {{ policyData.version }} &bull; Last updated {{ policyData.updatedAt | date:'mediumDate' }}
+      </p>
+    </div>
+  </header>
+
+  <!-- Central View Area -->
+  <main class="policy-main-content">
+    <div class="policy-card">
+      
+      <!-- LOADING STATE -->
+      <div *ngIf="isLoading" class="policy-state policy-state--loading">
+        <div class="spinner"></div>
+        <p>Retrieving policy details...</p>
+      </div>
+
+      <!-- ERROR STATE -->
+      <div *ngIf="!isLoading && errorMessage" class="policy-state policy-state--error">
+        <div class="state-icon">⚠️</div>
+        <h3>Failed to Load Policy</h3>
+        <p>{{ errorMessage }}</p>
+        <button class="btn-retry" (click)="loadPolicy()">Try Again</button>
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div *ngIf="!isLoading && !errorMessage && !policyData" class="policy-state policy-state--empty">
+        <div class="state-icon">📄</div>
+        <h3>No Policy Published</h3>
+        <p>The system administrator has not published a draft version of the <strong>{{ policyTitle }}</strong> yet.</p>
+        <a routerLink="/" class="btn-home">Return to Home</a>
+      </div>
+
+      <!-- PUBLISHED CONTENT STATE -->
+      <div *ngIf="!isLoading && !errorMessage && policyData" class="policy-body">
+        <h2 class="policy-section-title">Talentree {{ policyTitle }}</h2>
+        <hr class="policy-divider">
+        
+        <!-- Render formatted paragraph lines safely -->
+        <div class="policy-text-content">
+          <p *ngFor="let para of policyData.content.split('\n')" class="policy-para">
+            {{ para }}
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Shared Public Footer -->
+  <app-public-footer></app-public-footer>
+</div>

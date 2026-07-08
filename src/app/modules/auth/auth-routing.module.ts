@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import{ ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ChangeForcedPasswordComponent } from './change-forced-password/change-forced-password.component';
 import { AuthComponent } from '../../layout/auth/auth.component';
 
 // import { GoogleLoginComponent } from './google-login/google-login.component';
@@ -21,7 +22,8 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent } ,// /auth/register
       {path:'owner-register', component: RegisterBusinessownerComponent},
       { path: 'verify-email', component: VerifyEmailComponent } ,// /auth/verify-email
-      { path: 'forgot-password', component: ForgotPasswordComponent } // /auth/forgot-password
+      { path: 'forgot-password', component: ForgotPasswordComponent }, // /auth/forgot-password
+      { path: 'change-forced-password', component: ChangeForcedPasswordComponent } // /auth/change-forced-password
       
     ]
   }

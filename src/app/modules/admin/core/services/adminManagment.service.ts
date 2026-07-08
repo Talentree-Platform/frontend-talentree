@@ -16,6 +16,7 @@ export interface AdminDto {
     role: string;
 }
 
+/** Matches backend: CreateAdminDto */
 export interface CreateAdminDto {
     fullName: string;
     email: string;
@@ -23,20 +24,32 @@ export interface CreateAdminDto {
     role: string;
 }
 
-export interface UpdateAdminDto {
+/** Matches backend: EditAdminDto */
+export interface EditAdminDto {
     fullName: string;
     email: string;
     phoneNumber?: string;
 }
 
-export interface UpdateAdminRoleDto {
+/** @deprecated Use EditAdminDto. Kept for backward compatibility. */
+export type UpdateAdminDto = EditAdminDto;
+
+/** Matches backend: ChangeAdminRoleDto */
+export interface ChangeAdminRoleDto {
     role: string;
 }
 
-export interface ResetPasswordDto {
+/** @deprecated Use ChangeAdminRoleDto. Kept for backward compatibility. */
+export type UpdateAdminRoleDto = ChangeAdminRoleDto;
+
+/** Matches backend: ResetAdminPasswordDto */
+export interface ResetAdminPasswordDto {
     newPassword: string;
     confirmNewPassword: string;
 }
+
+/** @deprecated Use ResetAdminPasswordDto. Kept for backward compatibility. */
+export type ResetPasswordDto = ResetAdminPasswordDto;
 
 export interface SecuritySettings {
     id: number;
@@ -147,32 +160,40 @@ export class AdminManagementService {
         return this.http.post<ApiResponse<AdminDto>>(`${this.baseUrl}/create`, dto);
     }
 
-    updateAdmin(adminId: string, dto: UpdateAdminDto): Observable<ApiResponse<AdminDto>> {
+    /** PUT /api/admin-management/admins/{adminId} — body: EditAdminDto */
+    updateAdmin(adminId: string, dto: EditAdminDto): Observable<ApiResponse<AdminDto>> {
         return this.http.put<ApiResponse<AdminDto>>(`${this.baseUrl}/admins/${adminId}`, dto);
     }
 
-    updateAdminRole(adminId: string, dto: UpdateAdminRoleDto): Observable<ApiResponse<AdminDto>> {
+    /** PUT /api/admin-management/admins/{adminId}/role — body: ChangeAdminRoleDto */
+    updateAdminRole(adminId: string, dto: ChangeAdminRoleDto): Observable<ApiResponse<AdminDto>> {
         return this.http.put<ApiResponse<AdminDto>>(`${this.baseUrl}/admins/${adminId}/role`, dto);
     }
 
-    resetAdminPassword(adminId: string, dto: ResetPasswordDto): Observable<ApiResponse<string>> {
+    /** POST /api/admin-management/admins/{adminId}/reset-password — body: ResetAdminPasswordDto */
+    resetAdminPassword(adminId: string, dto: ResetAdminPasswordDto): Observable<ApiResponse<string>> {
         return this.http.post<ApiResponse<string>>(`${this.baseUrl}/admins/${adminId}/reset-password`, dto);
     }
 
-    deactivateAdmin(adminId: string): Observable<ApiResponse<string>> {
-        return this.http.post<ApiResponse<string>>(`${this.baseUrl}/admins/${adminId}/deactivate`, {});
+
+    /** POST /api/admin-management/admins/{adminId}/deactivate */
+    deactivateAdmin(adminId: string): Observable<ApiResponse<object>> {
+        return this.http.post<ApiResponse<object>>(`${this.baseUrl}/admins/${adminId}/deactivate`, {});
     }
 
-    reactivateAdmin(adminId: string): Observable<ApiResponse<string>> {
-        return this.http.post<ApiResponse<string>>(`${this.baseUrl}/admins/${adminId}/reactivate`, {});
+    /** POST /api/admin-management/admins/{adminId}/reactivate */
+    reactivateAdmin(adminId: string): Observable<ApiResponse<object>> {
+        return this.http.post<ApiResponse<object>>(`${this.baseUrl}/admins/${adminId}/reactivate`, {});
     }
 
-    revokeAdminSessions(adminId: string): Observable<ApiResponse<string>> {
-        return this.http.post<ApiResponse<string>>(`${this.baseUrl}/admins/${adminId}/revoke-sessions`, {});
+    /** POST /api/admin-management/admins/{adminId}/revoke-sessions */
+    revokeAdminSessions(adminId: string): Observable<ApiResponse<object>> {
+        return this.http.post<ApiResponse<object>>(`${this.baseUrl}/admins/${adminId}/revoke-sessions`, {});
     }
 
-    unlockAdmin(adminId: string): Observable<ApiResponse<string>> {
-        return this.http.post<ApiResponse<string>>(`${this.baseUrl}/admins/${adminId}/unlock`, {});
+    /** POST /api/admin-management/admins/{adminId}/unlock */
+    unlockAdmin(adminId: string): Observable<ApiResponse<object>> {
+        return this.http.post<ApiResponse<object>>(`${this.baseUrl}/admins/${adminId}/unlock`, {});
     }
 
     // ── Roles ─────────────────────────────────────────────────────────────────

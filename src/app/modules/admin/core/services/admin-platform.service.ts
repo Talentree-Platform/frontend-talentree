@@ -347,21 +347,6 @@ export class AdminPlatformService {
     );
   }
 
-  updatePolicy(type: string, dto: UpdatePolicyDto): Observable<ApiResponse<PolicyDto>> {
-    const payload = {
-      content: dto.content,
-      requireUserAcceptance: true
-    };
-    return this.http.put<ApiResponse<any>>(`${this.policiesBase}/${this.getPolicyEnum(type)}`, payload).pipe(
-      map(res => {
-        if (res.success && res.data) {
-          return { ...res, data: this.mapPolicy(res.data) };
-        }
-        return res as ApiResponse<PolicyDto>;
-      })
-    );
-  }
-
   getPolicyHistory(type: string): Observable<ApiResponse<PolicyDto[]>> {
     return this.http.get<ApiResponse<any[]>>(`${this.policiesBase}/${this.getPolicyEnum(type)}/history`).pipe(
       map(res => {

@@ -1,4 +1,3 @@
-
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../../modules/auth/services/auth.service';
@@ -12,18 +11,21 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   
   // URLs التي لا تحتاج token
-  const publicUrls = [
-    '/Auth/register',
-    '/Auth/login',
-    '/Auth/verify-email',
-    '/Auth/forgot-password',
-    '/Auth/reset-password',
-    '/Auth/google-login',
-    '/Auth/facebook-login',
-    '/Auth/register-business-owner'
-  ];
-  
-  const isPublicUrl = publicUrls.some(url => req.url.includes(url));
+const publicUrls = [
+  '/Auth/register',
+  '/Auth/login',
+  '/Auth/verify-email',
+  '/Auth/forgot-password',
+  '/Auth/reset-password',
+  '/Auth/google-login',
+  '/Auth/facebook-login',
+  '/Auth/register-business-owner',
+  '/Auth/change-forced-password'
+];
+
+const isPublicUrl = publicUrls.some(url => 
+  req.url.toLowerCase().includes(url.toLowerCase())
+);
   
   // إذا كان الطلب عاماً، أرسله بدون token
   if (isPublicUrl) {

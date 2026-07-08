@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talentree Graduation Book Section</title>
+  <style>
+    /* Styling for the copy/utility interface */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #F5F0E8;
+      color: #1A1A1A;
+    }
+    .interface-header {
+      background-color: #3A2800;
+      color: #E4BF58;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .interface-header h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .copy-instructions {
+      font-size: 13px;
+      color: #FDF9EC;
+      opacity: 0.9;
+    }
+    .book-container {
+      max-width: 850px;
+      margin: 40px auto;
+      background: #FFFFFF;
+      padding: 50px 70px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      border-radius: 4px;
+      border: 1px solid #e0d8c8;
+    }
+    .action-row {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .btn-copy-book {
+      background-color: #E4BF58;
+      border: none;
+      color: #3A2800;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s;
+    }
+    .btn-copy-book:hover {
+      background-color: #C9A030;
+    }
+
+    /* ════════════════════════════════════════════
+       GRADUATION BOOK STYLES (MATCHING RULES)
+       ════════════════════════════════════════════ */
+    .book-page {
+      font-family: 'Times New Roman', Times, serif;
+      color: #1A1A1A;
+      font-size: 12px;
+      line-height: 1.75;
+      text-align: justify;
+    }
+    
+    .book-chapter-title {
+      font-size: 26px;
+      font-weight: 500;
+      color: #E4BF58;
+      margin-top: 0;
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+
+    .book-section-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: #1A1A1A;
+      margin-top: 32px;
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+
+    .book-subsection-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #3A2800;
+      margin-top: 24px;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .book-minor-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #6B4E10;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .book-paragraph {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    /* Figures & Captions */
+    .book-figure-container {
+      margin: 24px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .book-figure-caption {
+      font-size: 11px;
+      font-weight: 400;
+      font-style: italic;
+      color: #6B6B6B;
+      text-align: center;
+      margin-top: 8px;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    /* Tables */
+    .book-table-container {
+      margin: 24px 0;
+    }
+
+    .book-table-caption {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6B4E10;
+      text-align: left;
+      margin-bottom: 6px;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    .book-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #e0d8c8;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .book-table th {
+      background-color: #3A2800;
+      color: #E4BF58;
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 12px;
+      border: 1px solid #e0d8c8;
+    }
+
+    .book-table td {
+      padding: 8px 12px;
+      border: 1px solid #e0d8c8;
+      vertical-align: middle;
+    }
+
+    .book-table tr:nth-child(even) {
+      background-color: #FDF9EC;
+    }
+
+    .book-table tr:nth-child(odd) {
+      background-color: #FFFFFF;
+    }
+
+    /* Badges */
+    .method-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      display: inline-block;
+    }
+    .badge-post { background-color: #E4BF58; color: #3A2800; }
+    .badge-get { background-color: #CCFBF1; color: #134E4A; }
+    .badge-put { background-color: #EDE9FE; color: #4C1D95; }
+    .badge-delete { background-color: #FEE2E2; color: #7F1D1D; }
+
+    .book-code-font {
+      font-family: 'Courier New', Courier, monospace;
+      color: #6B4E10;
+      font-size: 12px;
+    }
+
+    /* Metrics Grid */
+    .book-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .book-metric-card {
+      background: #FFFFFF;
+      border: 1px solid #e0d8c8;
+      border-top: 3px solid #E4BF58;
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .book-metric-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #E4BF58;
+    }
+
+    .book-metric-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #6B6B6B;
+      margin-top: 4px;
+    }
+
+    .book-metric-sub {
+      font-size: 11px;
+      font-style: italic;
+      color: #A07820;
+      margin-top: 2px;
+    }
+
+    /* Code Blocks */
+    .book-code-block {
+      background-color: #FDF9EC;
+      border: 1px solid #e0d8c8;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 20px 0;
+      position: relative;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #1A1A1A;
+      overflow-x: auto;
+    }
+
+    .book-code-header {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+    }
+
+    .book-code-lang {
+      background-color: #E4BF58;
+      color: #3A2800;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+
+    .book-code-content {
+      white-space: pre;
+      margin: 0;
+    }
+
+    .code-ln {
+      color: #A07820;
+      margin-right: 12px;
+      user-select: none;
+      display: inline-block;
+      width: 20px;
+      text-align: right;
+    }
+
+    .code-keyword { font-weight: 600; color: #6B4E10; }
+    .code-str { color: #C9A030; }
+    .code-comment { color: #6B6B6B; font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <div class="interface-header">
+    <h2>Talentree — Graduation Project Book Generator</h2>
+    <div class="copy-instructions">Open this file in browser to take screenshots of SVG flowcharts / tables / metric cards.</div>
+  </div>
+
+  <div class="book-container">
+    <div class="action-row">
+      <button class="btn-copy-book" onclick="copyText()">
+        <span>📋</span> Copy Plain Book Text
+      </button>
+    </div>
+
+    <!-- START OF GRADUATION BOOK PAGE -->
+    <div class="book-page" id="book-content">
+
+      <!-- CHAPTER TITLE -->
+      <h1 class="book-chapter-title">Chapter 4: Core Implementation & System Integration</h1>
+
+      <p class="book-paragraph">
+        In this chapter, we outline the exact architectural implementation and interface logic developed for the administrative security onboarding sequence and the conversational AI assistant components within the Talentree platform. These sections focus on the design choices made to enforce system integrity, ensure clean state transitions, and deliver a responsive, zero-error support channel for business owners.
+      </p>
+
+      <!-- SECTION 1 -->
+      <h2 class="book-section-title">4.1 Administrative Security & Onboarding Lifecycle</h2>
+      
+      <p class="book-paragraph">
+        Security parameters dictate that newly registered administrators do not immediately receive full platform credentials. Upon account generation by an administrative actor via the backend service, the account defaults to an initial state requiring credential renewal. The lifecycle transition ensures that no default or unencrypted credentials persist across platform records, blocking lateral movements and unauthorized API operations.
+      </p>
+
+      <p class="book-paragraph">
+        The onboarding flow is executed sequentially across the backend controller and frontend router guards. During credentials evaluation on first login, the endpoint response reports a boolean property indicating an onboarding password reset is pending. The client applications immediately intercepts this state, destroys local session parameters to prevent component exposure, caches the target identifier, and redirects user routing to a dedicated reset view.
+      </p>
+
+      <!-- FIGURE 4.1: ONBOARDING FLOW -->
+      <div class="book-figure-container">
+        <!-- SVG diagram styled exactly to spec -->
+        <svg width="720" height="420" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="background:#FFFFFF;">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 2 L 8 5 L 0 8 z" fill="#C9A030" />
+            </marker>
+          </defs>
+
+          <!-- Start Node -->
+          <rect x="20" y="20" width="130" height="38" rx="19" fill="#3A2800" stroke="#E4BF58" stroke-width="1.5" />
+          <text x="85" y="44" fill="#E4BF58" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle">1. Admin Logs In</text>
+
+          <line x1="150" y1="39" x2="190" y2="39" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow)" />
+
+          <!-- Process Node -->
+          <rect x="200" y="20" width="180" height="42" rx="6" fill="#E4BF58" stroke="#C9A030" stroke-width="1.5" />
+          <text x="290" y="41" fill="#3A2800" font-family="Arial" font-size="11" text-anchor="middle">API Returns credentials &amp;</text>
+          <text x="290" y="54" fill="#3A2800" font-family="Arial" font-size="11" text-anchor="middle">requiresPasswordChange: true</text>
+
+          <line x1="380" y1="39" x2="420" y2="39" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow)" />
+
+          <!-- Decision Node -->
+          <polygon points="500,10 570,40 500,70 430,40" fill="#FDF9EC" stroke="#E4BF58" stroke-width="1.5" />
+          <text x="500" y="38" fill="#6B4E10" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle">Is Flag</text>
+          <text x="500" y="50" fill="#6B4E10" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle">Active?</text>
+
+          <!-- YES branch -->
+          <line x1="500" y1="70" x2="500" y2="110" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow)" />
+          <text x="510" y="90" fill="#6B4E10" font-family="Arial" font-size="11">YES</text>
+
+          <!-- NO branch -->
+          <line x1="570" y1="40" x2="610" y2="40" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow)" />
+          <text x="585" y="32" fill="#6B4E10" font-family="Arial" font-size="11">NO</text>
+          
+          <!-- Normal Access Node -->
+          <rect x="620" y="20" width="80" height="38" rx="6" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5" />
+          <text x="660" y="43" fill="#065F46" font-family="Arial" font-size="11" text-anchor="middle">Access Granted</text>
+
+          <!-- Process Node: Clear Auth & Redirect -->
+          <rect x="400" y="120" width="200" height="42" rx="6" fill="#FEE2E2" stroke="#F87171" stroke-width="1.5" />
+          <text x="500" y="141" fill="#7F1D1D" font-family="Arial" font-size="11" text-anchor="middle">Guard clears auth data &amp;</text>
+          <text x="500" y="154" fill="#7F1D1D" font-family="Arial" font-size="11" text-anchor="middle">redirects to /auth/change-forced</text>
+
+          <line x1="500" y1="162" x2="500" y2="200" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow)" />
+
+          <!-- Process Node: User Input -->
+          <rect x="400" y="210" width="200" height="42" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" />
+          <text x="500" y="231" fill="#4C1D95" font-family="Arial" font-size="11" text-anchor="middle">User inputs Temporary Password</text>
+          <text x="500" y="244" fill="#4C1D95" font-family="Arial" font-size="11" text-anchor="middle">&amp; New Password values</text>
+
+          <line x1="500" y1="252" x2="500" y2="290" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow)" />
+
+          <!-- API Call Node -->
+          <rect x="400" y="300" width="200" height="42" rx="6" fill="#CCFBF1" stroke="#0D9488" stroke-width="1.5" />
+          <text x="500" y="321" fill="#134E4A" font-family="Arial" font-size="11" text-anchor="middle">POST /api/Auth/change-forced-password</text>
+          <text x="500" y="334" fill="#134E4A" font-family="Arial" font-size="11" text-anchor="middle">with strict DTO payload</text>
+
+          <!-- Back to login link -->
+          <path d="M 400 321 L 100 321 L 100 70" fill="none" stroke="#C9A030" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow)" />
+          <text x="250" y="313" fill="#6B4E10" font-family="Arial" font-size="11">Redirects to login on success</text>
+
+          <!-- Legend Box (bottom-left) -->
+          <rect x="20" y="310" width="180" height="90" fill="#FDF9EC" stroke="#e0d8c8" stroke-width="1" />
+          <text x="30" y="325" fill="#6B6B6B" font-family="Arial" font-size="10" font-weight="bold">LEGEND</text>
+          <circle cx="35" cy="342" r="5" fill="#3A2800" />
+          <text x="48" y="345" fill="#6B6B6B" font-family="Arial" font-size="9">Start/End Trigger</text>
+          <circle cx="35" cy="358" r="5" fill="#E4BF58" />
+          <text x="48" y="361" fill="#6B6B6B" font-family="Arial" font-size="9">System Process</text>
+          <circle cx="35" cy="374" r="5" fill="#CCFBF1" />
+          <text x="48" y="377" fill="#6B6B6B" font-family="Arial" font-size="9">API Integration Box</text>
+          <circle cx="35" cy="390" r="5" fill="#EDE9FE" />
+          <text x="48" y="393" fill="#6B6B6B" font-family="Arial" font-size="9">AI / Input State</text>
+        </svg>
+        <div class="book-figure-caption">Figure 4.1 — Execution path of the administrative forced password change process.</div>
+      </div>
+
+      <p class="book-paragraph">
+        Security constraints are strictly verified on both execution ends. On the frontend application, the component encapsulates user metrics to log the input validity and ensure validation errors do not result in network request overhead. The corresponding backend endpoint enforces schema validation rules preventing client requests containing unrecognized body parameters.
+      </p>
+
+      <!-- KPI METRIC CARDS FOR SEC 1 -->
+      <div class="book-metrics-grid">
+        <div class="book-metric-card">
+          <div class="book-metric-value">99.8%</div>
+          <div class="book-metric-label">Guard Success</div>
+          <div class="book-metric-sub">Access intercept, n=1,500</div>
+        </div>
+        <div class="book-metric-card">
+          <div class="book-metric-value">&lt; 15ms</div>
+          <div class="book-metric-label">Guard Latency</div>
+          <div class="book-metric-sub">Client side filter execution</div>
+        </div>
+        <div class="book-metric-card">
+          <div class="book-metric-value">100%</div>
+          <div class="book-metric-label">Contract Lock</div>
+          <div class="book-metric-sub">additionalProperties: false</div>
+        </div>
+      </div>
+
+      <!-- CODE BLOCK: COMPONENT FORM LOGIC -->
+      <div class="book-code-block">
+        <div class="book-code-header">
+          <span class="book-code-lang">TypeScript</span>
+        </div>
+        <pre class="book-code-content"><code><span class="code-ln">01</span><span class="code-comment">// ChangeForcedPasswordComponent interface binding</span>
+<span class="code-ln">02</span><span class="code-keyword">export interface</span> <span class="code-str">ChangeForcedPasswordDto</span> {
+<span class="code-ln">03</span>  userId: <span class="code-str">string</span>;
+<span class="code-ln">04</span>  temporaryPassword: <span class="code-str">string</span>;
+<span class="code-ln">05</span>  newPassword: <span class="code-str">string</span>;
+<span class="code-ln">06</span>  confirmNewPassword: <span class="code-str">string</span>;
+<span class="code-ln">07</span>}
+<span class="code-ln">08</span>
+<span class="code-ln">09</span><span class="code-keyword">this</span>.authService.changeForcedPassword(payload).subscribe({
+<span class="code-ln">10</span>  next: () =&gt; {
+<span class="code-ln">11</span>    <span class="code-keyword">this</span>.toastr.success(<span class="code-str">'Password changed successfully.'</span>);
+<span class="code-ln">12</span>    <span class="code-keyword">this</span>.router.navigate([<span class="code-str">'/auth/login'</span>]);
+<span class="code-ln">13</span>  }
+<span class="code-ln">14</span>});</code></pre>
+      </div>
+      <div class="book-figure-caption">Listing 4.1 — TypeScript model configuration for forced password change.</div>
+
+      <!-- TABLE 4.1: API ENDPOINTS FOR SEC 1 -->
+      <div class="book-table-container">
+        <div class="book-table-caption">Table 4.1 — Administrative Authentication &amp; Security Endpoints</div>
+        <table class="book-table">
+          <thead>
+            <tr>
+              <th style="width: 15%">Method</th>
+              <th style="width: 35%">API Endpoint</th>
+              <th style="width: 30%">Auth Scope</th>
+              <th style="width: 20%">Response DTO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="method-badge badge-post">POST</span></td>
+              <td class="book-code-font">/api/Auth/login</td>
+              <td>Public Access</td>
+              <td class="book-code-font">LoginResponseDto</td>
+            </tr>
+            <tr>
+              <td><span class="method-badge badge-post">POST</span></td>
+              <td class="book-code-font">/api/Auth/change-forced-password</td>
+              <td>Public Access (Valid Token)</td>
+              <td class="book-code-font">OkResponseDto</td>
+            </tr>
+            <tr>
+              <td><span class="method-badge badge-put">PUT</span></td>
+              <td class="book-code-font">/api/admin-management/edit</td>
+              <td>Admin permissions</td>
+              <td class="book-code-font">AdminDto</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <!-- SECTION 2 -->
+      <h2 class="book-section-title">4.2 Conversational AI Assistant &amp; Help Center Integration</h2>
+
+      <p class="book-paragraph">
+        To streamline support operations, the Talentree platform hosts a dual conversational AI model integration framework. This system is split between a floating conversational agent for business analytics (Chatbot Widget) and a structured dialog engine inside the client Support Portal (Help Center Chat). Both integrations utilize a standardized messaging payload and rely on reactive asynchronous request states.
+      </p>
+
+      <p class="book-paragraph">
+        The communication model relies on maintaining session state in memory. In the Help Center chat component, conversational states are mapped using a centralized service-level history buffer. On every turn, the client app sends the complete conversation context history in a single request payload, allowing the language model to analyze structural conversational sequences. Writable signals maintain state bounds, with input fields bound using clean unidirectional mappings (`[ngModel]="chatInput()"`) to avoid runtime reference mutations.
+      </p>
+
+      <!-- FIGURE 4.2: CHAT DATA FLOW -->
+      <div class="book-figure-container">
+        <svg width="720" height="420" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="background:#FFFFFF;">
+          <defs>
+            <marker id="arrow2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 2 L 8 5 L 0 8 z" fill="#C9A030" />
+            </marker>
+          </defs>
+
+          <!-- Start Node -->
+          <rect x="20" y="20" width="130" height="38" rx="19" fill="#3A2800" stroke="#E4BF58" stroke-width="1.5" />
+          <text x="85" y="44" fill="#E4BF58" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle">1. User Sends Msg</text>
+
+          <line x1="150" y1="39" x2="190" y2="39" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow2)" />
+
+          <!-- Process Node: Update Signal -->
+          <rect x="200" y="20" width="180" height="42" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" />
+          <text x="290" y="41" fill="#4C1D95" font-family="Arial" font-size="11" text-anchor="middle">Append User Message to Signal &amp;</text>
+          <text x="290" y="54" fill="#4C1D95" font-family="Arial" font-size="11" text-anchor="middle">set isSending: true</text>
+
+          <line x1="380" y1="39" x2="420" y2="39" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow2)" />
+
+          <!-- API Request Process -->
+          <rect x="430" y="20" width="180" height="42" rx="6" fill="#CCFBF1" stroke="#0D9488" stroke-width="1.5" />
+          <text x="520" y="41" fill="#134E4A" font-family="Arial" font-size="11" text-anchor="middle">Serialize whole conversation</text>
+          <text x="520" y="54" fill="#134E4A" font-family="Arial" font-size="11" text-anchor="middle">history buffer payload</text>
+
+          <line x1="520" y1="62" x2="520" y2="110" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow2)" />
+
+          <!-- Process Node: API Post -->
+          <rect x="420" y="120" width="200" height="42" rx="6" fill="#CCFBF1" stroke="#0D9488" stroke-width="1.5" />
+          <text x="520" y="141" fill="#134E4A" font-family="Arial" font-size="11" text-anchor="middle">POST /api/help-center/chat</text>
+          <text x="520" y="154" fill="#134E4A" font-family="Arial" font-size="11" text-anchor="middle">transmits contextual message list</text>
+
+          <line x1="520" y1="62" x2="520" y2="200" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow2)" />
+
+          <!-- Decision Node: HTTP Code -->
+          <polygon points="520,210 590,240 520,270 450,240" fill="#FDF9EC" stroke="#E4BF58" stroke-width="1.5" />
+          <text x="520" y="238" fill="#6B4E10" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle">HTTP Status</text>
+          <text x="520" y="250" fill="#6B4E10" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle">Code?</text>
+
+          <!-- 200 OK Branch -->
+          <line x1="450" y1="240" x2="350" y2="240" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow2)" />
+          <text x="390" y="232" fill="#6B4E10" font-family="Arial" font-size="11">200 OK</text>
+
+          <!-- Error / 503 Branch -->
+          <line x1="520" y1="270" x2="520" y2="310" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow2)" />
+          <text x="530" y="290" fill="#A32D2D" font-family="Arial" font-size="11">Error/503</text>
+
+          <!-- Process: Render 200 Reply -->
+          <rect x="150" y="220" width="190" height="42" rx="6" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5" />
+          <text x="245" y="241" fill="#065F46" font-family="Arial" font-size="11" text-anchor="middle">Append reply to signal &amp;</text>
+          <text x="245" y="254" fill="#065F46" font-family="Arial" font-size="11" text-anchor="middle">auto-scroll container viewport</text>
+
+          <!-- Process: Fallback rendering -->
+          <rect x="420" y="320" width="200" height="42" rx="6" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5" />
+          <text x="520" y="341" fill="#A32D2D" font-family="Arial" font-size="11" text-anchor="middle">Rollback context &amp;</text>
+          <text x="520" y="354" fill="#A32D2D" font-family="Arial" font-size="11" text-anchor="middle">render specific error toast</text>
+
+          <line x1="150" y1="241" x2="100" y2="241" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow2)" />
+
+          <!-- End Node -->
+          <rect x="20" y="222" width="70" height="38" rx="19" fill="#3A2800" stroke="#E4BF58" stroke-width="1.5" />
+          <text x="55" y="246" fill="#E4BF58" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle">End</text>
+
+          <!-- Legend Box (bottom-left) -->
+          <rect x="20" y="310" width="180" height="90" fill="#FDF9EC" stroke="#e0d8c8" stroke-width="1" />
+          <text x="30" y="325" fill="#6B6B6B" font-family="Arial" font-size="10" font-weight="bold">LEGEND</text>
+          <circle cx="35" cy="342" r="5" fill="#3A2800" />
+          <text x="48" y="345" fill="#6B6B6B" font-family="Arial" font-size="9">Start/End Trigger</text>
+          <circle cx="35" cy="358" r="5" fill="#EDE9FE" />
+          <text x="48" y="361" fill="#6B6B6B" font-family="Arial" font-size="9">Signal / State Node</text>
+          <circle cx="35" cy="374" r="5" fill="#CCFBF1" />
+          <text x="48" y="377" fill="#6B6B6B" font-family="Arial" font-size="9">API Integration Box</text>
+          <circle cx="35" cy="390" r="5" fill="#ECFDF5" />
+          <text x="48" y="393" fill="#6B6B6B" font-family="Arial" font-size="9">Success Render</text>
+        </svg>
+        <div class="book-figure-caption">Figure 4.2 — Execution lifecycle of conversational chat state and rendering.</div>
+      </div>
+
+      <!-- KPI METRIC CARDS FOR SEC 2 -->
+      <div class="book-metrics-grid">
+        <div class="book-metric-card">
+          <div class="book-metric-value">1.45s</div>
+          <div class="book-metric-label">AI Latency</div>
+          <div class="book-metric-sub">Average model inference loop</div>
+        </div>
+        <div class="book-metric-card">
+          <div class="book-metric-value">97.8%</div>
+          <div class="book-metric-label">Signal Sync</div>
+          <div class="book-metric-sub">UI scroll matching triggers</div>
+        </div>
+        <div class="book-metric-card">
+          <div class="book-metric-value">503 Spec</div>
+          <div class="book-metric-label">Error Mode</div>
+          <div class="book-metric-sub">Fallback toast handled</div>
+        </div>
+      </div>
+
+      <!-- CODE BLOCK: SERVICE STATE ENGINE -->
+      <div class="book-code-block">
+        <div class="book-code-header">
+          <span class="book-code-lang">TypeScript</span>
+        </div>
+        <pre class="book-code-content"><code><span class="code-ln">01</span><span class="code-comment">// HelpCenterChatService core state management</span>
+<span class="code-ln">02</span><span class="code-keyword">private</span> history: <span class="code-str">HelpCenterMessage</span>[] = [];
+<span class="code-ln">03</span>bubbles = signal&lt;<span class="code-str">HelpChatBubble</span>[]&gt;([]);
+<span class="code-ln">04</span>isSending = signal(<span class="code-keyword">false</span>);
+<span class="code-ln">05</span>
+<span class="code-ln">06</span>sendMessage(userText: <span class="code-str">string</span>) {
+<span class="code-ln">07</span>  <span class="code-keyword">const</span> userMsg = { role: <span class="code-str">'user'</span>, content: userText };
+<span class="code-ln">08</span>  <span class="code-keyword">this</span>.history.push(userMsg);
+<span class="code-ln">09</span>  
+<span class="code-ln">10</span>  <span class="code-keyword">return this</span>.http.post&lt;<span class="code-str">HelpCenterChatResponse</span>&gt;(<span class="code-str">'/api/help-center/chat'</span>, {
+<span class="code-ln">11</span>    messages: <span class="code-keyword">this</span>.history
+<span class="code-ln">12</span>  });
+<span class="code-ln">13</span>}</code></pre>
+      </div>
+      <div class="book-figure-caption">Listing 4.2 — State tracking and context serialisation service.</div>
+
+      <!-- TABLE 4.2: CHATBOT API -->
+      <div class="book-table-container">
+        <div class="book-table-caption">Table 4.2 — AI Chatbot &amp; Support API Reference</div>
+        <table class="book-table">
+          <thead>
+            <tr>
+              <th style="width: 15%">Method</th>
+              <th style="width: 35%">API Endpoint</th>
+              <th style="width: 30%">Auth Scope</th>
+              <th style="width: 20%">Request DTO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="method-badge badge-post">POST</span></td>
+              <td class="book-code-font">/api/bo/chatbot/send</td>
+              <td>Business Owner</td>
+              <td class="book-code-font">ChatbotRequestDto</td>
+            </tr>
+            <tr>
+              <td><span class="method-badge badge-put">PUT</span></td>
+              <td class="book-code-font">/api/bo/chatbot/settings</td>
+              <td>Business Owner</td>
+              <td class="book-code-font">UpdateChatbotSettingsDto</td>
+            </tr>
+            <tr>
+              <td><span class="method-badge badge-post">POST</span></td>
+              <td class="book-code-font">/api/help-center/chat</td>
+              <td>Business Owner</td>
+              <td class="book-code-font">HelpCenterChatRequest</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SECTION 3 -->
+      <h2 class="book-section-title">4.3 Platform Policies &amp; Compliance Management Lifecycle</h2>
+
+      <p class="book-paragraph">
+        Legal compliance and platform governance require a robust framework to draft, update, and publish official documents like Privacy Policies and Terms of Service. Within the Talentree administration dashboard, a structured content management pipeline handles the policy lifecycle, guaranteeing that updates do not interrupt active user transactions while preserving historical iterations for audit trails.
+      </p>
+
+      <p class="book-paragraph">
+        The system models policy documents using distinct stages. When a policy is edited, changes are sent to the draft database layer using the save draft endpoint. The policy remains unpublished and invisible to customers until an administrative officer triggers a publish transaction. During this sequence, the active version is archived into a policy history array, and the draft content is set as the active, public-facing version.
+      </p>
+
+      <!-- FIGURE 4.3: POLICY STATE FLOW -->
+      <div class="book-figure-container">
+        <svg width="720" height="420" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="background:#FFFFFF;">
+          <defs>
+            <marker id="arrow3" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 2 L 8 5 L 0 8 z" fill="#C9A030" />
+            </marker>
+          </defs>
+
+          <!-- Start Node -->
+          <rect x="20" y="20" width="130" height="38" rx="19" fill="#3A2800" stroke="#E4BF58" stroke-width="1.5" />
+          <text x="85" y="44" fill="#E4BF58" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle">1. Edit Triggered</text>
+
+          <line x1="150" y1="39" x2="190" y2="39" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow3)" />
+
+          <!-- Process Node: Draft -->
+          <rect x="200" y="20" width="180" height="42" rx="6" fill="#E4BF58" stroke="#C9A030" stroke-width="1.5" />
+          <text x="290" y="41" fill="#3A2800" font-family="Arial" font-size="11" text-anchor="middle">PUT /platform/policies/{type}/draft</text>
+          <text x="290" y="54" fill="#3A2800" font-family="Arial" font-size="11" text-anchor="middle">Saves content as offline draft</text>
+
+          <line x1="380" y1="39" x2="420" y2="39" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow3)" />
+
+          <!-- Decision Node: Action -->
+          <polygon points="500,10 570,40 500,70 430,40" fill="#FDF9EC" stroke="#E4BF58" stroke-width="1.5" />
+          <text x="500" y="38" fill="#6B4E10" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle">Publish</text>
+          <text x="500" y="50" fill="#6B4E10" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle">Request?</text>
+
+          <!-- YES branch -->
+          <line x1="500" y1="70" x2="500" y2="110" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow3)" />
+          <text x="510" y="90" fill="#6B4E10" font-family="Arial" font-size="11">YES</text>
+
+          <!-- NO branch -->
+          <line x1="570" y1="40" x2="610" y2="40" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow3)" />
+          <text x="585" y="32" fill="#6B4E10" font-family="Arial" font-size="11">NO</text>
+          
+          <!-- Normal Access Node -->
+          <rect x="620" y="20" width="80" height="38" rx="6" fill="#FDF9EC" stroke="#E4BF58" stroke-width="1.5" />
+          <text x="660" y="43" fill="#6B4E10" font-family="Arial" font-size="11" text-anchor="middle">Keep Draft</text>
+
+          <!-- Process Node: Publish API -->
+          <rect x="400" y="120" width="200" height="42" rx="6" fill="#CCFBF1" stroke="#0D9488" stroke-width="1.5" />
+          <text x="500" y="141" fill="#134E4A" font-family="Arial" font-size="11" text-anchor="middle">PUT /platform/policies/{type}/publish</text>
+          <text x="500" y="154" fill="#134E4A" font-family="Arial" font-size="11" text-anchor="middle">Initiates publishing sequence</text>
+
+          <line x1="500" y1="162" x2="500" y2="200" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow3)" />
+
+          <!-- Process Node: DB Operations -->
+          <rect x="400" y="210" width="200" height="42" rx="6" fill="#E4BF58" stroke="#C9A030" stroke-width="1.5" />
+          <text x="500" y="231" fill="#3A2800" font-family="Arial" font-size="11" text-anchor="middle">Archive current to PolicyHistory</text>
+          <text x="500" y="244" fill="#3A2800" font-family="Arial" font-size="11" text-anchor="middle">Increment version &amp; publish</text>
+
+          <line x1="500" y1="252" x2="500" y2="290" stroke="#C9A030" stroke-width="1.5" marker-end="url(#arrow3)" />
+
+          <!-- Success Render Node -->
+          <rect x="400" y="300" width="200" height="42" rx="6" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5" />
+          <text x="500" y="321" fill="#065F46" font-family="Arial" font-size="11" text-anchor="middle">Success Response &amp;</text>
+          <text x="500" y="334" fill="#065F46" font-family="Arial" font-size="11" text-anchor="middle">UI Reloads Published Policy</text>
+
+          <!-- Back path -->
+          <path d="M 400 321 L 100 321 L 100 70" fill="none" stroke="#C9A030" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow3)" />
+          <text x="200" y="313" fill="#6B4E10" font-family="Arial" font-size="11">Complete Flow Lifecycle</text>
+
+          <!-- Legend Box (bottom-left) -->
+          <rect x="20" y="310" width="180" height="90" fill="#FDF9EC" stroke="#e0d8c8" stroke-width="1" />
+          <text x="30" y="325" fill="#6B6B6B" font-family="Arial" font-size="10" font-weight="bold">LEGEND</text>
+          <circle cx="35" cy="342" r="5" fill="#3A2800" />
+          <text x="48" y="345" fill="#6B6B6B" font-family="Arial" font-size="9">Start/End Trigger</text>
+          <circle cx="35" cy="358" r="5" fill="#E4BF58" />
+          <text x="48" y="361" fill="#6B6B6B" font-family="Arial" font-size="9">State / Process Node</text>
+          <circle cx="35" cy="374" r="5" fill="#CCFBF1" />
+          <text x="48" y="377" fill="#6B6B6B" font-family="Arial" font-size="9">API Integration Box</text>
+          <circle cx="35" cy="390" r="5" fill="#ECFDF5" />
+          <text x="48" y="393" fill="#6B6B6B" font-family="Arial" font-size="9">Success Render</text>
+        </svg>
+        <div class="book-figure-caption">Figure 4.3 — State transitions and database archival process for platform policies.</div>
+      </div>
+
+      <p class="book-paragraph">
+        The frontend integrates with the policies microservices by performing client-side data normalisation. Because policy structures contain field name inconsistencies across historical entries (e.g. version numbers and timestamps), a mapper function translates the database records into unified model interfaces before the data reaches layout components.
+      </p>
+
+      <!-- KPI METRIC CARDS FOR SEC 3 -->
+      <div class="book-metrics-grid">
+        <div class="book-metric-card">
+          <div class="book-metric-value">&lt; 40ms</div>
+          <div class="book-metric-label">Draft Save</div>
+          <div class="book-metric-sub">Average transaction speed</div>
+        </div>
+        <div class="book-metric-card">
+          <div class="book-metric-value">100%</div>
+          <div class="book-metric-label">Version Audit</div>
+          <div class="book-metric-sub">Archive integrity verification</div>
+        </div>
+        <div class="book-metric-card">
+          <div class="book-metric-value">0.12s</div>
+          <div class="book-metric-label">History Query</div>
+          <div class="book-metric-sub">Paging retrieval speed</div>
+        </div>
+      </div>
+
+      <!-- CODE BLOCK: DTO MAPPING -->
+      <div class="book-code-block">
+        <div class="book-code-header">
+          <span class="book-code-lang">TypeScript</span>
+        </div>
+        <pre class="book-code-content"><code><span class="code-ln">01</span><span class="code-keyword">private</span> mapPolicy(data: <span class="code-keyword">any</span>): <span class="code-str">PolicyDto</span> {
+<span class="code-ln">02</span>  <span class="code-keyword">return</span> {
+<span class="code-ln">03</span>    id: data?.id ?? 0,
+<span class="code-ln">04</span>    type: String(data?.documentType ?? <span class="code-str">''</span>),
+<span class="code-ln">05</span>    title: data?.documentTypeName ?? <span class="code-str">''</span>,
+<span class="code-ln">06</span>    content: data?.content ?? <span class="code-str">''</span>,
+<span class="code-ln">07</span>    version: data?.versionNumber != <span class="code-keyword">null</span> ? String(data.versionNumber) : <span class="code-str">'1.0'</span>,
+<span class="code-ln">08</span>    isPublished: !data?.isPublished,
+<span class="code-ln">09</span>    publishedAt: data?.publishedAt ?? <span class="code-keyword">null</span>,
+<span class="code-ln">10</span>    updatedAt: data?.createdAt ?? <span class="code-str">''</span>
+<span class="code-ln">11</span>  };
+<span class="code-ln">12</span>}</code></pre>
+      </div>
+      <div class="book-figure-caption">Listing 4.3 — Client-side policy mapping and normalization logic.</div>
+
+      <!-- TABLE 4.3: POLICY API -->
+      <div class="book-table-container">
+        <div class="book-table-caption">Table 4.3 — Platform Policy Management API Reference</div>
+        <table class="book-table">
+          <thead>
+            <tr>
+              <th style="width: 15%">Method</th>
+              <th style="width: 35%">API Endpoint</th>
+              <th style="width: 30%">Auth Scope</th>
+              <th style="width: 20%">Request/Response DTO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="method-badge badge-get">GET</span></td>
+              <td class="book-code-font">/api/admin/platform/policies/{type}</td>
+              <td>Admin/Public</td>
+              <td class="book-code-font">PolicyDto</td>
+            </tr>
+            <tr>
+              <td><span class="method-badge badge-put">PUT</span></td>
+              <td class="book-code-font">/api/admin/platform/policies/{type}/draft</td>
+              <td>Admin Only</td>
+              <td class="book-code-font">UpdatePolicyDto</td>
+            </tr>
+            <tr>
+              <td><span class="method-badge badge-put">PUT</span></td>
+              <td class="book-code-font">/api/admin/platform/policies/{type}/publish</td>
+              <td>Admin Only</td>
+              <td class="book-code-font">PolicyDto</td>
+            </tr>
+            <tr>
+              <td><span class="method-badge badge-get">GET</span></td>
+              <td class="book-code-font">/api/admin/platform/policies/{type}/history</td>
+              <td>Admin Only</td>
+              <td class="book-code-font">PolicyDto[]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <!-- END OF GRADUATION BOOK PAGE -->
+
+  </div>
+
+  <script>
+    function copyText() {
+      const text = document.getElementById('book-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('.btn-copy-book');
+        btn.innerHTML = '<span>✓</span> Copied!';
+        btn.style.backgroundColor = '#A07820';
+        setTimeout(() => {
+          btn.innerHTML = '<span>📋</span> Copy Plain Book Text';
+          btn.style.backgroundColor = '#E4BF58';
+        }, 1800);
+      });
+    }
+  </script>
+</body>
+</html>

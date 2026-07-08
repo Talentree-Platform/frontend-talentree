@@ -190,3 +190,13 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+.chatbot-bubble__image {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-top: 8px;
+  display: block;
+}
+
+.chatbot-bubble__text {
+  margin: 0 0 6px 0;
+}

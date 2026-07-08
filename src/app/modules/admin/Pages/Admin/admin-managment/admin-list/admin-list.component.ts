@@ -1,5 +1,4 @@
-// src/app/modules/admin/admin-management/components/admin-list/admin-list.component.ts
-// ⚠️ Adjust the AdminManagementService import path below if your folder structure differs
+// src/app/modules/admin/Pages/Admin/admin-managment/admin-list/admin-list.component.ts
 
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,12 +7,20 @@ import {
   AdminManagementService,
   AdminDto,
   CreateAdminDto,
-  UpdateAdminDto,
-  UpdateAdminRoleDto,
-  ResetPasswordDto
+  EditAdminDto,
+  ChangeAdminRoleDto,
+  ResetAdminPasswordDto
 } from '../../../../core/services/adminManagment.service';
 
-type ModalType = 'create' | 'edit' | 'role' | 'reset-password' | null;
+type ModalType =
+  | 'create'
+  | 'edit'
+  | 'role'
+  | 'reset-password'
+  | 'view-details'
+  | null;
+
+type ConfirmAction = 'deactivate' | 'activate' | 'unlock' | 'revoke' | null;
 
 @Component({
   selector: 'app-admin-list',
@@ -31,6 +38,11 @@ export class AdminListComponent implements OnInit {
   activeModal = signal<ModalType>(null);
   selectedAdmin = signal<AdminDto | null>(null);
   isSubmitting = signal(false);
+
+  /** Quick-action confirmation state */
+  confirmingAdmin = signal<AdminDto | null>(null);
+  confirmingAction = signal<ConfirmAction>(null);
+  isConfirmLoading = signal(false);
 
   readonly assignableRoles = ['SuperAdmin', 'Admin', 'SupportStaff', 'ContentManager'];
 
@@ -90,6 +102,7 @@ export class AdminListComponent implements OnInit {
 
   openCreateModal(): void {
     this.createForm.reset({ role: 'Admin' });
+    this.errorMessage.set(null);
     this.activeModal.set('create');
   }
 
@@ -100,19 +113,27 @@ export class AdminListComponent implements OnInit {
       email: admin.email,
       phoneNumber: admin.phoneNumber ?? ''
     });
+    this.errorMessage.set(null);
     this.activeModal.set('edit');
   }
 
   openRoleModal(admin: AdminDto): void {
     this.selectedAdmin.set(admin);
     this.roleForm.reset({ role: admin.role });
+    this.errorMessage.set(null);
     this.activeModal.set('role');
   }
 
   openResetPasswordModal(admin: AdminDto): void {
     this.selectedAdmin.set(admin);
     this.resetPasswordForm.reset();
+    this.errorMessage.set(null);
     this.activeModal.set('reset-password');
+  }
+
+  openViewDetailsModal(admin: AdminDto): void {
+    this.selectedAdmin.set(admin);
+    this.activeModal.set('view-details');
   }
 
   closeModal(): void {
@@ -123,7 +144,7 @@ export class AdminListComponent implements OnInit {
 
   private flashMessage(msg: string): void {
     this.actionMessage.set(msg);
-    setTimeout(() => this.actionMessage.set(null), 3000);
+    setTimeout(() => this.actionMessage.set(null), 3500);
   }
 
   // ── Create ────────────────────────────────────────────────────────────────
@@ -158,7 +179,7 @@ export class AdminListComponent implements OnInit {
       return;
     }
     this.isSubmitting.set(true);
-    const dto: UpdateAdminDto = this.editForm.value;
+    const dto: EditAdminDto = this.editForm.value;
 
     this.adminManagementService.updateAdmin(admin.id, dto).subscribe({
       next: () => {
@@ -182,7 +203,7 @@ export class AdminListComponent implements OnInit {
       return;
     }
     this.isSubmitting.set(true);
-    const dto: UpdateAdminRoleDto = this.roleForm.value;
+    const dto: ChangeAdminRoleDto = this.roleForm.value;
 
     this.adminManagementService.updateAdminRole(admin.id, dto).subscribe({
       next: () => {
@@ -197,7 +218,7 @@ export class AdminListComponent implements OnInit {
     });
   }
 
-  // ── Reset password ───────────────────────────────────────────────────────
+  // ── Reset password ────────────────────────────────────────────────────────
 
   submitResetPassword(): void {
     const admin = this.selectedAdmin();
@@ -212,7 +233,7 @@ export class AdminListComponent implements OnInit {
     }
 
     this.isSubmitting.set(true);
-    const dto: ResetPasswordDto = { newPassword, confirmNewPassword };
+    const dto: ResetAdminPasswordDto = { newPassword, confirmNewPassword };
 
     this.adminManagementService.resetAdminPassword(admin.id, dto).subscribe({
       next: () => {
@@ -226,35 +247,61 @@ export class AdminListComponent implements OnInit {
     });
   }
 
-  // ── Quick actions ─────────────────────────────────────────────────────────
 
-  toggleActive(admin: AdminDto): void {
-    const action$ = admin.isActive
-      ? this.adminManagementService.deactivateAdmin(admin.id)
-      : this.adminManagementService.reactivateAdmin(admin.id);
+
+  // ── Quick actions with confirmation ───────────────────────────────────────
+
+  requestConfirm(admin: AdminDto, action: ConfirmAction): void {
+    this.confirmingAdmin.set(admin);
+    this.confirmingAction.set(action);
+  }
+
+  cancelConfirm(): void {
+    this.confirmingAdmin.set(null);
+    this.confirmingAction.set(null);
+    this.isConfirmLoading.set(false);
+  }
+
+  executeConfirmedAction(): void {
+    const admin = this.confirmingAdmin();
+    const action = this.confirmingAction();
+    if (!admin || !action) return;
+
+    this.isConfirmLoading.set(true);
+
+    let action$: ReturnType<typeof this.adminManagementService.deactivateAdmin>;
+    let successMsg: string;
+
+    switch (action) {
+      case 'deactivate':
+        action$ = this.adminManagementService.deactivateAdmin(admin.id);
+        successMsg = `${admin.fullName}'s account has been deactivated`;
+        break;
+      case 'activate':
+        action$ = this.adminManagementService.reactivateAdmin(admin.id);
+        successMsg = `${admin.fullName}'s account has been activated`;
+        break;
+      case 'unlock':
+        action$ = this.adminManagementService.unlockAdmin(admin.id);
+        successMsg = `${admin.fullName}'s account has been unlocked`;
+        break;
+      case 'revoke':
+        action$ = this.adminManagementService.revokeAdminSessions(admin.id);
+        successMsg = `All active sessions for ${admin.fullName} have been ended`;
+        break;
+    }
 
     action$.subscribe({
       next: () => {
-        this.flashMessage(admin.isActive ? 'Account deactivated' : 'Account activated');
+        this.flashMessage(successMsg);
+        this.cancelConfirm();
         this.loadAdmins();
       },
       error: (err) => {
         this.errorMessage.set(err?.error?.message || 'Failed to perform the action');
+        this.isConfirmLoading.set(false);
+        this.cancelConfirm();
       }
-    });
-  }
-
-  unlockAdmin(admin: AdminDto): void {
-    this.adminManagementService.unlockAdmin(admin.id).subscribe({
-      next: () => this.flashMessage('Account unlocked'),
-      error: (err) => this.errorMessage.set(err?.error?.message || 'Failed to unlock the account')
-    });
-  }
-
-  revokeSessions(admin: AdminDto): void {
-    this.adminManagementService.revokeAdminSessions(admin.id).subscribe({
-      next: () => this.flashMessage('All active sessions have been ended'),
-      error: (err) => this.errorMessage.set(err?.error?.message || 'Failed to end the sessions')
     });
   }
 }
