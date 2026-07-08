@@ -21,23 +21,17 @@
         Quality assured, delivery guaranteed.
       </p>
       <div class="hero__cta-row">
-        <a routerLink="/marketplace/products" class="btn-primary">
+        <a routerLink="/customer/customerProduct" class="btn-primary">
           Explore Catalogue
           <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a routerLink="/marketplace/products" class="btn-ghost">View Trending</a>
+        <a routerLink="/customer/customerProduct" class="btn-ghost">View Trending</a>
       </div>
     </div>
     <div class="hero__search-wrap">
       <div class="hero__search-card">
         <p class="hero__search-label">Find the exact material you need</p>
         <app-product-search></app-product-search>
-        <div class="hero__quick-tags">
-          <span class="quick-tag-label">Popular:</span>
-          @for (tag of ['Aluminium', 'PVC Resin', 'Cotton Yarn', 'Epoxy']; track tag) {
-            <a [routerLink]="['/marketplace/products']" [queryParams]="{search: tag}" class="quick-tag">{{ tag }}</a>
-          }
-        </div>
       </div>
     </div>
   </div>
@@ -204,6 +198,63 @@
   </div>
 </section>
 
+<!-- ── RECOMMENDED FOR YOU ────────────────────────────────────────────────────
+     Personalized picks sourced from POST /api/Recommendation/customer via
+     svc.loadRecommendations(). Hidden entirely when there's nothing to show
+     (no error/empty state, since this is supplementary content).
+     ═══════════════════════════════════════════════════════════════════════ -->
+@if (svc.recommendationsLoading() || recommendedProducts.length > 0) {
+  <section class="section section--recommended">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <span class="section__eyebrow">Picked for You</span>
+          <h2 class="section__title">Recommended for You</h2>
+        </div>
+        @if (!svc.recommendationsLoading() && recommendedProducts.length > CARDS_VISIBLE) {
+          <div class="carousel-controls">
+            <button
+              class="carousel-btn"
+              [disabled]="!canScrollRecLeft"
+              (click)="scrollRecommended('left')"
+              aria-label="Previous"
+            >
+              <svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button
+              class="carousel-btn"
+              [disabled]="!canScrollRecRight"
+              (click)="scrollRecommended('right')"
+              aria-label="Next"
+            >
+              <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        }
+      </div>
+
+      @if (svc.recommendationsLoading()) {
+        <div class="products-grid products-grid--4">
+          @for (n of [1,2,3,4]; track n) {
+            <app-customer-product-card [skeleton]="true" [product]="null!"></app-customer-product-card>
+          }
+        </div>
+      } @else {
+        <div class="trending-track">
+          @for (product of visibleRecommended; track product.id) {
+            <div class="trending-item">
+              <app-customer-product-card
+                [product]="product"
+                (addedToCart)="onAddedToCart($event)"
+              ></app-customer-product-card>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+}
+
 <!-- ── FEATURED PRODUCTS ─────────────────────────────────────────────────────── -->
 <section class="section section--featured">
   <div class="container">
@@ -212,7 +263,7 @@
         <span class="section__eyebrow">Handpicked for You</span>
         <h2 class="section__title">Featured Products</h2>
       </div>
-      <a routerLink="/marketplace/products" [queryParams]="{sortBy: 'rating'}" class="section__link">
+      <a routerLink="/customer/customerProduct" [queryParams]="{sortBy: 'rating'}" class="section__link">
         View all
         <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>

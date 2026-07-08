@@ -532,4 +532,49 @@ export interface RawHelpfulResponse {
   message: string;
   errors: unknown;
   timestamp: string;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ── NEW: Personalized Recommendations ───────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Raw shape returned by POST /api/Recommendation/customer.
+ * Not wrapped in the usual {success, data, ...} envelope.
+ */
+export interface RecommendedProduct {
+  product_id: number;
+  product_name: string;
+  category: string;
+  price: number;
+  description: string;
+  score: number;
+}
+
+export interface CustomerRecommendationResponse {
+  customer_id: string;
+  recommendations: RecommendedProduct[];
+  model_version: string;
+}
+
+/** Stock/availability aren't part of the ML response, so recommended items are treated as always purchasable. */
+const RECOMMENDATION_STOCK_FALLBACK = 99;
+
+export function mapRecommendedProductToProduct(raw: RecommendedProduct): Product {
+  return {
+    id: String(raw.product_id),
+    name: raw.product_name,
+    description: raw.description,
+    price: raw.price,
+    imageUrl: PLACEHOLDER_IMAGE,
+    images: [],
+    categoryId: '',
+    categoryName: raw.category,
+    stockQuantity: RECOMMENDATION_STOCK_FALLBACK,
+    isAvailable: true,
+  };
+}
+
+export function mapRecommendationsToProducts(raws: RecommendedProduct[]): Product[] {
+  return (raws ?? []).map(mapRecommendedProductToProduct);
 }

@@ -39,13 +39,13 @@ import { RouterLink } from '@angular/router';
       </p>
 
       <div class="empty-wishlist__actions">
-        <a routerLink="/marketplace/products" class="empty-wishlist__btn-primary">
+        <a routerLink="/customer/customerProduct" class="empty-wishlist__btn-primary">
           Explore Products
           <svg viewBox="0 0 16 16" fill="none">
             <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
-        <a routerLink="/marketplace" class="empty-wishlist__btn-ghost">
+        <a routerLink="/customer/customerhome" class="empty-wishlist__btn-ghost">
           Back to Marketplace
         </a>
       </div>
@@ -53,7 +53,7 @@ import { RouterLink } from '@angular/router';
       <div class="empty-wishlist__tags">
         <span class="empty-tag-label">Popular right now:</span>
         @for (tag of ['Shea Butter', 'Essential Oils', 'Cotton Yarn', 'Epoxy Resin']; track tag) {
-          <a [routerLink]="['/marketplace/products']" [queryParams]="{search: tag}" class="empty-tag">
+          <a [routerLink]="['/customer/customerProduct']" [queryParams]="{search: tag}" class="empty-tag">
             {{ tag }}
           </a>
         }

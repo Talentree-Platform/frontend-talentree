@@ -43,6 +43,9 @@ export class CustomerHomeComponent implements OnInit {
   readonly trendingOffset = signal(0);
   readonly CARDS_VISIBLE  = 4;
 
+  // Recommended-for-you carousel index
+  readonly recommendedOffset = signal(0);
+
   // ── Derived data ──────────────────────────────────────────────────────────
 
   /** Categories come from the dedicated categories signal. */
@@ -73,6 +76,20 @@ export class CustomerHomeComponent implements OnInit {
     return this.trendingOffset() + this.CARDS_VISIBLE < this.trendingProducts.length;
   }
 
+  get recommendedProducts(): Product[] {
+    return this.svc.recommendationsData();
+  }
+
+  get visibleRecommended(): Product[] {
+    const offset = this.recommendedOffset();
+    return this.recommendedProducts.slice(offset, offset + this.CARDS_VISIBLE);
+  }
+
+  get canScrollRecLeft(): boolean { return this.recommendedOffset() > 0; }
+  get canScrollRecRight(): boolean {
+    return this.recommendedOffset() + this.CARDS_VISIBLE < this.recommendedProducts.length;
+  }
+
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   ngOnInit(): void {
@@ -82,6 +99,8 @@ export class CustomerHomeComponent implements OnInit {
     this.svc.loadCategories();
     // NEW: Load a first page of brands for the "Featured Brands" strip
     this.svc.loadBrands();
+    // NEW: Load personalized recommendations for the logged-in customer
+    this.svc.loadRecommendations();
   }
 
   // ── Carousel ──────────────────────────────────────────────────────────────
@@ -90,6 +109,14 @@ export class CustomerHomeComponent implements OnInit {
     this.trendingOffset.update(o =>
       dir === 'right'
         ? Math.min(o + 1, this.trendingProducts.length - this.CARDS_VISIBLE)
+        : Math.max(o - 1, 0)
+    );
+  }
+
+  scrollRecommended(dir: 'left' | 'right'): void {
+    this.recommendedOffset.update(o =>
+      dir === 'right'
+        ? Math.min(o + 1, this.recommendedProducts.length - this.CARDS_VISIBLE)
         : Math.max(o - 1, 0)
     );
   }

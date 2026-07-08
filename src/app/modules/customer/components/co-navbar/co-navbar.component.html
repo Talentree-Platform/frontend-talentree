@@ -9,12 +9,22 @@
       aria-label="Talentree — go to home"
     >
       <span class="navbar__logo-glow" aria-hidden="true"></span>
-      <!-- Replace src with the provided logo asset -->
-      <img
-        class="navbar__logo-img"
-        src="../../../../../assets/images/logo.jpg"
-        alt="Talentree"
-      />
+      <svg class="navbar__logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M20 36V22" stroke="url(#navLogoTrunk)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M20 22C20 22 10 20 9 12C9 12 16 10 20 17C20 17 22 8 30 8C30 8 31 17 20 22Z" fill="url(#navLogoLeaf)"/>
+        <circle cx="20" cy="10" r="3" fill="#ffd875"/>
+        <defs>
+          <linearGradient id="navLogoTrunk" x1="20" y1="22" x2="20" y2="36" gradientUnits="userSpaceOnUse">
+            <stop stop-color="var(--nav-gold-bright)"/>
+            <stop offset="1" stop-color="var(--nav-gold)"/>
+          </linearGradient>
+          <linearGradient id="navLogoLeaf" x1="9" y1="8" x2="30" y2="22" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#ffd875"/>
+            <stop offset="1" stop-color="var(--nav-gold-bright)"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="navbar__logo-word">Talentree</span>
     </a>
 
     <!-- CENTER: Desktop links -->

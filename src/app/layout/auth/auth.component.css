@@ -1,5 +1,6 @@
 .setting{
     padding-top: 70px;
     margin:auto;
-    background-color: #FFFFFF;
+    background: var(--bo-bg-page);
+    min-height: 100vh;
 }

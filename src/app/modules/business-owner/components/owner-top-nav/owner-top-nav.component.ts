@@ -1,7 +1,7 @@
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { MaterialCartService } from '../../core/services/material-cart.service';
-import { BoThemeService } from '../../core/services/bo-theme.service';
+import { BoThemeService } from '../../../../core/services/bo-theme.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { OwnerSettingService } from '../../core/services/owner-setting.service';
 

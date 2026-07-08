@@ -8,7 +8,7 @@
     <div class="catalog-header__inner">
       <div class="catalog-header__left">
         <nav class="breadcrumb" aria-label="Breadcrumb">
-          <a routerLink="/marketplace" class="breadcrumb__link">Home</a>
+          <a routerLink="/customer/customerhome" class="breadcrumb__link">Home</a>
           <span class="breadcrumb__sep">›</span>
           <span class="breadcrumb__current">Products</span>
         </nav>
@@ -218,3 +218,40 @@
 
   </main><!-- /main -->
 </div><!-- /catalog-layout -->
+
+<!-- ── RECOMMENDED FOR YOU ───────────────────────────────────────────────────
+     Personalized picks sourced from POST /api/Recommendation/customer via
+     svc.loadRecommendations(). Hidden entirely when there's nothing to show
+     (no error/empty state, since this is supplementary content).
+     ═══════════════════════════════════════════════════════════════════════ -->
+@if (svc.recommendationsLoading() || svc.recommendationsData().length > 0) {
+  <section class="recommend-section">
+    <div class="container">
+      <div class="recommend-section__header">
+        <span class="recommend-section__eyebrow">Picked for You</span>
+        <h2 class="recommend-section__title">Recommended for You</h2>
+      </div>
+
+      @if (svc.recommendationsLoading()) {
+        <div class="recommend-track">
+          @for (n of [1,2,3,4]; track n) {
+            <div class="recommend-item">
+              <app-customer-product-card [skeleton]="true" [product]="null!"></app-customer-product-card>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="recommend-track">
+          @for (product of svc.recommendationsData(); track product.id) {
+            <div class="recommend-item">
+              <app-customer-product-card
+                [product]="product"
+                (addedToCart)="onAddedToCart($event)"
+              ></app-customer-product-card>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+}

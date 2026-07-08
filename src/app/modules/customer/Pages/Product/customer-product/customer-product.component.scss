@@ -483,3 +483,50 @@ $bp-sm: 600px;
   margin-left: 8px;
   white-space: nowrap;
 }
+
+// ── Recommended for you ──────────────────────────────────────────────────────
+.recommend-section {
+  padding: 40px 0 64px;
+  border-top: 1px solid $gold-border;
+}
+
+.recommend-section__header {
+  margin-bottom: 24px;
+}
+
+.recommend-section__eyebrow {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $gold;
+  margin-bottom: 4px;
+}
+
+.recommend-section__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 600;
+  color: $text-dark;
+  margin: 0;
+}
+
+.recommend-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.recommend-item {
+  flex: 0 0 260px;
+  scroll-snap-align: start;
+
+  @media (max-width: $bp-sm) {
+    flex-basis: 240px;
+  }
+}

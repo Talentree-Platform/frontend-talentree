@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { AuthIllustrationPanelComponent } from '../components/auth-illustration-panel/auth-illustration-panel.component';
+
+const VALID_ROLES = ['Customer', 'BusinessOwner', 'Supplier', 'Admin'];
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, AuthIllustrationPanelComponent]
 })
 export class RegisterComponent {
   registerForm: FormGroup;
@@ -22,11 +25,15 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.error = '';
-    this.success = '';  
-    
+    this.success = '';
+
+    const requestedRole = this.route.snapshot.queryParamMap.get('role');
+    const initialRole = requestedRole && VALID_ROLES.includes(requestedRole) ? requestedRole : 'Customer';
+
     this.registerForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
@@ -38,7 +45,7 @@ export class RegisterComponent {
       ]],
       confirmPassword: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s\-\(\)]+$/)]],
-      role: ['Customer', [Validators.required]],
+      role: [initialRole, [Validators.required]],
       acceptTerms: [false, [Validators.requiredTrue]]
     }, { validators: this.passwordMatchValidator });
   }

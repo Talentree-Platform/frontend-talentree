@@ -39,6 +39,9 @@ import {
   RawReviewDistributionResponse,
   RawCreateReviewResponse,
   RawHelpfulResponse,
+  // ── NEW: Recommendation types/mapper ───────────────────────────────────────
+  CustomerRecommendationResponse,
+  mapRecommendationsToProducts,
 } from '../../Core/interfaces/customer';
 import { environment } from '../../../../core/environment/envirinment';
 import { ProductDetailsResponse, ProductDetailsData } from '../models/product-details';
@@ -110,11 +113,11 @@ export class CustomerMarketplaceService {
     };
 
     this.http
-      .get<PaginatedResponse<Product>>(`${API_BASE}/products`, {
+      .get<RawCategoryProductsResponse>(`${API_BASE}/products`, {
         params: this.buildHttpParams(query),
       })
       .pipe(
-        tap(res => this.productsData.set(res)),
+        tap(res => this.productsData.set(mapCategoryProductsResponse(res.data))),
         catchError(err => {
           this.productsError.set(err?.error?.message ?? 'Failed to load products.');
           return of(null);
@@ -557,6 +560,37 @@ export class CustomerMarketplaceService {
       `${API_BASE}/reviews/${reviewId}/helpful`,
       {}
     );
+  }
+
+  // ── NEW: Personalized Recommendations ────────────────────────────────────────
+  readonly recommendationsLoading = signal(false);
+  readonly recommendationsError   = signal<string | null>(null);
+  readonly recommendationsData    = signal<Product[]>([]);
+
+  /**
+   * POST /api/Recommendation/customer
+   * ML-driven personalized product suggestions for the logged-in customer.
+   * Not scoped under API_BASE since it lives outside /api/customer.
+   */
+  loadRecommendations(topK: number = 10): void {
+    if (this.recommendationsLoading()) return;   // guard against duplicate calls
+    this.recommendationsLoading.set(true);
+    this.recommendationsError.set(null);
+
+    this.http
+      .post<CustomerRecommendationResponse>(
+        `${environment.baseUrl}/api/Recommendation/customer`,
+        { topK }
+      )
+      .pipe(
+        tap(res => this.recommendationsData.set(mapRecommendationsToProducts(res.recommendations))),
+        catchError(err => {
+          this.recommendationsError.set(err?.error?.message ?? 'Failed to load recommendations.');
+          return of(null);
+        }),
+        finalize(() => this.recommendationsLoading.set(false))
+      )
+      .subscribe();
   }
 
   /** Clears brand-products state – call on component destroy to avoid stale data. */

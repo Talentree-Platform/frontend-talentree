@@ -155,12 +155,25 @@
   transition: opacity var(--nav-transition), transform var(--nav-transition);
 }
 
-.navbar__logo-img {
+.navbar__logo-icon {
   position: relative;
-  height: 30px;
-  width: auto;
-  display: block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
   transition: filter var(--nav-transition);
+}
+
+.navbar__logo-word {
+  position: relative;
+  margin-left: 8px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, var(--nav-gold-bright), var(--nav-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .navbar__logo:hover .navbar__logo-glow {
@@ -168,7 +181,7 @@
   transform: scale(1);
 }
 
-.navbar__logo:hover .navbar__logo-img {
+.navbar__logo:hover .navbar__logo-icon {
   filter: drop-shadow(0 0 8px rgba(201, 149, 42, 0.4));
 }
 
