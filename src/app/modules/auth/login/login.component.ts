@@ -9,14 +9,14 @@ import { StorageService } from '../services/storage.service';
 import { SocialAuthService } from '../services/social-auth.service';
 import { GoogleLoginComponent } from '../google-login/google-login.component';
 import { FacebookLoginComponent } from '../facebook-login/facebook-login.component';
-import { SocialUser } from '@abacritt/angularx-social-login';
+import { AuthIllustrationPanelComponent } from '../components/auth-illustration-panel/auth-illustration-panel.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, GoogleLoginComponent, FacebookLoginComponent]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, GoogleLoginComponent, FacebookLoginComponent, AuthIllustrationPanelComponent]
 })
 export class LoginComponent {
   loginForm: FormGroup;

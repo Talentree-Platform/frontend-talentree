@@ -76,32 +76,32 @@ import { FinancialExportFormat } from '../../models/ai-tools.model';
     </div>
   `,
   styles: [`
-    .panel-card { border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); }
-    .glass-panel { background: var(--bg-card); border: var(--border-card); backdrop-filter: blur(14px); }
-    .panel-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-card); padding-bottom: 12px; }
+    .panel-card { border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 20px; box-shadow: var(--bo-shadow-card); }
+    .glass-panel { background: var(--bo-bg-surface); border: var(--bo-border-surface); backdrop-filter: blur(14px); }
+    .panel-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--bo-border-surface-hover); padding-bottom: 12px; }
     .title-wrap { display: flex; align-items: center; gap: 12px; }
-    .title-wrap h3 { font-size: 16px; font-weight: 600; color: var(--color-card-value); margin: 0; }
+    .title-wrap h3 { font-size: 16px; font-weight: 600; color: var(--bo-color-text); margin: 0; }
     .icon-glow { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; font-size: 14px; }
-    .glow-gold { background: rgba(218, 165, 32, 0.15); color: var(--color-eyebrow); box-shadow: 0 0 10px rgba(218, 165, 32, 0.3); }
-    .model-tag { font-size: 10px; background: var(--bg-placeholder); padding: 4px 8px; border-radius: 12px; color: var(--color-card-sub); border: 1px solid var(--border-card); }
+    .glow-gold { background: var(--bo-accent-soft); color: var(--bo-accent); box-shadow: 0 0 10px rgba(218, 165, 32, 0.3); }
+    .model-tag { font-size: 10px; background: var(--bo-bg-surface-hover); padding: 4px 8px; border-radius: 12px; color: var(--bo-color-text-muted); border: 1px solid var(--bo-border-surface-hover); }
     .panel-body { display: flex; flex-direction: column; gap: 10px; }
 
-    .tool-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border-card); }
+    .tool-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--bo-border-surface-hover); }
     .tool-row--export { border-bottom: none; padding-bottom: 4px; }
     .tool-row__info { display: flex; flex-direction: column; gap: 3px; }
-    .tool-row__title { font-size: 13.5px; font-weight: 700; color: var(--color-card-value); display: flex; align-items: center; gap: 8px; }
-    .tool-row__desc { font-size: 11.5px; color: var(--color-card-sub); }
-    .tool-result { font-size: 12px; color: var(--color-card-value); background: var(--bg-placeholder); border-radius: 8px; padding: 8px 12px; margin-top: -4px; }
+    .tool-row__title { font-size: 13.5px; font-weight: 700; color: var(--bo-color-text); display: flex; align-items: center; gap: 8px; }
+    .tool-row__desc { font-size: 11.5px; color: var(--bo-color-text-muted); }
+    .tool-result { font-size: 12px; color: var(--bo-color-text); background: var(--bo-bg-surface-hover); border-radius: 8px; padding: 8px 12px; margin-top: -4px; }
 
     .export-form { display: flex; flex-wrap: wrap; gap: 8px; }
     .export-select { flex: 0 0 90px; }
-    .dark-input { background: var(--bg-input); border: 1px solid var(--border-input); border-radius: 8px; padding: 9px 12px; color: var(--color-input-text); font-size: 13px; }
-    .dark-input:focus { outline: none; border-color: var(--color-tab-btn-active); }
+    .dark-input { background: var(--bo-bg-surface-hover); border: 1px solid var(--bo-border-surface-hover); border-radius: 8px; padding: 9px 12px; color: var(--bo-color-text); font-size: 13px; }
+    .dark-input:focus { outline: none; border-color: var(--bo-accent); }
 
     .glow-btn { padding: 9px 18px; border-radius: 8px; font-size: 13.5px; font-weight: 600; color: #fff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.25s; flex-shrink: 0; }
     .btn-blue { background: #3b82f6; }
     .btn-blue:hover:not(:disabled) { box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); transform: translateY(-1px); }
-    .btn-gold { background: var(--color-eyebrow); }
+    .btn-gold { background: var(--bo-accent); }
     .btn-gold:hover:not(:disabled) { box-shadow: 0 0 15px rgba(218, 165, 32, 0.6); transform: translateY(-1px); }
     .btn-green { background: #22c55e; }
     .btn-green:hover:not(:disabled) { box-shadow: 0 0 15px rgba(34, 197, 94, 0.6); transform: translateY(-1px); }
@@ -114,7 +114,7 @@ export class AiSelfServiceToolsComponent implements OnInit, OnDestroy {
   private toastSvc = inject(ToastService);
   private destroy$ = new Subject<void>();
 
-  private userId = '11111111-1111-1111-1111-111111111101';
+  private userId = '';
 
   loadingProfile = false;
   loadingNotify = false;
@@ -132,6 +132,7 @@ export class AiSelfServiceToolsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         if (user?.id) this.userId = user.id;
+        else console.error('AI Self-Service Tools: no authenticated business owner id available');
       });
   }
 
@@ -141,6 +142,10 @@ export class AiSelfServiceToolsComponent implements OnInit, OnDestroy {
   }
 
   recomputeProfile(): void {
+    if (!this.userId) {
+      this.toastSvc.show('Unable to identify your account — please re-login.', 'error');
+      return;
+    }
     this.loadingProfile = true;
     this.profileResult = null;
     this.aiSvc.computeProfile(this.userId).subscribe({
@@ -157,6 +162,10 @@ export class AiSelfServiceToolsComponent implements OnInit, OnDestroy {
   }
 
   checkNotifications(): void {
+    if (!this.userId) {
+      this.toastSvc.show('Unable to identify your account — please re-login.', 'error');
+      return;
+    }
     this.loadingNotify = true;
     this.notifyResult = null;
     this.aiSvc.notifyCheck(this.userId).subscribe({
@@ -173,6 +182,10 @@ export class AiSelfServiceToolsComponent implements OnInit, OnDestroy {
   }
 
   exportFinancial(): void {
+    if (!this.userId) {
+      this.toastSvc.show('Unable to identify your account — please re-login.', 'error');
+      return;
+    }
     this.loadingExport = true;
     this.aiSvc.exportFinancial(this.userId, {
       format: this.exportFormat,

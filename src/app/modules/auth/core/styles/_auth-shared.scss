@@ -1,0 +1,483 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Talentree · _auth-shared.scss
+// Shared split-panel dark/gold theme for login, register, and business-owner
+// register. Reuses the site-wide --bo-* tokens from src/styles.css so these
+// pages match the rest of the redesigned public site.
+// Import with: @import '../core/styles/auth-shared';
+// ─────────────────────────────────────────────────────────────────────────────
+
+.auth-shell {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  font-family: var(--font-family);
+}
+
+.auth-card {
+  display: flex;
+  width: 100%;
+  max-width: 980px;
+  min-height: 580px;
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
+  border-radius: var(--bo-radius-section);
+  box-shadow: var(--bo-shadow-card);
+  overflow: hidden;
+}
+
+.auth-form-panel {
+  flex: 1 1 55%;
+  padding: 48px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+// Header
+.auth-header {
+  margin-bottom: 30px;
+
+  h2 {
+    font-family: var(--bo-font-heading);
+    color: var(--bo-color-text);
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    color: var(--bo-color-text-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
+
+// Row & Columns (firstName/lastName)
+.row {
+  display: flex;
+  gap: 16px;
+
+  .col-md-6 {
+    flex: 1 1 50%;
+    min-width: 0;
+  }
+}
+
+// Form Elements
+.form-group {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 20px;
+
+  label {
+    color: var(--bo-color-text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+}
+
+.form-control {
+  width: 100%;
+  height: 44px;
+  padding: 0 4px;
+  border: none;
+  border-bottom: 1.5px solid rgba(218, 165, 32, 0.25);
+  border-radius: 0;
+  background: transparent;
+  font-size: 15px;
+  color: var(--bo-color-text);
+  transition: var(--bo-transition);
+  appearance: none;
+
+  &:focus {
+    outline: none;
+    border-bottom-color: var(--bo-accent);
+  }
+
+  &::placeholder {
+    color: var(--bo-color-text-muted);
+    opacity: 0.6;
+  }
+
+  &.is-invalid {
+    border-bottom-color: var(--ap-error, #ef4444);
+  }
+
+  &.is-valid {
+    border-bottom-color: var(--ap-success, #22c55e);
+  }
+
+  // Chrome/Edge force a white (or yellow) background on autofilled and
+  // previously-entered values via -webkit-box-shadow, which `background`
+  // alone can't override. This keeps the field transparent regardless.
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--bo-color-text);
+    -webkit-box-shadow: 0 0 0 1000px transparent inset;
+    box-shadow: 0 0 0 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: var(--bo-color-text);
+  }
+}
+
+select.form-control {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23d1a33e' stroke-width='2'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  background-size: 16px;
+  padding-right: 24px;
+
+  option {
+    background: #14100a;
+    color: var(--bo-color-text);
+  }
+}
+
+small.form-text {
+  display: block;
+  color: var(--bo-color-text-muted);
+  font-size: 12px;
+  margin-top: 4px;
+  opacity: 0.75;
+}
+
+// Password Input Group
+.password-input-group {
+  position: relative;
+  display: flex;
+  width: 100%;
+
+  .form-control {
+    padding-right: 36px;
+  }
+
+  .btn-outline-secondary {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 28px;
+    width: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--bo-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    transition: var(--bo-transition);
+
+    &:hover:not(:disabled) {
+      color: #ffd875;
+    }
+  }
+}
+
+// Checkbox
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form-check-input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  border: 1.5px solid var(--bo-accent);
+  background: transparent;
+  cursor: pointer;
+  accent-color: var(--bo-accent);
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--bo-accent-soft);
+  }
+}
+
+.form-check-label {
+  color: var(--bo-color-text-muted);
+  font-size: 13px;
+  cursor: pointer;
+
+  a {
+    color: var(--bo-accent);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Options row (remember me / forgot password)
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.forgot-password {
+  color: var(--bo-accent);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+// Buttons
+.btn-primary {
+  padding: 15px 32px;
+  border-radius: var(--bo-radius-pill);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--bo-transition);
+  border: none;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--bo-accent-gradient);
+  color: var(--bo-color-on-accent);
+  box-shadow: 0 10px 24px -6px rgba(209, 163, 62, 0.45);
+  width: 100%;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px -6px rgba(209, 163, 62, 0.55);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+.btn-block {
+  width: 100%;
+}
+
+// Social login
+.social-login {
+  margin-top: 28px;
+  width: 100%;
+}
+
+.divider {
+  color: var(--bo-color-text-muted);
+  font-size: 13px;
+  text-align: center;
+  position: relative;
+  margin-bottom: 20px;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 70px);
+    height: 1px;
+    background: rgba(218, 165, 32, 0.2);
+  }
+
+  &:before {
+    left: 0;
+  }
+
+  &:after {
+    right: 0;
+  }
+}
+
+.social-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+// Alerts
+.alert,
+.alert-success,
+.alert-danger,
+.alert-warning {
+  border-radius: var(--bo-radius-input);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+}
+
+.alert-success {
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.08);
+  color: #6ee7a0;
+}
+
+.alert-danger {
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.08);
+  color: #f79b9b;
+}
+
+.alert-warning {
+  border: 1px solid rgba(218, 165, 32, 0.35);
+  background: var(--bo-accent-soft);
+  color: #ffd875;
+}
+
+// Invalid feedback
+.invalid-feedback {
+  display: block;
+  color: #f79b9b;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 400;
+}
+
+// Bottom link (login <-> register)
+.login-link,
+.register-link {
+  margin-top: 22px;
+  width: 100%;
+  border-top: var(--bo-border-surface);
+  padding-top: 20px;
+  text-align: center;
+
+  p {
+    color: var(--bo-color-text-muted);
+    font-size: 13px;
+    margin: 0;
+
+    a {
+      color: var(--bo-accent);
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 4px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+    }
+  }
+}
+
+// Verify-email inline action (login page)
+.verify-action {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(218, 165, 32, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.verify-message {
+  color: #ffd875;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.btn-verify {
+  @extend .btn-primary;
+}
+
+.btn-resend {
+  padding: 10px 24px;
+  border-radius: var(--bo-radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--bo-accent);
+  border: 1.5px solid var(--bo-accent);
+  width: 100%;
+  transition: var(--bo-transition);
+
+  &:hover:not(:disabled) {
+    background: var(--bo-accent-soft);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Spinner
+.spinner-border {
+  width: 15px;
+  height: 15px;
+  margin-right: 6px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: auth-spin 0.7s linear infinite;
+}
+
+@keyframes auth-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive
+// (the illustration panel hides itself via its own :host media query,
+// since Angular's view encapsulation means this partial's rules can't
+// reach into that child component's template)
+@media (max-width: 900px) {
+  .auth-form-panel {
+    flex: 1 1 100%;
+    padding: 36px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .social-buttons {
+    flex-direction: column;
+  }
+}

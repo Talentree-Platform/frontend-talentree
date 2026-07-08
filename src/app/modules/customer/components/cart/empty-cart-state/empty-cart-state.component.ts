@@ -40,11 +40,11 @@ import { RouterLink } from '@angular/router';
       </p>
 
       <div class="empty-cart__actions">
-        <a routerLink="/marketplace/products" class="empty-cart__btn-primary">
+        <a routerLink="/customer/customerProduct" class="empty-cart__btn-primary">
           Browse Products
           <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a routerLink="/marketplace" class="empty-cart__btn-ghost">
+        <a routerLink="/customer/customerhome" class="empty-cart__btn-ghost">
           Back to Marketplace
         </a>
       </div>
@@ -53,7 +53,7 @@ import { RouterLink } from '@angular/router';
       <div class="empty-cart__tags">
         <span class="empty-tag-label">Popular searches:</span>
         @for (tag of ['Aluminium', 'Cotton Yarn', 'PVC Resin', 'Epoxy']; track tag) {
-          <a [routerLink]="['/marketplace/products']" [queryParams]="{search: tag}" class="empty-tag">
+          <a [routerLink]="['/customer/customerProduct']" [queryParams]="{search: tag}" class="empty-tag">
             {{ tag }}
           </a>
         }

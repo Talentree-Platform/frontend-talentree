@@ -1,0 +1,173 @@
+.role-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  /* Kept as a constant dark scrim regardless of theme (standard modal-backdrop
+     convention) so the card in front always has strong contrast to sit on. */
+  background: rgba(8, 8, 8, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: role-fade-in 0.25s ease both;
+}
+
+@keyframes role-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.role-modal {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  background: var(--bo-card-gradient);
+  border: var(--bo-border-surface);
+  border-radius: 24px;
+  box-shadow: var(--bo-shadow-card), 0 0 60px rgba(209, 163, 62, 0.08);
+  padding: 48px 40px 40px;
+  animation: role-scale-in 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes role-scale-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.role-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: var(--bo-border-surface);
+  background: var(--bo-bg-surface);
+  color: var(--bo-color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.role-modal-close:hover {
+  color: var(--bo-accent);
+  border-color: rgba(209, 163, 62, 0.4);
+  transform: rotate(90deg);
+}
+
+.role-modal-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.role-modal-header h2 {
+  color: var(--bo-color-text);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+  background: var(--bo-accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.role-modal-header p {
+  color: var(--bo-color-text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.role-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.role-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-decoration: none;
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
+  border-radius: 18px;
+  padding: 28px 24px;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.role-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(209, 163, 62, 0.45);
+  background: var(--bo-accent-soft);
+  box-shadow: 0 16px 40px rgba(209, 163, 62, 0.12);
+}
+
+.role-card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: var(--bo-color-on-accent);
+  background: var(--bo-accent-gradient);
+  box-shadow: 0 6px 18px rgba(209, 163, 62, 0.35);
+  margin-bottom: 18px;
+}
+
+.role-card h3 {
+  color: var(--bo-color-text);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.role-card p {
+  color: var(--bo-color-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0 0 20px;
+  flex-grow: 1;
+}
+
+.role-card-cta {
+  color: var(--bo-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: gap 0.2s ease;
+}
+
+.role-card:hover .role-card-cta {
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .role-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .role-modal {
+    padding: 40px 22px 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .role-modal-backdrop,
+  .role-modal {
+    animation: none;
+  }
+
+  .role-card:hover,
+  .role-modal-close:hover {
+    transform: none;
+  }
+}

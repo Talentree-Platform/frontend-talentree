@@ -1,0 +1,49 @@
+<div
+  class="role-modal-backdrop"
+  *ngIf="roleSelect.isOpen$ | async"
+  (click)="onBackdropClick($event)"
+  (keydown)="onKeydown($event)"
+  tabindex="-1"
+>
+  <div class="role-modal" role="dialog" aria-modal="true" aria-labelledby="role-modal-title">
+    <button type="button" class="role-modal-close" (click)="close()" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="role-modal-header">
+      <h2 id="role-modal-title">Join Talentree</h2>
+      <p>Choose the path that fits your journey. You can always switch later.</p>
+    </div>
+
+    <div class="role-cards">
+      <a
+        class="role-card"
+        routerLink="/auth/owner-register"
+        (click)="close()"
+      >
+        <div class="role-card-icon"><i class="fa-solid fa-seedling"></i></div>
+        <h3>Business Owner</h3>
+        <p>
+          I want to find trusted suppliers, purchase products, and grow my
+          business using AI-powered insights.
+        </p>
+        <span class="role-card-cta">Continue as Business Owner <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+
+      <a
+        class="role-card"
+        routerLink="/auth/register"
+        [queryParams]="{ role: 'Customer' }"
+        (click)="close()"
+      >
+        <div class="role-card-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+        <h3>Customer</h3>
+        <p>
+          I want to browse trusted businesses, discover great products, and
+          shop with confidence.
+        </p>
+        <span class="role-card-cta">Continue as Customer <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+    </div>
+  </div>
+</div>

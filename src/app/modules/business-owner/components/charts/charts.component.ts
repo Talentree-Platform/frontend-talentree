@@ -162,8 +162,8 @@ export interface ChartPoint {
   `,
   styles: [`
     .chart-wrapper {
-      background: var(--bg-card);
-      border: var(--border-card);
+      background: var(--bo-bg-surface);
+      border: var(--bo-border-surface);
       border-radius: 16px;
       padding: 20px;
       backdrop-filter: blur(14px);
@@ -180,13 +180,13 @@ export interface ChartPoint {
     .chart-title {
       font-size: 15px;
       font-weight: 600;
-      color: var(--color-card-value);
+      color: var(--bo-color-text);
       font-family: 'DM Sans', sans-serif;
     }
  
     .chart-subtitle {
       font-size: 11px;
-      color: var(--color-card-sub);
+      color: var(--bo-color-text-muted);
       margin-top: 2px;
     }
  
@@ -261,7 +261,7 @@ export interface ChartPoint {
     }
  
     .empty-text {
-      fill: var(--color-card-sub);
+      fill: var(--bo-color-text-muted);
       font-family: 'DM Sans', sans-serif;
       font-size: 12px;
     }

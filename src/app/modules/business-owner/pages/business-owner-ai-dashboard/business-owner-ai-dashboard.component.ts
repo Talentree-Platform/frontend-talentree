@@ -6,7 +6,7 @@ import { Subject, takeUntil, forkJoin } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
 import { AiDashboardService } from '../../core/services/ai-dashboard.service';
 import { ToastService } from '../../core/services/toast.service';
-import { BoThemeService } from '../../core/services/bo-theme.service';
+import { BoThemeService } from '../../../../core/services/bo-theme.service';
 import { AiDashboardOverview } from '../../models/dashboard.model';
 import { RevenueAnalyticsResponse, ReviewTrendsResponse } from '../../models/analytics.model';
 
@@ -45,7 +45,7 @@ export class BusinessOwnerAiDashboardComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  userId = '11111111-1111-1111-1111-111111111101'; // Default fallback UUID for testing
+  userId = '';
   selectedPeriod = 'Monthly'; // Default selector: Daily, Weekly, Monthly, Yearly
   activeTab = 'overview'; // tabs: overview, revenue, reviews, predictions
 
@@ -72,13 +72,21 @@ export class BusinessOwnerAiDashboardComponent implements OnInit, OnDestroy {
         next: (user) => {
           if (user && user.id) {
             this.userId = user.id;
-            console.log('Logged-in user ID loaded:', this.userId);
+            this.loadDashboardData();
+          } else {
+            console.error('AI Insights: no authenticated business owner id available; skipping data load');
+            this.loadingOverview = false;
+            this.loadingAnalytics = false;
+            this.errorOverview = true;
+            this.errorAnalytics = true;
           }
-          this.loadDashboardData();
         },
         error: (err) => {
-          console.error('Failed to load user ID, using default ID:', err);
-          this.loadDashboardData();
+          console.error('Failed to load user ID:', err);
+          this.loadingOverview = false;
+          this.loadingAnalytics = false;
+          this.errorOverview = true;
+          this.errorAnalytics = true;
         }
       });
   }

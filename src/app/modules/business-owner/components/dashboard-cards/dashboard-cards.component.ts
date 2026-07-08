@@ -217,15 +217,15 @@ import { AiDashboardOverview } from '../../models/dashboard.model';
     }
 
     .glass-card {
-      background: var(--bg-card);
-      border: var(--border-card);
+      background: var(--bo-bg-surface);
+      border: var(--bo-border-surface);
       backdrop-filter: blur(14px);
     }
 
     .glass-card:hover {
       transform: translateY(-4px);
-      border-color: var(--border-card-hover);
-      box-shadow: var(--shadow-card-hover);
+      border-color: var(--bo-border-surface-hover);
+      box-shadow: var(--bo-shadow-card-hover);
     }
 
     .border-danger {
@@ -251,7 +251,7 @@ import { AiDashboardOverview } from '../../models/dashboard.model';
     }
 
     .icon-wrap {
-      color: var(--color-eyebrow);
+      color: var(--bo-accent);
       font-size: 16px;
       opacity: 0.8;
     }
@@ -259,7 +259,7 @@ import { AiDashboardOverview } from '../../models/dashboard.model';
     .value {
       font-size: 28px;
       font-weight: 700;
-      color: var(--color-card-value);
+      color: var(--bo-color-text);
       font-family: 'DM Sans', sans-serif;
     }
 
@@ -274,24 +274,24 @@ import { AiDashboardOverview } from '../../models/dashboard.model';
     .unit {
       font-size: 14px;
       font-weight: 500;
-      color: var(--color-card-sub);
+      color: var(--bo-color-text-muted);
     }
 
     .out-of {
       font-size: 16px;
       font-weight: 500;
-      color: var(--color-card-sub);
+      color: var(--bo-color-text-muted);
     }
 
     .muted-value {
       font-size: 18px;
       font-weight: 500;
-      color: var(--color-card-sub);
+      color: var(--bo-color-text-muted);
     }
 
     .subtext {
       font-size: 11px;
-      color: var(--color-card-sub);
+      color: var(--bo-color-text-muted);
       font-weight: 400;
     }
 
@@ -389,7 +389,7 @@ import { AiDashboardOverview } from '../../models/dashboard.model';
     .risk-level {
       font-size: 15px;
       font-weight: 700;
-      color: var(--color-card-value);
+      color: var(--bo-color-text);
     }
 
     /* Progress bar styling */
@@ -404,11 +404,11 @@ import { AiDashboardOverview } from '../../models/dashboard.model';
       justify-content: space-between;
       font-size: 12px;
       font-weight: 600;
-      color: var(--color-card-value);
+      color: var(--bo-color-text);
     }
 
     .progress-track {
-      background: var(--bg-progress-track);
+      background: var(--bo-bg-surface-hover);
       height: 8px;
       border-radius: 4px;
       overflow: hidden;
@@ -431,7 +431,7 @@ import { AiDashboardOverview } from '../../models/dashboard.model';
 
     .sentiment-bar {
       position: relative;
-      background: var(--bg-progress-track);
+      background: var(--bo-bg-surface-hover);
       height: 6px;
       border-radius: 3px;
       overflow: hidden;
@@ -457,7 +457,7 @@ import { AiDashboardOverview } from '../../models/dashboard.model';
     }
     
     .skeleton-title, .skeleton-value, .skeleton-sub {
-      background: var(--bg-shimmer);
+      background: linear-gradient(90deg, var(--bo-bg-surface) 25%, var(--bo-bg-surface-hover) 50%, var(--bo-bg-surface) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite linear;
       border-radius: 4px;
@@ -491,7 +491,7 @@ import { AiDashboardOverview } from '../../models/dashboard.model';
       text-align: center;
       background: var(--bg-empty-kpis);
       border-radius: 16px;
-      color: var(--color-card-sub);
+      color: var(--bo-color-text-muted);
     }
 
     @media (max-width: 576px) {

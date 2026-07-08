@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree – Customer Categories Page
-// Route: /marketplace/categories
+// Route: /customer/customerCategory
 // ─────────────────────────────────────────────────────────────────────────────
 
 import {
@@ -32,7 +32,7 @@ export class CustomerCategoriesComponent implements OnInit {
   }
 
   navigateToCategory(id: string): void {
-    this.router.navigate(['/marketplace/categories', id]);
+    this.router.navigate(['/customer/categoryProduct', id]);
   }
 
   retry(): void {

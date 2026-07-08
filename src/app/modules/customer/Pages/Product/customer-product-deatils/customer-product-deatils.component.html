@@ -8,11 +8,11 @@
 
     <!-- ═══ BREADCRUMB ═══ -->
     <nav class="pd-breadcrumb" aria-label="Breadcrumb">
-      <a routerLink="/marketplace" class="pd-breadcrumb__link">Marketplace</a>
+      <a routerLink="/customer/customerhome" class="pd-breadcrumb__link">Marketplace</a>
       <span class="pd-breadcrumb__sep">/</span>
       @if (product()) {
         <a
-          [routerLink]="['/marketplace/category', product()!.categoryId]"
+          [routerLink]="['/customer/categoryProduct', product()!.categoryId]"
           class="pd-breadcrumb__link"
         >
           {{ product()!.categoryName }}

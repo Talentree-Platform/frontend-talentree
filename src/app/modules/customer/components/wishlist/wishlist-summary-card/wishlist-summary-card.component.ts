@@ -67,7 +67,7 @@ import { Wishlist } from '../../../Core/services/wishlist.service';
       </button>
 
       <!-- Continue shopping link -->
-      <a routerLink="/marketplace/products" class="wishlist-summary__continue">
+      <a routerLink="/customer/customerProduct" class="wishlist-summary__continue">
         <svg viewBox="0 0 16 16" fill="none">
           <path d="M10 3L4 8l6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>

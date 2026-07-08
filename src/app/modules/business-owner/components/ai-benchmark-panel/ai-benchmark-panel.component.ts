@@ -68,26 +68,26 @@ import { BenchmarkResponse } from '../../models/ai-tools.model';
       display: flex;
       flex-direction: column;
       gap: 20px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--bo-shadow-card);
     }
-    .glass-panel { background: var(--bg-card); border: var(--border-card); backdrop-filter: blur(14px); }
-    .panel-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-card); padding-bottom: 12px; }
+    .glass-panel { background: var(--bo-bg-surface); border: var(--bo-border-surface); backdrop-filter: blur(14px); }
+    .panel-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--bo-border-surface-hover); padding-bottom: 12px; }
     .title-wrap { display: flex; align-items: center; gap: 12px; }
-    .title-wrap h3 { font-size: 16px; font-weight: 600; color: var(--color-card-value); margin: 0; }
+    .title-wrap h3 { font-size: 16px; font-weight: 600; color: var(--bo-color-text); margin: 0; }
     .icon-glow { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; font-size: 14px; }
-    .glow-gold { background: rgba(218, 165, 32, 0.15); color: var(--color-eyebrow); box-shadow: 0 0 10px rgba(218, 165, 32, 0.3); }
-    .model-tag { font-size: 10px; background: var(--bg-placeholder); padding: 4px 8px; border-radius: 12px; color: var(--color-card-sub); border: 1px solid var(--border-card); }
-    .description { font-size: 12.5px; color: var(--color-text-muted); margin: 0; line-height: 1.5; }
+    .glow-gold { background: var(--bo-accent-soft); color: var(--bo-accent); box-shadow: 0 0 10px rgba(218, 165, 32, 0.3); }
+    .model-tag { font-size: 10px; background: var(--bo-bg-surface-hover); padding: 4px 8px; border-radius: 12px; color: var(--bo-color-text-muted); border: 1px solid var(--bo-border-surface-hover); }
+    .description { font-size: 12.5px; color: var(--bo-color-text-muted); margin: 0; line-height: 1.5; }
     .panel-body { display: flex; flex-direction: column; gap: 16px; }
 
     .bench-rows { display: flex; flex-direction: column; gap: 18px; }
     .bench-row { display: flex; flex-direction: column; gap: 6px; }
     .bench-row__head { display: flex; justify-content: space-between; align-items: center; }
-    .bench-label { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--color-card-value); }
+    .bench-label { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--bo-color-text); }
     .bench-rank { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 3px 10px; border-radius: 20px; }
-    .bench-figures { font-size: 11px; color: var(--color-card-sub); }
+    .bench-figures { font-size: 11px; color: var(--bo-color-text-muted); }
 
-    .bar-track { background: var(--bg-progress-track); height: 8px; border-radius: 4px; overflow: hidden; }
+    .bar-track { background: var(--bo-bg-surface-hover); height: 8px; border-radius: 4px; overflow: hidden; }
     .bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
 
     .safe { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
@@ -99,7 +99,7 @@ import { BenchmarkResponse } from '../../models/ai-tools.model';
 
     .shimmer-loader { display: flex; flex-direction: column; gap: 12px; }
     .shimmer-lines { display: flex; flex-direction: column; gap: 8px; width: 100%; }
-    .shimmer-lines .line { height: 12px; background: var(--bg-shimmer); background-size: 200% 100%; animation: shimmer 1.5s infinite linear; border-radius: 4px; }
+    .shimmer-lines .line { height: 12px; background: linear-gradient(90deg, var(--bo-bg-surface) 25%, var(--bo-bg-surface-hover) 50%, var(--bo-bg-surface) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite linear; border-radius: 4px; }
     .w-60 { width: 60%; } .w-70 { width: 70%; } .w-80 { width: 80%; }
     @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
   `]
@@ -116,8 +116,12 @@ export class AiBenchmarkPanelComponent implements OnInit, OnDestroy {
     this.authSvc.currentUser$
       .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
-        const userId = user?.id ?? '11111111-1111-1111-1111-111111111101';
-        this.loadBenchmark(userId);
+        if (user?.id) {
+          this.loadBenchmark(user.id);
+        } else {
+          console.error('AI Benchmark: no authenticated business owner id available; skipping data load');
+          this.loading = false;
+        }
       });
   }
 

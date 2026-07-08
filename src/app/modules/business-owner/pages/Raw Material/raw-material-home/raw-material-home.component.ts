@@ -1,9 +1,12 @@
 import { MaterialCartService } from '../../../core/services/material-cart.service';
 import { FormsModule } from '@angular/forms';
 import { MaterialService } from '../../../core/services/material.service';
+import { RecommendationService } from '../../../core/services/recommendation.service';
 import { AuthService } from '../../../../auth/services/auth.service';
 import { Material } from '../../../core/interfaces/material';
+import { RecommendedMaterial } from '../../../core/interfaces/recommendation';
 import { Component, inject } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { ProductCardComponent } from "../../../components/product-card/product-card.component";
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { Subscription } from 'rxjs';
@@ -14,12 +17,16 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-raw-material-home',
   standalone: true,
-  imports: [ProductCardComponent,CarouselModule, FormsModule , RouterLink],
+  imports: [ProductCardComponent,CarouselModule, FormsModule , RouterLink, DecimalPipe],
   templateUrl: './raw-material-home.component.html',
   styleUrl: './raw-material-home.component.scss'
 })
 export class RawMaterialHomeComponent {
-  constructor(private _MaterialService:MaterialService , private _MaterialCartService:MaterialCartService){}
+  constructor(
+    private _MaterialService:MaterialService,
+    private _MaterialCartService:MaterialCartService,
+    private _RecommendationService:RecommendationService
+  ){}
   private readonly _ToastrService =inject(ToastrService)
   //owl caroseal options
   customOptions: OwlOptions = {
@@ -53,8 +60,37 @@ export class RawMaterialHomeComponent {
   categoryChoise='';
   searchVendor = '';
   minQtyFilter: number | null = null;
+
+  // AI Recommendations
+  recommendations: RecommendedMaterial[] = [];
+  loadingRecommendations = true;
+  recommendationsError = false;
+  recommendationSub!:Subscription;
+
   ngOnInit():void{
     this.loadMaterials()
+    this.loadRecommendations()
+  }
+
+  loadRecommendations(){
+    this.loadingRecommendations = true;
+    this.recommendationsError = false;
+    this.recommendationSub = this._RecommendationService.getOwnerRecommendations(10).subscribe({
+      next:(res)=>{
+        this.recommendations = res.recommendations;
+        this.loadingRecommendations = false;
+      },
+      error:(err)=>{
+        console.log(err);
+        this.recommendationsError = true;
+        this.loadingRecommendations = false;
+      }
+    })
+  }
+
+  urgencyPct(item: RecommendedMaterial): number {
+    if(!item.urgency_cycle_days) return 0;
+    return Math.min(100, Math.round((item.urgency_days_elapsed / item.urgency_cycle_days) * 100));
   }
   loadMaterials(){
     
@@ -119,6 +155,7 @@ export class RawMaterialHomeComponent {
 }
   ngOnDestroy(){
     this.materialSub?.unsubscribe();
+    this.recommendationSub?.unsubscribe();
   }
   
 

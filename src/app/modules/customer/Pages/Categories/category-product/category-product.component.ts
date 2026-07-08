@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree – Category Products Page
-// Route: /marketplace/categories/:id
+// Route: /customer/categoryProduct/:id
 // ─────────────────────────────────────────────────────────────────────────────
 
 import {
