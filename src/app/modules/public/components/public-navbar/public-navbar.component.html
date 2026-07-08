@@ -1,37 +1,90 @@
-<div class="nav-wrapper">
-  <nav class="navbar navbar-expand-lg">
-    <div class="container">
-      <a class="navbar-brand" routerLink="/public">
-        <img src="assets/images/logo.jpg" alt="Talentree Logo">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+<nav class="tt-nav" [class.scrolled]="scrolled">
+  <div class="tt-nav-inner">
+    <a class="tt-logo" href="/public/landingpage" (click)="scrollToTop($event)">
+      <svg class="tt-logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 36V22" stroke="url(#logoTrunk)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M20 22C20 22 10 20 9 12C9 12 16 10 20 17C20 17 22 8 30 8C30 8 31 17 20 22Z" fill="url(#logoLeaf)"/>
+        <circle cx="20" cy="10" r="3" fill="#ffd875"/>
+        <defs>
+          <linearGradient id="logoTrunk" x1="20" y1="22" x2="20" y2="36" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#d1a33e"/>
+            <stop offset="1" stop-color="#8a6a20"/>
+          </linearGradient>
+          <linearGradient id="logoLeaf" x1="9" y1="8" x2="30" y2="22" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#ffd875"/>
+            <stop offset="1" stop-color="#d1a33e"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="tt-logo-word">Talentree</span>
+    </a>
+
+    <ul class="tt-links">
+      <li *ngFor="let link of links">
+        <a
+          href="#{{ link.id }}"
+          class="tt-link"
+          [class.active]="activeSection === link.id"
+          (click)="$event.preventDefault(); scrollToSection(link.id)"
+        >{{ link.label }}</a>
+      </li>
+    </ul>
+
+    <div class="tt-actions">
+      <button
+        type="button"
+        class="tt-theme-toggle"
+        (click)="themeSvc.toggle()"
+        [attr.aria-label]="themeSvc.isLight ? 'Switch to dark mode' : 'Switch to light mode'"
+      >
+        <i class="fa-solid" [class.fa-moon]="!themeSvc.isLight" [class.fa-sun]="themeSvc.isLight"></i>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav m-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/public/landingpage" routerLinkActive="active">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/public/about" routerLinkActive="active">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/public/offer" routerLinkActive="active">Offer</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/public/testimonial" routerLinkActive="active">Testimonial</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/public/contact" routerLinkActive="active">Contact</a>
-          </li>
-        </ul>
-        <div class="nav-buttons">
-          <a routerLink="/auth/login" class="btn-border btn-main">Sign In</a>
-          <a routerLink="/auth/register" class="btn-main btn-gold">Get Started</a>
-        </div>
-      </div>
+      <a routerLink="/auth/login" class="tt-btn tt-btn-ghost">Login</a>
+      <button type="button" class="tt-btn tt-btn-gold" (click)="openGetStarted()">Get Started</button>
     </div>
-  </nav>
-</div>
+
+    <button
+      type="button"
+      class="tt-burger"
+      [class.open]="mobileOpen"
+      (click)="toggleMobile()"
+      aria-label="Toggle navigation"
+      [attr.aria-expanded]="mobileOpen"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="tt-mobile" [class.open]="mobileOpen">
+    <a class="tt-logo" href="/public/landingpage" (click)="scrollToTop($event)">
+      <svg class="tt-logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 36V22" stroke="#d1a33e" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M20 22C20 22 10 20 9 12C9 12 16 10 20 17C20 17 22 8 30 8C30 8 31 17 20 22Z" fill="#d1a33e"/>
+      </svg>
+      <span class="tt-logo-word">Talentree</span>
+    </a>
+
+    <ul class="tt-mobile-links">
+      <li *ngFor="let link of links; let i = index" [style.--i]="i">
+        <a
+          href="#{{ link.id }}"
+          [class.active]="activeSection === link.id"
+          (click)="$event.preventDefault(); scrollToSection(link.id)"
+        >{{ link.label }}</a>
+      </li>
+    </ul>
+
+    <div class="tt-mobile-actions">
+      <button
+        type="button"
+        class="tt-theme-toggle"
+        (click)="themeSvc.toggle()"
+        [attr.aria-label]="themeSvc.isLight ? 'Switch to dark mode' : 'Switch to light mode'"
+      >
+        <i class="fa-solid" [class.fa-moon]="!themeSvc.isLight" [class.fa-sun]="themeSvc.isLight"></i>
+      </button>
+      <a routerLink="/auth/login" class="tt-btn tt-btn-ghost" (click)="mobileOpen = false">Login</a>
+      <button type="button" class="tt-btn tt-btn-gold" (click)="openGetStarted()">Get Started</button>
+    </div>
+  </div>
+</nav>

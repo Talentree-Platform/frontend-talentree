@@ -71,6 +71,84 @@
     </div>
   </section>
 
+  <!-- ── AI RECOMMENDATIONS ───────────────────────────────────────────────── -->
+  <section class="rmh-section">
+    <div class="rmh-section__header">
+      <h2 class="rmh-section-title">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/>
+        </svg>
+        Recommended For You
+        <span class="rmh-tag rmh-tag--ai">AI Powered</span>
+      </h2>
+    </div>
+
+    @if(loadingRecommendations) {
+      <div class="rmh-reco-grid">
+        @for(i of [1,2,3]; track i) {
+          <div class="rmh-reco-card rmh-reco-card--skeleton">
+            <div class="rmh-shimmer-line w-60"></div>
+            <div class="rmh-shimmer-line w-80"></div>
+            <div class="rmh-shimmer-line w-70"></div>
+          </div>
+        }
+      </div>
+    } @else if(recommendationsError) {
+      <div class="rmh-reco-empty">
+        Couldn't load recommendations right now. Please try again later.
+      </div>
+    } @else if(recommendations.length === 0) {
+      <div class="rmh-reco-empty">
+        No recommendations available yet.
+      </div>
+    } @else {
+      <div class="rmh-reco-grid">
+        @for(item of recommendations; track item.material_id) {
+          <div class="rmh-reco-card">
+            <div class="rmh-reco-card__top">
+              <span class="rmh-reco-category">{{ item.category }}</span>
+              <span class="rmh-reco-score">{{ (item.score * 100).toFixed(0) }}% match</span>
+            </div>
+
+            <h3 class="rmh-reco-name">{{ item.material_name }}</h3>
+            <p class="rmh-reco-desc">{{ item.description }}</p>
+
+            <div class="rmh-reco-stats">
+              <div class="rmh-reco-stat">
+                <span class="rmh-reco-stat__label">Price</span>
+                <span class="rmh-reco-stat__value">{{ item.price | number:'1.2-2' }} EGP</span>
+              </div>
+              <div class="rmh-reco-stat">
+                <span class="rmh-reco-stat__label">Predicted Demand</span>
+                <span class="rmh-reco-stat__value">{{ item.predicted_demand_qty }} units</span>
+              </div>
+            </div>
+
+            <div class="rmh-reco-urgency">
+              <div class="rmh-reco-urgency__head">
+                <span>Restock Urgency</span>
+                <span>{{ item.urgency_days_elapsed }} / {{ item.urgency_cycle_days }} days</span>
+              </div>
+              <div class="rmh-reco-urgency__track">
+                <div class="rmh-reco-urgency__fill" [style.width.%]="urgencyPct(item)"></div>
+              </div>
+            </div>
+
+            <button class="rmh-btn rmh-btn--gold rmh-reco-btn" (click)="addMaterialToCart(item.material_id, 1)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Add to Cart
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </section>
+
   <!-- ── FILTER BAR ────────────────────────────────────────────────────────── -->
   <div class="rmh-filter-bar">
     <div class="rmh-filter-bar__fields">

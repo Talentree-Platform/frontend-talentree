@@ -88,6 +88,9 @@ export class CustomerProductsComponent implements OnInit, OnDestroy {
           sortBy:    (params['sortBy'] as SortOption) || 'newest',
         });
       });
+
+    // Personalized picks — independent of catalog filters, loaded once.
+    this.svc.loadRecommendations();
   }
 
   ngOnDestroy(): void {

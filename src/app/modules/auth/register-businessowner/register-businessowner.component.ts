@@ -3,11 +3,12 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractContro
 import { Component, OnInit } from '@angular/core';
 import { error } from 'console';
 import { Router } from '@angular/router';
+import { AuthIllustrationPanelComponent } from '../components/auth-illustration-panel/auth-illustration-panel.component';
 
 @Component({
   selector: 'app-register-businessowner',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AuthIllustrationPanelComponent],
   templateUrl: './register-businessowner.component.html',
   styleUrl: './register-businessowner.component.scss'
 })

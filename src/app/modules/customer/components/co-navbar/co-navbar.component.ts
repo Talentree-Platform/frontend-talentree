@@ -10,6 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
+import { AuthService } from '../../../auth/services/auth.service';
 
 interface NavLink {
   label: string;
@@ -25,6 +26,7 @@ interface NavLink {
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
   private routerSub?: Subscription;
 
   /** Center navigation links */
@@ -87,8 +89,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
-    // TODO: replace with real AuthService.logout() call.
     this.closeMobileMenu();
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe();
   }
 }

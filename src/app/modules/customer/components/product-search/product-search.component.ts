@@ -42,7 +42,7 @@ export class ProductSearchComponent implements OnInit, OnDestroy {
     this.svc.closeAutocomplete();
     this.svc.updateFilters({ search: this.searchQuery });
     this.searched.emit(this.searchQuery);
-    this.router.navigate(['/marketplace/products'], {
+    this.router.navigate(['/customer/customerProduct'], {
       queryParams: this.searchQuery ? { search: this.searchQuery } : {}
     });
   }
