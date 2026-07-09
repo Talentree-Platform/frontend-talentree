@@ -13,16 +13,31 @@ import {
 } from '../../core/services/admin-knowledge.service';
 import { ApiResponse, PaginatedResponse } from '../../core/Interfaces/ibusiness-owner';
 
+import { ModalComponent } from '../../Components/modal/modal.component';
+
 @Component({
   selector: 'app-admin-knowledge',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ModalComponent],
   templateUrl: './admin-knowledge.component.html',
   styleUrls: ['./admin-knowledge.component.css']
 })
 export class AdminKnowledgeComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private search$ = new Subject<string>();
+
+  // ── dialog state ──
+  dialogOpen = false;
+  dialogTitle = '';
+  dialogMessage = '';
+  dialogCallback: () => void = () => {};
+
+  openConfirmDialog(title: string, message: string, callback: () => void): void {
+    this.dialogTitle = title;
+    this.dialogMessage = message;
+    this.dialogCallback = callback;
+    this.dialogOpen = true;
+  }
 
   // State
   articles: AdminArticleDto[] = [];
@@ -173,14 +188,19 @@ export class AdminKnowledgeComponent implements OnInit, OnDestroy {
   }
 
   deleteArticle(a: AdminArticleDto): void {
-    if (!confirm(`Delete "${a.title}"?`)) return;
-    this.svc.deleteArticle(a.id).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (res) => {
-        if (res.success) { this.toastr.success('Deleted.', 'Talentree', { timeOut: 2000, closeButton: true }); this.loadArticles(); this.loadAnalytics(); }
-        else { this.toastr.error(res.message ?? 'Failed.', 'Talentree', { timeOut: 2000, closeButton: true }); }
-      },
-      error: (e) => { this.toastr.error(e.error?.message ?? 'Error.', 'Talentree', { timeOut: 2000, closeButton: true }); }
-    });
+    this.openConfirmDialog(
+      `Delete "${a.title}"?`,
+      `Are you sure you want to delete article "${a.title}"?`,
+      () => {
+        this.svc.deleteArticle(a.id).pipe(takeUntil(this.destroy$)).subscribe({
+          next: (res) => {
+            if (res.success) { this.toastr.success('Deleted.', 'Talentree', { timeOut: 2000, closeButton: true }); this.loadArticles(); this.loadAnalytics(); }
+            else { this.toastr.error(res.message ?? 'Failed.', 'Talentree', { timeOut: 2000, closeButton: true }); }
+          },
+          error: (e) => { this.toastr.error(e.error?.message ?? 'Error.', 'Talentree', { timeOut: 2000, closeButton: true }); }
+        });
+      }
+    );
   }
 
   togglePublish(a: AdminArticleDto): void {

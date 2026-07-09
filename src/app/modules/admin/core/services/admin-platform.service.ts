@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, catchError, of, throwError } from 'rxjs';
 import { ApiResponse } from '../Interfaces/ibusiness-owner';
 import { environment } from '../../../../core/environment/envirinment';
 
@@ -343,6 +343,13 @@ export class AdminPlatformService {
           return { ...res, data: this.mapPolicy(res.data) };
         }
         return res as ApiResponse<PolicyDto>;
+      }),
+      catchError(err => {
+        // 404 = policy document not yet created — treat as empty (not an error)
+        if (err.status === 404) {
+          return of({ success: false, data: null as unknown as PolicyDto, message: '', errors: [], timestamp: new Date().toISOString() } as ApiResponse<PolicyDto>);
+        }
+        return throwError(() => err);
       })
     );
   }
@@ -364,6 +371,12 @@ export class AdminPlatformService {
           return { ...res, data: mapped };
         }
         return res as ApiResponse<PolicyDto[]>;
+      }),
+      catchError(err => {
+        if (err.status === 404) {
+          return of({ success: false, data: [] as PolicyDto[], message: '', errors: [], timestamp: new Date().toISOString() } as ApiResponse<PolicyDto[]>);
+        }
+        return throwError(() => err);
       })
     );
   }

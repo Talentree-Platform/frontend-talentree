@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../../modules/auth/services/auth.service';
 import { roleSatisfies, UserRole } from '../../../../core/constants/roles.constants'; // عدّلي المسار حسب مكانه عندك
 
@@ -92,8 +93,6 @@ export class AdminSideNavComponent implements OnInit {
           label: 'Business Owners',
           description: 'Review and approve owner requests',
           route: '/admin/pendingbo',
-          badge: 12,
-          badgeColor: 'warn',
           icon: `M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8m14 14v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75`,
           roles: [UserRole.SuperAdmin, UserRole.Admin]
         },
@@ -123,8 +122,6 @@ export class AdminSideNavComponent implements OnInit {
           label: 'All Products',
           description: 'Review and manage product catalog',
           route: '/admin/producthome',
-          badge: 8,
-          badgeColor: 'warn',
           roles: [UserRole.Admin],
           icon: `M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0`
         },
@@ -277,6 +274,8 @@ export class AdminSideNavComponent implements OnInit {
     }
   ];
 
+  private readonly toastr = inject(ToastrService);
+
   constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -355,8 +354,8 @@ export class AdminSideNavComponent implements OnInit {
 
   signOut(): void {
     this.authService.logout().subscribe({
-      next: () => console.log('✅ Logged out'),
-      error: (err) => console.warn('⚠️ Logout error:', err)
+      next: () => {},
+      error: (err) => this.toastr.error(err?.message ?? 'Logout error', 'Logout')
     });
   }
 }

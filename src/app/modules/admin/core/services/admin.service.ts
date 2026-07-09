@@ -5,26 +5,6 @@ import { PaginationQuery } from '../Interfaces/PaginationQuery';
 import { ApiResponse, BusinessOwner, PaginatedResponse } from '../Interfaces/ibusiness-owner';
 import { environment } from '../../../../core/environment/envirinment';
 
-// ── Admin DTOs ────────────────────────────────────────────────────────────────
-
-export interface AdminDto {
-  id: string;
-  fullName: string;
-  email: string;
-  phoneNumber: string | null;
-  isActive: boolean;
-  createdAt: string;
-}
-
-export interface CreateAdminDto {
-  fullName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  phoneNumber?: string;
-  role: string;
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Injectable({
@@ -34,7 +14,6 @@ export class AdminService {
 
   constructor(private _HttpClient: HttpClient) { }
   private readonly adminApiUrl = `${environment.baseUrl}/api/Admin`;
-  private readonly adminManagementApiUrl = `${environment.baseUrl}/api/admin-management`;
   private readonly adminProductApiUrl = `${environment.baseUrl}/api/AdminProduct`;
 
   /**
@@ -104,29 +83,4 @@ export class AdminService {
     );
   }
 
-
-
-  // ── Admins ────────────────────────────────────────────────────────────────
-
-  getAllAdmins(): Observable<ApiResponse<AdminDto[]>> {
-    return this._HttpClient.get<ApiResponse<AdminDto[]>>(`${this.adminManagementApiUrl}/admins`);
-  }
-
-  createAdmin(dto: CreateAdminDto): Observable<ApiResponse<AdminDto>> {
-    return this._HttpClient.post<ApiResponse<AdminDto>>(
-      `${this.adminManagementApiUrl}/create`, dto
-    );
-  }
-
-  deactivateAdmin(adminId: string): Observable<ApiResponse<null>> {
-    return this._HttpClient.post<ApiResponse<null>>(
-      `${this.adminManagementApiUrl}/admins/${adminId}/deactivate`, {}
-    );
-  }
-
-  reactivateAdmin(adminId: string): Observable<ApiResponse<null>> {
-    return this._HttpClient.post<ApiResponse<null>>(
-      `${this.adminManagementApiUrl}/admins/${adminId}/reactivate`, {}
-    );
-  }
 }

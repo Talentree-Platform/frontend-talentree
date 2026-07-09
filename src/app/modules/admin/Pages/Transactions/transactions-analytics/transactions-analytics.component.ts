@@ -9,7 +9,7 @@ import {
   Transaction,
   TransactionKpis,
   TransactionType,
-} from '../../../core/services/transactions.model';
+} from '../../../core/Interfaces/transactions.model';
 
 @Component({
   selector: 'app-transactions-analytics',

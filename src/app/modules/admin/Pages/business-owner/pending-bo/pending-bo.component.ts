@@ -135,7 +135,7 @@ export class PendingBoComponent implements OnInit, OnDestroy {
             this.ManualApprovalOwners = res.data.data.filter((item: BusinessOwner) => !item.willAutoApprove).length;
           },
           error: (err: any) => {
-            console.error(err);
+            this._ToastrService.error(err.error?.message ?? 'Failed to load business owners', 'Talentree', { timeOut: 2000, closeButton: true });
           }
         })
     );
@@ -187,7 +187,6 @@ export class PendingBoComponent implements OnInit, OnDestroy {
             this.loadPendingOwners();
           },
           error: (err: any) => {
-            console.error(err);
             this._ToastrService.error(err.error?.message ?? 'Approval failed', 'Talentree', {
               timeOut: 2000,
               closeButton: true
@@ -226,12 +225,11 @@ export class PendingBoComponent implements OnInit, OnDestroy {
         .pipe(finalize(() => (this.isRejectRequestPending = false)))
         .subscribe({
           next: (res: any) => {
-            this._ToastrService.error(res.message, 'Talentree', { timeOut: 2000, closeButton: true });
+            this._ToastrService.success(res.message, 'Talentree', { timeOut: 2000, closeButton: true });
             this.closeModal();
             this.loadPendingOwners();
           },
           error: (err: { error?: { message?: string } }) => {
-            console.error(err);
             this._ToastrService.error(err.error?.message ?? 'Reject failed', 'Talentree', {
               timeOut: 2000,
               closeButton: true

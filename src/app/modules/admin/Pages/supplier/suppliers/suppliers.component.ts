@@ -11,6 +11,8 @@ import { PaginationComponent } from '../../../Components/pagination/pagination.c
 import { SupplierDetailsComponent } from '../supplier-details/supplier-details.component';
 import { SupplierFormComponent } from '../supplier-form/supplier-form.component';
 
+import { ModalComponent } from '../../../Components/modal/modal.component';
+
 @Component({
   selector: 'app-suppliers',
   standalone: true,
@@ -21,6 +23,7 @@ import { SupplierFormComponent } from '../supplier-form/supplier-form.component'
     PaginationComponent,
     SupplierDetailsComponent,
     SupplierFormComponent,
+    ModalComponent,
   ],
   templateUrl: './suppliers.component.html',
   styleUrl: './suppliers.component.css',
@@ -38,6 +41,19 @@ export class SupplierListComponent implements OnInit, OnDestroy {
   // ── list ─────────────────────────────────────────────────────────────────
   suppliers: Supplier[] = [];
   isLoading = false;
+
+  // ── dialog state ──
+  dialogOpen = false;
+  dialogTitle = '';
+  dialogMessage = '';
+  dialogCallback: () => void = () => {};
+
+  openConfirmDialog(title: string, message: string, callback: () => void): void {
+    this.dialogTitle = title;
+    this.dialogMessage = message;
+    this.dialogCallback = callback;
+    this.dialogOpen = true;
+  }
 
   // ── selection ─────────────────────────────────────────────────────────────
   selectedSupplier: Supplier | null = null;
@@ -110,7 +126,6 @@ export class SupplierListComponent implements OnInit, OnDestroy {
         },
         error: (err: any) => {
           this.isLoading = false;
-          console.error(err);
           this._ToastrService.error(
             'Failed to load suppliers', 'Talentree',
             { timeOut: 2000, closeButton: true },
@@ -234,25 +249,30 @@ export class SupplierListComponent implements OnInit, OnDestroy {
   }
 
   deleteSupplier(supplier: Supplier): void {
-    if (!confirm(`Delete supplier "${supplier.name}"?`)) return;
-    this._SupplierService
-      .deleteSupplier(supplier.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res: any) => {
-          this._ToastrService.warning(
-            res.message ?? 'Supplier deleted', 'Talentree',
-            { timeOut: 2000, closeButton: true },
-          );
-          this.load();
-        },
-        error: (err: any) => {
-          this._ToastrService.error(
-            err.error?.message ?? 'Failed to delete', 'Talentree',
-            { timeOut: 2000, closeButton: true },
-          );
-        },
-      });
+    this.openConfirmDialog(
+      `Delete supplier "${supplier.name}"?`,
+      `Are you sure you want to delete supplier "${supplier.name}"? This action cannot be undone.`,
+      () => {
+        this._SupplierService
+          .deleteSupplier(supplier.id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (res: any) => {
+              this._ToastrService.warning(
+                res.message ?? 'Supplier deleted', 'Talentree',
+                { timeOut: 2000, closeButton: true },
+              );
+              this.load();
+            },
+            error: (err: any) => {
+              this._ToastrService.error(
+                err.error?.message ?? 'Failed to delete', 'Talentree',
+                { timeOut: 2000, closeButton: true }
+              );
+            }
+          });
+      }
+    );
   }
 
   // ── modal actions ─────────────────────────────────────────────────────────

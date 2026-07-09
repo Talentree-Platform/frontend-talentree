@@ -5,7 +5,7 @@ import { AdminListComponent } from './Pages/Admin/admin-managment/admin-list/adm
 import { AdminProductHomeComponent } from './Pages/Products/admin-product-home/admin-product-home.component';
 import { AdminProductsPageComponent } from './Pages/Products/admin-products-page/admin-products-page.component';
 import { BoDetailsComponent } from './Pages/business-owner/bo-details/bo-details.component';
-import { DashboardComponent } from './Pages/Dashboeard/admin-dashboard/admin-dashboard.component';
+import { DashboardComponent } from './Pages/Dashboard/admin-dashboard/admin-dashboard.component';
 import { PendingBoComponent } from './Pages/business-owner/pending-bo/pending-bo.component';
 import { RawMaterialListComponent } from './Pages/raw-material/raw-materials/raw-materials.component';
 import { SupplierListComponent } from './Pages/supplier/suppliers/suppliers.component';
@@ -88,7 +88,7 @@ const routes: Routes = [
         canActivate: [roleGuardGuard],
         data: { roles: BOTH },
         loadComponent: () =>
-          import('./Pages/Dashboeard/admin-ai-sellers-list/admin-ai-sellers-list.component')
+          import('./Pages/Dashboard/admin-ai-sellers-list/admin-ai-sellers-list.component')
             .then(m => m.AdminAiSellersListComponent)
       },
       {
@@ -96,7 +96,7 @@ const routes: Routes = [
         canActivate: [roleGuardGuard],
         data: { roles: BOTH },
         loadComponent: () =>
-          import('./Pages/Dashboeard/admin-ai-seller-detail/admin-ai-seller-detail.component')
+          import('./Pages/Dashboard/admin-ai-seller-detail/admin-ai-seller-detail.component')
             .then(m => m.AdminAiSellerDetailComponent)
       },
       {
@@ -104,7 +104,7 @@ const routes: Routes = [
         canActivate: [roleGuardGuard],
         data: { roles: BOTH },
         loadComponent: () =>
-          import('./Pages/Dashboeard/admin-ai-insights/admin-ai-insights.component')
+          import('./Pages/Dashboard/admin-ai-insights/admin-ai-insights.component')
             .then(m => m.AdminAiInsightsComponent)
       },
       {
@@ -112,7 +112,7 @@ const routes: Routes = [
         canActivate: [roleGuardGuard],
         data: { roles: BOTH },
         loadComponent: () =>
-          import('./Pages/Dashboeard/admin-ai-model-management/admin-ai-model-management.component')
+          import('./Pages/Dashboard/admin-ai-model-management/admin-ai-model-management.component')
             .then(m => m.AdminAiModelManagementComponent)
       }
     ]

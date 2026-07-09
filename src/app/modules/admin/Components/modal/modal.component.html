@@ -1,1 +1,52 @@
-<p>modal works!</p>
+@if (isOpen) {
+  <div class="owner-products-modal-backdrop" (click)="onBackdropClick()" role="presentation"></div>
+  <div
+    class="owner-products-modal owner-products-modal--wide"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="title"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 class="owner-products-modal-title">{{ title }}</h2>
+
+    @if (message) {
+      <p class="owner-products-modal-text" [innerHTML]="message"></p>
+    }
+
+    <form (ngSubmit)="onSubmit()" novalidate>
+      @if (isPrompt) {
+        <div class="admin-reject-modal__field" style="margin-bottom: 1.25rem;">
+          <textarea
+            class="textarea-main admin-reject-modal__textarea"
+            [(ngModel)]="inputValue"
+            name="promptInput"
+            rows="4"
+            [placeholder]="promptPlaceholder"
+            style="width: 100%; min-height: 100px; resize: vertical; border-radius: var(--ap-radius-input) !important; padding: 0.5rem; border: 1px solid var(--ap-border); background: var(--ap-bg);"
+            [attr.aria-invalid]="isInvalid && touched"
+          ></textarea>
+          @if (isInvalid && touched) {
+            <span class="admin-reject-modal__error" role="alert" style="margin: 0.35rem 0 0; font-size: 0.8125rem; color: var(--ap-error); display: block;">
+              A minimum of {{ minLength }} characters is required.
+            </span>
+          }
+        </div>
+      }
+
+      <div class="owner-products-modal-actions">
+        <button type="button" class="btn-main btn-secondary" (click)="close()">
+          {{ cancelText }}
+        </button>
+        <button
+          type="submit"
+          class="btn-main"
+          [class.btn-danger]="danger"
+          [class.btn-gold]="!danger"
+          [disabled]="isPrompt && isInvalid && touched"
+        >
+          {{ confirmText }}
+        </button>
+      </div>
+    </form>
+  </div>
+}

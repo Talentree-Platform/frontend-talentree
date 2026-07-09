@@ -472,3 +472,15 @@
 <app-supplier-form *ngIf="isFormOpen" [supplier]="isEditMode ? selectedSupplier : null" [isEditMode]="isEditMode"
   (close)="closeModals()" (saved)="onFormSaved()">
 </app-supplier-form>
+
+<app-modal
+  [isOpen]="dialogOpen"
+  [title]="dialogTitle"
+  [message]="dialogMessage"
+  [isConfirm]="true"
+  [danger]="true"
+  confirmText="Delete"
+  cancelText="Cancel"
+  (confirmed)="dialogCallback(); dialogOpen = false"
+  (closed)="dialogOpen = false"
+></app-modal>

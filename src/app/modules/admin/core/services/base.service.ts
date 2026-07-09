@@ -91,7 +91,6 @@ export class BaseService {
   }
 
   private handleError(error: any): Observable<never> {
-    console.error('API Error:', error);
     let errorMessage = 'حدث خطأ غير متوقع';
     if (error.error?.message) errorMessage = error.error.message;
     else if (error.message) errorMessage = error.message;

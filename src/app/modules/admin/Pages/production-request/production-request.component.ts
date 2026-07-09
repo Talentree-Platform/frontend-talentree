@@ -125,8 +125,6 @@ export class ProductionRequestComponent implements OnInit, OnDestroy {
     if ('count' in o || 'pageIndex' in o) {
       return { pageIndex: 1, pageSize: this.pageSize, count: 0, data: [] };
     }
-
-    console.warn('[extractPagedList] unrecognized shape:', resData);
     return null;
   }
 

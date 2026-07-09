@@ -10,6 +10,7 @@ import { PaginationComponent } from '../../../Components/pagination/pagination.c
 import { RawMaterialDetailsComponent } from '../raw-material-details/raw-material-details.component';
 import { RawMaterialFormComponent } from '../raw-material-form/raw-material-form.component';
 import { RestockModalComponent } from '../restock-modal/restock-modal.component';
+import { ModalComponent } from '../../../Components/modal/modal.component';
 
 @Component({
   selector: 'app-raw-materials',
@@ -22,11 +23,25 @@ import { RestockModalComponent } from '../restock-modal/restock-modal.component'
     RawMaterialDetailsComponent,
     RawMaterialFormComponent,
     RestockModalComponent,
+    ModalComponent,
   ],
   templateUrl: './raw-materials.component.html',
   styleUrl: './raw-materials.component.css'
 })
 export class RawMaterialListComponent implements OnInit, OnDestroy {
+
+  // ── dialog state ──
+  dialogOpen = false;
+  dialogTitle = '';
+  dialogMessage = '';
+  dialogCallback: () => void = () => {};
+
+  openConfirmDialog(title: string, message: string, callback: () => void): void {
+    this.dialogTitle = title;
+    this.dialogMessage = message;
+    this.dialogCallback = callback;
+    this.dialogOpen = true;
+  }
 
   constructor(
     private _RawMaterialService: RawMaterialService,
@@ -93,7 +108,6 @@ export class RawMaterialListComponent implements OnInit, OnDestroy {
         this.outOfStockCount = res.data.data.filter(m => !m.isAvailable).length;
       },
       error: (err) => {
-        console.log(err);
         this._ToastrService.error('Failed to load materials', 'Talentree', { timeOut: 2000, closeButton: true });
       }
     });
@@ -149,16 +163,21 @@ export class RawMaterialListComponent implements OnInit, OnDestroy {
   }
 
   deleteMaterial(material: RawMaterial): void {
-    if (!confirm(`Delete "${material.name}"?`)) return;
-    this.actionSub = this._RawMaterialService.deleteRawMaterial(material.id).subscribe({
-      next: (res) => {
-        this._ToastrService.warning(res.message ?? 'Material deleted', 'Talentree', { timeOut: 2000, closeButton: true });
-        this.load();
-      },
-      error: (err) => {
-        this._ToastrService.error(err.error?.message ?? 'Failed to delete', 'Talentree', { timeOut: 2000, closeButton: true });
+    this.openConfirmDialog(
+      `Delete "${material.name}"?`,
+      `Are you sure you want to delete raw material "${material.name}"? This action cannot be undone.`,
+      () => {
+        this.actionSub = this._RawMaterialService.deleteRawMaterial(material.id).subscribe({
+          next: (res) => {
+            this._ToastrService.warning(res.message ?? 'Material deleted', 'Talentree', { timeOut: 2000, closeButton: true });
+            this.load();
+          },
+          error: (err) => {
+            this._ToastrService.error(err.error?.message ?? 'Failed to delete', 'Talentree', { timeOut: 2000, closeButton: true });
+          }
+        });
       }
-    });
+    );
   }
 
   // ================================

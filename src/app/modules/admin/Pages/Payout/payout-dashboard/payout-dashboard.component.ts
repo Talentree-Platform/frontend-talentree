@@ -194,52 +194,49 @@ export class PayoutDashboardComponent implements OnInit, OnDestroy {
   approve(payout: Payout): void {
     this.setRowLoading(payout.id, true);
 
-    this.svc.approve(payout.id).subscribe({
-      next: () => {
-        this.setRowLoading(payout.id, false);
-        this.showToast(`Payout #${payout.id} approved.`, 'success');
-        this.loadPayouts();
-      },
-      error: () => {
-        this.setRowLoading(payout.id, false);
-        this.showToast('Failed to approve payout.', 'error');
-      },
-    });
+    this.svc.approve(payout.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.setRowLoading(payout.id, false);
+          this.showToast(`Payout #${payout.id} approved.`, 'success');
+          this.loadPayouts();
+        },
+        error: () => {
+          this.setRowLoading(payout.id, false);
+          this.showToast('Failed to approve payout.', 'error');
+        },
+      });
   }
 
   complete(payout: Payout): void {
     this.setRowLoading(payout.id, true);
 
-    this.svc.complete(payout.id).subscribe({
-      next: () => {
-        this.setRowLoading(payout.id, false);
-        this.showToast(`Payout #${payout.id} completed.`, 'success');
-        this.loadPayouts();
-      },
-      error: () => {
-        this.setRowLoading(payout.id, false);
-        this.showToast('Failed to complete payout.', 'error');
-      },
-    });
+    this.svc.complete(payout.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.setRowLoading(payout.id, false);
+          this.showToast(`Payout #${payout.id} completed.`, 'success');
+          this.loadPayouts();
+        },
+        error: () => {
+          this.setRowLoading(payout.id, false);
+          this.showToast('Failed to complete payout.', 'error');
+        },
+      });
   }
 
   // ── Reject Modal (FIXED) ───────────────────────────────
 
   openRejectModal(payout: Payout): void {
-    
-    console.log('🔥 OPEN CLICKED', payout.id);
-
-  this.rejectTargetId.set(payout.id);
+    this.rejectTargetId.set(payout.id);
     this.rejectReason.set('');
-
-  console.log('STATE AFTER:', this.rejectTargetId());
   }
 
   closeRejectModal(): void {
-    console.log('❌ CLOSE CALLED');
     this.rejectTargetId.set(null);
     this.rejectReason.set('');
-
   }
 
   getSelectedPayout(): Payout | undefined {
@@ -253,18 +250,20 @@ export class PayoutDashboardComponent implements OnInit, OnDestroy {
 
     this.isRejecting.set(true);
 
-    this.svc.reject(target.id, this.rejectReason()).subscribe({
-      next: () => {
-        this.isRejecting.set(false);
-        this.closeRejectModal();
-        this.showToast(`Payout #${target.id} rejected.`, 'success');
-        this.loadPayouts();
-      },
-      error: () => {
-        this.isRejecting.set(false);
-        this.showToast('Failed to reject payout.', 'error');
-      },
-    });
+    this.svc.reject(target.id, this.rejectReason())
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.isRejecting.set(false);
+          this.closeRejectModal();
+          this.showToast(`Payout #${target.id} rejected.`, 'success');
+          this.loadPayouts();
+        },
+        error: () => {
+          this.isRejecting.set(false);
+          this.showToast('Failed to reject payout.', 'error');
+        },
+      });
   }
 
   // ── Helpers ────────────────────────────────────────────

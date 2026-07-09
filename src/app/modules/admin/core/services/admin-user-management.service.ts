@@ -3,27 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../core/environment/envirinment';
 
-// ── Shared ────────────────────────────────────────────────────────────────────
-
-export interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message: string | null;
-  errors: string[];
-  timestamp: string;
-}
-
-export interface PaginatedResponse<T> {
-  pageIndex: number;
-  pageSize: number;
-  count: number;
-  data: T[];
-  totalPages: number;
-  hasPrevious: boolean;
-  hasNext: boolean;
-  firstItemIndex: number;
-  lastItemIndex: number;
-}
+import { ApiResponse, PaginatedResponse } from '../Interfaces/ibusiness-owner';
+export { ApiResponse, PaginatedResponse } from '../Interfaces/ibusiness-owner';
 
 export interface ActionLog {
   id: number;
@@ -293,7 +274,7 @@ export class AdminUserManagementService {
 
   getUserLogs(userId: string): Observable<ApiResponse<ActionLog[]>> {
     return this._HttpClient.get<ApiResponse<ActionLog[]>>(
-      `/api/admin/users/${userId}/logs`
+      `${this.apiUrl}/${userId}/logs`
     );
   }
 }

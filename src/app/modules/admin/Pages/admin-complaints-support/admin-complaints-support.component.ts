@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminManagementService, AdminDto } from '../../core/services/adminManagment.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import { AuthService } from '../../../auth/services/auth.service';
 
 import {
   AdminComplaintService,
@@ -108,6 +109,7 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
     private complaintSvc: AdminComplaintService,
     private supportSvc: AdminSupportService,
     private adminManagementService: AdminManagementService,  // ← changed
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -141,6 +143,11 @@ export class AdminComplaintsSupportComponent implements OnInit, OnDestroy, After
   }
 
   loadAdmins(): void {
+    const role = (this.authService.getCurrentUser()?.role ?? '').trim().toLowerCase();
+    if (role !== 'superadmin') {
+      return;
+    }
+
     this.adminManagementService.getAllAdmins()          // ← changed
       .pipe(takeUntil(this.destroy$))
       .subscribe({

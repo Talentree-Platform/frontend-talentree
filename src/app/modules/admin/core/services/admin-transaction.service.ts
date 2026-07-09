@@ -7,7 +7,7 @@ import {
     PaginatedResponse,
     TransactionQueryParams,
     ReportQueryParams,
-} from '../../core/services/transactions.model';
+} from '../Interfaces/transactions.model';
 
 @Injectable({ providedIn: 'root' })
 export class AdminTransactionsService {

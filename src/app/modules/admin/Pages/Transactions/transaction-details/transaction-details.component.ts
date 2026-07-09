@@ -10,7 +10,7 @@ import {
   Transaction,
   TRANSACTION_TYPE_LABELS,
   TransactionType,
-} from '../../../core/services/transactions.model';
+} from '../../../core/Interfaces/transactions.model';
 
 @Component({
   selector: 'app-transaction-details',

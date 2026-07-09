@@ -18,7 +18,7 @@ import {
   PaginatedResponse,
   TransactionType,
   TRANSACTION_TYPE_LABELS,
-} from '../../../core/services/transactions.model';
+} from '../../../core/Interfaces/transactions.model';
 import { TransactionsAnalyticsComponent } from '../transactions-analytics/transactions-analytics.component';
 import { TransactionDetailsComponent } from '../transaction-details/transaction-details.component';
 

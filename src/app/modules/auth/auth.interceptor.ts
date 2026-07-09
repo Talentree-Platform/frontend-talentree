@@ -11,7 +11,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   
   // URLs التي لا تحتاج token
-const publicUrls = [
+ const publicUrls = [
   '/Auth/register',
   '/Auth/login',
   '/Auth/verify-email',
@@ -82,9 +82,6 @@ const isPublicUrl = publicUrls.some(url =>
       // إذا كان خطأ 403 (ممنوع)
       if (error.status === 403) {
         console.error('🚨 Access forbidden');
-        router.navigate(['/auth/login'], {
-          queryParams: { error: 'forbidden' }
-        });
       }
       
       return throwError(() => error);

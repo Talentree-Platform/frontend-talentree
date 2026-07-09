@@ -151,7 +151,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.statsLoading = false;
-          console.error('Stats error:', err);
           this._ToastrService.error('Failed to load stats', 'Talentree', { timeOut: 2000 });
         },
       });

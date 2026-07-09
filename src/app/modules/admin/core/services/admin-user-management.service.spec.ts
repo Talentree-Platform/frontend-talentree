@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AdminUserManagementService} from './admi-user-management.service';
+import { AdminUserManagementService } from './admin-user-management.service';
 
 describe('AdmiUserManagementService', () => {
   let service: AdminUserManagementService;

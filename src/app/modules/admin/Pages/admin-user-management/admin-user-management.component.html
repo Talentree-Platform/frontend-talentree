@@ -608,3 +608,17 @@
     </ng-container>
   </div>
 </div>
+
+<app-modal
+  [isOpen]="dialogOpen"
+  [title]="dialogTitle"
+  [message]="dialogMessage"
+  [isConfirm]="dialogIsConfirm"
+  [isPrompt]="dialogIsPrompt"
+  [promptPlaceholder]="dialogPromptPlaceholder"
+  [minLength]="dialogMinLength"
+  [confirmText]="dialogConfirmText"
+  [danger]="dialogDanger"
+  (confirmed)="onDialogConfirm($event)"
+  (closed)="onDialogClose()"
+></app-modal>

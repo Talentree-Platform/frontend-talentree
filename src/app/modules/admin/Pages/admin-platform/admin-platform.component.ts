@@ -16,17 +16,31 @@ import {
   AnnouncementDto, FeaturedProductDto, FeaturedBrandDto
 } from '../../core/services/admin-platform.service';
 import { AdminProductService } from '../../core/services/admin-products.service';
-import { AdminUserManagementService } from '../../core/services/admi-user-management.service';
+import { AdminUserManagementService } from '../../core/services/admin-user-management.service';
+import { ModalComponent } from '../../Components/modal/modal.component';
 
 @Component({
   selector: 'app-admin-platform',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ModalComponent],
   templateUrl: './admin-platform.component.html',
   styleUrls: ['./admin-platform.component.css']
 })
 export class AdminPlatformComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+
+  // ── dialog state ──
+  dialogOpen = false;
+  dialogTitle = '';
+  dialogMessage = '';
+  dialogCallback: () => void = () => {};
+
+  openConfirmDialog(title: string, message: string, callback: () => void): void {
+    this.dialogTitle = title;
+    this.dialogMessage = message;
+    this.dialogCallback = callback;
+    this.dialogOpen = true;
+  }
 
   activeTab: 'homepage' | 'categories' | 'commission' | 'policies' | 'shipping' = 'homepage';
 
@@ -173,8 +187,11 @@ export class AdminPlatformComponent implements OnInit, OnDestroy {
   }
 
   deleteBanner(b: BannerDto): void {
-    if (!confirm(`Delete banner "${b.title}"?`)) return;
-    this.svc.deleteBanner(b.id).pipe(takeUntil(this.destroy$)).subscribe({ next: r => { if (r.success) { this.toastr.success('Deleted.', 'Talentree', { timeOut: 2000 }); this.loadHomepage(); } } });
+    this.openConfirmDialog(
+      `Delete banner "${b.title}"?`,
+      `Are you sure you want to delete banner "${b.title}"?`,
+      () => this.svc.deleteBanner(b.id).pipe(takeUntil(this.destroy$)).subscribe({ next: r => { if (r.success) { this.toastr.success('Deleted.', 'Talentree', { timeOut: 2000 }); this.loadHomepage(); } } })
+    );
   }
 
   startEditAnnouncement(): void { this.announcementForm = { ...this.announcement }; this.announcementEdit = true; }
@@ -290,8 +307,11 @@ export class AdminPlatformComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory(c: CategoryDto): void {
-    if (!confirm(`Delete category "${c.name}"?`)) return;
-    this.svc.deleteCategory(c.id).pipe(takeUntil(this.destroy$)).subscribe({ next: r => { if (r.success) { this.toastr.success('Deleted.', 'Talentree', { timeOut: 2000 }); this.loadCategories(); } } });
+    this.openConfirmDialog(
+      `Delete category "${c.name}"?`,
+      `Are you sure you want to delete category "${c.name}"?`,
+      () => this.svc.deleteCategory(c.id).pipe(takeUntil(this.destroy$)).subscribe({ next: r => { if (r.success) { this.toastr.success('Deleted.', 'Talentree', { timeOut: 2000 }); this.loadCategories(); } } })
+    );
   }
 
   toggleCategory(c: CategoryDto): void {
@@ -324,10 +344,11 @@ export class AdminPlatformComponent implements OnInit, OnDestroy {
           this.policy = r.data;
           this.policyForm = { title: r.data.title, content: r.data.content };
         }
+        // When r.success is false (e.g. 404 — no policy created yet), policy stays null → shows empty state
         this.policyLoading = false;
       },
       error: () => {
-        // Backend returns 500 when no document exists yet for this policy type — treat it as empty
+        // Non-404 backend error — treat it as empty
         this.policy = null;
         this.policyLoading = false;
       }

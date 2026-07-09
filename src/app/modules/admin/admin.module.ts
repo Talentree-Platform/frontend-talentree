@@ -6,7 +6,7 @@ import { AdminLayoutComponent } from './../../layout/admin/admin.component';
 import { AdminListComponent } from './Pages/Admin/admin-managment/admin-list/admin-list.component';
 import { BoDetailsComponent } from './Pages/business-owner/bo-details/bo-details.component';
 import { PendingBoComponent } from './Pages/business-owner/pending-bo/pending-bo.component';
-import { DashboardComponent } from './Pages/Dashboeard/admin-dashboard/admin-dashboard.component';
+import { DashboardComponent } from './Pages/Dashboard/admin-dashboard/admin-dashboard.component';
 import { AdminProductHomeComponent } from './Pages/Products/admin-product-home/admin-product-home.component';
 import { RawMaterialListComponent } from './Pages/raw-material/raw-materials/raw-materials.component';
 import { SupplierListComponent } from './Pages/supplier/suppliers/suppliers.component';

@@ -1,8 +1,10 @@
 // src/app/modules/admin/Pages/Admin/admin-managment/admin-list/admin-list.component.ts
 
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import {
   AdminManagementService,
   AdminDto,
@@ -29,7 +31,8 @@ type ConfirmAction = 'deactivate' | 'activate' | 'unlock' | 'revoke' | null;
   templateUrl: './admin-list.component.html',
   styleUrls: ['./admin-list.component.scss']
 })
-export class AdminListComponent implements OnInit {
+export class AdminListComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   admins = signal<AdminDto[]>([]);
   isLoading = signal(true);
   errorMessage = signal<string | null>(null);
@@ -82,11 +85,18 @@ export class AdminListComponent implements OnInit {
     this.loadAdmins();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   loadAdmins(): void {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    this.adminManagementService.getAllAdmins().subscribe({
+    this.adminManagementService.getAllAdmins()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
       next: (response) => {
         this.admins.set(response.data ?? []);
         this.isLoading.set(false);
@@ -157,7 +167,9 @@ export class AdminListComponent implements OnInit {
     this.isSubmitting.set(true);
     const dto: CreateAdminDto = this.createForm.value;
 
-    this.adminManagementService.createAdmin(dto).subscribe({
+    this.adminManagementService.createAdmin(dto)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
       next: () => {
         this.flashMessage('Admin created successfully');
         this.closeModal();
@@ -181,7 +193,9 @@ export class AdminListComponent implements OnInit {
     this.isSubmitting.set(true);
     const dto: EditAdminDto = this.editForm.value;
 
-    this.adminManagementService.updateAdmin(admin.id, dto).subscribe({
+    this.adminManagementService.updateAdmin(admin.id, dto)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
       next: () => {
         this.flashMessage('Admin details updated');
         this.closeModal();
@@ -205,7 +219,9 @@ export class AdminListComponent implements OnInit {
     this.isSubmitting.set(true);
     const dto: ChangeAdminRoleDto = this.roleForm.value;
 
-    this.adminManagementService.updateAdminRole(admin.id, dto).subscribe({
+    this.adminManagementService.updateAdminRole(admin.id, dto)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
       next: () => {
         this.flashMessage('Role updated successfully');
         this.closeModal();
@@ -235,7 +251,9 @@ export class AdminListComponent implements OnInit {
     this.isSubmitting.set(true);
     const dto: ResetAdminPasswordDto = { newPassword, confirmNewPassword };
 
-    this.adminManagementService.resetAdminPassword(admin.id, dto).subscribe({
+    this.adminManagementService.resetAdminPassword(admin.id, dto)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
       next: () => {
         this.flashMessage('Password reset successfully');
         this.closeModal();
@@ -291,7 +309,9 @@ export class AdminListComponent implements OnInit {
         break;
     }
 
-    action$.subscribe({
+    action$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
       next: () => {
         this.flashMessage(successMsg);
         this.cancelConfirm();
