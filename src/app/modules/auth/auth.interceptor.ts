@@ -42,11 +42,19 @@ const isPublicUrl = publicUrls.some(url =>
     return throwError(() => new Error('No authentication token'));
   }
   
-  // إضافة الـ token للـ headers
+  // إضافة الـ token للـ headers + منع الكاش للـ GET requests
+  const extraHeaders: Record<string, string> = {
+    Authorization: `Bearer ${token}`
+  };
+
+  if (req.method === 'GET') {
+    extraHeaders['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+    extraHeaders['Pragma'] = 'no-cache';
+    extraHeaders['Expires'] = '0';
+  }
+
   const authReq = req.clone({
-    setHeaders: {
-      Authorization: `Bearer ${token}`
-    }
+    setHeaders: extraHeaders
   });
   
   return next(authReq).pipe(

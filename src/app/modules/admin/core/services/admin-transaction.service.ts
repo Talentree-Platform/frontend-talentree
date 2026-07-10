@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../../environments/environments';
+import { environment } from '../../../../core/environment/envirinment';
 import {
     Transaction,
     PaginatedResponse,
@@ -11,7 +11,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class AdminTransactionsService {
-    private readonly base = `/api/AdminTransactions`;
+    private readonly base = `${environment.baseUrl}/api/AdminTransactions`;;
 
     constructor(private http: HttpClient) { }
 
