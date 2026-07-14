@@ -4,21 +4,20 @@
 // ==========================================================================
 
 :host {
-  // Brand Color Tokens
-  --nav-bg-deep: #18130a;
-  --nav-bg-deep-alt: #1a1108;
-  --nav-gold: #b8860b;
+  // Brand Color Tokens — sourced from the shared bo-* design system so the
+  // navbar follows the app-wide BoThemeService light/dark toggle.
+  --nav-gold: var(--bo-accent);
   --nav-gold-bright: #c9952a;
-  --nav-gold-soft: rgba(201, 149, 42, 0.12);
-  --nav-text: #fbf3e2;
-  --nav-text-muted: rgba(251, 243, 226, 0.65);
+  --nav-gold-soft: var(--bo-accent-soft);
+  --nav-text: var(--bo-color-text);
+  --nav-text-muted: var(--bo-color-text-muted);
   --nav-danger: #c97a5a;
 
   // Glassmorphism System
-  --nav-glass-bg: rgba(24, 19, 10, 0.45); // Highly transparent over hero
-  --nav-glass-bg-scrolled: rgba(24, 19, 10, 0.85); // More opaque when scrolled over content
+  --nav-glass-bg: var(--bo-bg-surface);
+  --nav-glass-bg-scrolled: var(--bo-bg-surface-hover);
   --nav-blur: 16px;
-  
+
   --nav-radius: 40px;
   --nav-margin-top: 16px;
   --nav-margin-x: 24px;
@@ -26,6 +25,10 @@
 
   display: contents;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+:host-context([data-bo-theme='light']) {
+  --nav-gold-bright: #b8860b;
 }
 
 // --------------------------------------------------------------------------
@@ -58,28 +61,24 @@
   background: var(--nav-glass-bg);
   backdrop-filter: blur(var(--nav-blur));
   -webkit-backdrop-filter: blur(var(--nav-blur));
-  border: 1px solid rgba(201, 149, 42, 0.15);
+  border: var(--bo-border-surface);
   border-radius: var(--nav-radius);
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.25),
-    0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  box-shadow: var(--bo-shadow-card);
 
   overflow: hidden;
   animation: navbar-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
   transition:
     padding var(--nav-transition),
-    background var(--nav-transition),
-    box-shadow var(--nav-transition),
-    border-color var(--nav-transition),
+    background var(--bo-transition),
+    box-shadow var(--bo-transition),
+    border-color var(--bo-transition),
     border-radius var(--nav-transition);
 
   &--scrolled {
     padding: 8px 24px;
     background: var(--nav-glass-bg-scrolled);
-    border-color: rgba(201, 149, 42, 0.28);
-    box-shadow: 
-      0 12px 35px rgba(0, 0, 0, 0.35),
-      0 1px 0 rgba(255, 255, 255, 0.06) inset;
+    border-color: var(--bo-border-surface-hover);
+    box-shadow: var(--bo-shadow-card-hover);
   }
 }
 
@@ -233,7 +232,7 @@
   }
 
   &--active {
-    color: #ffffff;
+    color: var(--nav-text);
     font-weight: 600;
   }
 }
@@ -276,7 +275,7 @@
 .navbar__divider {
   width: 1px;
   height: 20px;
-  background: rgba(201, 149, 42, 0.2);
+  background: var(--bo-border-surface-hover);
   margin: 0 4px;
 }
 
@@ -289,31 +288,35 @@
   height: 38px;
   border-radius: 50%;
   color: var(--nav-text-muted);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: transparent;
+  border: var(--bo-border-surface);
   text-decoration: none;
   cursor: pointer;
   transition:
-    color var(--nav-transition),
-    background var(--nav-transition),
-    border-color var(--nav-transition),
+    color var(--bo-transition),
+    background var(--bo-transition),
+    border-color var(--bo-transition),
     transform var(--nav-transition),
     box-shadow var(--nav-transition);
 
   &:hover,
   &:focus-visible {
-    color: #ffffff;
-    background: rgba(201, 149, 42, 0.15);
-    border-color: rgba(201, 149, 42, 0.3);
+    color: var(--nav-text);
+    background: var(--nav-gold-soft);
+    border-color: var(--bo-border-surface-hover);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(201, 149, 42, 0.15);
+    box-shadow: var(--bo-shadow-card-hover);
   }
 
   &--active {
-    color: #ffffff;
-    border-color: rgba(201, 149, 42, 0.35);
-    background: rgba(201, 149, 42, 0.12);
+    color: var(--nav-text);
+    border-color: var(--bo-border-surface-hover);
+    background: var(--nav-gold-soft);
   }
+}
+
+.navbar__theme-btn i {
+  font-size: 15px;
 }
 
 .navbar__icon {
@@ -334,8 +337,8 @@
   justify-content: center;
   font-size: 9px;
   font-weight: 700;
-  color: #18130a;
-  background: linear-gradient(135deg, #fbf3e2, var(--nav-gold-bright));
+  color: var(--bo-color-on-accent);
+  background-image: var(--bo-accent-gradient);
   border-radius: 999px;
   box-shadow: 0 0 10px rgba(201, 149, 42, 0.4);
   animation: badge-pulse 2s infinite;
@@ -363,7 +366,7 @@
   gap: 6px;
   padding: 8px 16px;
   border-radius: var(--nav-radius);
-  border: 1px solid rgba(201, 149, 42, 0.2);
+  border: var(--bo-border-surface);
   background: transparent;
   color: var(--nav-text-muted);
   font-family: inherit;
@@ -403,15 +406,15 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1px solid rgba(201, 149, 42, 0.2);
-  background: rgba(255, 255, 255, 0.02);
+  border: var(--bo-border-surface);
+  background: transparent;
   cursor: pointer;
-  transition: background var(--nav-transition), border-color var(--nav-transition);
+  transition: background var(--bo-transition), border-color var(--bo-transition);
 
   &:hover,
   &:focus-visible {
-    background: rgba(201, 149, 42, 0.1);
-    border-color: rgba(201, 149, 42, 0.3);
+    background: var(--nav-gold-soft);
+    border-color: var(--bo-border-surface-hover);
   }
 }
 
@@ -498,11 +501,11 @@
   width: min(300px, 80vw);
   display: flex;
   flex-direction: column;
-  background: rgba(18, 14, 8, 0.92);
+  background: var(--bo-bg-surface-hover);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-left: 1px solid rgba(201, 149, 42, 0.18);
-  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.6);
+  border-left: var(--bo-border-surface);
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.35);
   border-radius: 20px 0 0 20px;
   padding: 24px;
   transform: translateX(100%);
@@ -535,11 +538,11 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1px solid rgba(201, 149, 42, 0.2);
+  border: var(--bo-border-surface);
   background: transparent;
   color: var(--nav-text);
   cursor: pointer;
-  transition: background var(--nav-transition);
+  transition: background var(--bo-transition);
 
   svg {
     width: 14px;
@@ -548,7 +551,7 @@
 
   &:hover,
   &:focus-visible {
-    background: rgba(201, 149, 42, 0.1);
+    background: var(--nav-gold-soft);
   }
 }
 
@@ -571,13 +574,13 @@
 
   &:hover,
   &:focus-visible {
-    color: #ffffff;
-    background: rgba(201, 149, 42, 0.08);
+    color: var(--nav-text);
+    background: var(--nav-gold-soft);
   }
 
   &--active {
-    color: #ffffff;
-    background: rgba(201, 149, 42, 0.12);
+    color: var(--nav-text);
+    background: var(--nav-gold-soft);
     border-left: 3px solid var(--nav-gold-bright);
     border-radius: 0 12px 12px 0;
   }
@@ -586,7 +589,40 @@
 .drawer__footer {
   margin-top: auto;
   padding-top: 20px;
-  border-top: 1px solid rgba(201, 149, 42, 0.12);
+  border-top: 1px solid var(--bo-border-surface-hover);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drawer__theme-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: var(--bo-border-surface);
+  background: transparent;
+  color: var(--nav-text-muted);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--bo-transition), background var(--bo-transition), border-color var(--bo-transition);
+
+  i {
+    font-size: 14px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--nav-gold);
+    background: var(--nav-gold-soft);
+    border-color: var(--bo-border-surface-hover);
+  }
 }
 
 .drawer__logout {
@@ -597,7 +633,7 @@
   gap: 8px;
   padding: 12px 16px;
   border-radius: 12px;
-  border: 1px solid rgba(201, 149, 42, 0.2);
+  border: var(--bo-border-surface);
   background: transparent;
   color: var(--nav-text-muted);
   font-family: inherit;
@@ -605,7 +641,7 @@
   font-weight: 600;
   text-transform: uppercase;
   cursor: pointer;
-  transition: color var(--nav-transition), background var(--nav-transition), border-color var(--nav-transition);
+  transition: color var(--bo-transition), background var(--bo-transition), border-color var(--bo-transition);
 
   svg {
     width: 16px;

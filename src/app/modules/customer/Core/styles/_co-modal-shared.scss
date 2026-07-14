@@ -1,22 +1,22 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree · _co-modal-shared.scss
 // Shared overlay/card chrome for payment, cancel, and refund modals.
+// Palette sourced from the shared --bo-* design tokens so modals follow
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
 // Import with: @use '../../styles/co-modal-shared' as *;
 // or simply @forward/@import per your project's Sass setup.
 // ─────────────────────────────────────────────────────────────────────────────
 
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
-$success:     #27A06B;
-$success-pale:#EDFAF4;
-$danger:      #D94040;
-$danger-pale: #FEF2F2;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  --success:     #27A06B;
+  --danger:      #D94040;
+}
 
 .co-modal-overlay {
   position: fixed;
@@ -37,14 +37,14 @@ $danger-pale: #FEF2F2;
 }
 
 .co-modal {
-  background: #fff;
+  background: var(--bo-bg-surface);
   border-radius: 18px;
-  border: 1px solid $gold-border;
+  border: var(--bo-border-surface);
   width: 100%;
   max-width: 420px;
   padding: 32px;
   position: relative;
-  box-shadow: 0 20px 60px rgba(24, 19, 10, 0.25);
+  box-shadow: var(--bo-shadow-card-hover);
   animation: co-modal-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 
   @media (max-width: 480px) { padding: 24px; }
@@ -62,9 +62,9 @@ $danger-pale: #FEF2F2;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1px solid $gold-border;
-  background: $bg-main;
-  color: $text-mid;
+  border: var(--bo-border-surface);
+  background: var(--bo-bg-surface-hover);
+  color: var(--text-mid);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,7 +73,7 @@ $danger-pale: #FEF2F2;
 
   svg { width: 13px; height: 13px; }
 
-  &:hover:not(:disabled) { background: $gold-pale; }
+  &:hover:not(:disabled) { background: var(--gold-soft); }
   &:disabled { opacity: 0.4; cursor: not-allowed; }
 }
 
@@ -81,7 +81,7 @@ $danger-pale: #FEF2F2;
   font-family: 'Cormorant Garamond', serif;
   font-size: 21px;
   font-weight: 600;
-  color: $text-dark;
+  color: var(--text-dark);
   margin: 0 0 20px;
   padding-right: 24px;
 }
@@ -97,18 +97,18 @@ $danger-pale: #FEF2F2;
   p {
     font-family: 'DM Sans', sans-serif;
     font-size: 13.5px;
-    color: $text-soft;
+    color: var(--text-soft);
     margin: 0;
   }
 
   h3 {
     font-family: 'Cormorant Garamond', serif;
     font-size: 22px;
-    color: $text-dark;
+    color: var(--text-dark);
     margin: 0;
   }
 
-  &--success h3 { color: $success; }
+  &--success h3 { color: var(--success); }
 }
 
 .co-success-icon {
@@ -125,15 +125,15 @@ $danger-pale: #FEF2F2;
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.4);
-  border-top-color: #fff;
+  border: 2px solid rgba(31, 21, 10, 0.25);
+  border-top-color: var(--bo-color-on-accent);
   animation: co-spin 0.7s linear infinite;
 
   &--lg {
     width: 30px;
     height: 30px;
-    border: 3px solid $gold-border;
-    border-top-color: $gold;
+    border: 3px solid rgba(184, 134, 11, 0.25);
+    border-top-color: var(--gold);
   }
 }
 
@@ -145,9 +145,9 @@ $danger-pale: #FEF2F2;
   margin: 14px 0;
   padding: 12px 14px;
   border-radius: 10px;
-  background: $danger-pale;
-  border: 1px solid rgba($danger, 0.25);
-  color: $danger;
+  background: rgba(217, 64, 64, 0.12);
+  border: 1px solid rgba(217, 64, 64, 0.25);
+  color: var(--danger);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
 }
@@ -160,7 +160,7 @@ $danger-pale: #FEF2F2;
   margin: 16px 0 0;
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
-  color: $text-soft;
+  color: var(--text-soft);
 
   svg { width: 13px; height: 13px; }
 }
@@ -174,8 +174,8 @@ $danger-pale: #FEF2F2;
   height: 48px;
   padding: 0 24px;
   border-radius: 40px;
-  background: linear-gradient(135deg, $gold, $gold-light);
-  color: #fff;
+  background-image: var(--bo-accent-gradient);
+  color: var(--bo-color-on-accent);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -186,7 +186,7 @@ $danger-pale: #FEF2F2;
   svg { width: 16px; height: 16px; }
 
   &:hover:not(:disabled) {
-    box-shadow: 0 6px 24px rgba($gold, 0.45);
+    box-shadow: var(--bo-shadow-card-hover);
     transform: translateY(-2px);
   }
 
@@ -197,16 +197,16 @@ $danger-pale: #FEF2F2;
   width: 100%;
   height: 48px;
   border-radius: 40px;
-  border: 1.5px solid $gold-border;
-  background: #fff;
-  color: $text-mid;
+  border: 1.5px solid var(--bo-border-surface-hover);
+  background: var(--bo-bg-surface);
+  color: var(--text-mid);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 
-  &:hover:not(:disabled) { background: $bg-main; }
+  &:hover:not(:disabled) { background: var(--bo-bg-surface-hover); }
   &:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 
@@ -215,7 +215,7 @@ $danger-pale: #FEF2F2;
   height: 48px;
   border-radius: 40px;
   border: none;
-  background: linear-gradient(135deg, $danger, #c23434);
+  background: linear-gradient(135deg, var(--danger), #c23434);
   color: #fff;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
@@ -224,7 +224,7 @@ $danger-pale: #FEF2F2;
   transition: box-shadow 0.25s, transform 0.25s;
 
   &:hover:not(:disabled) {
-    box-shadow: 0 6px 24px rgba($danger, 0.35);
+    box-shadow: 0 6px 24px rgba(217, 64, 64, 0.35);
     transform: translateY(-2px);
   }
 

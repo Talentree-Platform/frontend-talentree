@@ -525,3 +525,59 @@ input.input-main.ap-input--prefixed { padding-left: 28px; }
    Replace `onclick` with Angular event bindings
    and extract JS to the .ts component class.
 ═══════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────
+   DARK MODE — several sub-sections here were still hardcoded
+   to light hex values (#fafafa, #f0f0f0, #374151, #f3f4f6)
+   regardless of theme; override them with the shared --bo-*
+   tokens when [data-bo-theme="dark"] is active on <html>.
+   ───────────────────────────────────────────────────────── */
+::host-context([data-bo-theme='dark']) .ap-upload-zone__title {
+  color: var(--bo-color-text);
+}
+
+::host-context([data-bo-theme='dark']) .ap-info-box {
+  background: var(--bo-bg-surface);
+  border-color: var(--bo-border-surface-hover);
+}
+
+::host-context([data-bo-theme='dark']) .ap-toggle-row__title {
+  color: var(--bo-color-text);
+}
+
+::host-context([data-bo-theme='dark']) .ap-divider {
+  background: var(--bo-border-surface-hover);
+}
+
+::host-context([data-bo-theme='dark']) .ap-toggle__slider {
+  background: var(--bo-border-surface-hover);
+}
+
+::host-context([data-bo-theme='dark']) .ap-action-bar {
+  border-top-color: var(--bo-border-surface-hover);
+}
+
+::host-context([data-bo-theme='dark']) .ap-summary-list li {
+  border-bottom-color: var(--bo-border-surface-hover);
+}
+
+::host-context([data-bo-theme='dark']) .ap-badge {
+  background: var(--bo-bg-surface);
+  color: var(--bo-color-text-muted);
+  border: 1px solid var(--bo-border-surface-hover);
+}
+
+::host-context([data-bo-theme='dark']) .ap-badge--active {
+  background: var(--bo-accent-soft);
+  color: var(--bo-accent);
+  border-color: var(--bo-accent);
+}
+
+::host-context([data-bo-theme='dark']) .ap-btn--outline {
+  background: transparent;
+  color: var(--bo-accent);
+}
+
+::host-context([data-bo-theme='dark']) .ap-preview-item {
+  border-color: var(--bo-border-surface-hover);
+}

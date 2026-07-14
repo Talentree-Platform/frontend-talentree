@@ -5,35 +5,21 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { OwnerProductImageRef } from '../../../core/interfaces/owner-product';
+import { OwnerProductCategory, OwnerProductImageRef } from '../../../core/interfaces/owner-product';
 import { BusinessOwnerProductsService } from '../../../core/services/business-owner-products.service';
 
-/** Same labels as add-product template options → API CategoryId */
-const CATEGORY_NAME_TO_ID: Record<string, number> = {
-  Electronics: 1,
-  'Clothing & Apparel': 2,
-  'Home & Garden': 3,
-  'Sports & Outdoors': 4,
-  'Beauty & Health': 5,
-  'Books & Media': 6,
-  'Toys & Games': 7,
-  'Food & Beverages': 8,
-  Automotive: 9,
-  Other: 10
-};
+const MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024;
+const MAX_DESCRIPTION_LENGTH = 1000;
 
-/** When API categoryName does not match dropdown labels */
-const CATEGORY_ID_TO_LABEL: Record<number, string> = {
-  1: 'Electronics',
-  2: 'Clothing & Apparel',
-  3: 'Home & Garden',
-  4: 'Sports & Outdoors',
-  5: 'Beauty & Health',
-  6: 'Books & Media',
-  7: 'Toys & Games',
-  8: 'Food & Beverages',
-  9: 'Automotive',
-  10: 'Other'
+/** Maps ASP.NET ValidationProblemDetails field names (PUT body keys) to this form's error keys. */
+const API_FIELD_TO_FORM_ERROR: Record<string, string> = {
+  Name: 'productName',
+  CategoryId: 'category',
+  Description: 'description',
+  Price: 'price',
+  StockQuantity: 'quantity',
+  Tags: 'tags',
+  newImages: 'images'
 };
 
 @Component({
@@ -46,16 +32,20 @@ const CATEGORY_ID_TO_LABEL: Record<number, string> = {
 export class OwnerEditProductComponent implements OnInit, OnDestroy {
   private readonly subs = new Subscription();
 
+  readonly maxDescriptionLength = MAX_DESCRIPTION_LENGTH;
+
   productId!: number;
   loading = true;
   loadError: string | null = null;
 
+  categories: OwnerProductCategory[] = [];
+  categoriesLoading = false;
+
   productName = '';
   description = '';
-  /** Select option label (visible text) */
-  categoryLabel = '';
+  categoryId: number | null = null;
   price: number | null = null;
-  quantity = '';
+  quantity: number | null = null;
 
   tags: string[] = [];
   tagInput = '';
@@ -64,17 +54,9 @@ export class OwnerEditProductComponent implements OnInit, OnDestroy {
   imagesToDelete: number[] = [];
   newImageSlots: { file: File; url: string }[] = [];
 
-  brand = '';
-  freeShipping = false;
-  trackInventory = false;
-  featured = false;
-
   isLoading = false;
 
   errors: Record<string, string> = {};
-
-  showSuccessToast = false;
-  showErrorToast = false;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -84,6 +66,8 @@ export class OwnerEditProductComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loadCategories();
+
     const raw =
       this.route.snapshot.paramMap.get('id') ?? this.route.snapshot.queryParamMap.get('id');
     const id = Number(raw);
@@ -101,6 +85,22 @@ export class OwnerEditProductComponent implements OnInit, OnDestroy {
     this.newImageSlots.forEach((s) => URL.revokeObjectURL(s.url));
   }
 
+  private loadCategories(): void {
+    this.categoriesLoading = true;
+    this.subs.add(
+      this.productsApi.getCategories().subscribe({
+        next: (list) => {
+          this.categories = list;
+          this.categoriesLoading = false;
+        },
+        error: () => {
+          this.categoriesLoading = false;
+          this.toastr.warning('Could not load categories. Please try again later.', 'Categories');
+        }
+      })
+    );
+  }
+
   private loadProduct(id: number): void {
     this.loading = true;
     this.loadError = null;
@@ -109,14 +109,9 @@ export class OwnerEditProductComponent implements OnInit, OnDestroy {
         next: (p) => {
           this.productName = p.name;
           this.description = p.description === '—' ? '' : p.description;
-          let label = (p.categoryName || '').trim();
-          if (!CATEGORY_NAME_TO_ID[label] && p.categoryId != null) {
-            const mapped = CATEGORY_ID_TO_LABEL[p.categoryId];
-            if (mapped) label = mapped;
-          }
-          this.categoryLabel = label;
+          this.categoryId = p.categoryId;
           this.price = p.price;
-          this.quantity = String(p.stockQuantity ?? '');
+          this.quantity = p.stockQuantity;
           this.tags = p.tagList.map((t) =>
             t.replace(/^#/, '').trim().toLowerCase().replace(/\s+/g, '-')
           );
@@ -142,12 +137,11 @@ export class OwnerEditProductComponent implements OnInit, OnDestroy {
   }
 
   get formattedPrice(): string {
-    return this.price !== null ? `$${this.price.toFixed(2)}` : '—';
+    return this.price != null ? `$${this.price.toFixed(2)}` : '—';
   }
 
-  get categoryIdForApi(): number | null {
-    const fromLabel = CATEGORY_NAME_TO_ID[this.categoryLabel];
-    return fromLabel !== undefined ? fromLabel : null;
+  get selectedCategoryName(): string {
+    return this.categories.find((c) => c.id === this.categoryId)?.name ?? '—';
   }
 
   validate(): boolean {
@@ -157,12 +151,20 @@ export class OwnerEditProductComponent implements OnInit, OnDestroy {
       this.errors['productName'] = 'Product name is required.';
     }
 
-    if (!this.categoryLabel || this.categoryIdForApi == null) {
-      this.errors['category'] = 'Please select a category.';
+    if (!this.description.trim()) {
+      this.errors['description'] = 'Description is required.';
     }
 
-    if (this.price === null || this.price <= 0) {
-      this.errors['price'] = 'Enter a price greater than zero.';
+    if (this.categoryId == null) {
+      this.errors['category'] = 'Please select a valid category.';
+    }
+
+    if (this.price == null || this.price <= 0) {
+      this.errors['price'] = 'Price must be greater than 0.';
+    }
+
+    if (this.quantity == null || this.quantity < 0) {
+      this.errors['quantity'] = 'Stock quantity is required.';
     }
 
     if (this.existingImages.length + this.newImageSlots.length < 1) {
@@ -174,22 +176,16 @@ export class OwnerEditProductComponent implements OnInit, OnDestroy {
 
   /* ── Images ── */
 
-  onDragOver(event: DragEvent) {
+  onDragOver(event: DragEvent): void {
     event.preventDefault();
-    document.getElementById('uploadZone')?.classList.add('ap-upload-zone--active');
   }
 
-  onDragLeave(event: DragEvent) {
-    document.getElementById('uploadZone')?.classList.remove('ap-upload-zone--active');
-  }
-
-  onDrop(event: DragEvent) {
+  onDrop(event: DragEvent): void {
     event.preventDefault();
-    this.onDragLeave(event);
     if (event.dataTransfer?.files) this.addFiles(event.dataTransfer.files);
   }
 
-  handleFileSelect(event: Event) {
+  handleFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
       this.addFiles(input.files);
@@ -197,13 +193,22 @@ export class OwnerEditProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  addFiles(files: FileList | null) {
+  addFiles(files: FileList | null): void {
     if (!files?.length) return;
     Array.from(files).forEach((file) => {
-      if (!this.isImageFile(file)) return;
+      if (!this.isImageFile(file)) {
+        this.toastr.warning(`"${file.name}" is not a supported image type.`, 'Images');
+        return;
+      }
+      if (file.size > MAX_IMAGE_SIZE_BYTES) {
+        this.toastr.warning(`"${file.name}" exceeds the 10 MB limit.`, 'Images');
+        return;
+      }
       const url = URL.createObjectURL(file);
       this.newImageSlots.push({ file, url });
     });
+
+    if (this.existingImages.length + this.newImageSlots.length > 0) delete this.errors['images'];
   }
 
   private isImageFile(file: File): boolean {
@@ -211,136 +216,114 @@ export class OwnerEditProductComponent implements OnInit, OnDestroy {
     return /\.(jpe?g|png|gif|webp|bmp|svg|heic|heif)$/i.test(file.name);
   }
 
-  removeExistingImage(img: OwnerProductImageRef) {
+  removeExistingImage(img: OwnerProductImageRef): void {
     this.existingImages = this.existingImages.filter((x) => x.url !== img.url);
     if (img.id > 0 && !this.imagesToDelete.includes(img.id)) {
       this.imagesToDelete.push(img.id);
     }
   }
 
-  removeNewImage(slot: { file: File; url: string }) {
+  removeNewImage(slot: { file: File; url: string }): void {
     URL.revokeObjectURL(slot.url);
     this.newImageSlots = this.newImageSlots.filter((s) => s !== slot);
   }
 
   /* ── Tags ── */
 
-  handleTagKey(event: KeyboardEvent) {
+  handleTagKey(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       event.preventDefault();
       this.addTag();
     }
   }
 
-  addTag() {
-    const el = document.getElementById('tagInput') as HTMLInputElement | null;
-    if (el) this.tagInput = el.value;
-
+  addTag(): void {
     const val = this.tagInput.trim().toLowerCase().replace(/\s+/g, '-');
-    if (!val) return;
-
-    if (this.tags.includes(val)) {
-      this.tagInput = '';
-      if (el) el.value = '';
-      return;
-    }
-
-    this.tags.push(val);
     this.tagInput = '';
-    if (el) el.value = '';
+    if (!val || this.tags.includes(val)) return;
+    this.tags.push(val);
   }
 
-  removeTag(tag: string) {
+  removeTag(tag: string): void {
     this.tags = this.tags.filter((t) => t !== tag);
   }
 
   /* ── Save / cancel ── */
 
-  handleSave() {
+  handleSave(): void {
     if (!this.validate()) {
-      const parts = Object.values(this.errors).filter(Boolean);
-      this.toastr.error(parts.join(' ') || 'Please fix the errors.', 'Validation');
+      this.toastr.error(Object.values(this.errors).join(' ') || 'Please fix the errors.', 'Validation');
       return;
     }
-
-    const cid = this.categoryIdForApi;
-    if (cid == null) {
-      this.toastr.error('Please select a valid category.', 'Validation');
-      return;
-    }
-
-    const formData = new FormData();
-
-    formData.append('Name', this.productName.trim());
-    formData.append('CategoryId', String(cid));
-    formData.append('Description', this.description.trim());
-    formData.append('Price', this.price != null ? String(this.price) : '0');
-    const stock = Math.max(0, Math.floor(Number.parseInt(this.quantity, 10) || 0));
-    formData.append('StockQuantity', String(stock));
-    formData.append('Tags', this.tags.join('#'));
-
-    this.imagesToDelete.forEach((delId) => {
-      formData.append('ImagesToDelete', String(delId));
-    });
-
-    this.newImageSlots.forEach((s) => {
-      formData.append('newImages', s.file, s.file.name);
-    });
 
     this.isLoading = true;
-    this.setSaveButtonsDisabled(true);
 
     this.subs.add(
-      this.productsApi.updateProduct(this.productId, formData).subscribe({
-        next: () => {
-          this.isLoading = false;
-          this.setSaveButtonsDisabled(false);
-          this.toastr.success('Product updated successfully.', 'Success');
-          void this.router.navigate(['/businessowner/ownerProduct']);
-        },
-        error: (err: unknown) => {
-          this.isLoading = false;
-          this.setSaveButtonsDisabled(false);
-          this.showApiError(err);
-        }
-      })
+      this.productsApi
+        .updateProduct(this.productId, {
+          name: this.productName.trim(),
+          categoryId: this.categoryId!,
+          description: this.description.trim(),
+          price: this.price!,
+          stockQuantity: Math.floor(this.quantity!),
+          tags: this.tags,
+          imagesToDelete: this.imagesToDelete,
+          newImages: this.newImageSlots.map((s) => s.file)
+        })
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            this.toastr.success('Product updated successfully.', 'Success');
+            void this.router.navigate(['/businessowner/ownerProduct']);
+          },
+          error: (err: unknown) => {
+            this.isLoading = false;
+            this.handleApiError(err);
+          }
+        })
     );
   }
 
-  private setSaveButtonsDisabled(disabled: boolean): void {
-    const root = document.querySelector('.ap-page');
-    if (!root) return;
-    root.querySelectorAll<HTMLButtonElement>('button.btn-main.btn-gold').forEach((btn) => {
-      btn.disabled = disabled;
-    });
-  }
-
-  private showApiError(err: unknown): void {
-    if (err instanceof HttpErrorResponse) {
-      const body = err.error;
-      let msg = 'Could not save changes. Please try again.';
-      if (typeof body === 'object' && body && 'message' in body) {
-        msg = String((body as { message: string }).message);
-      } else if (typeof body === 'string' && body.trim()) {
-        msg = body;
-      }
-      this.toastr.error(msg, 'Error');
-    } else {
-      this.toastr.error('Could not save changes. Please try again.', 'Error');
-    }
-  }
-
-  handleCancel() {
+  handleCancel(): void {
     if (confirm('Discard all changes?')) {
       void this.router.navigate(['/businessowner/ownerProduct']);
     }
   }
 
-  showSuccessToastMessage() {
-    this.toastr.success('Product updated successfully.', 'Success');
+  private handleApiError(err: unknown): void {
+    if (!(err instanceof HttpErrorResponse)) {
+      this.toastr.error('Could not save changes. Please try again.', 'Error');
+      return;
+    }
+
+    const fieldErrors = this.extractFieldErrors(err.error);
+    if (fieldErrors) {
+      this.errors = { ...this.errors, ...fieldErrors };
+      this.toastr.error(Object.values(fieldErrors).join(' '), 'Validation');
+      return;
+    }
+
+    const body = err.error;
+    const msg =
+      typeof body === 'object' && body && 'message' in body
+        ? String((body as { message: string }).message)
+        : typeof body === 'string' && body.trim()
+          ? body
+          : 'Could not save changes. Please try again.';
+    this.toastr.error(msg, 'Error');
   }
 
-  showErrorToastMessage() {
-    this.toastr.error('Please fix the errors below.', 'Validation');
+  /** Maps ASP.NET ValidationProblemDetails `errors: { Field: string[] }` onto this form's error keys. */
+  private extractFieldErrors(body: unknown): Record<string, string> | null {
+    if (typeof body !== 'object' || body === null) return null;
+    const raw = (body as { errors?: Record<string, string[] | string> }).errors;
+    if (!raw || typeof raw !== 'object') return null;
+
+    const out: Record<string, string> = {};
+    for (const [field, messages] of Object.entries(raw)) {
+      const key = API_FIELD_TO_FORM_ERROR[field] ?? field;
+      out[key] = Array.isArray(messages) ? messages.join(' ') : String(messages);
+    }
+    return Object.keys(out).length ? out : null;
   }
 }

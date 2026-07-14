@@ -135,11 +135,33 @@ export class MaterialOrderDetailsComponent implements OnInit {
     this.showPaymentModal = false;
     this.intentData = null;
 
-    // Optimistically reflect paid status, then refresh from server to be sure
+    // Optimistically reflect paid status so the UI updates instantly
     if (this.orderDetails) {
       this.orderDetails.paymentStatus = 1;
     }
-    this.getOrderDetails(this.orderDetails.id);
+
+    // The backend flips paymentStatus asynchronously via a Stripe webhook,
+    // which can lag behind Stripe's client-side confirmation. Poll briefly
+    // so a slow webhook doesn't cause a single refetch to show "Unpaid" again.
+    this.pollForPaymentConfirmation(this.orderDetails.id);
+  }
+
+  private pollForPaymentConfirmation(id: number, attempt = 0): void {
+    const maxAttempts = 5;
+    const delayMs = 1500;
+
+    this.materialOrderService.getOrderById(id).subscribe({
+      next: (res) => {
+        this.orderDetails = res.data;
+
+        if (this.orderDetails.paymentStatus !== 1 && attempt < maxAttempts) {
+          setTimeout(() => this.pollForPaymentConfirmation(id, attempt + 1), delayMs);
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 
   onPaymentError(error: PaymentError): void {

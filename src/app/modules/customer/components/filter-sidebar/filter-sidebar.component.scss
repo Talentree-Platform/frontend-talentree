@@ -1,26 +1,32 @@
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
-$radius:      14px;
+// Palette sourced from the shared --bo-* design tokens so the sidebar follows
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
+
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  display: block;
+}
+
+$radius: 14px;
 
 // ── Shell ─────────────────────────────────────────────────────────────────────
 .filter-sidebar {
   width: 260px;
-  background: #fff;
-  border: 1px solid $gold-border;
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
   border-radius: $radius;
-  box-shadow: 0 4px 24px rgba(184, 134, 11, 0.07);
+  box-shadow: var(--bo-shadow-card);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   height: fit-content;
   position: sticky;
   top: 20px;
+  transition: background-color var(--bo-transition), border-color var(--bo-transition);
 
   @media (max-width: 900px) {
     width: 100%;
@@ -34,8 +40,8 @@ $radius:      14px;
   align-items: center;
   justify-content: space-between;
   padding: 16px 18px;
-  border-bottom: 1px solid $gold-border;
-  background: linear-gradient(135deg, $gold-pale 0%, #fff 100%);
+  border-bottom: var(--bo-border-surface);
+  background: linear-gradient(135deg, var(--gold-soft) 0%, var(--bo-bg-surface) 100%);
   gap: 10px;
 }
 
@@ -48,20 +54,20 @@ $radius:      14px;
 .sidebar__title-icon {
   width: 18px;
   height: 18px;
-  color: $gold;
+  color: var(--gold);
 }
 
 .sidebar__title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 18px;
   font-weight: 600;
-  color: $text-dark;
+  color: var(--text-dark);
   margin: 0;
 }
 
 .sidebar__badge {
-  background: $gold;
-  color: #fff;
+  background: var(--gold);
+  color: var(--bo-color-on-accent);
   font-family: 'DM Sans', sans-serif;
   font-size: 10px;
   font-weight: 700;
@@ -82,7 +88,7 @@ $radius:      14px;
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
   font-weight: 600;
-  color: $gold;
+  color: var(--gold);
   background: none;
   border: none;
   cursor: pointer;
@@ -92,7 +98,7 @@ $radius:      14px;
   text-underline-offset: 3px;
   white-space: nowrap;
 
-  &:hover { color: darken($gold, 10%); }
+  &:hover { opacity: 0.8; }
 }
 
 .sidebar__close {
@@ -102,15 +108,15 @@ $radius:      14px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 1px solid $gold-border;
-  background: #fff;
+  border: var(--bo-border-surface);
+  background: var(--bo-bg-surface);
   cursor: pointer;
-  color: $text-mid;
+  color: var(--text-mid);
   transition: background 0.2s;
   flex-shrink: 0;
 
   svg { width: 13px; height: 13px; }
-  &:hover { background: $gold-pale; color: $text-dark; }
+  &:hover { background: var(--gold-soft); color: var(--text-dark); }
 }
 
 .sidebar__body {
@@ -120,13 +126,12 @@ $radius:      14px;
 
   &::-webkit-scrollbar { width: 4px; }
   &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: $gold-border; border-radius: 2px; }
+  &::-webkit-scrollbar-thumb { background: var(--bo-border-surface-hover); border-radius: 2px; }
 }
 
 .sidebar__divider {
   height: 1px;
-  background: $gold-border;
-  opacity: 0.5;
+  background: var(--bo-border-surface-hover);
   margin: 0 18px;
 }
 
@@ -151,7 +156,7 @@ $radius:      14px;
   text-align: left;
   transition: background 0.18s;
 
-  &:hover { background: rgba($gold-pale, 0.6); }
+  &:hover { background: var(--gold-soft); }
 }
 
 .section__label {
@@ -160,21 +165,21 @@ $radius:      14px;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: $text-mid;
+  color: var(--text-mid);
 
   small {
     font-size: 10px;
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
-    color: $text-soft;
+    color: var(--text-soft);
   }
 }
 
 .section__chevron {
   width: 16px;
   height: 16px;
-  color: $text-soft;
+  color: var(--text-soft);
   transition: transform 0.22s ease;
   flex-shrink: 0;
 }
@@ -206,31 +211,31 @@ $radius:      14px;
   text-align: left;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: $text-mid;
+  color: var(--text-mid);
   transition: background 0.18s, color 0.18s;
 
   &__dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    border: 1.5px solid $gold-border;
+    border: 1.5px solid var(--bo-border-surface-hover);
     flex-shrink: 0;
     transition: background 0.18s, border-color 0.18s;
   }
 
   &:hover {
-    background: $gold-pale;
-    color: $text-dark;
+    background: var(--gold-soft);
+    color: var(--text-dark);
   }
 
   &--active {
-    color: $text-dark;
+    color: var(--text-dark);
     font-weight: 600;
 
     .sort-option__dot {
-      background: $gold;
-      border-color: $gold;
-      box-shadow: 0 0 0 3px rgba($gold, 0.15);
+      background: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.15);
     }
   }
 }
@@ -253,14 +258,14 @@ $radius:      14px;
     width: 16px;
     height: 16px;
     border-radius: 4px;
-    border: 1.5px solid $gold-border;
-    background: #fff;
+    border: 1.5px solid var(--bo-border-surface-hover);
+    background: var(--bo-bg-surface);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     transition: background 0.18s, border-color 0.18s;
-    color: #fff;
+    color: var(--bo-color-on-accent);
 
     svg { width: 10px; height: 10px; }
   }
@@ -269,7 +274,7 @@ $radius:      14px;
     flex: 1;
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
-    color: $text-mid;
+    color: var(--text-mid);
     transition: color 0.18s;
     text-align: left;
   }
@@ -277,24 +282,24 @@ $radius:      14px;
   &__count {
     font-family: 'DM Sans', sans-serif;
     font-size: 11px;
-    color: $text-soft;
-    background: $gold-pale;
+    color: var(--text-soft);
+    background: var(--gold-soft);
     border-radius: 8px;
     padding: 1px 6px;
   }
 
   &:hover {
-    background: $gold-pale;
-    .filter-option__name { color: $text-dark; }
+    background: var(--gold-soft);
+    .filter-option__name { color: var(--text-dark); }
   }
 
   &--active {
     .filter-option__check {
-      background: $gold;
-      border-color: $gold;
+      background: var(--gold);
+      border-color: var(--gold);
     }
     .filter-option__name {
-      color: $text-dark;
+      color: var(--text-dark);
       font-weight: 600;
     }
   }
@@ -309,7 +314,7 @@ $radius:      14px;
 }
 
 .price-separator {
-  color: $text-soft;
+  color: var(--text-soft);
   font-size: 14px;
   flex-shrink: 0;
 }
@@ -327,25 +332,25 @@ $radius:      14px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: $text-soft;
+  color: var(--text-soft);
 }
 
 .price-input {
   width: 100%;
   height: 36px;
-  border: 1.5px solid $gold-border;
+  border: 1.5px solid var(--bo-border-surface-hover);
   border-radius: 8px;
   padding: 0 10px;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: $text-dark;
-  background: $bg-main;
+  color: var(--text-dark);
+  background: var(--bo-bg-page);
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 
   &:focus {
-    border-color: $gold;
-    box-shadow: 0 0 0 2px rgba($gold, 0.12);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.12);
   }
 
   // hide native number arrows
@@ -364,8 +369,8 @@ $radius:      14px;
   height: 34px;
   border-radius: 24px;
   border: none;
-  background: linear-gradient(135deg, $gold, $gold-light);
-  color: #fff;
+  background-image: var(--bo-accent-gradient);
+  color: var(--bo-color-on-accent);
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -373,21 +378,21 @@ $radius:      14px;
   letter-spacing: 0.04em;
   transition: opacity 0.2s, box-shadow 0.2s;
 
-  &:hover { opacity: 0.9; box-shadow: 0 3px 12px rgba($gold, 0.3); }
+  &:hover { opacity: 0.9; box-shadow: 0 3px 12px rgba(184, 134, 11, 0.3); }
 }
 
 .btn-price-clear {
   height: 34px;
   padding: 0 14px;
   border-radius: 24px;
-  border: 1px solid $gold-border;
-  background: #fff;
-  color: $text-mid;
+  border: var(--bo-border-surface);
+  background: var(--bo-bg-surface);
+  color: var(--text-mid);
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 
-  &:hover { background: $gold-pale; color: $text-dark; }
+  &:hover { background: var(--gold-soft); color: var(--text-dark); }
 }

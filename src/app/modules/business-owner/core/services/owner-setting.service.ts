@@ -10,6 +10,7 @@ import {
   Preferences
 } from '../interfaces/i-setting';
 import { environment } from '../../../../core/environment/envirinment';
+import { resolveMediaUrl } from '../../../../core/utils/media-url.util';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class OwnerSettingService {
     this.getCurrentProfile().subscribe({
       next: (res) => {
         this.profileImageSubject.next(
-          res.data.profilePhotoUrl ? environment.AzureUrl + res.data.profilePhotoUrl : null
+          resolveMediaUrl(environment.AzureUrl, res.data.profilePhotoUrl)
         );
         this.displayNameSubject.next(res.data.displayName || null);
       },

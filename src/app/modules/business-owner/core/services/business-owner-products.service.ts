@@ -3,18 +3,25 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { ApiResponse } from '../interfaces/material';
 import {
+  CreateOwnerProductPayload,
   OwnerProduct,
+  OwnerProductCategory,
   OwnerProductDetail,
   OwnerProductImageRef,
-  OwnerProductStatus
+  OwnerProductStatus,
+  UpdateOwnerProductPayload
 } from '../interfaces/owner-product';
 import { environment } from '../../../../core/environment/envirinment';
 
 type ApiOwnerProduct = Record<string, unknown>;
 
-/** Host for relative media paths returned by the API (same origin as Auth). */
-const API_MEDIA_ORIGIN = `${environment.baseUrl}/api`;
-// const API_MEDIA_ORIGIN = '/api';
+/**
+ * Host for relative media paths (e.g. "/uploads/products/xxx.jpg") returned by the API.
+ * Images are static files served from the API host's root, not behind "/api" — unlike
+ * JSON endpoints, they must hit the real backend origin directly (same pattern as
+ * OwnerSettingService's profilePhotoUrl), not the dev-server's "/api" proxy prefix.
+ */
+const API_MEDIA_ORIGIN = environment.AzureUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -56,14 +63,63 @@ export class BusinessOwnerProductsService {
     return this.http.delete<unknown>(`${this.baseUrl}/${id}`);
   }
 
-  /** POST /api/BusinessOwnerProducts — multipart/form-data; Authorization via authInterceptor. */
-  createProduct(formData: FormData): Observable<unknown> {
+  /**
+   * GET /api/customer/categories — shared platform category list, reused here
+   * for the product form dropdown (no BO-specific categories endpoint exists).
+   */
+  getCategories(): Observable<OwnerProductCategory[]> {
+    return this.http
+      .get<ApiResponse<{ id: number; name: string }[]>>(`${environment.baseUrl}/api/customer/categories`)
+      .pipe(
+        map((res) => {
+          const list = res?.data ?? [];
+          return list
+            .map((c) => ({ id: c.id, name: c.name }))
+            .sort((a, b) => a.name.localeCompare(b.name));
+        })
+      );
+  }
+
+  /**
+   * POST /api/BusinessOwnerProducts — multipart/form-data.
+   * Builds the FormData from a typed payload; Angular sets the
+   * multipart Content-Type (with boundary) automatically.
+   */
+  createProduct(payload: CreateOwnerProductPayload): Observable<unknown> {
+    const formData = new FormData();
+    formData.append('Name', payload.name);
+    formData.append('CategoryId', String(payload.categoryId));
+    formData.append('Description', payload.description);
+    formData.append('Price', String(payload.price));
+    formData.append('StockQuantity', String(payload.stockQuantity));
+    formData.append('Tags', this.buildTagsString(payload.tags));
+    payload.images.forEach((file) => formData.append('images', file, file.name));
+
     return this.http.post<unknown>(this.baseUrl, formData);
   }
 
-  /** PUT /api/BusinessOwnerProducts/{id} — multipart/form-data. */
-  updateProduct(id: number, formData: FormData): Observable<unknown> {
+  /**
+   * PUT /api/BusinessOwnerProducts/{id} — multipart/form-data.
+   * Builds the FormData from a typed payload, appending ImagesToDelete ids
+   * and newImages files individually; existing images not listed are kept.
+   */
+  updateProduct(id: number, payload: UpdateOwnerProductPayload): Observable<unknown> {
+    const formData = new FormData();
+    formData.append('Name', payload.name);
+    formData.append('CategoryId', String(payload.categoryId));
+    formData.append('Description', payload.description);
+    formData.append('Price', String(payload.price));
+    formData.append('StockQuantity', String(payload.stockQuantity));
+    formData.append('Tags', this.buildTagsString(payload.tags));
+    payload.imagesToDelete.forEach((imgId) => formData.append('ImagesToDelete', String(imgId)));
+    payload.newImages.forEach((file) => formData.append('newImages', file, file.name));
+
     return this.http.put<unknown>(`${this.baseUrl}/${id}`, formData);
+  }
+
+  /** Serializes tag chips (no leading '#') into the comma-separated string the API stores and parseTagList() reads back. */
+  private buildTagsString(tags: string[]): string {
+    return tags.map((t) => (t.startsWith('#') ? t : `#${t}`)).join(',');
   }
 
   private pickStr(obj: ApiOwnerProduct, ...keys: string[]): string {
@@ -98,12 +154,15 @@ export class BusinessOwnerProductsService {
 
     const map: Record<string, OwnerProductStatus> = {
       active: 'active',
+      approved: 'active',
       draft: 'draft',
       under_review: 'under_review',
       underreview: 'under_review',
       pending_review: 'under_review',
       pendingapproval: 'under_review',
+      pending: 'under_review',
       rejected: 'rejected',
+      declined: 'rejected',
       out_of_stock: 'out_of_stock',
       outofstock: 'out_of_stock',
       inactive: 'draft'
@@ -123,10 +182,6 @@ export class BusinessOwnerProductsService {
           .map((t) => (t.startsWith('#') ? t : `#${t}`))
       )
     ];
-  }
-
-  private normalizeImageList(raw: unknown, mainPath: string): string[] {
-    return this.normalizeProductImageRefs(raw, mainPath).map((x) => x.url);
   }
 
   private normalizeProductImageRefs(raw: unknown, mainPath: string): OwnerProductImageRef[] {

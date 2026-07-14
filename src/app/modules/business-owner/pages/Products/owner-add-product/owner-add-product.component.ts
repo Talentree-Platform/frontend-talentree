@@ -1,24 +1,41 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { BusinessOwnerProductsService } from '../../../core/services/business-owner-products.service';
+import { OwnerProductCategory } from '../../../core/interfaces/owner-product';
 
-/** Map visible category labels to API CategoryId values (update to match your backend). */
-const CATEGORY_NAME_TO_ID: Record<string, number> = {
-  Electronics: 1,
-  'Clothing & Apparel': 2,
-  'Home & Garden': 3,
-  'Sports & Outdoors': 4,
-  'Beauty & Health': 5,
-  'Books & Media': 6,
-  'Toys & Games': 7,
-  'Food & Beverages': 8,
-  Automotive: 9,
-  Other: 10
+const MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024;
+const MAX_DESCRIPTION_LENGTH = 1000;
+
+/**
+ * Static category options — there is no BusinessOwnerProducts categories API.
+ * NOTE: ids are placeholders (1, 2, 3...) pending confirmation against the
+ * real backend CategoryId values; update here if they don't match.
+ */
+const PRODUCT_CATEGORIES: OwnerProductCategory[] = [
+  { id: 1, name: 'Handmade Crafts' },
+  { id: 2, name: 'Fashion & Accessories' },
+  { id: 3, name: 'Natural & Beauty Products' }
+];
+
+/** Maps ASP.NET ValidationProblemDetails field names (POST body keys) to this form's error keys. */
+const API_FIELD_TO_FORM_ERROR: Record<string, string> = {
+  Name: 'productName',
+  CategoryId: 'category',
+  Description: 'description',
+  Price: 'price',
+  StockQuantity: 'quantity',
+  Tags: 'tags',
+  images: 'images'
 };
+
+interface ImagePreview {
+  file: File;
+  url: string;
+}
 
 @Component({
   selector: 'app-owner-add-product',
@@ -27,11 +44,26 @@ const CATEGORY_NAME_TO_ID: Record<string, number> = {
   templateUrl: './owner-add-product.component.html',
   styleUrl: './owner-add-product.component.css'
 })
-export class OwnerAddProductComponent implements OnDestroy, AfterViewInit {
+export class OwnerAddProductComponent implements OnDestroy {
   private readonly subs = new Subscription();
 
-  imageCount = 0;
+  readonly maxDescriptionLength = MAX_DESCRIPTION_LENGTH;
+  readonly categories: OwnerProductCategory[] = PRODUCT_CATEGORIES;
+
+  productName = '';
+  description = '';
+  categoryId: number | null = null;
+  price: number | null = null;
+  quantity: number | null = null;
+
+  tags: string[] = [];
+  tagInput = '';
+
   selectedFiles: File[] = [];
+  previews: ImagePreview[] = [];
+
+  errors: Record<string, string> = {};
+  isLoading = false;
 
   constructor(
     private readonly productsApi: BusinessOwnerProductsService,
@@ -39,93 +71,35 @@ export class OwnerAddProductComponent implements OnDestroy, AfterViewInit {
     private readonly toastr: ToastrService
   ) {}
 
-  ngAfterViewInit(): void {
-    this.refreshSummary();
-  }
-
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+    this.previews.forEach((p) => URL.revokeObjectURL(p.url));
   }
 
-  /** Updates the right-column Summary and Product Status from current form values. */
-  refreshSummary(): void {
-    const nameEl = document.getElementById('productName') as HTMLInputElement | null;
-    const name = nameEl?.value?.trim() ?? '';
-    this.setSummaryText('s-name', name || '—');
-
-    const catEl = document.getElementById('category') as HTMLSelectElement | null;
-    const catEmpty = !catEl?.value || catEl.selectedIndex <= 0;
-    const catLabel = catEl?.options[catEl.selectedIndex]?.text?.trim() ?? '';
-    this.setSummaryText('s-category', catEmpty ? '—' : catLabel);
-
-    const sellingEl = document.getElementById('sellingPrice') as HTMLInputElement | null;
-    const rawPrice = sellingEl?.value?.trim() ?? '';
-    let priceLabel = '—';
-    if (rawPrice !== '') {
-      const n = Number(rawPrice);
-      if (Number.isFinite(n) && n > 0) {
-        priceLabel = `$${n.toFixed(2)}`;
-      }
-    }
-    this.setSummaryText('s-price', priceLabel);
-
-    const qtyEl = document.getElementById('quantity') as HTMLInputElement | null;
-    const q = qtyEl?.value?.trim() ?? '';
-    this.setSummaryText('s-stock', q !== '' ? q : '—');
-
-    const brandEl = document.getElementById('brand') as HTMLInputElement | null;
-    const brand = brandEl?.value?.trim() ?? '';
-    this.setSummaryText('s-brand', brand || '—');
-
-    const imgBadge = document.getElementById('s-images');
-    if (imgBadge) {
-      const n = this.selectedFiles.length;
-      imgBadge.textContent = n === 0 ? '0 uploaded' : `${n} uploaded`;
-    }
-
-    const ship = document.getElementById('freeShipping') as HTMLInputElement | null;
-    this.setStatusPill('st-shipping', !!ship?.checked);
-
-    const inv = document.getElementById('trackInventory') as HTMLInputElement | null;
-    this.setStatusPill('st-inventory', inv?.checked !== false);
-
-    const feat = document.getElementById('featured') as HTMLInputElement | null;
-    this.setStatusPill('st-featured', !!feat?.checked);
+  get charCount(): number {
+    return this.description.length;
   }
 
-  private setSummaryText(id: string, text: string): void {
-    const el = document.getElementById(id);
-    if (el) el.textContent = text;
+  get formattedPrice(): string {
+    return this.price != null ? `$${this.price.toFixed(2)}` : '—';
   }
 
-  private setStatusPill(id: string, on: boolean): void {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = on ? 'ON' : 'OFF';
-    el.className = `ap-status ${on ? 'ap-status--on' : 'ap-status--off'}`;
+  get selectedCategoryName(): string {
+    return this.categories.find((c) => c.id === this.categoryId)?.name ?? '—';
   }
 
-  /* ── Image Upload ── */
+  /* ── Image upload ── */
 
-  onDragOver(event: DragEvent) {
+  onDragOver(event: DragEvent): void {
     event.preventDefault();
-    document.getElementById('uploadZone')?.classList.add('ap-upload-zone--active');
   }
 
-  onDragLeave(event: DragEvent) {
-    document.getElementById('uploadZone')?.classList.remove('ap-upload-zone--active');
-  }
-
-  onDrop(event: DragEvent) {
+  onDrop(event: DragEvent): void {
     event.preventDefault();
-    this.onDragLeave(event);
-
-    if (event.dataTransfer?.files) {
-      this.addFiles(event.dataTransfer.files);
-    }
+    if (event.dataTransfer?.files) this.addFiles(event.dataTransfer.files);
   }
 
-  handleFileSelect(event: Event) {
+  handleFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
       this.addFiles(input.files);
@@ -133,163 +107,79 @@ export class OwnerAddProductComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  addFiles(files: FileList | null) {
+  addFiles(files: FileList | null): void {
     if (!files?.length) return;
 
     Array.from(files).forEach((file) => {
-      if (!this.isImageFile(file)) return;
-
+      if (!this.isImageFile(file)) {
+        this.toastr.warning(`"${file.name}" is not a supported image type.`, 'Images');
+        return;
+      }
+      if (file.size > MAX_IMAGE_SIZE_BYTES) {
+        this.toastr.warning(`"${file.name}" exceeds the 10 MB limit.`, 'Images');
+        return;
+      }
       this.selectedFiles.push(file);
-      const url = URL.createObjectURL(file);
-      this.addPreviewToGrid(url, file.name, file);
+      this.previews.push({ file, url: URL.createObjectURL(file) });
     });
 
-    this.refreshImageCount();
+    if (this.selectedFiles.length) delete this.errors['images'];
   }
 
-  /** Accept common image types; some browsers omit MIME or use non-image/* for HEIC etc. */
+  removeImage(entry: ImagePreview): void {
+    this.selectedFiles = this.selectedFiles.filter((f) => f !== entry.file);
+    this.previews = this.previews.filter((p) => p !== entry);
+    URL.revokeObjectURL(entry.url);
+  }
+
   private isImageFile(file: File): boolean {
     if (file.type.startsWith('image/')) return true;
     return /\.(jpe?g|png|gif|webp|bmp|svg|heic|heif)$/i.test(file.name);
   }
 
-  private addPreviewToGrid(url: string, fileName: string, file: File): void {
-    const grid = document.getElementById('previewGrid');
-    if (!grid) return;
-
-    const div = document.createElement('div');
-    div.className = 'ap-preview-item';
-    div.innerHTML = `
-        <img src="${url}" alt="${fileName}" />
-        <button type="button" class="ap-preview-item__remove">
-          ✕
-        </button>
-      `;
-
-    div.querySelector('button')?.addEventListener('click', () => {
-      this.selectedFiles = this.selectedFiles.filter((f) => f !== file);
-      URL.revokeObjectURL(url);
-      div.remove();
-      this.refreshImageCount();
-    });
-
-    grid.appendChild(div);
-  }
-
-  private refreshImageCount(): void {
-    this.imageCount = this.selectedFiles.length;
-    this.refreshSummary();
-  }
-
-  updateImageCount(delta: number) {
-    this.imageCount += delta;
-    if (this.imageCount < 0) this.imageCount = 0;
-  }
-
   /* ── Tags ── */
 
-  tags: string[] = [];
-  tagInput = '';
-
-  handleTagKey(event: KeyboardEvent) {
+  handleTagKey(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       event.preventDefault();
       this.addTag();
     }
   }
 
-  addTag() {
-    const el = document.getElementById('tagInput') as HTMLInputElement | null;
-    if (el) this.tagInput = el.value;
-
+  addTag(): void {
     const val = this.tagInput.trim().toLowerCase().replace(/\s+/g, '-');
-    if (!val) return;
-
-    if (this.tags.includes(val)) {
-      this.tagInput = '';
-      if (el) el.value = '';
-      return;
-    }
-
-    this.tags.push(val);
     this.tagInput = '';
-    if (el) el.value = '';
+    if (!val || this.tags.includes(val)) return;
+    this.tags.push(val);
   }
 
-  removeTag(tag: string) {
+  removeTag(tag: string): void {
     this.tags = this.tags.filter((t) => t !== tag);
-  }
-
-  /* ── Char Count ── */
-
-  description = '';
-
-  get charCount(): number {
-    return this.description.length;
-  }
-
-  /* ── Live Summary ── */
-
-  productName = '';
-  category = '';
-  /** Resolved from the category select for the API */
-  categoryId: number | null = null;
-  price: number | null = null;
-  quantity = '';
-  brand = '';
-
-  freeShipping = false;
-  trackInventory = false;
-  featured = false;
-
-  get formattedPrice(): string {
-    return this.price !== null ? `$${this.price.toFixed(2)}` : '—';
   }
 
   /* ── Validation ── */
 
-  errors: Record<string, string> = {};
-
-  /** Sync template fields (plain HTML inputs) into component state before validate/save. */
-  private syncFromDom(): void {
-    const nameEl = document.getElementById('productName') as HTMLInputElement | null;
-    this.productName = nameEl?.value ?? '';
-
-    const descEl = document.getElementById('description') as HTMLTextAreaElement | null;
-    this.description = descEl?.value ?? '';
-
-    const catEl = document.getElementById('category') as HTMLSelectElement | null;
-    const optText = catEl?.options[catEl.selectedIndex]?.text?.trim() ?? '';
-    this.category = optText;
-    this.categoryId = CATEGORY_NAME_TO_ID[optText] ?? null;
-
-    const selling = document.getElementById('sellingPrice') as HTMLInputElement | null;
-    const raw = selling?.value?.trim();
-    if (raw === undefined || raw === '') {
-      this.price = null;
-    } else {
-      const n = Number(raw);
-      this.price = Number.isFinite(n) ? n : null;
-    }
-
-    const qtyEl = document.getElementById('quantity') as HTMLInputElement | null;
-    this.quantity = qtyEl?.value ?? '';
-  }
-
   validate(): boolean {
-    this.syncFromDom();
     this.errors = {};
 
     if (!this.productName.trim()) {
       this.errors['productName'] = 'Product name is required.';
     }
 
-    if (!this.category || this.categoryId == null) {
-      this.errors['category'] = 'Please select a category.';
+    if (!this.description.trim()) {
+      this.errors['description'] = 'Description is required.';
     }
 
-    if (this.price === null || this.price <= 0) {
-      this.errors['price'] = 'Enter a price greater than zero.';
+    if (this.categoryId == null) {
+      this.errors['category'] = 'Please select a valid category.';
+    }
+
+    if (this.price == null || this.price <= 0) {
+      this.errors['price'] = 'Price must be greater than 0.';
+    }
+
+    if (this.quantity == null || this.quantity < 0) {
+      this.errors['quantity'] = 'Stock quantity is required.';
     }
 
     if (this.selectedFiles.length === 0) {
@@ -299,89 +189,81 @@ export class OwnerAddProductComponent implements OnDestroy, AfterViewInit {
     return Object.keys(this.errors).length === 0;
   }
 
-  /* ── Actions ── */
+  /* ── Save / cancel ── */
 
-  isLoading = false;
-
-  handleSave() {
+  handleSave(): void {
     if (!this.validate()) {
-      this.showValidationToast();
+      this.toastr.error(Object.values(this.errors).join(' '), 'Validation');
       return;
     }
 
-    const formData = new FormData();
-
-    formData.append('Name', this.productName.trim());
-    formData.append('CategoryId', String(this.categoryId!));
-    formData.append('Description', this.description.trim());
-    formData.append('Price', this.price != null ? String(this.price) : '0');
-    const stock = Math.max(0, Math.floor(Number.parseInt(this.quantity, 10) || 0));
-    formData.append('StockQuantity', String(stock));
-    formData.append('Tags', this.tags.join('#'));
-
-    this.selectedFiles.forEach((file) => {
-      formData.append('images', file, file.name);
-    });
-
     this.isLoading = true;
-    this.setSaveButtonsDisabled(true);
 
     this.subs.add(
-      this.productsApi.createProduct(formData).subscribe({
-        next: () => {
-          this.isLoading = false;
-          this.setSaveButtonsDisabled(false);
-          this.toastr.success('Product saved successfully.', 'Success');
-          void this.router.navigate(['/businessowner/ownerProduct']);
-        },
-        error: (err: unknown) => {
-          this.isLoading = false;
-          this.setSaveButtonsDisabled(false);
-          this.showApiErrorToast(err);
-        }
-      })
+      this.productsApi
+        .createProduct({
+          name: this.productName.trim(),
+          categoryId: this.categoryId!,
+          description: this.description.trim(),
+          price: this.price!,
+          stockQuantity: Math.floor(this.quantity!),
+          tags: this.tags,
+          images: this.selectedFiles
+        })
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            this.toastr.success('Product saved successfully.', 'Success');
+            void this.router.navigate(['/businessowner/ownerProduct']);
+          },
+          error: (err: unknown) => {
+            this.isLoading = false;
+            this.handleApiError(err);
+          }
+        })
     );
   }
 
-  private setSaveButtonsDisabled(disabled: boolean): void {
-    const root = document.querySelector('.ap-page');
-    if (!root) return;
-    root.querySelectorAll<HTMLButtonElement>('button.btn-main.btn-gold').forEach((btn) => {
-      btn.disabled = disabled;
-    });
-  }
-
-  private showValidationToast(): void {
-    const parts = Object.values(this.errors).filter(Boolean);
-    this.toastr.error(parts.join(' ') || 'Please fix the errors below.', 'Validation');
-  }
-
-  private showApiErrorToast(err: unknown): void {
-    if (err instanceof HttpErrorResponse) {
-      const body = err.error;
-      let msg = 'Could not save the product. Please try again.';
-      if (typeof body === 'object' && body && 'message' in body) {
-        msg = String((body as { message: string }).message);
-      } else if (typeof body === 'string' && body.trim()) {
-        msg = body;
-      }
-      this.toastr.error(msg, 'Error');
-    } else {
-      this.toastr.error('Could not save the product. Please try again.', 'Error');
-    }
-  }
-
-  handleCancel() {
+  handleCancel(): void {
     if (confirm('Discard all changes?')) {
-      location.reload();
+      void this.router.navigate(['/businessowner/ownerProduct']);
     }
   }
 
-  showSuccessToastMessage() {
-    this.toastr.success('Product saved successfully.', 'Success');
+  private handleApiError(err: unknown): void {
+    if (!(err instanceof HttpErrorResponse)) {
+      this.toastr.error('Could not save the product. Please try again.', 'Error');
+      return;
+    }
+
+    const fieldErrors = this.extractFieldErrors(err.error);
+    if (fieldErrors) {
+      this.errors = { ...this.errors, ...fieldErrors };
+      this.toastr.error(Object.values(fieldErrors).join(' '), 'Validation');
+      return;
+    }
+
+    const body = err.error;
+    const msg =
+      typeof body === 'object' && body && 'message' in body
+        ? String((body as { message: string }).message)
+        : typeof body === 'string' && body.trim()
+          ? body
+          : 'Could not save the product. Please try again.';
+    this.toastr.error(msg, 'Error');
   }
 
-  showErrorToastMessage() {
-    this.toastr.error('Please fix the errors below.', 'Validation');
+  /** Maps ASP.NET ValidationProblemDetails `errors: { Field: string[] }` onto this form's error keys. */
+  private extractFieldErrors(body: unknown): Record<string, string> | null {
+    if (typeof body !== 'object' || body === null) return null;
+    const raw = (body as { errors?: Record<string, string[] | string> }).errors;
+    if (!raw || typeof raw !== 'object') return null;
+
+    const out: Record<string, string> = {};
+    for (const [field, messages] of Object.entries(raw)) {
+      const key = API_FIELD_TO_FORM_ERROR[field] ?? field;
+      out[key] = Array.isArray(messages) ? messages.join(' ') : String(messages);
+    }
+    return Object.keys(out).length ? out : null;
   }
 }

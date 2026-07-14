@@ -1,38 +1,43 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Customer Product Card  –  Talentree Luxury Marketplace
+// Palette sourced from the shared --bo-* design tokens so the card follows
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
 // ─────────────────────────────────────────────────────────────────────────────
 
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  display: block;
+}
+
+// Success / danger / warning don't need theming — they read fine on both
+// light and dark backgrounds, and $success is fed through darken() below.
 $success:     #27A06B;
 $danger:      #D94040;
 $warning:     #C97A1A;
+
 $radius-card: 16px;
 $radius-chip: 20px;
-$shadow-card: 0 4px 24px rgba(184, 134, 11, 0.08), 0 1px 4px rgba(24, 19, 10, 0.06);
-$shadow-hover: 0 12px 40px rgba(184, 134, 11, 0.15), 0 2px 8px rgba(24, 19, 10, 0.08);
 $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
 // ── Card shell ───────────────────────────────────────────────────────────────
 .product-card {
-  background: #ffffff;
-  border: 1px solid $gold-border;
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
   border-radius: $radius-card;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: $shadow-card;
-  transition: $transition;
+  box-shadow: var(--bo-shadow-card);
+  transition: $transition, background-color var(--bo-transition), border-color var(--bo-transition);
   position: relative;
 
   &:hover {
-    box-shadow: $shadow-hover;
+    box-shadow: var(--bo-shadow-card-hover);
     transform: translateY(-3px);
 
     .card__overlay { opacity: 1; }
@@ -50,7 +55,7 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   height: 220px;
-  background: $gold-pale;
+  background: var(--gold-soft);
   flex-shrink: 0;
 }
 
@@ -86,8 +91,8 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   &--success  { background: rgba($success, 0.15); color: darken($success, 8%); border: 1px solid rgba($success, 0.3); }
   &--danger   { background: rgba($danger, 0.13);  color: $danger;              border: 1px solid rgba($danger, 0.3);  }
   &--warning  { background: rgba($warning, 0.13); color: $warning;             border: 1px solid rgba($warning, 0.3); }
-  &--discount { background: $gold; color: #fff; border: 1px solid $gold; }
-  &--featured { background: linear-gradient(135deg, $gold-pale, #fff); color: $gold; border: 1px solid $gold-border; }
+  &--discount { background: var(--gold); color: var(--bo-color-on-accent); border: 1px solid var(--gold); }
+  &--featured { background: linear-gradient(135deg, var(--gold-soft), var(--bo-bg-surface)); color: var(--gold); border: var(--bo-border-surface); }
 }
 
 // ── Overlay ───────────────────────────────────────────────────────────────────
@@ -144,15 +149,15 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: $gold;
+  color: var(--gold);
 }
 
-.card__dot { color: $text-soft; font-size: 10px; }
+.card__dot { color: var(--text-soft); font-size: 10px; }
 
 .card__vendor {
   font-family: 'DM Sans', sans-serif;
   font-size: 10px;
-  color: $text-soft;
+  color: var(--text-soft);
 }
 
 // Title
@@ -161,7 +166,7 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 17px;
   font-weight: 600;
   line-height: 1.35;
-  color: $text-dark;
+  color: var(--text-dark);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -172,7 +177,7 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     color: inherit;
     text-decoration: none;
     transition: color 0.2s;
-    &:hover { color: $gold; }
+    &:hover { color: var(--gold); }
   }
 }
 
@@ -191,14 +196,14 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 .star {
   width: 13px;
   height: 13px;
-  fill: #e0d5c4;
+  fill: var(--bo-border-surface-hover);
   stroke: none;
 
-  &--full { fill: $gold; }
+  &--full { fill: var(--gold); }
   &--half {
     fill: url(#half-star-gradient);
     // Achieved via CSS gradient overlay trick – kept simple
-    fill: $gold-light;
+    fill: var(--gold-light);
     opacity: 0.85;
   }
 }
@@ -206,7 +211,7 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 .card__review-count {
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
-  color: $text-soft;
+  color: var(--text-soft);
 }
 
 // Metadata boxes
@@ -220,8 +225,8 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   gap: 1px;
-  background: $gold-pale;
-  border: 1px solid $gold-border;
+  background: var(--gold-soft);
+  border: var(--bo-border-surface);
   border-radius: 8px;
   padding: 4px 9px;
   min-width: 50px;
@@ -233,14 +238,14 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: $text-soft;
+  color: var(--text-soft);
 }
 
 .meta-box__value {
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
   font-weight: 600;
-  color: $text-dark;
+  color: var(--text-dark);
 }
 
 // Price
@@ -255,13 +260,13 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: 'Cormorant Garamond', serif;
   font-size: 21px;
   font-weight: 700;
-  color: $text-dark;
+  color: var(--text-dark);
 }
 
 .card__price-original {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: $text-soft;
+  color: var(--text-soft);
   text-decoration: line-through;
 }
 
@@ -282,10 +287,10 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 0;
-  border: 1px solid $gold-border;
+  border: var(--bo-border-surface);
   border-radius: 24px;
   overflow: hidden;
-  background: $gold-pale;
+  background: var(--gold-soft);
   flex-shrink: 0;
 }
 
@@ -298,12 +303,12 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $text-mid;
+  color: var(--text-mid);
   transition: background 0.2s;
 
   svg { width: 14px; height: 14px; }
 
-  &:hover:not(:disabled) { background: $gold-border; }
+  &:hover:not(:disabled) { background: var(--bo-border-surface-hover); }
   &:disabled { opacity: 0.4; cursor: not-allowed; }
 }
 
@@ -313,7 +318,7 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 600;
   min-width: 24px;
   text-align: center;
-  color: $text-dark;
+  color: var(--text-dark);
 }
 
 .btn-cart {
@@ -324,9 +329,9 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   gap: 7px;
   height: 36px;
   border-radius: 24px;
-  border: 1.5px solid $gold;
-  background: linear-gradient(135deg, $gold, $gold-light);
-  color: #fff;
+  border: 1.5px solid var(--gold);
+  background-image: var(--bo-accent-gradient);
+  color: var(--bo-color-on-accent);
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -338,17 +343,18 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   &__icon { width: 15px; height: 15px; flex-shrink: 0; }
 
   &:hover:not(:disabled) {
-    background: linear-gradient(135deg, darken($gold, 6%), $gold);
-    box-shadow: 0 4px 16px rgba($gold, 0.35);
+    box-shadow: 0 4px 16px rgba(184, 134, 11, 0.35);
     transform: translateY(-1px);
   }
 
   &--in-cart {
+    background-image: none;
     background: linear-gradient(135deg, $success, darken($success, 8%));
     border-color: $success;
   }
 
   &:disabled {
+    background-image: none;
     background: #d4cfc8;
     border-color: #d4cfc8;
     cursor: not-allowed;
@@ -365,9 +371,9 @@ $transition:  all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
 $shimmer-grad: linear-gradient(
   90deg,
-  #f0ebe1 0%,
-  #faf5ec 40%,
-  #f0ebe1 80%
+  var(--bo-bg-surface) 0%,
+  var(--bo-bg-surface-hover) 40%,
+  var(--bo-bg-surface) 80%
 );
 
 .skeleton-block,

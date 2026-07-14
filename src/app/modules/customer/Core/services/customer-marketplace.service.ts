@@ -16,7 +16,7 @@ import {
 } from 'rxjs';
 import {
   HomepageData, RawHomepageResponse, PaginatedResponse, Product,
-  ProductQueryParams, AutocompleteItem, FilterState, SortOption,
+  ProductQueryParams, FilterState, SortOption,
   Category,
   RawCategoryResponse,
   RawCategoryProductsResponse,
@@ -181,9 +181,11 @@ export class CustomerMarketplaceService {
   }
 
   // ── Autocomplete ────────────────────────────────────────────────────────────
+  // The backend returns a flat array of matching product names (string[]),
+  // not AutocompleteItem objects — there's no id/category/image on this endpoint.
   private readonly _autocompleteQuery$ = new Subject<string>();
   readonly autocompleteLoading = signal(false);
-  readonly autocompleteResults = signal<AutocompleteItem[]>([]);
+  readonly autocompleteResults = signal<string[]>([]);
   readonly autocompleteVisible = signal(false);
 
   initAutocomplete(): void {
@@ -202,10 +204,10 @@ export class CustomerMarketplaceService {
       }),
       switchMap(q =>
         q.length < 2
-          ? of({ success: true, data: [] as AutocompleteItem[] })
+          ? of({ success: true, data: [] as string[] })
           : this.http
-              .get<{ success: boolean; data: AutocompleteItem[] }>(`${API_BASE}/products/autocomplete`, { params: { q } })
-              .pipe(catchError(() => of({ success: false, data: [] as AutocompleteItem[] })))
+              .get<{ success: boolean; data: string[] }>(`${API_BASE}/products/autocomplete`, { params: { q } })
+              .pipe(catchError(() => of({ success: false, data: [] as string[] })))
       ),
       tap(res => {
         this.autocompleteResults.set(res?.data ?? []);
@@ -216,35 +218,6 @@ export class CustomerMarketplaceService {
 
   pushAutocompleteQuery(q: string): void { this._autocompleteQuery$.next(q); }
   closeAutocomplete(): void { this.autocompleteVisible.set(false); }
-
-  // ── Cart ────────────────────────────────────────────────────────────────────
-  readonly cartItems = signal<Map<string, number>>(new Map());
-
-  readonly cartCount = computed(() => {
-    let total = 0;
-    this.cartItems().forEach(qty => (total += qty));
-    return total;
-  });
-
-  addToCart(productId: string, qty = 1): void {
-    this.cartItems.update(map => {
-      const next = new Map(map);
-      next.set(productId, (next.get(productId) ?? 0) + qty);
-      return next;
-    });
-  }
-
-  updateCartQty(productId: string, qty: number): void {
-    this.cartItems.update(map => {
-      const next = new Map(map);
-      if (qty <= 0) next.delete(productId); else next.set(productId, qty);
-      return next;
-    });
-  }
-
-  getCartQty(productId: string): number {
-    return this.cartItems().get(productId) ?? 0;
-  }
 
   // ── Categories List ─────────────────────────────────────────────────────────
   readonly categoriesLoading = signal(false);

@@ -53,7 +53,7 @@ export class RawMaterialCheckoutComponent {
         this.isLoading = false;
         this._ToastrService.success(res.message || 'Order placed successfuly' , 'Talentree')
         // redirect to order success page (important)
-        this.router.navigate(['/businessowner/materialOrder', res.data.id]);
+        this.router.navigate(['/businessowner/material-order', res.data.id]);
       },
       error: () => {
         this.isLoading = false;

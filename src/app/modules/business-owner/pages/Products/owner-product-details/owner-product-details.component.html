@@ -145,16 +145,13 @@
 
         <section class="owner-pd-actions" aria-label="Actions">
           <button type="button" class="btn-main btn-gold owner-pd-action-btn" (click)="goEdit()">
-            ✏️ Edit product
-          </button>
-          <button type="button" class="btn-main btn-border owner-pd-action-btn" (click)="openStats()">
-            📊 View stats
+            <i class="fa-solid fa-pen"></i> Edit product
           </button>
           <button type="button" class="btn-main btn-border owner-pd-action-btn" (click)="duplicateProduct()">
-            📋 Duplicate
+            <i class="fa-solid fa-copy"></i> Duplicate
           </button>
           <button type="button" class="btn-main btn-burgandy owner-pd-action-btn" (click)="openDelete()">
-            🗑️ Delete
+            <i class="fa-solid fa-trash"></i> Delete
           </button>
         </section>
       </div>
@@ -180,33 +177,6 @@
           Delete
         }
       </button>
-    </div>
-  </div>
-}
-
-@if (statsOpen && product) {
-  <div class="owner-products-modal-backdrop" (click)="closeStats()" role="presentation"></div>
-  <div class="owner-products-modal owner-products-modal--wide" role="dialog" aria-modal="true" aria-labelledby="owner-pd-stats-title">
-    <h3 id="owner-pd-stats-title" class="owner-products-modal-title">Analytics — {{ product.name }}</h3>
-    <p class="owner-products-modal-text">
-      Detailed sales and traffic analytics will appear here when connected to your reporting API.
-    </p>
-    <div class="owner-products-stats-grid">
-      <div class="owner-products-stat-block">
-        <span class="owner-products-stat-block-label">Views</span>
-        <span class="owner-products-stat-block-value">—</span>
-      </div>
-      <div class="owner-products-stat-block">
-        <span class="owner-products-stat-block-label">Units sold</span>
-        <span class="owner-products-stat-block-value">—</span>
-      </div>
-      <div class="owner-products-stat-block">
-        <span class="owner-products-stat-block-label">Conversion</span>
-        <span class="owner-products-stat-block-value">—</span>
-      </div>
-    </div>
-    <div class="owner-products-modal-actions">
-      <button type="button" class="btn-main btn-gold" (click)="closeStats()">Close</button>
     </div>
   </div>
 }

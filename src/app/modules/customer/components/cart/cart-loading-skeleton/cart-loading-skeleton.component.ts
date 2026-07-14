@@ -38,8 +38,12 @@ import { CommonModule } from '@angular/common';
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+    }
+
     @mixin shimmer {
-      background: linear-gradient(90deg, #f0ebe1 0%, #faf5ec 45%, #f0ebe1 80%);
+      background: linear-gradient(90deg, var(--bo-bg-surface) 0%, var(--bo-bg-surface-hover) 45%, var(--bo-bg-surface) 80%);
       background-size: 1200px 100%;
       animation: shimmer 1.5s infinite linear;
       border-radius: 6px;
@@ -51,16 +55,16 @@ import { CommonModule } from '@angular/common';
     }
 
     .cart-skeleton {
-      background: #fff;
-      border: 1px solid #E8D5A3;
+      background: var(--bo-bg-surface);
+      border: var(--bo-border-surface);
       border-radius: 18px;
       overflow: hidden;
     }
 
     .cart-skeleton__header {
       padding: 20px 24px;
-      background: #FBF3E2;
-      border-bottom: 1px solid #E8D5A3;
+      background: var(--bo-accent-soft);
+      border-bottom: var(--bo-border-surface);
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -72,7 +76,7 @@ import { CommonModule } from '@angular/common';
       gap: 16px;
       align-items: center;
       padding: 20px 24px;
-      border-bottom: 1px solid #E8D5A3;
+      border-bottom: var(--bo-border-surface);
 
       &:last-child { border-bottom: none; }
     }

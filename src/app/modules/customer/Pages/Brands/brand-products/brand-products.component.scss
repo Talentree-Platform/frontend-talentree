@@ -2,25 +2,27 @@
 // Talentree – Brand Products Page  SCSS
 // Identical to the Category Products page SCSS, plus a small .brand-header
 // block for the logo + meta row (address / social links) at the top.
+// Palette sourced from the shared --bo-* design tokens so the page follows
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ── Design tokens ─────────────────────────────────────────────────────────────
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
-$danger:      #D94040;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  --danger:      #D94040;
+  display: block;
+}
 
 $bp-lg: 1100px;
 $bp-md: 900px;
 $bp-sm: 600px;
 
 @mixin shimmer {
-  background: linear-gradient(90deg, #f0ebe1 0%, #faf5ec 45%, #f0ebe1 80%);
+  background: linear-gradient(90deg, var(--bo-bg-surface) 0%, var(--bo-bg-surface-hover) 45%, var(--bo-bg-surface) 80%);
   background-size: 1200px 100%;
   animation: shimmer 1.5s infinite linear;
   border-radius: 6px;
@@ -41,9 +43,12 @@ $bp-sm: 600px;
 
 // ── Hero (compact) ────────────────────────────────────────────────────────────
 .hero {
-  background: linear-gradient(148deg, #1a1108 0%, #2e1f06 40%, #18130A 100%);
+  background:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    var(--bo-hero-bg);
   position: relative;
   overflow: hidden;
+  transition: background-color var(--bo-transition);
 
   &--compact {
     min-height: 260px;
@@ -77,9 +82,9 @@ $bp-sm: 600px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: $gold-light;
-  background: rgba($gold, 0.12);
-  border: 1px solid rgba($gold, 0.3);
+  color: var(--gold);
+  background: var(--gold-soft);
+  border: var(--bo-border-surface);
   border-radius: 20px;
   padding: 5px 14px;
   margin-bottom: 12px;
@@ -90,13 +95,13 @@ $bp-sm: 600px;
   font-size: clamp(28px, 4vw, 42px);
   font-weight: 600;
   line-height: 1.15;
-  color: #fff;
+  color: var(--text-dark);
   margin: 0 0 10px;
 
   em {
     font-style: italic;
-    color: $gold-light;
-    background: linear-gradient(90deg, $gold, $gold-light);
+    color: var(--gold-light);
+    background: var(--bo-accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -107,7 +112,7 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   line-height: 1.65;
-  color: rgba(255,255,255,0.6);
+  color: var(--text-mid);
   margin: 0;
   max-width: 540px;
 }
@@ -122,21 +127,21 @@ $bp-sm: 600px;
   margin-bottom: 20px;
 
   &__link {
-    color: rgba(255,255,255,0.5);
+    color: var(--text-mid);
     text-decoration: none;
     transition: color 0.2s;
-    &:hover { color: $gold-light; }
+    &:hover { color: var(--gold-light); }
   }
 
   &__sep {
-    color: rgba(255,255,255,0.25);
+    color: var(--text-soft);
     display: flex;
     align-items: center;
     svg { width: 12px; height: 12px; }
   }
 
   &__current {
-    color: $gold-light;
+    color: var(--text-dark);
     font-weight: 600;
   }
 }
@@ -171,8 +176,8 @@ $bp-sm: 600px;
     border-radius: 14px;
     overflow: hidden;
     flex-shrink: 0;
-    border: 1.5px solid rgba($gold, 0.35);
-    background: rgba(255,255,255,0.06);
+    border: var(--bo-border-surface-hover);
+    background: var(--bo-bg-surface-hover);
 
     img {
       width: 100%;
@@ -201,7 +206,7 @@ $bp-sm: 600px;
   gap: 5px;
   font-family: 'DM Sans', sans-serif;
   font-size: 12.5px;
-  color: rgba(255,255,255,0.55);
+  color: var(--text-mid);
 
   svg { width: 13px; height: 13px; flex-shrink: 0; }
 }
@@ -210,18 +215,18 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 12.5px;
   font-weight: 600;
-  color: $gold-light;
+  color: var(--gold-light);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s;
 
-  &:hover { border-color: $gold-light; }
+  &:hover { border-color: var(--gold-light); }
 }
 
 .product-count {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: rgba(255,255,255,0.5);
+  color: var(--text-mid);
   white-space: nowrap;
 }
 
@@ -234,7 +239,7 @@ $bp-sm: 600px;
 .sort-label {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  color: rgba(255,255,255,0.45);
+  color: var(--text-soft);
   white-space: nowrap;
 }
 
@@ -242,24 +247,25 @@ $bp-sm: 600px;
   height: 36px;
   padding: 0 12px;
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.85);
+  border: var(--bo-border-surface-hover);
+  background: var(--bo-bg-surface-hover);
+  color: var(--text-dark);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   outline: none;
   cursor: pointer;
   transition: border-color 0.2s;
 
-  &:hover { border-color: rgba($gold, 0.5); }
-  option { background: #18130A; color: #fff; }
+  &:hover { border-color: var(--gold); }
+  option { background: var(--bo-bg-surface); color: var(--text-dark); }
 }
 
 // ── Page body layout ──────────────────────────────────────────────────────────
 .page-body {
-  background: $bg-main;
+  background: var(--bo-bg-page);
   min-height: 500px;
   padding: 48px 0 72px;
+  transition: background-color var(--bo-transition);
 }
 
 .page-body__inner {
@@ -283,21 +289,22 @@ $bp-sm: 600px;
   }
 
   &__card {
-    background: #fff;
-    border: 1px solid $gold-border;
+    background: var(--bo-bg-surface);
+    border: var(--bo-border-surface);
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 2px 12px rgba($gold, 0.06);
+    box-shadow: var(--bo-shadow-card);
     display: flex;
     flex-direction: column;
     gap: 20px;
+    transition: background-color var(--bo-transition), border-color var(--bo-transition);
   }
 
   &__title {
     font-family: 'Cormorant Garamond', serif;
     font-size: 20px;
     font-weight: 600;
-    color: $text-dark;
+    color: var(--text-dark);
     margin: 0;
   }
 }
@@ -308,7 +315,7 @@ $bp-sm: 600px;
   flex-direction: column;
   gap: 10px;
   padding-top: 16px;
-  border-top: 1px solid $gold-border;
+  border-top: var(--bo-border-surface);
 }
 
 .filter-label {
@@ -317,7 +324,7 @@ $bp-sm: 600px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: $text-mid;
+  color: var(--text-mid);
 }
 
 .search-input-wrap {
@@ -330,7 +337,7 @@ $bp-sm: 600px;
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    color: $text-soft;
+    color: var(--text-soft);
     pointer-events: none;
   }
 }
@@ -340,20 +347,20 @@ $bp-sm: 600px;
   height: 40px;
   padding: 0 14px;
   border-radius: 10px;
-  border: 1px solid $gold-border;
-  background: $gold-pale;
+  border: var(--bo-border-surface);
+  background: var(--gold-soft);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: $text-dark;
+  color: var(--text-dark);
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
 
-  &::placeholder { color: $text-soft; }
+  &::placeholder { color: var(--text-soft); }
 
   &:focus {
-    border-color: $gold;
-    box-shadow: 0 0 0 3px rgba($gold, 0.1);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
   }
 
   &--half {
@@ -373,7 +380,7 @@ $bp-sm: 600px;
 }
 
 .price-range-sep {
-  color: $text-soft;
+  color: var(--text-soft);
   font-size: 14px;
   flex-shrink: 0;
 }
@@ -382,9 +389,9 @@ $bp-sm: 600px;
   height: 36px;
   padding: 0 18px;
   border-radius: 20px;
-  border: 1px solid $gold-border;
-  background: $gold-pale;
-  color: $gold;
+  border: var(--bo-border-surface);
+  background: var(--gold-soft);
+  color: var(--gold);
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -393,9 +400,9 @@ $bp-sm: 600px;
   align-self: flex-start;
 
   &:hover {
-    background: $gold;
-    border-color: $gold;
-    color: #fff;
+    background-image: var(--bo-accent-gradient);
+    border-color: var(--gold);
+    color: var(--bo-color-on-accent);
   }
 }
 
@@ -414,14 +421,14 @@ $bp-sm: 600px;
   &__input {
     width: 16px;
     height: 16px;
-    accent-color: $gold;
+    accent-color: var(--gold);
     cursor: pointer;
   }
 
   &__label {
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
-    color: $text-mid;
+    color: var(--text-mid);
   }
 }
 
@@ -432,9 +439,9 @@ $bp-sm: 600px;
   height: 36px;
   padding: 0 14px;
   border-radius: 20px;
-  border: 1px solid rgba($danger, 0.3);
+  border: 1px solid rgba(217, 64, 64, 0.3);
   background: transparent;
-  color: $danger;
+  color: var(--danger);
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -443,7 +450,7 @@ $bp-sm: 600px;
   align-self: flex-start;
 
   svg { width: 12px; height: 12px; }
-  &:hover { background: rgba($danger, 0.06); }
+  &:hover { background: rgba(217, 64, 64, 0.06); }
 }
 
 // ── Products grid ─────────────────────────────────────────────────────────────
@@ -473,9 +480,9 @@ $bp-sm: 600px;
     height: 38px;
     padding: 0 10px;
     border-radius: 10px;
-    border: 1.5px solid $gold-border;
-    background: #fff;
-    color: $text-mid;
+    border: var(--bo-border-surface-hover);
+    background: var(--bo-bg-surface);
+    color: var(--text-mid);
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     font-weight: 600;
@@ -488,15 +495,15 @@ $bp-sm: 600px;
     svg { width: 14px; height: 14px; }
 
     &:hover:not(:disabled):not(.pagination__btn--active) {
-      background: $gold-pale;
-      border-color: $gold;
-      color: $gold;
+      background: var(--gold-soft);
+      border-color: var(--gold);
+      color: var(--gold);
     }
 
     &--active {
-      background: $gold;
-      border-color: $gold;
-      color: #fff;
+      background-image: var(--bo-accent-gradient);
+      border-color: var(--gold);
+      color: var(--bo-color-on-accent);
     }
 
     &--nav {
@@ -512,7 +519,7 @@ $bp-sm: 600px;
   &__ellipsis {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: $text-soft;
+    color: var(--text-soft);
     padding: 0 4px;
   }
 }
@@ -525,8 +532,8 @@ $bp-sm: 600px;
   height: 46px;
   padding: 0 28px;
   border-radius: 40px;
-  background: linear-gradient(135deg, $gold, $gold-light);
-  color: #fff;
+  background-image: var(--bo-accent-gradient);
+  color: var(--bo-color-on-accent);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -538,7 +545,7 @@ $bp-sm: 600px;
 
   svg { width: 16px; height: 16px; }
   &:hover {
-    box-shadow: 0 6px 24px rgba($gold, 0.45);
+    box-shadow: var(--bo-shadow-card-hover);
     transform: translateY(-2px);
   }
 }
@@ -558,14 +565,14 @@ $bp-sm: 600px;
     font-family: 'Cormorant Garamond', serif;
     font-size: 24px;
     font-weight: 600;
-    color: $text-dark;
+    color: var(--text-dark);
     margin: 0 0 12px;
   }
 
   &__desc {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: $text-soft;
+    color: var(--text-soft);
     line-height: 1.6;
     margin: 0 0 28px;
     max-width: 380px;

@@ -1,17 +1,20 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree – Customer Home Page
+// Palette sourced from the shared --bo-* design tokens so the page follows
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
 // ─────────────────────────────────────────────────────────────────────────────
 
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
-$success:     #27A06B;
-$danger:      #D94040;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  --success:     #27A06B;
+  --danger:      #D94040;
+  display: block;
+}
 
 // Breakpoints
 $bp-lg: 1100px;
@@ -20,7 +23,7 @@ $bp-sm: 600px;
 
 // ── SHIMMER MIXIN (must be defined before first @include use below) ──────────
 @mixin shimmer {
-  background: linear-gradient(90deg, #f0ebe1 0%, #faf5ec 45%, #f0ebe1 80%);
+  background: linear-gradient(90deg, var(--bo-bg-surface) 0%, var(--bo-bg-surface-hover) 45%, var(--bo-bg-surface) 80%);
   background-size: 1200px 100%;
   animation: shimmer 1.5s infinite linear;
   border-radius: 6px;
@@ -41,10 +44,13 @@ $bp-sm: 600px;
 
 // ── HERO ─────────────────────────────────────────────────────────────────────
 .hero {
-  background: linear-gradient(148deg, #1a1108 0%, #2e1f06 40%, #18130A 100%);
+  background:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    var(--bo-hero-bg);
   position: relative;
   overflow: hidden;
   min-height: 520px;
+  transition: background-color var(--bo-transition);
 }
 
 .hero__bg-grain {
@@ -62,6 +68,8 @@ $bp-sm: 600px;
   align-items: center;
   padding-top: 72px;
   padding-bottom: 32px;
+  position: relative;
+  z-index: 1;
 
   @media (max-width: $bp-md) {
     grid-template-columns: 1fr;
@@ -77,9 +85,9 @@ $bp-sm: 600px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: $gold-light;
-  background: rgba($gold, 0.12);
-  border: 1px solid rgba($gold, 0.3);
+  color: var(--gold);
+  background: var(--gold-soft);
+  border: var(--bo-border-surface);
   border-radius: 20px;
   padding: 5px 14px;
   margin-bottom: 20px;
@@ -90,13 +98,12 @@ $bp-sm: 600px;
   font-size: clamp(36px, 5vw, 54px);
   font-weight: 600;
   line-height: 1.15;
-  color: #fff;
+  color: var(--text-dark);
   margin: 0 0 20px;
 
   em {
     font-style: italic;
-    color: $gold-light;
-    background: linear-gradient(90deg, $gold, $gold-light);
+    background: var(--bo-accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -107,7 +114,7 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   line-height: 1.7;
-  color: rgba(255,255,255,0.65);
+  color: var(--text-mid);
   margin: 0 0 32px;
   max-width: 420px;
 }
@@ -125,8 +132,8 @@ $bp-sm: 600px;
   height: 46px;
   padding: 0 28px;
   border-radius: 40px;
-  background: linear-gradient(135deg, $gold, $gold-light);
-  color: #fff;
+  background-image: var(--bo-accent-gradient);
+  color: var(--bo-color-on-accent);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -139,7 +146,7 @@ $bp-sm: 600px;
   svg { width: 16px; height: 16px; }
 
   &:hover {
-    box-shadow: 0 6px 24px rgba($gold, 0.45);
+    box-shadow: var(--bo-shadow-card-hover);
     transform: translateY(-2px);
   }
 }
@@ -150,8 +157,8 @@ $bp-sm: 600px;
   height: 46px;
   padding: 0 24px;
   border-radius: 40px;
-  border: 1.5px solid rgba(255,255,255,0.25);
-  color: rgba(255,255,255,0.85);
+  border: var(--bo-border-surface);
+  color: var(--text-mid);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -159,8 +166,8 @@ $bp-sm: 600px;
   transition: border-color 0.2s, background 0.2s;
 
   &:hover {
-    border-color: rgba($gold, 0.5);
-    background: rgba($gold, 0.08);
+    border-color: var(--bo-border-surface-hover);
+    background: var(--gold-soft);
   }
 }
 
@@ -170,18 +177,19 @@ $bp-sm: 600px;
 }
 
 .hero__search-card {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
   border-radius: 20px;
   padding: 28px;
   backdrop-filter: blur(14px);
+  transition: background-color var(--bo-transition), border-color var(--bo-transition);
 }
 
 .hero__search-label {
   font-family: 'Cormorant Garamond', serif;
   font-size: 20px;
   font-weight: 600;
-  color: rgba(255,255,255,0.9);
+  color: var(--text-dark);
   margin: 0 0 16px;
 }
 
@@ -196,31 +204,33 @@ $bp-sm: 600px;
 .quick-tag-label {
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
-  color: rgba(255,255,255,0.45);
+  color: var(--text-soft);
 }
 
 .quick-tag {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  color: rgba(255,255,255,0.7);
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text-mid);
+  background: var(--bo-bg-surface-hover);
+  border: var(--bo-border-surface);
   border-radius: 20px;
   padding: 3px 11px;
   text-decoration: none;
   transition: background 0.2s, color 0.2s;
 
   &:hover {
-    background: rgba($gold, 0.18);
-    color: $gold-light;
-    border-color: rgba($gold, 0.35);
+    background: var(--gold-soft);
+    color: var(--gold);
+    border-color: var(--bo-border-surface-hover);
   }
 }
 
 // Stats strip
 .hero__stats {
-  background: rgba(0,0,0,0.25);
-  border-top: 1px solid rgba(255,255,255,0.07);
+  position: relative;
+  z-index: 1;
+  background: rgba(0,0,0,0.12);
+  border-top: var(--bo-border-surface);
 }
 
 .hero__stats-inner {
@@ -243,14 +253,14 @@ $bp-sm: 600px;
   font-family: 'Cormorant Garamond', serif;
   font-size: 28px;
   font-weight: 700;
-  color: $gold-light;
+  color: var(--gold);
   line-height: 1;
 }
 
 .stat-label {
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
-  color: rgba(255,255,255,0.45);
+  color: var(--text-mid);
   letter-spacing: 0.05em;
   white-space: nowrap;
 }
@@ -258,10 +268,13 @@ $bp-sm: 600px;
 // ── SECTION COMMON ────────────────────────────────────────────────────────────
 .section {
   padding: 72px 0;
+  transition: background-color var(--bo-transition);
 
-  &--categories { background: $bg-main; }
-  &--featured   { background: #fff; }
-  &--trending   { background: $bg-main; }
+  &--categories { background: var(--bo-bg-page); }
+  &--brands     { background: var(--bo-bg-surface-hover); }
+  &--recommended{ background: var(--bo-bg-page); }
+  &--featured   { background: var(--bo-bg-surface-hover); }
+  &--trending   { background: var(--bo-bg-page); }
 
   @media (max-width: $bp-sm) { padding: 48px 0; }
 }
@@ -282,7 +295,7 @@ $bp-sm: 600px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: $gold;
+  color: var(--gold);
   margin-bottom: 8px;
 }
 
@@ -290,7 +303,7 @@ $bp-sm: 600px;
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(26px, 3vw, 36px);
   font-weight: 600;
-  color: $text-dark;
+  color: var(--text-dark);
   margin: 0;
 }
 
@@ -301,7 +314,7 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: $gold;
+  color: var(--gold);
   text-decoration: none;
   white-space: nowrap;
   transition: gap 0.2s;
@@ -323,21 +336,22 @@ $bp-sm: 600px;
 }
 
 .category-card {
-  background: #fff;
-  border: 1px solid $gold-border;
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
   border-radius: 14px;
   overflow: hidden;
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.25s, transform 0.25s;
-  box-shadow: 0 2px 12px rgba($gold, 0.06);
+  transition: box-shadow 0.25s, transform 0.25s, background-color var(--bo-transition), border-color var(--bo-transition);
+  box-shadow: var(--bo-shadow-card);
 
   &:hover {
-    box-shadow: 0 8px 30px rgba($gold, 0.14);
+    box-shadow: var(--bo-shadow-card-hover);
     transform: translateY(-2px);
+    border-color: var(--bo-border-surface-hover);
 
-    .category-card__name { color: $gold; }
+    .category-card__name { color: var(--gold); }
   }
 
   &__img-wrap {
@@ -356,11 +370,11 @@ $bp-sm: 600px;
 
   &__img-placeholder {
     height: 110px;
-    background: linear-gradient(135deg, $gold-pale, #fff);
+    background: var(--gold-soft);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $gold-border;
+    color: var(--gold);
 
     svg { width: 40px; height: 40px; }
   }
@@ -376,15 +390,21 @@ $bp-sm: 600px;
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     font-weight: 600;
-    color: $text-dark;
+    color: var(--text-dark);
     transition: color 0.2s;
     line-height: 1.3;
+  }
+
+  &__desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-soft);
   }
 
   &__count {
     font-family: 'DM Sans', sans-serif;
     font-size: 11px;
-    color: $text-soft;
+    color: var(--text-soft);
   }
 
   // Skeleton variant
@@ -402,6 +422,15 @@ $bp-sm: 600px;
       @include shimmer;
     }
   }
+}
+
+.brand-card__logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bo-bg-surface-hover);
+
+  img { object-fit: contain; padding: 12px; }
 }
 
 // ── PRODUCTS GRID ─────────────────────────────────────────────────────────────
@@ -433,21 +462,21 @@ $bp-sm: 600px;
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1.5px solid $gold-border;
-  background: #fff;
+  border: var(--bo-border-surface-hover);
+  background: var(--bo-bg-surface);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: $text-mid;
+  color: var(--text-mid);
   transition: background 0.2s, border-color 0.2s, color 0.2s;
 
   svg { width: 16px; height: 16px; }
 
   &:hover:not(:disabled) {
-    background: $gold;
-    border-color: $gold;
-    color: #fff;
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--bo-color-on-accent);
   }
 
   &:disabled {
@@ -478,10 +507,11 @@ $bp-sm: 600px;
 
 // ── TRUST BANNER ──────────────────────────────────────────────────────────────
 .trust-banner {
-  background: linear-gradient(135deg, $gold-pale 0%, #fff 60%, $gold-pale 100%);
-  border-top: 1px solid $gold-border;
-  border-bottom: 1px solid $gold-border;
+  background: var(--bo-card-gradient);
+  border-top: var(--bo-border-surface);
+  border-bottom: var(--bo-border-surface);
   padding: 48px 0;
+  transition: background-color var(--bo-transition), border-color var(--bo-transition);
 }
 
 .trust-banner__inner {
@@ -502,13 +532,13 @@ $bp-sm: 600px;
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: linear-gradient(135deg, $gold-pale, #fff);
-    border: 1px solid $gold-border;
+    background: var(--gold-soft);
+    border: var(--bo-border-surface);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: $gold;
+    color: var(--gold);
 
     svg { width: 22px; height: 22px; }
   }
@@ -519,14 +549,14 @@ $bp-sm: 600px;
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     font-weight: 700;
-    color: $text-dark;
+    color: var(--text-dark);
     margin: 0;
   }
 
   &__desc {
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
-    color: $text-soft;
+    color: var(--text-soft);
     line-height: 1.5;
     margin: 0;
   }
@@ -536,14 +566,14 @@ $bp-sm: 600px;
 .empty-state {
   text-align: center;
   padding: 60px 24px;
-  color: $text-soft;
+  color: var(--text-soft);
 
   svg { width: 60px; height: 60px; margin-bottom: 16px; }
 
   p {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: $text-soft;
+    color: var(--text-soft);
   }
 }
 
@@ -554,7 +584,7 @@ $bp-sm: 600px;
   p {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: $danger;
+    color: var(--danger);
     margin-bottom: 16px;
   }
 }
@@ -563,14 +593,14 @@ $bp-sm: 600px;
   height: 36px;
   padding: 0 20px;
   border-radius: 24px;
-  border: 1px solid $gold-border;
-  background: #fff;
-  color: $gold;
+  border: var(--bo-border-surface);
+  background: var(--bo-bg-surface);
+  color: var(--gold);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 
-  &:hover { background: $gold-pale; }
+  &:hover { background: var(--gold-soft); }
 }

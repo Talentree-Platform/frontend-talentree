@@ -5,7 +5,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomerMarketplaceService } from '../../Core/services/customer-marketplace.service';
-import { AutocompleteItem } from '../../Core/models/customer,models';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,6 +25,7 @@ export class ProductSearchComponent implements OnInit, OnDestroy {
   searchQuery = '';
 
   ngOnInit(): void {
+    this.searchQuery = this.svc.filters().search;
     this.svc.initAutocomplete();
   }
 
@@ -47,8 +47,8 @@ export class ProductSearchComponent implements OnInit, OnDestroy {
     });
   }
 
-  selectSuggestion(item: AutocompleteItem): void {
-    this.searchQuery = item.name;
+  selectSuggestion(name: string): void {
+    this.searchQuery = name;
     this.svc.closeAutocomplete();
     this.onSearch();
   }

@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OwnerSettingService } from '../../../core/services/owner-setting.service';
 import { environment } from '../../../../../core/environment/envirinment';
+import { resolveMediaUrl } from '../../../../../core/utils/media-url.util';
 
 @Component({
   selector: 'app-setting-business-details',
@@ -69,7 +70,7 @@ export class SettingBusinessDetailsComponent implements OnInit {
         });
 
         if (res.data.businessLogoUrl) {
-          this.logoPreview = this.baseUrl + res.data.businessLogoUrl;
+          this.logoPreview = resolveMediaUrl(this.baseUrl, res.data.businessLogoUrl);
         }
       },
       error: (err) => {

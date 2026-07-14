@@ -8,11 +8,13 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { CustomerMarketplaceService } from '../../../Core/services/customer-marketplace.service';
 import { CustomerProductCardComponent } from '../../../components/customer-product-card/customer-product-card.component';
 import { ProductReviewsComponent } from '../../../components/product-reviews/product-reviews.component';
+import { CustomerCartService } from '../../../Core/services/cart-service.service';
+import { ToastService } from '../../../Core/services/toast.service';
 
 type DetailsTab = 'description' | 'specifications' | 'shipping';
 
@@ -26,7 +28,10 @@ type DetailsTab = 'description' | 'specifications' | 'shipping';
 })
 export class CustomerProductDetailsComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   protected readonly marketplace = inject(CustomerMarketplaceService);
+  private readonly cartSvc = inject(CustomerCartService);
+  private readonly toastSvc = inject(ToastService);
 
   // ── Local UI state (page-specific, doesn't belong in the service) ──
   protected readonly activeTab = signal<DetailsTab>('description');
@@ -132,14 +137,57 @@ export class CustomerProductDetailsComponent implements OnInit, OnDestroy {
   protected addToCart(): void {
     const details = this.product();
     if (!details) return;
-    this.marketplace.addToCart(String(details.id), this.quantity());
+    this.cartSvc.addItem(details.id, this.quantity()).subscribe({
+      next: () => {
+        this.toastSvc.success(
+          'Added to cart',
+          details.name ?? 'Item added successfully',
+          details.imageUrls[0] ?? null
+        );
+      },
+      error: () => {
+        this.toastSvc.error(
+          'Could not add item',
+          this.cartSvc.addError() ?? 'Please try again.'
+        );
+      },
+    });
   }
 
   protected buyNow(): void {
     const details = this.product();
     if (!details) return;
-    this.marketplace.addToCart(String(details.id), this.quantity());
-    // Navigate to your existing checkout route here, e.g.:
-    // this.router.navigate(['/checkout']);
+    this.cartSvc.addItem(details.id, this.quantity()).subscribe({
+      next: () => this.router.navigate(['/customer/cart']),
+      error: () => {
+        this.toastSvc.error(
+          'Could not add item',
+          this.cartSvc.addError() ?? 'Please try again.'
+        );
+      },
+    });
+  }
+
+  protected onAddedToCart(e: {
+    productId: string;
+    qty: number;
+    productName?: string;
+    imageUrl?: string | null;
+  }): void {
+    this.cartSvc.addItem(Number(e.productId), e.qty).subscribe({
+      next: () => {
+        this.toastSvc.success(
+          'Added to cart',
+          e.productName ?? 'Item added successfully',
+          e.imageUrl ?? null
+        );
+      },
+      error: () => {
+        this.toastSvc.error(
+          'Could not add item',
+          this.cartSvc.addError() ?? 'Please try again.'
+        );
+      },
+    });
   }
 }

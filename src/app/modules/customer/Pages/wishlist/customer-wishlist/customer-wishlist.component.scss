@@ -3,16 +3,17 @@
 // Mirrors cart page visual language exactly
 // ─────────────────────────────────────────────────────────────────────────────
 
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
-$danger:      #D94040;
-$success:     #27A06B;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  --danger:      #D94040;
+  --success:     #27A06B;
+  display: block;
+}
 
 $bp-lg: 1100px;
 $bp-md: 900px;
@@ -27,12 +28,15 @@ $bp-sm: 600px;
 
 // ── WISHLIST HERO ─────────────────────────────────────────────────────────────
 .wishlist-hero {
-  background: linear-gradient(148deg, #1a1108 0%, #2e1f06 40%, #18130A 100%);
+  background:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    var(--bo-hero-bg);
   position: relative;
   overflow: hidden;
   min-height: 200px;
   display: flex;
   align-items: center;
+  transition: background-color var(--bo-transition);
 }
 
 .wishlist-hero__bg-grain {
@@ -64,9 +68,9 @@ $bp-sm: 600px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: $gold-light;
-  background: rgba($gold, 0.12);
-  border: 1px solid rgba($gold, 0.3);
+  color: var(--gold);
+  background: var(--gold-soft);
+  border: var(--bo-border-surface);
   border-radius: 20px;
   padding: 5px 14px;
   margin-bottom: 14px;
@@ -77,12 +81,12 @@ $bp-sm: 600px;
   font-size: clamp(32px, 4.5vw, 48px);
   font-weight: 600;
   line-height: 1.15;
-  color: #fff;
+  color: var(--text-dark);
   margin: 0 0 10px;
 
   em {
     font-style: italic;
-    background: linear-gradient(90deg, $gold, $gold-light);
+    background: var(--bo-accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -92,7 +96,7 @@ $bp-sm: 600px;
 .wishlist-hero__sub {
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-mid);
   margin: 0;
 }
 
@@ -105,7 +109,7 @@ $bp-sm: 600px;
   svg {
     width: 14px;
     height: 14px;
-    color: rgba(255, 255, 255, 0.25);
+    color: var(--text-soft);
     flex-shrink: 0;
   }
 }
@@ -113,23 +117,23 @@ $bp-sm: 600px;
 .breadcrumb-link {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-mid);
   text-decoration: none;
   transition: color 0.2s;
 
-  &:hover { color: $gold-light; }
+  &:hover { color: var(--gold-light); }
 }
 
 .breadcrumb-current {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  color: $gold-light;
+  color: var(--gold-light);
   font-weight: 600;
 }
 
 // ── WISHLIST BODY ─────────────────────────────────────────────────────────────
 .wishlist-body {
-  background: $bg-main;
+  background: var(--bo-bg-page);
   padding: 48px 0 80px;
 
   @media (max-width: $bp-sm) { padding: 32px 0 60px; }
@@ -160,11 +164,12 @@ $bp-sm: 600px;
 
 // ── ITEMS LIST ────────────────────────────────────────────────────────────────
 .wishlist-items-list {
-  background: #fff;
-  border: 1px solid $gold-border;
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 2px 20px rgba($gold, 0.07);
+  box-shadow: var(--bo-shadow-card);
+  transition: background-color var(--bo-transition), border-color var(--bo-transition);
 }
 
 .wishlist-items-list__header {
@@ -172,8 +177,8 @@ $bp-sm: 600px;
   justify-content: space-between;
   align-items: center;
   padding: 14px 24px;
-  background: $gold-pale;
-  border-bottom: 1px solid $gold-border;
+  background: var(--bo-bg-surface-hover);
+  border-bottom: var(--bo-border-surface);
 
   @media (max-width: $bp-sm) { display: none; }
 }
@@ -184,7 +189,7 @@ $bp-sm: 600px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: $text-soft;
+  color: var(--text-soft);
 
   &--right { text-align: right; }
 }
@@ -205,13 +210,13 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: $text-mid;
+  color: var(--text-mid);
   text-decoration: none;
   transition: color 0.2s, gap 0.2s;
 
   svg { width: 14px; height: 14px; }
 
-  &:hover { color: $gold; gap: 10px; }
+  &:hover { color: var(--gold); gap: 10px; }
 }
 
 .wishlist-btn-danger-outline {
@@ -221,9 +226,9 @@ $bp-sm: 600px;
   height: 36px;
   padding: 0 18px;
   border-radius: 24px;
-  border: 1.5px solid rgba($danger, 0.4);
+  border: 1.5px solid rgba(217, 64, 64, 0.4);
   background: transparent;
-  color: $danger;
+  color: var(--danger);
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -233,8 +238,8 @@ $bp-sm: 600px;
   svg { width: 13px; height: 13px; }
 
   &:hover {
-    background: rgba($danger, 0.06);
-    border-color: $danger;
+    background: rgba(217, 64, 64, 0.06);
+    border-color: var(--danger);
   }
 }
 
@@ -242,8 +247,8 @@ $bp-sm: 600px;
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #fff;
-  border: 1px solid $gold-border;
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
   border-radius: 12px;
   padding: 10px 16px;
   animation: fadeIn 0.2s ease;
@@ -252,7 +257,7 @@ $bp-sm: 600px;
 .wishlist-clear-confirm__text {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: $text-dark;
+  color: var(--text-dark);
   font-weight: 500;
   white-space: nowrap;
 }
@@ -262,7 +267,7 @@ $bp-sm: 600px;
   padding: 0 14px;
   border-radius: 20px;
   border: none;
-  background: $danger;
+  background: var(--danger);
   color: #fff;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
@@ -277,16 +282,16 @@ $bp-sm: 600px;
   height: 30px;
   padding: 0 14px;
   border-radius: 20px;
-  border: 1px solid $gold-border;
+  border: var(--bo-border-surface);
   background: transparent;
-  color: $text-mid;
+  color: var(--text-mid);
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 
-  &:hover { background: $gold-pale; }
+  &:hover { background: var(--gold-soft); }
 }
 
 // ── TOAST ─────────────────────────────────────────────────────────────────────
@@ -303,9 +308,9 @@ $bp-sm: 600px;
   svg:first-child { width: 16px; height: 16px; flex-shrink: 0; }
 
   &--error {
-    background: rgba($danger, 0.06);
-    border: 1px solid rgba($danger, 0.25);
-    color: $danger;
+    background: rgba(217, 64, 64, 0.06);
+    border: 1px solid rgba(217, 64, 64, 0.25);
+    color: var(--danger);
   }
 }
 

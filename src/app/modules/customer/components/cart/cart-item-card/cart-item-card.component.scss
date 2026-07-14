@@ -1,17 +1,22 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree · Cart Item Card Styles
+// Palette sourced from the shared --bo-* design tokens so the page follows
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
 // ─────────────────────────────────────────────────────────────────────────────
 
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
-$danger:      #D94040;
-$success:     #27A06B;
-$warning:     #C9952A;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  --danger:      #D94040;
+  --success:     #27A06B;
+  --warning:     #c9952a;
+  display: block;
+}
+
 $bp-sm: 600px;
 
 .cart-item {
@@ -20,13 +25,13 @@ $bp-sm: 600px;
   gap: 16px;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid $gold-border;
+  border-bottom: var(--bo-border-surface);
   transition: background 0.2s, opacity 0.3s;
   position: relative;
 
   &:last-child { border-bottom: none; }
 
-  &:hover { background: rgba($gold, 0.02); }
+  &:hover { background: var(--bo-bg-surface-hover); }
 
   &--removing {
     opacity: 0.45;
@@ -48,7 +53,7 @@ $bp-sm: 600px;
   border-radius: 12px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid $gold-border;
+  border: var(--bo-border-surface);
 
   @media (max-width: $bp-sm) { width: 64px; height: 64px; }
 }
@@ -65,11 +70,11 @@ $bp-sm: 600px;
 .cart-item__img-placeholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, $gold-pale, #fff);
+  background: var(--gold-soft);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #D4C4A0;
+  color: var(--text-soft);
 
   svg { width: 32px; height: 32px; }
 }
@@ -93,7 +98,7 @@ $bp-sm: 600px;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: $gold;
+  color: var(--gold);
   margin: 0;
 }
 
@@ -101,7 +106,7 @@ $bp-sm: 600px;
   font-family: 'Cormorant Garamond', serif;
   font-size: 16px;
   font-weight: 600;
-  color: $text-dark;
+  color: var(--text-dark);
   margin: 0;
   line-height: 1.3;
   white-space: nowrap;
@@ -112,7 +117,7 @@ $bp-sm: 600px;
 .cart-item__unit-price {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  color: $text-soft;
+  color: var(--text-soft);
   margin: 2px 0 0;
 }
 
@@ -126,9 +131,9 @@ $bp-sm: 600px;
   font-weight: 600;
   margin-top: 4px;
 
-  &--ok       { color: $success; .stock-dot { background: $success; } }
-  &--low      { color: $warning; .stock-dot { background: $warning; } }
-  &--critical { color: $danger;  .stock-dot { background: $danger; } }
+  &--ok       { color: var(--success); .stock-dot { background: var(--success); } }
+  &--low      { color: var(--warning); .stock-dot { background: var(--warning); } }
+  &--critical { color: var(--danger);  .stock-dot { background: var(--danger); } }
 }
 
 .stock-dot {
@@ -154,13 +159,13 @@ $bp-sm: 600px;
   display: inline-flex;
   align-items: center;
   gap: 0;
-  border: 1.5px solid $gold-border;
+  border: 1.5px solid var(--bo-border-surface-hover);
   border-radius: 30px;
   overflow: hidden;
   transition: border-color 0.2s;
-  background: #fff;
+  background: var(--bo-bg-surface);
 
-  &:hover { border-color: $gold; }
+  &:hover { border-color: var(--gold); }
 
   &--loading { opacity: 0.7; pointer-events: none; }
 }
@@ -170,7 +175,7 @@ $bp-sm: 600px;
   height: 32px;
   border: none;
   background: transparent;
-  color: $text-mid;
+  color: var(--text-mid);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -180,8 +185,8 @@ $bp-sm: 600px;
   svg { width: 12px; height: 12px; }
 
   &:hover:not(:disabled) {
-    background: $gold-pale;
-    color: $gold;
+    background: var(--gold-soft);
+    color: var(--gold);
   }
 
   &:disabled { opacity: 0.35; cursor: not-allowed; }
@@ -193,20 +198,20 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 700;
-  color: $text-dark;
+  color: var(--text-dark);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-left: 1px solid $gold-border;
-  border-right: 1px solid $gold-border;
+  border-left: var(--bo-border-surface);
+  border-right: var(--bo-border-surface);
   height: 32px;
 }
 
 .stepper-spinner {
   width: 12px;
   height: 12px;
-  border: 2px solid rgba($gold, 0.3);
-  border-top-color: $gold;
+  border: 2px solid rgba(184, 134, 11, 0.3);
+  border-top-color: var(--gold);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   display: inline-block;
@@ -223,7 +228,7 @@ $bp-sm: 600px;
   font-family: 'Cormorant Garamond', serif;
   font-size: 18px;
   font-weight: 700;
-  color: $text-dark;
+  color: var(--text-dark);
 }
 
 // ── Remove Button ─────────────────────────────────────────────────────────────
@@ -232,7 +237,7 @@ $bp-sm: 600px;
   height: 32px;
   border: 1px solid transparent;
   background: transparent;
-  color: $text-soft;
+  color: var(--text-soft);
   border-radius: 8px;
   cursor: pointer;
   display: flex;
@@ -243,9 +248,9 @@ $bp-sm: 600px;
   svg { width: 15px; height: 15px; }
 
   &:hover:not(:disabled) {
-    background: rgba($danger, 0.08);
-    color: $danger;
-    border-color: rgba($danger, 0.25);
+    background: rgba(217, 64, 64, 0.08);
+    color: var(--danger);
+    border-color: rgba(217, 64, 64, 0.25);
   }
 
   &:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -259,8 +264,8 @@ $bp-sm: 600px;
 .remove-spinner {
   width: 13px;
   height: 13px;
-  border: 2px solid rgba($danger, 0.3);
-  border-top-color: $danger;
+  border: 2px solid rgba(217, 64, 64, 0.3);
+  border-top-color: var(--danger);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   display: inline-block;

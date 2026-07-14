@@ -340,10 +340,9 @@
             <img class="owner-products-grid-img" [src]="p.imageUrl || 'https://picsum.photos/seed/placeholder/400/300'" [alt]="p.name" loading="lazy" />
             <span class="owner-products-badge" [attr.data-status]="p.status">{{ statusLabel(p.status) }}</span>
             <div class="owner-products-grid-overlay" (click)="$event.stopPropagation()">
-              <button type="button" class="owner-products-overlay-btn" (click)="goToDetails(p)">View</button>
-              <button type="button" class="owner-products-overlay-btn" (click)="editProduct(p)">Edit</button>
-              <button type="button" class="owner-products-overlay-btn" (click)="openStatsModal(p)">Stats</button>
-              <button type="button" class="owner-products-overlay-btn owner-products-overlay-btn--danger" (click)="openDeleteModal(p)">Delete</button>
+              <button type="button" class="owner-products-overlay-btn" (click)="goToDetails(p)"><i class="fa-solid fa-eye"></i> View</button>
+              <button type="button" class="owner-products-overlay-btn" (click)="editProduct(p)"><i class="fa-solid fa-pen"></i> Edit</button>
+              <button type="button" class="owner-products-overlay-btn owner-products-overlay-btn--danger" (click)="openDeleteModal(p)"><i class="fa-solid fa-trash"></i> Delete</button>
             </div>
           </div>
 
@@ -354,22 +353,22 @@
 
             <!-- Metrics row -->
             <div class="owner-products-grid-metrics">
-              <span class="owner-products-grid-metric">🛒 {{ p.sales | number }}</span>
+              <span class="owner-products-grid-metric"><i class="fa-solid fa-cart-shopping"></i> {{ p.sales | number }}</span>
               @if (p.rating > 0) {
-                <span class="owner-products-grid-metric">⭐ {{ p.rating | number:'1.1-1' }}</span>
+                <span class="owner-products-grid-metric"><i class="fa-solid fa-star"></i> {{ p.rating | number:'1.1-1' }}</span>
               }
-              <span class="owner-products-grid-metric">📦 {{ p.stock }}</span>
+              <span class="owner-products-grid-metric"><i class="fa-solid fa-box"></i> {{ p.stock }}</span>
               @if (p.views) {
-                <span class="owner-products-grid-metric">👁 {{ p.views | number }}</span>
+                <span class="owner-products-grid-metric"><i class="fa-solid fa-eye"></i> {{ p.views | number }}</span>
               }
             </div>
 
             <!-- Action buttons -->
             <div class="owner-products-grid-actions" (click)="$event.stopPropagation()">
-              <button type="button" class="owner-products-grid-btn" (click)="goToDetails(p)">View</button>
-              <button type="button" class="owner-products-grid-btn" (click)="editProduct(p)">✏️ Edit</button>
-              <button type="button" class="owner-products-grid-btn" (click)="duplicateProduct(p)">📋</button>
-              <button type="button" class="owner-products-grid-btn owner-products-grid-btn--danger" (click)="openDeleteModal(p)">🗑️</button>
+              <button type="button" class="owner-products-grid-btn" (click)="goToDetails(p)"><i class="fa-solid fa-eye"></i> View</button>
+              <button type="button" class="owner-products-grid-btn" (click)="editProduct(p)"><i class="fa-solid fa-pen"></i> Edit</button>
+              <button type="button" class="owner-products-grid-btn" (click)="duplicateProduct(p)" title="Duplicate"><i class="fa-solid fa-copy"></i></button>
+              <button type="button" class="owner-products-grid-btn owner-products-grid-btn--danger" (click)="openDeleteModal(p)" title="Delete"><i class="fa-solid fa-trash"></i></button>
             </div>
           </div>
 
@@ -423,12 +422,12 @@
                 <div class="owner-products-cell-name">{{ p.name }}</div>
                 <!-- Footer meta -->
                 <div style="display:flex;align-items:center;gap:14px;font-size:12px;color:#8A7A60;flex-wrap:wrap;margin-top:1px;">
-                  <span>📁 {{ p.category }}</span>
-                  <span>💰 {{ formatMoney(p.price) }}</span>
-                  <span>📦 {{ p.stock }} in stock</span>
-                  <span>🛒 {{ p.sales | number }} sold</span>
+                  <span><i class="fa-solid fa-folder"></i> {{ p.category }}</span>
+                  <span><i class="fa-solid fa-sack-dollar"></i> {{ formatMoney(p.price) }}</span>
+                  <span><i class="fa-solid fa-box"></i> {{ p.stock }} in stock</span>
+                  <span><i class="fa-solid fa-cart-shopping"></i> {{ p.sales | number }} sold</span>
                   @if (p.rating > 0) {
-                    <span>⭐ {{ p.rating | number:'1.1-1' }}</span>
+                    <span><i class="fa-solid fa-star"></i> {{ p.rating | number:'1.1-1' }}</span>
                   }
                 </div>
               </td>
@@ -444,10 +443,9 @@
               <!-- Actions -->
               <td>
                 <div class="owner-products-actions" (click)="stopRowClick($event)">
-                  <button type="button" class="owner-products-icon-btn" title="Edit"       (click)="editProduct(p);      stopRowClick($event)">✏️</button>
-                  <button type="button" class="owner-products-icon-btn" title="Delete"     (click)="openDeleteModal(p);  stopRowClick($event)">🗑️</button>
-                  <button type="button" class="owner-products-icon-btn" title="View stats" (click)="openStatsModal(p);   stopRowClick($event)">📊</button>
-                  <button type="button" class="owner-products-icon-btn" title="Duplicate"  (click)="duplicateProduct(p); stopRowClick($event)">📋</button>
+                  <button type="button" class="owner-products-icon-btn" title="Edit"      (click)="editProduct(p);      stopRowClick($event)"><i class="fa-solid fa-pen"></i></button>
+                  <button type="button" class="owner-products-icon-btn" title="Delete"    (click)="openDeleteModal(p);  stopRowClick($event)"><i class="fa-solid fa-trash"></i></button>
+                  <button type="button" class="owner-products-icon-btn" title="Duplicate" (click)="duplicateProduct(p); stopRowClick($event)"><i class="fa-solid fa-copy"></i></button>
                 </div>
               </td>
 
@@ -479,40 +477,5 @@
     </div>
   }
 
-  <!-- ═══════════════════════════════════════════════════
-       ANALYTICS MODAL
-  ═══════════════════════════════════════════════════ -->
-  @if (productStats) {
-    <div class="owner-products-modal-backdrop" (click)="closeStatsModal()" role="presentation"></div>
-    <div class="owner-products-modal owner-products-modal--wide" role="dialog" aria-modal="true" aria-labelledby="stats-title">
-      <h3 id="stats-title" class="owner-products-modal-title">📊 Analytics — {{ productStats.name }}</h3>
-      <div class="owner-products-stats-grid">
-        <div class="owner-products-stat-block">
-          <span class="owner-products-stat-block-label">Total Views</span>
-          <span class="owner-products-stat-block-value">{{ productStats.views | number }}</span>
-        </div>
-        <div class="owner-products-stat-block">
-          <span class="owner-products-stat-block-label">Units Sold</span>
-          <span class="owner-products-stat-block-value">{{ productStats.sales | number }}</span>
-        </div>
-        <div class="owner-products-stat-block">
-          <span class="owner-products-stat-block-label">Revenue (est.)</span>
-          <span class="owner-products-stat-block-value">{{ formatMoney(productStats.price * productStats.sales) }}</span>
-        </div>
-      </div>
-      <p class="owner-products-trend-note">Sales trend: steady growth over the last 30 days</p>
-      <div class="owner-products-trend-bars" aria-hidden="true">
-        <span class="owner-products-trend-bar owner-products-trend-bar--1"></span>
-        <span class="owner-products-trend-bar owner-products-trend-bar--2"></span>
-        <span class="owner-products-trend-bar owner-products-trend-bar--3"></span>
-        <span class="owner-products-trend-bar owner-products-trend-bar--4"></span>
-        <span class="owner-products-trend-bar owner-products-trend-bar--5"></span>
-        <span class="owner-products-trend-bar owner-products-trend-bar--6"></span>
-      </div>
-      <div class="owner-products-modal-actions">
-        <button type="button" class="btn-main btn-gold" (click)="closeStatsModal()">Close</button>
-      </div>
-    </div>
-  }
 
 </div>

@@ -61,21 +61,22 @@ import { RouterLink } from '@angular/router';
     </div>
   `,
   styles: [`
-    $gold:        #B8860B;
-    $gold-light:  #C9952A;
-    $gold-pale:   #FBF3E2;
-    $gold-border: #E8D5A3;
-    $text-dark:   #18130A;
-    $text-mid:    #5C5244;
-    $text-soft:   #A09280;
+    :host {
+      --gold:        var(--bo-accent);
+      --gold-light:  #c9952a;
+      --gold-soft:   var(--bo-accent-soft);
+      --text-dark:   var(--bo-color-text);
+      --text-mid:    var(--bo-color-text-muted);
+      --text-soft:   var(--bo-color-text-muted);
+    }
 
     .empty-wishlist {
-      background: #fff;
-      border: 1px solid $gold-border;
+      background: var(--bo-bg-surface);
+      border: var(--bo-border-surface);
       border-radius: 18px;
       padding: 60px 40px;
       text-align: center;
-      box-shadow: 0 2px 20px rgba($gold, 0.06);
+      box-shadow: var(--bo-shadow-card);
     }
 
     .empty-wishlist__illustration {
@@ -86,7 +87,7 @@ import { RouterLink } from '@angular/router';
       svg {
         width: 100%;
         height: 100%;
-        filter: drop-shadow(0 4px 12px rgba($gold, 0.15));
+        filter: drop-shadow(0 4px 12px rgba(184, 134, 11, 0.15));
       }
     }
 
@@ -94,14 +95,14 @@ import { RouterLink } from '@angular/router';
       font-family: 'Cormorant Garamond', serif;
       font-size: 28px;
       font-weight: 600;
-      color: $text-dark;
+      color: var(--text-dark);
       margin: 0 0 12px;
     }
 
     .empty-wishlist__desc {
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
-      color: $text-soft;
+      color: var(--text-soft);
       line-height: 1.7;
       max-width: 360px;
       margin: 0 auto 28px;
@@ -122,8 +123,8 @@ import { RouterLink } from '@angular/router';
       height: 44px;
       padding: 0 26px;
       border-radius: 40px;
-      background: linear-gradient(135deg, $gold, $gold-light);
-      color: #fff;
+      background-image: var(--bo-accent-gradient);
+      color: var(--bo-color-on-accent);
       font-family: 'DM Sans', sans-serif;
       font-size: 13px;
       font-weight: 600;
@@ -133,7 +134,7 @@ import { RouterLink } from '@angular/router';
       svg { width: 14px; height: 14px; }
 
       &:hover {
-        box-shadow: 0 6px 20px rgba($gold, 0.4);
+        box-shadow: var(--bo-shadow-card-hover);
         transform: translateY(-1px);
       }
     }
@@ -144,8 +145,8 @@ import { RouterLink } from '@angular/router';
       height: 44px;
       padding: 0 22px;
       border-radius: 40px;
-      border: 1.5px solid $gold-border;
-      color: $text-mid;
+      border: var(--bo-border-surface);
+      color: var(--text-mid);
       font-family: 'DM Sans', sans-serif;
       font-size: 13px;
       font-weight: 500;
@@ -153,8 +154,8 @@ import { RouterLink } from '@angular/router';
       transition: border-color 0.2s, background 0.2s;
 
       &:hover {
-        border-color: $gold;
-        background: $gold-pale;
+        border-color: var(--bo-border-surface-hover);
+        background: var(--gold-soft);
       }
     }
 
@@ -169,24 +170,24 @@ import { RouterLink } from '@angular/router';
     .empty-tag-label {
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
-      color: $text-soft;
+      color: var(--text-soft);
     }
 
     .empty-tag {
       font-family: 'DM Sans', sans-serif;
       font-size: 12px;
-      color: $text-mid;
-      background: $gold-pale;
-      border: 1px solid $gold-border;
+      color: var(--text-mid);
+      background: var(--bo-bg-surface-hover);
+      border: var(--bo-border-surface);
       border-radius: 20px;
       padding: 3px 12px;
       text-decoration: none;
       transition: background 0.2s, color 0.2s;
 
       &:hover {
-        background: rgba($gold, 0.12);
-        color: $gold;
-        border-color: rgba($gold, 0.35);
+        background: var(--gold-soft);
+        color: var(--gold);
+        border-color: var(--bo-border-surface-hover);
       }
     }
   `],

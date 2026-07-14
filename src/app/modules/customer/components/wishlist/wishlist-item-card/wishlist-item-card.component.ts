@@ -98,16 +98,17 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
     </div>
   `,
   styles: [`
-    $gold:        #B8860B;
-    $gold-light:  #C9952A;
-    $gold-pale:   #FBF3E2;
-    $gold-border: #E8D5A3;
-    $text-dark:   #18130A;
-    $text-mid:    #5C5244;
-    $text-soft:   #A09280;
-    $danger:      #D94040;
-    $success:     #27A06B;
-    $warning:     #C9952A;
+    :host {
+      --gold:        var(--bo-accent);
+      --gold-light:  #c9952a;
+      --gold-soft:   var(--bo-accent-soft);
+      --text-dark:   var(--bo-color-text);
+      --text-mid:    var(--bo-color-text-muted);
+      --text-soft:   var(--bo-color-text-muted);
+      --danger:      #D94040;
+      --success:     #27A06B;
+      --warning:     #c9952a;
+    }
     $bp-sm:       600px;
 
     .wishlist-item {
@@ -116,12 +117,12 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
       gap: 20px;
       align-items: center;
       padding: 20px 24px;
-      border-bottom: 1px solid $gold-border;
+      border-bottom: var(--bo-border-surface);
       transition: background 0.2s, opacity 0.3s;
       position: relative;
 
       &:last-child { border-bottom: none; }
-      &:hover { background: rgba($gold, 0.02); }
+      &:hover { background: var(--bo-bg-surface-hover); }
 
       &--removing {
         opacity: 0.45;
@@ -143,7 +144,7 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
       border-radius: 12px;
       overflow: hidden;
       flex-shrink: 0;
-      border: 1px solid $gold-border;
+      border: var(--bo-border-surface);
 
       @media (max-width: $bp-sm) { width: 70px; height: 70px; }
     }
@@ -160,11 +161,11 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
     .wishlist-item__img-placeholder {
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, $gold-pale, #fff);
+      background: linear-gradient(135deg, var(--bo-accent-soft), var(--bo-bg-surface));
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #D4C4A0;
+      color: var(--text-soft);
 
       svg { width: 32px; height: 32px; }
     }
@@ -183,7 +184,7 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: $gold;
+      color: var(--gold);
       margin: 0;
     }
 
@@ -191,7 +192,7 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
       font-family: 'Cormorant Garamond', serif;
       font-size: 17px;
       font-weight: 600;
-      color: $text-dark;
+      color: var(--text-dark);
       margin: 0;
       line-height: 1.3;
       white-space: nowrap;
@@ -203,7 +204,7 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       font-weight: 700;
-      color: $text-dark;
+      color: var(--text-dark);
       margin: 4px 0 2px;
     }
 
@@ -217,10 +218,10 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
       font-weight: 600;
       margin: 2px 0;
 
-      &--ok       { color: $success; .stock-dot { background: $success; } }
-      &--low      { color: $warning; .stock-dot { background: $warning; } }
-      &--critical { color: $danger;  .stock-dot { background: $danger; } }
-      &--out      { color: $text-soft; .stock-dot { background: $text-soft; } }
+      &--ok       { color: var(--success); .stock-dot { background: var(--success); } }
+      &--low      { color: var(--warning); .stock-dot { background: var(--warning); } }
+      &--critical { color: var(--danger);  .stock-dot { background: var(--danger); } }
+      &--out      { color: var(--text-soft); .stock-dot { background: var(--text-soft); } }
     }
 
     .stock-dot {
@@ -233,7 +234,7 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
     .wishlist-item__added {
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
-      color: $text-soft;
+      color: var(--text-soft);
       margin: 2px 0 0;
     }
 
@@ -261,8 +262,8 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
       padding: 0 16px;
       border-radius: 24px;
       border: none;
-      background: linear-gradient(135deg, $gold, $gold-light);
-      color: #fff;
+      background-image: var(--bo-accent-gradient);
+      color: var(--bo-color-on-accent);
       font-family: 'DM Sans', sans-serif;
       font-size: 12px;
       font-weight: 600;
@@ -273,14 +274,16 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
       svg { width: 13px; height: 13px; }
 
       &:hover:not(:disabled) {
-        box-shadow: 0 4px 14px rgba($gold, 0.4);
+        box-shadow: var(--bo-shadow-card-hover);
         transform: translateY(-1px);
       }
 
       &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
-        background: linear-gradient(135deg, $text-soft, $text-mid);
+        background-image: none;
+        background: linear-gradient(135deg, var(--text-soft), var(--text-mid));
+        color: #fff;
       }
     }
 
@@ -289,7 +292,7 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
       height: 32px;
       border: 1px solid transparent;
       background: transparent;
-      color: $text-soft;
+      color: var(--text-soft);
       border-radius: 8px;
       cursor: pointer;
       display: flex;
@@ -300,9 +303,9 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
       svg { width: 14px; height: 14px; }
 
       &:hover:not(:disabled) {
-        background: rgba($danger, 0.08);
-        color: $danger;
-        border-color: rgba($danger, 0.25);
+        background: rgba(217, 64, 64, 0.08);
+        color: var(--danger);
+        border-color: rgba(217, 64, 64, 0.25);
       }
 
       &:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -311,8 +314,8 @@ import { WishlistItem } from '../../../Core/services/wishlist.service';
     .remove-spinner {
       width: 13px;
       height: 13px;
-      border: 2px solid rgba($danger, 0.3);
-      border-top-color: $danger;
+      border: 2px solid rgba(217, 64, 64, 0.3);
+      border-top-color: var(--danger);
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
       display: inline-block;

@@ -1,25 +1,26 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree – Customer Categories Page  SCSS
-// Extends the existing home page design tokens — no new palette introduced.
+// Palette sourced from the shared --bo-* design tokens so the page follows
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ── Design tokens (mirrors home page exactly) ─────────────────────────────────
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
-$danger:      #D94040;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  --danger:      #D94040;
+  display: block;
+}
 
 $bp-lg: 1100px;
 $bp-md: 900px;
 $bp-sm: 600px;
 
 @mixin shimmer {
-  background: linear-gradient(90deg, #f0ebe1 0%, #faf5ec 45%, #f0ebe1 80%);
+  background: linear-gradient(90deg, var(--bo-bg-surface) 0%, var(--bo-bg-surface-hover) 45%, var(--bo-bg-surface) 80%);
   background-size: 1200px 100%;
   animation: shimmer 1.5s infinite linear;
   border-radius: 6px;
@@ -40,9 +41,12 @@ $bp-sm: 600px;
 
 // ── Hero (compact variant for interior pages) ─────────────────────────────────
 .hero {
-  background: linear-gradient(148deg, #1a1108 0%, #2e1f06 40%, #18130A 100%);
+  background:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    var(--bo-hero-bg);
   position: relative;
   overflow: hidden;
+  transition: background-color var(--bo-transition);
 
   &--compact {
     min-height: 320px;
@@ -84,9 +88,9 @@ $bp-sm: 600px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: $gold-light;
-  background: rgba($gold, 0.12);
-  border: 1px solid rgba($gold, 0.3);
+  color: var(--gold);
+  background: var(--gold-soft);
+  border: var(--bo-border-surface);
   border-radius: 20px;
   padding: 5px 14px;
   margin-bottom: 20px;
@@ -97,13 +101,13 @@ $bp-sm: 600px;
   font-size: clamp(32px, 4.5vw, 48px);
   font-weight: 600;
   line-height: 1.15;
-  color: #fff;
+  color: var(--text-dark);
   margin: 0 0 16px;
 
   em {
     font-style: italic;
-    color: $gold-light;
-    background: linear-gradient(90deg, $gold, $gold-light);
+    color: var(--gold-light);
+    background: var(--bo-accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -114,7 +118,7 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   line-height: 1.7;
-  color: rgba(255,255,255,0.65);
+  color: var(--text-mid);
   margin: 0 0 24px;
 }
 
@@ -127,21 +131,21 @@ $bp-sm: 600px;
   font-size: 12px;
 
   &__link {
-    color: rgba(255,255,255,0.55);
+    color: var(--text-mid);
     text-decoration: none;
     transition: color 0.2s;
-    &:hover { color: $gold-light; }
+    &:hover { color: var(--gold-light); }
   }
 
   &__sep {
-    color: rgba(255,255,255,0.3);
+    color: var(--text-soft);
     display: flex;
     align-items: center;
     svg { width: 12px; height: 12px; }
   }
 
   &__current {
-    color: $gold-light;
+    color: var(--text-dark);
     font-weight: 600;
   }
 }
@@ -152,8 +156,9 @@ $bp-sm: 600px;
   @media (max-width: $bp-sm) { padding: 48px 0; }
 
   &--categories-page {
-    background: $bg-main;
+    background: var(--bo-bg-page);
     min-height: 400px;
+    transition: background-color var(--bo-transition);
   }
 }
 
@@ -175,7 +180,7 @@ $bp-sm: 600px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: $gold;
+  color: var(--gold);
   margin-bottom: 8px;
 }
 
@@ -183,7 +188,7 @@ $bp-sm: 600px;
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(26px, 3vw, 36px);
   font-weight: 600;
-  color: $text-dark;
+  color: var(--text-dark);
   margin: 0;
 }
 
@@ -194,7 +199,7 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: $gold;
+  color: var(--gold);
   text-decoration: none;
   white-space: nowrap;
   transition: gap 0.2s;
@@ -223,22 +228,23 @@ $bp-sm: 600px;
 
 // ── Category Card ─────────────────────────────────────────────────────────────
 .category-card {
-  background: #fff;
-  border: 1px solid $gold-border;
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
   border-radius: 14px;
   overflow: hidden;
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.25s, transform 0.25s;
-  box-shadow: 0 2px 12px rgba($gold, 0.06);
+  transition: box-shadow 0.25s, transform 0.25s, background-color var(--bo-transition), border-color var(--bo-transition);
+  box-shadow: var(--bo-shadow-card);
 
   &:hover {
-    box-shadow: 0 12px 40px rgba($gold, 0.18);
+    box-shadow: var(--bo-shadow-card-hover);
     transform: translateY(-3px);
+    border-color: var(--bo-border-surface-hover);
 
-    .category-card__name { color: $gold; }
-    .category-card__cta  { gap: 10px; color: $gold; }
+    .category-card__name { color: var(--gold); }
+    .category-card__cta  { gap: 10px; color: var(--gold); }
 
     .category-card__img-wrap img { transform: scale(1.05); }
   }
@@ -264,11 +270,11 @@ $bp-sm: 600px;
 
   &__img-placeholder {
     height: 130px;
-    background: linear-gradient(135deg, $gold-pale, #fff);
+    background: var(--gold-soft);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $gold-border;
+    color: var(--gold);
 
     svg { width: 48px; height: 48px; }
   }
@@ -285,7 +291,7 @@ $bp-sm: 600px;
     font-family: 'DM Sans', sans-serif;
     font-size: 15px;
     font-weight: 700;
-    color: $text-dark;
+    color: var(--text-dark);
     transition: color 0.2s;
     line-height: 1.3;
   }
@@ -293,7 +299,7 @@ $bp-sm: 600px;
   &__desc-preview {
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
-    color: $text-soft;
+    color: var(--text-soft);
     line-height: 1.55;
     margin: 0;
     // Clamp to 2 lines
@@ -306,7 +312,7 @@ $bp-sm: 600px;
   &__count {
     font-family: 'DM Sans', sans-serif;
     font-size: 11px;
-    color: $text-soft;
+    color: var(--text-soft);
     font-weight: 500;
   }
 
@@ -317,7 +323,7 @@ $bp-sm: 600px;
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
     font-weight: 600;
-    color: $text-mid;
+    color: var(--text-mid);
     margin-top: auto;
     transition: gap 0.2s, color 0.2s;
     svg { width: 12px; height: 12px; }
@@ -364,8 +370,8 @@ $bp-sm: 600px;
   height: 46px;
   padding: 0 28px;
   border-radius: 40px;
-  background: linear-gradient(135deg, $gold, $gold-light);
-  color: #fff;
+  background-image: var(--bo-accent-gradient);
+  color: var(--bo-color-on-accent);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -377,7 +383,7 @@ $bp-sm: 600px;
 
   svg { width: 16px; height: 16px; }
   &:hover {
-    box-shadow: 0 6px 24px rgba($gold, 0.45);
+    box-shadow: var(--bo-shadow-card-hover);
     transform: translateY(-2px);
   }
 }
@@ -388,8 +394,8 @@ $bp-sm: 600px;
   height: 46px;
   padding: 0 24px;
   border-radius: 40px;
-  border: 1.5px solid rgba(255,255,255,0.25);
-  color: rgba(255,255,255,0.85);
+  border: var(--bo-border-surface-hover);
+  color: var(--text-mid);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -397,14 +403,14 @@ $bp-sm: 600px;
   transition: border-color 0.2s, background 0.2s;
 
   &--dark {
-    border-color: $gold-border;
-    color: $text-mid;
-    &:hover { background: $gold-pale; border-color: $gold; }
+    border-color: var(--bo-border-surface-hover);
+    color: var(--text-mid);
+    &:hover { background: var(--gold-soft); border-color: var(--gold); }
   }
 
   &:hover {
-    border-color: rgba($gold, 0.5);
-    background: rgba($gold, 0.08);
+    border-color: var(--bo-border-surface-hover);
+    background: var(--gold-soft);
   }
 }
 
@@ -412,7 +418,7 @@ $bp-sm: 600px;
 .empty-state {
   text-align: center;
   padding: 80px 24px;
-  color: $text-soft;
+  color: var(--text-soft);
   animation: fadeIn 0.35s ease;
 
   &__icon {
@@ -424,14 +430,14 @@ $bp-sm: 600px;
     font-family: 'Cormorant Garamond', serif;
     font-size: 24px;
     font-weight: 600;
-    color: $text-dark;
+    color: var(--text-dark);
     margin: 0 0 12px;
   }
 
   &__desc {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: $text-soft;
+    color: var(--text-soft);
     line-height: 1.6;
     margin: 0 0 28px;
     max-width: 380px;
@@ -442,10 +448,11 @@ $bp-sm: 600px;
 
 // ── Trust Banner ──────────────────────────────────────────────────────────────
 .trust-banner {
-  background: linear-gradient(135deg, $gold-pale 0%, #fff 60%, $gold-pale 100%);
-  border-top: 1px solid $gold-border;
-  border-bottom: 1px solid $gold-border;
+  background: var(--bo-card-gradient);
+  border-top: var(--bo-border-surface);
+  border-bottom: var(--bo-border-surface);
   padding: 48px 0;
+  transition: background-color var(--bo-transition), border-color var(--bo-transition);
 }
 
 .trust-banner__inner {
@@ -466,13 +473,13 @@ $bp-sm: 600px;
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: linear-gradient(135deg, $gold-pale, #fff);
-    border: 1px solid $gold-border;
+    background: var(--gold-soft);
+    border: var(--bo-border-surface);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: $gold;
+    color: var(--gold);
     svg { width: 22px; height: 22px; }
   }
 
@@ -482,14 +489,14 @@ $bp-sm: 600px;
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     font-weight: 700;
-    color: $text-dark;
+    color: var(--text-dark);
     margin: 0;
   }
 
   &__desc {
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
-    color: $text-soft;
+    color: var(--text-soft);
     line-height: 1.5;
     margin: 0;
   }

@@ -276,7 +276,29 @@ export class ProductionRequestDetailsComponent implements OnInit, OnDestroy {
   onPaymentSucceeded(): void {
     this.closePayment();
     this.showToaster('Payment completed successfully! 🎉', 'success');
-    this.refreshRequest();
+
+    // The backend confirms the request (status 2 -> 3) asynchronously via a
+    // Stripe webhook, which can lag behind Stripe's client-side confirmation.
+    // Poll briefly so a slow webhook doesn't leave the status stuck on "Quoted".
+    this.pollForPaymentConfirmation(this.request!.id);
+  }
+
+  private pollForPaymentConfirmation(id: number, attempt = 0): void {
+    const maxAttempts = 5;
+    const delayMs = 1500;
+
+    this.productionRequestService.getById(id).subscribe({
+      next: (res: ApiResponse<ProductionRequest>) => {
+        if (res?.data) {
+          this.request = { ...res.data, items: res.data.items ?? [], statusHistory: res.data.statusHistory ?? [] };
+        }
+
+        if (this.request?.status === 2 && attempt < maxAttempts) {
+          setTimeout(() => this.pollForPaymentConfirmation(id, attempt + 1), delayMs);
+        }
+      },
+      error: (err) => console.log(err),
+    });
   }
 
   /** Close the payment modal */

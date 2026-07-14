@@ -49,7 +49,6 @@ export class OwnerProductDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('galleryCarousel', { static: false }) galleryCarousel?: CarouselComponent;
 
   deleteOpen = false;
-  statsOpen = false;
   deleteBusy = false;
 
   constructor(
@@ -234,13 +233,5 @@ export class OwnerProductDetailsComponent implements OnInit, OnDestroy {
       'Opening add product with duplicated fields will be available in a future update.',
       'Duplicate'
     );
-  }
-
-  openStats(): void {
-    this.statsOpen = true;
-  }
-
-  closeStats(): void {
-    this.statsOpen = false;
   }
 }

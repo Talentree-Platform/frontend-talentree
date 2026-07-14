@@ -1,26 +1,29 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree · co-orders-list styles
+// Palette sourced from the shared --bo-* design tokens so the page follows
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
 // ─────────────────────────────────────────────────────────────────────────────
 
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
-$success:     #27A06B;
-$success-pale:#EDFAF4;
-$danger:      #D94040;
-$danger-pale: #FEF2F2;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  --success:     #27A06B;
+  --success-soft:rgba(39, 160, 107, 0.12);
+  --danger:      #D94040;
+  --danger-soft: rgba(217, 64, 64, 0.12);
+  display: block;
+}
 
 $bp-lg: 1100px;
 $bp-md: 900px;
 $bp-sm: 600px;
 
 @mixin shimmer {
-  background: linear-gradient(90deg, #f0ebe1 0%, #faf5ec 45%, #f0ebe1 80%);
+  background: linear-gradient(90deg, var(--bo-bg-surface) 0%, var(--bo-bg-surface-hover) 45%, var(--bo-bg-surface) 80%);
   background-size: 1200px 100%;
   animation: shimmer 1.5s infinite linear;
   border-radius: 6px;
@@ -40,10 +43,13 @@ $bp-sm: 600px;
 
 // ── HERO ─────────────────────────────────────────────────────────────────────
 .co-hero {
-  background: linear-gradient(148deg, #1a1108 0%, #2e1f06 40%, #18130A 100%);
+  background:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    var(--bo-hero-bg);
   position: relative;
   overflow: hidden;
   padding: 120px 0 44px;
+  transition: background-color var(--bo-transition);
 
   @media (max-width: $bp-md) {
     padding: 96px 0 36px;
@@ -67,9 +73,9 @@ $bp-sm: 600px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: $gold-light;
-  background: rgba($gold, 0.12);
-  border: 1px solid rgba($gold, 0.3);
+  color: var(--gold);
+  background: var(--gold-soft);
+  border: var(--bo-border-surface);
   border-radius: 20px;
   padding: 5px 14px;
   margin-bottom: 16px;
@@ -79,26 +85,30 @@ $bp-sm: 600px;
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(30px, 4vw, 42px);
   font-weight: 600;
-  color: #fff;
+  color: var(--text-dark);
   margin: 0 0 10px;
 }
 
 .co-hero__sub {
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
-  color: rgba(255,255,255,0.65);
+  color: var(--text-mid);
   margin: 0;
   max-width: 480px;
 }
 
 // ── CONTROLS ─────────────────────────────────────────────────────────────────
 .co-controls {
-  background: $bg-main;
-  border-bottom: 1px solid $gold-border;
+  background: var(--bo-bg-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: var(--bo-border-surface);
   padding: 24px 0;
   position: sticky;
   top: 0;
   z-index: 5;
+  box-shadow: var(--bo-shadow-card);
+  transition: background-color var(--bo-transition), border-color var(--bo-transition);
 }
 
 .co-controls__inner {
@@ -113,18 +123,18 @@ $bp-sm: 600px;
   gap: 10px;
   height: 46px;
   border-radius: 24px;
-  border: 1px solid $gold-border;
-  background: #fff;
+  border: var(--bo-border-surface);
+  background: var(--bo-bg-surface);
   padding: 0 18px;
   max-width: 420px;
-  color: $text-soft;
+  color: var(--text-soft);
   transition: border-color 0.2s, box-shadow 0.2s;
 
   svg { width: 17px; height: 17px; flex-shrink: 0; }
 
   &:focus-within {
-    border-color: $gold;
-    box-shadow: 0 0 0 3px rgba($gold, 0.1);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
   }
 
   input {
@@ -134,9 +144,9 @@ $bp-sm: 600px;
     background: transparent;
     font-family: 'DM Sans', sans-serif;
     font-size: 13.5px;
-    color: $text-dark;
+    color: var(--text-dark);
 
-    &::placeholder { color: $text-soft; }
+    &::placeholder { color: var(--text-soft); }
   }
 }
 
@@ -154,9 +164,9 @@ $bp-sm: 600px;
   height: 36px;
   padding: 0 18px;
   border-radius: 20px;
-  border: 1px solid $gold-border;
-  background: #fff;
-  color: $text-mid;
+  border: var(--bo-border-surface);
+  background: var(--bo-bg-surface);
+  color: var(--text-mid);
   font-family: 'DM Sans', sans-serif;
   font-size: 12.5px;
   font-weight: 600;
@@ -164,19 +174,20 @@ $bp-sm: 600px;
   transition: background 0.2s, border-color 0.2s, color 0.2s;
   text-transform: capitalize;
 
-  &:hover { border-color: $gold-light; }
+  &:hover { border-color: var(--bo-border-surface-hover); }
 
   &.is-active {
-    background: linear-gradient(135deg, $gold, $gold-light);
-    border-color: $gold;
-    color: #fff;
+    background-image: var(--bo-accent-gradient);
+    border-color: var(--gold);
+    color: var(--bo-color-on-accent);
   }
 }
 
 // ── LIST SECTION ─────────────────────────────────────────────────────────────
 .co-list-section {
-  background: $bg-main;
+  background: var(--bo-bg-page);
   padding: 36px 0 64px;
+  transition: background-color var(--bo-transition);
 }
 
 .co-orders-grid {
@@ -188,17 +199,18 @@ $bp-sm: 600px;
 .co-order-card {
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border: 1px solid $gold-border;
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
   border-radius: 16px;
   overflow: hidden;
   text-decoration: none;
-  box-shadow: 0 2px 14px rgba($gold, 0.06);
-  transition: box-shadow 0.25s, transform 0.25s;
+  box-shadow: var(--bo-shadow-card);
+  transition: box-shadow 0.25s, transform 0.25s, background-color var(--bo-transition), border-color var(--bo-transition);
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 32px rgba($gold, 0.16);
+    box-shadow: var(--bo-shadow-card-hover);
+    border-color: var(--bo-border-surface-hover);
   }
 
   &__img-wrap {
@@ -218,8 +230,8 @@ $bp-sm: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, $gold-pale, #fff);
-    color: $gold-border;
+    background: var(--gold-soft);
+    color: var(--gold);
 
     svg { width: 36px; height: 36px; }
   }
@@ -242,7 +254,7 @@ $bp-sm: 600px;
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     font-weight: 700;
-    color: $text-dark;
+    color: var(--text-dark);
   }
 
   &__meta {
@@ -251,7 +263,7 @@ $bp-sm: 600px;
     gap: 6px;
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
-    color: $text-soft;
+    color: var(--text-soft);
   }
 
   &__footer {
@@ -259,39 +271,41 @@ $bp-sm: 600px;
     align-items: center;
     justify-content: space-between;
     padding-top: 10px;
-    border-top: 1px solid $gold-border;
+    border-top: var(--bo-border-surface);
   }
 
   &__total {
     font-family: 'Cormorant Garamond', serif;
     font-size: 18px;
     font-weight: 700;
-    color: $gold;
+    color: var(--gold);
   }
 
   &__arrow {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: $gold-pale;
+    background: var(--gold-soft);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $gold;
+    color: var(--gold);
     transition: background 0.2s;
 
     svg { width: 13px; height: 13px; }
   }
 
   &:hover &__arrow {
-    background: $gold;
-    color: #fff;
+    background: var(--gold);
+    color: var(--bo-color-on-accent);
   }
 }
 
-.co-dot { color: $gold-border; }
+.co-dot { color: var(--text-soft); }
 
 // ── Status badge (on image) ───────────────────────────────────────────────────
+// Kept as static, saturated fills — these sit directly on product photography
+// and must stay readable regardless of the active theme.
 .co-badge {
   position: absolute;
   top: 10px;
@@ -321,6 +335,8 @@ $bp-sm: 600px;
 }
 
 // ── Payment status badge (inline) ────────────────────────────────────────────
+// Semantic status colors stay static for recognizability; tinted at low
+// opacity so they read correctly against both light and dark surfaces.
 .co-pay-badge {
   padding: 3px 10px;
   border-radius: 14px;
@@ -330,11 +346,11 @@ $bp-sm: 600px;
   text-transform: capitalize;
   white-space: nowrap;
 
-  &--paid    { background: $success-pale; color: $success; }
-  &--unpaid  { background: $danger-pale; color: $danger; }
-  &--pending { background: $gold-pale; color: $gold; }
-  &--failed  { background: $danger-pale; color: $danger; }
-  &--refunded{ background: #F4EFE7; color: $text-mid; }
+  &--paid    { background: var(--success-soft); color: var(--success); }
+  &--unpaid  { background: var(--danger-soft); color: var(--danger); }
+  &--pending { background: var(--gold-soft); color: var(--gold); }
+  &--failed  { background: var(--danger-soft); color: var(--danger); }
+  &--refunded{ background: var(--bo-bg-surface-hover); color: var(--text-mid); }
 }
 
 // ── Pagination ────────────────────────────────────────────────────────────────
@@ -350,9 +366,9 @@ $bp-sm: 600px;
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1.5px solid $gold-border;
-  background: #fff;
-  color: $text-mid;
+  border: 1.5px solid var(--bo-border-surface-hover);
+  background: var(--bo-bg-surface);
+  color: var(--text-mid);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -365,14 +381,14 @@ $bp-sm: 600px;
   svg { width: 15px; height: 15px; }
 
   &:hover:not(:disabled) {
-    border-color: $gold;
-    background: $gold-pale;
+    border-color: var(--gold);
+    background: var(--gold-soft);
   }
 
   &.is-active {
-    background: linear-gradient(135deg, $gold, $gold-light);
-    border-color: $gold;
-    color: #fff;
+    background-image: var(--bo-accent-gradient);
+    border-color: var(--gold);
+    color: var(--bo-color-on-accent);
   }
 
   &:disabled { opacity: 0.35; cursor: not-allowed; }
@@ -406,7 +422,7 @@ $bp-sm: 600px;
   p {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: $text-soft;
+    color: var(--text-soft);
     margin: 0;
   }
 }
@@ -418,8 +434,8 @@ $bp-sm: 600px;
   height: 44px;
   padding: 0 26px;
   border-radius: 40px;
-  background: linear-gradient(135deg, $gold, $gold-light);
-  color: #fff;
+  background-image: var(--bo-accent-gradient);
+  color: var(--bo-color-on-accent);
   font-family: 'DM Sans', sans-serif;
   font-size: 13.5px;
   font-weight: 600;
@@ -429,7 +445,7 @@ $bp-sm: 600px;
   cursor: pointer;
 
   &:hover {
-    box-shadow: 0 6px 24px rgba($gold, 0.45);
+    box-shadow: var(--bo-shadow-card-hover);
     transform: translateY(-2px);
   }
 }
@@ -438,14 +454,14 @@ $bp-sm: 600px;
   height: 38px;
   padding: 0 22px;
   border-radius: 24px;
-  border: 1px solid $gold-border;
-  background: #fff;
-  color: $gold;
+  border: var(--bo-border-surface);
+  background: var(--bo-bg-surface);
+  color: var(--gold);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 
-  &:hover { background: $gold-pale; }
+  &:hover { background: var(--gold-soft); }
 }

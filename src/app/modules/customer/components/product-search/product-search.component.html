@@ -59,32 +59,22 @@
         }
       } @else {
         <!-- Dynamic suggestion items -->
-        @for (item of svc.autocompleteResults(); track item.id) {
+        @for (item of svc.autocompleteResults(); track item + '_' + $index) {
           <button
             type="button"
             class="autocomplete-item"
             (click)="selectSuggestion(item)"
           >
-            @if (item.imageUrl) {
-              <img
-                [src]="item.imageUrl"
-                [alt]="item.name"
-                class="ac-thumb"
-                loading="lazy"
-              />
-            } @else {
-              <div class="ac-thumb-placeholder">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                  <line x1="12" y1="22.08" x2="12" y2="12" />
-                </svg>
-              </div>
-            }
+            <div class="ac-thumb-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
+            </div>
 
             <div class="ac-text">
-              <span class="ac-name">{{ item.name }}</span>
-              <span class="ac-category">{{ item.category }}</span>
+              <span class="ac-name">{{ item }}</span>
             </div>
 
             <svg class="ac-arrow" viewBox="0 0 20 20" fill="currentColor">

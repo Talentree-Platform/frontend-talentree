@@ -12,6 +12,8 @@ import { CustomerProductCardComponent } from '../../../components/customer-produ
 import { FilterSidebarComponent } from '../../../components/filter-sidebar/filter-sidebar.component';
 import { ProductSearchComponent } from '../../../components/product-search/product-search.component';
 import { SortOption } from '../../../Core/models/customer,models';
+import { CustomerCartService } from '../../../Core/services/cart-service.service';
+import { ToastService } from '../../../Core/services/toast.service';
 
 @Component({
   selector: 'app-customer-products',
@@ -30,9 +32,11 @@ import { SortOption } from '../../../Core/models/customer,models';
   styleUrls: ['./customer-product.component.scss'],
 })
 export class CustomerProductsComponent implements OnInit, OnDestroy {
-  protected readonly svc    = inject(CustomerMarketplaceService);
-  private  readonly route   = inject(ActivatedRoute);
-  private  readonly router  = inject(Router);
+  protected readonly svc      = inject(CustomerMarketplaceService);
+  private  readonly route     = inject(ActivatedRoute);
+  private  readonly router    = inject(Router);
+  private  readonly cartSvc   = inject(CustomerCartService);
+  private  readonly toastSvc  = inject(ToastService);
   private  readonly destroy$ = new Subject<void>();
 
   readonly skeletonArray  = Array.from({ length: 12 });
@@ -120,8 +124,27 @@ export class CustomerProductsComponent implements OnInit, OnDestroy {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  onAddedToCart(e: { productId: string; qty: number }): void {
-    console.log('Cart updated:', e);
+  onAddedToCart(e: {
+    productId: string;
+    qty: number;
+    productName?: string;
+    imageUrl?: string | null;
+  }): void {
+    this.cartSvc.addItem(Number(e.productId), e.qty).subscribe({
+      next: () => {
+        this.toastSvc.success(
+          'Added to cart',
+          e.productName ?? 'Item added successfully',
+          e.imageUrl ?? null
+        );
+      },
+      error: () => {
+        this.toastSvc.error(
+          'Could not add item',
+          this.cartSvc.addError() ?? 'Please try again.'
+        );
+      },
+    });
   }
 
   isPageNum(p: number | '...'): p is number { return typeof p === 'number'; }

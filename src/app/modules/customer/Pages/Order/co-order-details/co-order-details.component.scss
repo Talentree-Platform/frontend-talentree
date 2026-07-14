@@ -1,25 +1,28 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree · co-order-details styles
+// Palette sourced from the shared --bo-* design tokens so the page follows
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
 // ─────────────────────────────────────────────────────────────────────────────
 
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
-$success:     #27A06B;
-$success-pale:#EDFAF4;
-$danger:      #D94040;
-$danger-pale: #FEF2F2;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  --success:     #27A06B;
+  --success-soft:rgba(39, 160, 107, 0.12);
+  --danger:      #D94040;
+  --danger-soft: rgba(217, 64, 64, 0.12);
+  display: block;
+}
 
 $bp-md: 900px;
 $bp-sm: 600px;
 
 @mixin shimmer {
-  background: linear-gradient(90deg, #f0ebe1 0%, #faf5ec 45%, #f0ebe1 80%);
+  background: linear-gradient(90deg, var(--bo-bg-surface) 0%, var(--bo-bg-surface-hover) 45%, var(--bo-bg-surface) 80%);
   background-size: 1200px 100%;
   animation: shimmer 1.5s infinite linear;
   border-radius: 12px;
@@ -38,9 +41,10 @@ $bp-sm: 600px;
 }
 
 .co-details {
-  background: $bg-main;
+  background: var(--bo-bg-page);
   padding: 120px 0 72px;
   min-height: 70vh;
+  transition: background-color var(--bo-transition);
 
   @media (max-width: $bp-md) {
     padding: 96px 0 48px;
@@ -63,7 +67,7 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 12.5px;
   font-weight: 600;
-  color: $gold;
+  color: var(--gold);
   text-decoration: none;
   margin-bottom: 14px;
 
@@ -74,14 +78,14 @@ $bp-sm: 600px;
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(26px, 3vw, 32px);
   font-weight: 600;
-  color: $text-dark;
+  color: var(--text-dark);
   margin: 0 0 6px;
 }
 
 .co-details__date {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: $text-soft;
+  color: var(--text-soft);
   margin: 0;
 }
 
@@ -110,11 +114,12 @@ $bp-sm: 600px;
 .co-skel--block { @include shimmer; border-radius: 16px; }
 
 .co-panel {
-  background: #fff;
-  border: 1px solid $gold-border;
+  background: var(--bo-bg-surface);
+  border: var(--bo-border-surface);
   border-radius: 16px;
   padding: 28px;
-  box-shadow: 0 2px 16px rgba($gold, 0.06);
+  box-shadow: var(--bo-shadow-card);
+  transition: background-color var(--bo-transition), border-color var(--bo-transition);
 
   @media (max-width: $bp-sm) { padding: 20px; }
 }
@@ -123,7 +128,7 @@ $bp-sm: 600px;
   font-family: 'Cormorant Garamond', serif;
   font-size: 19px;
   font-weight: 600;
-  color: $text-dark;
+  color: var(--text-dark);
   margin: 0 0 16px;
 
   &--spaced { margin-top: 28px; }
@@ -148,16 +153,16 @@ $bp-sm: 600px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: $text-soft;
+  color: var(--text-soft);
 }
 
 .co-delivery-value {
   font-family: 'DM Sans', sans-serif;
   font-size: 13.5px;
-  color: $text-dark;
+  color: var(--text-dark);
   line-height: 1.5;
 
-  &--gold { color: $gold; font-weight: 700; }
+  &--gold { color: var(--gold); font-weight: 700; }
 }
 
 // ── Timeline ──────────────────────────────────────────────────────────────────
@@ -181,40 +186,40 @@ $bp-sm: 600px;
     top: 24px;
     bottom: 0;
     width: 2px;
-    background: $gold-border;
+    background: var(--bo-border-surface-hover);
   }
 
-  &.is-completed:not(:last-child)::before { background: $gold; }
+  &.is-completed:not(:last-child)::before { background: var(--gold); }
 }
 
 .co-timeline-dot {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 2px solid $gold-border;
-  background: #fff;
+  border: 2px solid var(--bo-border-surface-hover);
+  background: var(--bo-bg-surface);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: #fff;
+  color: var(--bo-color-on-accent);
   z-index: 1;
 }
 
 .co-timeline-step.is-completed .co-timeline-dot {
-  background: $gold;
-  border-color: $gold;
+  background: var(--gold);
+  border-color: var(--gold);
 }
 
 .co-timeline-step.is-current .co-timeline-dot {
-  border-color: $gold;
-  box-shadow: 0 0 0 4px rgba($gold, 0.15);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(184, 134, 11, 0.15);
   animation: co-timeline-pulse 2s ease-in-out infinite;
 }
 
 @keyframes co-timeline-pulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba($gold, 0.15); }
-  50%      { box-shadow: 0 0 0 7px rgba($gold, 0); }
+  0%, 100% { box-shadow: 0 0 0 4px rgba(184, 134, 11, 0.15); }
+  50%      { box-shadow: 0 0 0 7px rgba(184, 134, 11, 0); }
 }
 
 .co-timeline-dot svg { width: 12px; height: 12px; }
@@ -230,14 +235,14 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 13.5px;
   font-weight: 600;
-  color: $text-dark;
+  color: var(--text-dark);
   text-transform: capitalize;
 }
 
 .co-timeline-time {
   font-family: 'DM Sans', sans-serif;
   font-size: 11.5px;
-  color: $text-soft;
+  color: var(--text-soft);
 }
 
 // ── Items list ────────────────────────────────────────────────────────────────
@@ -246,7 +251,7 @@ $bp-sm: 600px;
   flex-direction: column;
   gap: 16px;
   padding-bottom: 18px;
-  border-bottom: 1px solid $gold-border;
+  border-bottom: var(--bo-border-surface);
 }
 
 .co-order-item {
@@ -259,15 +264,15 @@ $bp-sm: 600px;
     height: 60px;
     border-radius: 12px;
     object-fit: cover;
-    border: 1px solid $gold-border;
+    border: var(--bo-border-surface);
     flex-shrink: 0;
 
     &--placeholder {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: $gold-pale;
-      color: $gold-border;
+      background: var(--gold-soft);
+      color: var(--gold);
 
       svg { width: 24px; height: 24px; }
     }
@@ -285,20 +290,20 @@ $bp-sm: 600px;
     font-family: 'DM Sans', sans-serif;
     font-size: 13.5px;
     font-weight: 600;
-    color: $text-dark;
+    color: var(--text-dark);
   }
 
   &__seller, &__qty {
     font-family: 'DM Sans', sans-serif;
     font-size: 11.5px;
-    color: $text-soft;
+    color: var(--text-soft);
   }
 
   &__total {
     font-family: 'DM Sans', sans-serif;
     font-size: 13.5px;
     font-weight: 700;
-    color: $text-dark;
+    color: var(--text-dark);
     white-space: nowrap;
   }
 }
@@ -312,11 +317,11 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 11.5px;
   font-weight: 700;
-  color: $gold;
+  color: var(--gold);
   cursor: pointer;
   text-decoration: underline;
 
-  &:hover { color: $gold-light; }
+  &:hover { color: var(--gold-light); }
 }
 
 .co-refund-tag {
@@ -330,9 +335,9 @@ $bp-sm: 600px;
   text-transform: capitalize;
   width: fit-content;
 
-  &--requested { background: $gold-pale; color: $gold; }
-  &--approved  { background: $success-pale; color: $success; }
-  &--rejected  { background: $danger-pale; color: $danger; }
+  &--requested { background: var(--gold-soft); color: var(--gold); }
+  &--approved  { background: var(--success-soft); color: var(--success); }
+  &--rejected  { background: var(--danger-soft); color: var(--danger); }
 }
 
 // ── Summary totals (shared pattern) ──────────────────────────────────────────
@@ -348,19 +353,19 @@ $bp-sm: 600px;
   justify-content: space-between;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: $text-mid;
+  color: var(--text-mid);
 
-  &--discount { color: $success; }
+  &--discount { color: var(--success); }
 
   &--total {
     margin-top: 6px;
     padding-top: 12px;
-    border-top: 1px solid $gold-border;
+    border-top: var(--bo-border-surface);
     font-size: 16px;
     font-weight: 700;
-    color: $text-dark;
+    color: var(--text-dark);
 
-    span:last-child { color: $gold; }
+    span:last-child { color: var(--gold); }
   }
 }
 
@@ -370,10 +375,10 @@ $bp-sm: 600px;
   align-items: center;
   margin-top: 18px;
   padding-top: 16px;
-  border-top: 1px solid $gold-border;
+  border-top: var(--bo-border-surface);
   font-family: 'DM Sans', sans-serif;
   font-size: 12.5px;
-  color: $text-mid;
+  color: var(--text-mid);
   font-weight: 600;
 }
 
@@ -385,11 +390,11 @@ $bp-sm: 600px;
   font-weight: 700;
   text-transform: capitalize;
 
-  &--paid    { background: $success-pale; color: $success; }
-  &--unpaid  { background: $danger-pale; color: $danger; }
-  &--pending { background: $gold-pale; color: $gold; }
-  &--failed  { background: $danger-pale; color: $danger; }
-  &--refunded{ background: #F4EFE7; color: $text-mid; }
+  &--paid    { background: var(--success-soft); color: var(--success); }
+  &--unpaid  { background: var(--danger-soft); color: var(--danger); }
+  &--pending { background: var(--gold-soft); color: var(--gold); }
+  &--failed  { background: var(--danger-soft); color: var(--danger); }
+  &--refunded{ background: var(--bo-bg-surface-hover); color: var(--text-mid); }
 }
 
 // ── Buttons ───────────────────────────────────────────────────────────────────
@@ -400,8 +405,8 @@ $bp-sm: 600px;
   height: 42px;
   padding: 0 22px;
   border-radius: 40px;
-  background: linear-gradient(135deg, $gold, $gold-light);
-  color: #fff;
+  background-image: var(--bo-accent-gradient);
+  color: var(--bo-color-on-accent);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -412,7 +417,7 @@ $bp-sm: 600px;
   svg { width: 15px; height: 15px; }
 
   &:hover {
-    box-shadow: 0 6px 24px rgba($gold, 0.45);
+    box-shadow: var(--bo-shadow-card-hover);
     transform: translateY(-2px);
   }
 }
@@ -421,32 +426,32 @@ $bp-sm: 600px;
   height: 42px;
   padding: 0 20px;
   border-radius: 40px;
-  border: 1.5px solid rgba($danger, 0.35);
-  background: #fff;
-  color: $danger;
+  border: 1.5px solid rgba(217, 64, 64, 0.35);
+  background: var(--bo-bg-surface);
+  color: var(--danger);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 
-  &:hover { background: $danger-pale; }
+  &:hover { background: var(--danger-soft); }
 }
 
 .btn-retry {
   height: 38px;
   padding: 0 22px;
   border-radius: 24px;
-  border: 1px solid $gold-border;
-  background: #fff;
-  color: $gold;
+  border: var(--bo-border-surface);
+  background: var(--bo-bg-surface);
+  color: var(--gold);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 
-  &:hover { background: $gold-pale; }
+  &:hover { background: var(--gold-soft); }
 }
 
 // ── States ────────────────────────────────────────────────────────────────────
@@ -463,7 +468,7 @@ $bp-sm: 600px;
   p {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: $text-soft;
+    color: var(--text-soft);
     margin: 0;
   }
 }

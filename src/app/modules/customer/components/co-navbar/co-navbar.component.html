@@ -80,6 +80,15 @@
         <span class="navbar__badge" *ngIf="hasCartBadge()">{{ cartCount() }}</span>
       </a>
 
+      <button
+        type="button"
+        class="navbar__icon-btn navbar__theme-btn"
+        (click)="toggleTheme()"
+        [attr.aria-label]="themeSvc.isLight ? 'Switch to dark mode' : 'Switch to light mode'"
+      >
+        <i class="fa-solid" [class.fa-moon]="!themeSvc.isLight" [class.fa-sun]="themeSvc.isLight"></i>
+      </button>
+
       <span class="navbar__divider" aria-hidden="true"></span>
 
       <button
@@ -148,6 +157,10 @@
   </nav>
 
   <div class="drawer__footer">
+    <button type="button" class="drawer__theme-toggle" (click)="toggleTheme()">
+      <i class="fa-solid" [class.fa-moon]="!themeSvc.isLight" [class.fa-sun]="themeSvc.isLight"></i>
+      <span>{{ themeSvc.isLight ? 'Dark mode' : 'Light mode' }}</span>
+    </button>
     <button type="button" class="drawer__logout" (click)="onLogout()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke-linecap="round" stroke-linejoin="round" />

@@ -33,13 +33,12 @@ export class OwnerProductsComponent implements OnInit, OnDestroy {
 
   summaryCardFilter: SummaryCardFilter = 'all';
 
-  viewMode: 'table' | 'grid' = 'table';
+  viewMode: 'table' | 'grid' = 'grid';
 
   productPendingDelete: OwnerProduct | null = null;
   /** Numeric id for DELETE /api/BusinessOwnerProducts/{id} */
   selectedProductId: number | null = null;
   isDeleting = false;
-  productStats: OwnerProduct | null = null;
 
   readonly statusOptions: { value: OwnerProductStatus | 'all'; label: string }[] = [
     { value: 'all', label: 'All statuses' },
@@ -257,14 +256,6 @@ export class OwnerProductsComponent implements OnInit, OnDestroy {
     return err.message || null;
   }
 
-  openStatsModal(p: OwnerProduct): void {
-    this.productStats = p;
-  }
-
-  closeStatsModal(): void {
-    this.productStats = null;
-  }
-
   duplicateProduct(p: OwnerProduct): void {
     const copy: OwnerProduct = {
       ...p,
@@ -278,23 +269,6 @@ export class OwnerProductsComponent implements OnInit, OnDestroy {
     };
     this.products = [copy, ...this.products];
     this.toastr.success('A draft copy was added to your list.', 'Duplicated');
-  }
-
-  async shareProduct(p: OwnerProduct): Promise<void> {
-    const text = `${p.name} — ${this.formatMoney(p.price)}`;
-    const url = typeof window !== 'undefined' ? window.location.href : '';
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: p.name, text, url });
-      } else if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(`${text}\n${url}`);
-        this.toastr.info('Link copied to clipboard.', 'Share');
-      } else {
-        this.toastr.warning('Sharing is not supported in this browser.', 'Share');
-      }
-    } catch {
-      /* user cancelled share */
-    }
   }
 
   formatMoney(n: number): string {

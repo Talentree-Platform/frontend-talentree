@@ -314,6 +314,64 @@
   margin: 0 0 20px;
 }
 
+/* ── Status badge ────────────────────────────────────────── */
+.owner-pd-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.owner-pd-status-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.owner-pd-status-badge[data-status='active'] {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+  border-color: rgba(16, 185, 129, 0.28);
+}
+.owner-pd-status-badge[data-status='active']::before { background: #10b981; }
+
+.owner-pd-status-badge[data-status='draft'] {
+  background: rgba(107, 114, 128, 0.1);
+  color: #374151;
+  border-color: rgba(107, 114, 128, 0.22);
+}
+.owner-pd-status-badge[data-status='draft']::before { background: #6b7280; }
+
+.owner-pd-status-badge[data-status='under_review'] {
+  background: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+  border-color: rgba(245, 158, 11, 0.28);
+}
+.owner-pd-status-badge[data-status='under_review']::before { background: #f59e0b; }
+
+.owner-pd-status-badge[data-status='rejected'] {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+  border-color: rgba(239, 68, 68, 0.28);
+}
+.owner-pd-status-badge[data-status='rejected']::before { background: #ef4444; }
+
+.owner-pd-status-badge[data-status='out_of_stock'] {
+  background: rgba(139, 92, 246, 0.1);
+  color: #6d28d9;
+  border-color: rgba(139, 92, 246, 0.25);
+}
+.owner-pd-status-badge[data-status='out_of_stock']::before { background: #8b5cf6; }
+
 /* ── Dark mode ───────────────────────────────────────────── */
 :host-context([data-bo-theme='dark']) .owner-pd-card {
   background: var(--bo-card-gradient);

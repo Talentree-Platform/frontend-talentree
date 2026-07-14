@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
+import { BoThemeService } from '../../../../core/services/bo-theme.service';
+import { CustomerCartService } from '../../Core/services/cart-service.service';
 
 interface NavLink {
   label: string;
@@ -27,6 +29,8 @@ interface NavLink {
 export class NavbarComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+  private readonly cartSvc = inject(CustomerCartService);
+  readonly themeSvc = inject(BoThemeService);
   private routerSub?: Subscription;
 
   /** Center navigation links */
@@ -42,14 +46,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
   readonly isMobileMenuOpen = signal(false);
   readonly scrollProgress = signal(0);
 
-  // Wire these up to real cart/wishlist state services later.
-  readonly cartCount = signal<number>(0);
+  readonly cartCount = this.cartSvc.cartTotalQty;
+  // TODO: wire up to a real wishlist count service once one exists.
   readonly wishlistCount = signal<number>(0);
 
   readonly hasCartBadge = computed(() => this.cartCount() > 0);
   readonly hasWishlistBadge = computed(() => this.wishlistCount() > 0);
 
   ngOnInit(): void {
+    // Populate the cart badge on load, not just after an in-session add-to-cart.
+    this.cartSvc.loadCart();
+
     // Close the mobile drawer automatically on every navigation.
     this.routerSub = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -78,6 +85,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (this.isMobileMenuOpen()) {
       this.closeMobileMenu();
     }
+  }
+
+  toggleTheme(): void {
+    this.themeSvc.toggle();
   }
 
   toggleMobileMenu(): void {

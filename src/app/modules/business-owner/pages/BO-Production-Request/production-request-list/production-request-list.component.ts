@@ -14,6 +14,10 @@ import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 export class ProductionRequestListComponent implements OnInit, OnDestroy {
   requests: ProductionRequest[] = [];
   totalPages: number = 0;
+  totalCount: number = 0;
+
+  // ── All-data stats (independent of current page) ────────────────────────
+  private allRequests: ProductionRequest[] = [];
 
   loading: boolean = false;
   error: string = '';
@@ -40,6 +44,7 @@ export class ProductionRequestListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadRequests();
+    this.loadStats();
   }
 
   ngOnDestroy(): void {
@@ -58,11 +63,25 @@ export class ProductionRequestListComponent implements OnInit, OnDestroy {
           statusHistory: r.statusHistory ?? [],
         }));
         this.totalPages = response.data?.totalPages ?? 0;
+        this.totalCount = response.data?.count ?? 0;
         this.loading = false;
       },
       error: (err: Error) => {
         this.error = err.message ?? 'An unexpected error occurred.';
         this.loading = false;
+      },
+    });
+  }
+
+  // Fetches the full (unpaginated) set of requests so the hero stats reflect
+  // the business owner's whole history, not just the requests on this page.
+  loadStats(): void {
+    this.productionRequestService.getAll(1, 1000).subscribe({
+      next: (response) => {
+        this.allRequests = response.data?.data ?? [];
+      },
+      error: () => {
+        this.allRequests = [];
       },
     });
   }
@@ -81,17 +100,17 @@ export class ProductionRequestListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/businessowner/ownerProductionRequestCreate']);
   }
 
-  // ── Stats computed ────────────────────────────────────────────────────────
+  // ── Stats computed (across all requests, not just the current page) ─────
   get pendingCount(): number {
-    return this.requests.filter(r => r.status === 0 || r.status === 1).length;
+    return this.allRequests.filter(r => r.status === 0 || r.status === 1).length;
   }
 
   get awaitingConfirmCount(): number {
-    return this.requests.filter(r => r.status === 2).length;
+    return this.allRequests.filter(r => r.status === 2).length;
   }
 
   get inProductionCount(): number {
-    return this.requests.filter(r => r.status === 3).length;
+    return this.allRequests.filter(r => r.status === 3).length;
   }
 
   // ── Status helpers ────────────────────────────────────────────────────────
@@ -144,6 +163,8 @@ export class ProductionRequestListComponent implements OnInit, OnDestroy {
     this.productionRequestService.cancelRequest(id).subscribe({
       next: () => {
         this.requests = this.requests.filter(r => r.id !== id);
+        this.allRequests = this.allRequests.filter(r => r.id !== id);
+        this.totalCount = Math.max(0, this.totalCount - 1);
         this.cancellingId = null;
         this.showToaster('Request cancelled successfully.', 'success');
       },
@@ -180,9 +201,14 @@ export class ProductionRequestListComponent implements OnInit, OnDestroy {
 
     this.productionRequestService.confirmRequest(id).subscribe({
       next: (res) => {
+        const newStatus = res.data?.status ?? 3;
         const target = this.requests.find(r => r.id === id);
         if (target) {
-          target.status = res.data?.status ?? 3;
+          target.status = newStatus;
+        }
+        const statTarget = this.allRequests.find(r => r.id === id);
+        if (statTarget) {
+          statTarget.status = newStatus;
         }
         this.confirmingId = null;
         this.showToaster('Request confirmed successfully.', 'success');

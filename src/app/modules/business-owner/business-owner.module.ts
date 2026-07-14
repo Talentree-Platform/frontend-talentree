@@ -39,6 +39,8 @@ import { ToastContainerComponent } from './components/toast-container/toast-cont
 import { SkeletonComponent } from './components/skeleton/skeleton.component';
 import { StatusBadgeComponent } from '../admin/Components/status-badge/status-badge.component';
 import { BusinessOwnerAiDashboardComponent } from './pages/business-owner-ai-dashboard/business-owner-ai-dashboard.component';
+import { ComplaintCreateComponent } from './pages/Complaints/complaint-create/complaint-create.component';
+import { ComplaintDetailsComponent } from './pages/Complaints/complaint-details/complaint-details.component';
 
 
 
@@ -83,7 +85,9 @@ import { BusinessOwnerAiDashboardComponent } from './pages/business-owner-ai-das
     ToastContainerComponent,
     SkeletonComponent,
     StatusBadgeComponent,
-    BusinessOwnerAiDashboardComponent
+    BusinessOwnerAiDashboardComponent,
+    ComplaintCreateComponent,
+    ComplaintDetailsComponent
 
 
   

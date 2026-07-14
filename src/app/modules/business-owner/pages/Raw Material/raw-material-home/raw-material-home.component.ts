@@ -58,7 +58,6 @@ export class RawMaterialHomeComponent {
   // Filter fields (bound to inputs)
   searchName = '';
   categoryChoise='';
-  searchVendor = '';
   minQtyFilter: number | null = null;
 
   // AI Recommendations

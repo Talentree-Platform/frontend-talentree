@@ -245,7 +245,7 @@
           <h2 class="pd-related__title">You may also like</h2>
           <div class="pd-related__grid">
             @for (related of relatedProducts(); track related.id) {
-              <app-customer-product-card [product]="related" />
+              <app-customer-product-card [product]="related" (addedToCart)="onAddedToCart($event)" />
             }
           </div>
         </section>

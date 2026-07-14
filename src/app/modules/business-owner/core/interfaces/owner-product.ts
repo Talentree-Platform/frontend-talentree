@@ -26,6 +26,35 @@ export interface OwnerProductImageRef {
   url: string;
 }
 
+/** Category option for the product form dropdown — from GET /api/customer/categories. */
+export interface OwnerProductCategory {
+  id: number;
+  name: string;
+}
+
+/** Typed payload for POST /api/BusinessOwnerProducts (multipart/form-data). */
+export interface CreateOwnerProductPayload {
+  name: string;
+  categoryId: number;
+  description: string;
+  price: number;
+  stockQuantity: number;
+  tags: string[];
+  images: File[];
+}
+
+/** Typed payload for PUT /api/BusinessOwnerProducts/{id} (multipart/form-data). */
+export interface UpdateOwnerProductPayload {
+  name: string;
+  categoryId: number;
+  description: string;
+  price: number;
+  stockQuantity: number;
+  tags: string[];
+  imagesToDelete: number[];
+  newImages: File[];
+}
+
 /** Single-product payload from GET /api/BusinessOwnerProducts/{id} */
 export interface OwnerProductDetail {
   id: number;

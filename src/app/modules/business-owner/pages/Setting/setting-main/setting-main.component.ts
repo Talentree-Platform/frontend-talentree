@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { OwnerSettingService } from '../../../core/services/owner-setting.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../../core/environment/envirinment';
+import { resolveMediaUrl } from '../../../../../core/utils/media-url.util';
 
 @Component({
   selector: 'app-setting-main',
@@ -65,7 +66,7 @@ export class SettingMainComponent implements OnInit, OnDestroy {
         });
 
         if (res.data.profilePhotoUrl) {
-          this.profilePreview = environment.AzureUrl + res.data.profilePhotoUrl;
+          this.profilePreview = resolveMediaUrl(environment.AzureUrl, res.data.profilePhotoUrl);
         }
       },
       error: (err) => console.error(err)

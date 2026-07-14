@@ -372,56 +372,6 @@ input.input-main.ap-input--prefixed { padding-left: 28px; }
 }
 .ap-chip button:hover { color: var(--ap-error); }
 
-/* ── Info box (shipping section) ──────────── */
-.ap-info-box {
-  border: 1px solid var(--ap-border);
-  border-radius: 12px;
-  padding: 4px 20px;
-  background: #fafafa;
-}
-.ap-toggle-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 0;
-}
-.ap-toggle-row__title { font-size: 14px; font-weight: 600; color: #374151; }
-.ap-toggle-row__sub   { font-size: 12px; color: var(--ap-text-light); margin-top: 2px; }
-
-.ap-divider { height: 1px; background: #f0f0f0; }
-
-/* ── Toggle switch ────────────────────────── */
-.ap-toggle {
-  position: relative;
-  display: inline-block;
-  width: 44px;
-  height: 24px;
-  flex-shrink: 0;
-}
-.ap-toggle input { opacity: 0; width: 0; height: 0; }
-.ap-toggle__slider {
-  position: absolute;
-  inset: 0;
-  background: #d1d5db;
-  border-radius: 24px;
-  cursor: pointer;
-  transition: background 0.25s;
-}
-.ap-toggle__slider::before {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  left: 3px;
-  top: 3px;
-  background: #fff;
-  border-radius: 50%;
-  transition: transform 0.25s;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
-}
-.ap-toggle input:checked + .ap-toggle__slider { background: var(--main-color); }
-.ap-toggle input:checked + .ap-toggle__slider::before { transform: translateX(20px); }
-
 /* ── Buttons ──────────────────────────────── */
 .ap-btn {
   display: inline-flex;
@@ -507,16 +457,6 @@ input.input-main.ap-input--prefixed { padding-left: 28px; }
   color: #b38f2c;
 }
 
-.ap-status {
-  border-radius: var(--ap-radius-pill);
-  padding: 2px 10px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-.ap-status--on  { background: rgba(34,197,94,0.1); color: #16a34a; }
-.ap-status--off { background: rgba(239,68,68,0.08); color: #dc2626; }
-
 /* ── Tips list ────────────────────────────── */
 .ap-tips-list {
   list-style: none;
@@ -563,3 +503,42 @@ input.input-main.ap-input--prefixed { padding-left: 28px; }
    Replace `onclick` with Angular event bindings
    and extract JS to the .ts component class.
 ═══════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────
+   DARK MODE — several sub-sections here were still hardcoded
+   to light hex values (#fafafa, #f0f0f0, #374151, #f3f4f6)
+   regardless of theme; override them with the shared --bo-*
+   tokens when [data-bo-theme="dark"] is active on <html>.
+   ───────────────────────────────────────────────────────── */
+::host-context([data-bo-theme='dark']) .ap-upload-zone__title {
+  color: var(--bo-color-text);
+}
+
+::host-context([data-bo-theme='dark']) .ap-action-bar {
+  border-top-color: var(--bo-border-surface-hover);
+}
+
+::host-context([data-bo-theme='dark']) .ap-summary-list li {
+  border-bottom-color: var(--bo-border-surface-hover);
+}
+
+::host-context([data-bo-theme='dark']) .ap-badge {
+  background: var(--bo-bg-surface);
+  color: var(--bo-color-text-muted);
+  border: 1px solid var(--bo-border-surface-hover);
+}
+
+::host-context([data-bo-theme='dark']) .ap-badge--active {
+  background: var(--bo-accent-soft);
+  color: var(--bo-accent);
+  border-color: var(--bo-accent);
+}
+
+::host-context([data-bo-theme='dark']) .ap-btn--outline {
+  background: transparent;
+  color: var(--bo-accent);
+}
+
+::host-context([data-bo-theme='dark']) .ap-preview-item {
+  border-color: var(--bo-border-surface-hover);
+}

@@ -82,26 +82,27 @@ import { Wishlist } from '../../../Core/services/wishlist.service';
     </div>
   `,
   styles: [`
-    $gold:        #B8860B;
-    $gold-light:  #C9952A;
-    $gold-pale:   #FBF3E2;
-    $gold-border: #E8D5A3;
-    $text-dark:   #18130A;
-    $text-mid:    #5C5244;
-    $text-soft:   #A09280;
+    :host {
+      --gold:        var(--bo-accent);
+      --gold-light:  #c9952a;
+      --gold-soft:   var(--bo-accent-soft);
+      --text-dark:   var(--bo-color-text);
+      --text-mid:    var(--bo-color-text-muted);
+      --text-soft:   var(--bo-color-text-muted);
+    }
 
     .wishlist-summary {
-      background: #fff;
-      border: 1px solid $gold-border;
+      background: var(--bo-bg-surface);
+      border: var(--bo-border-surface);
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 2px 20px rgba($gold, 0.07);
+      box-shadow: var(--bo-shadow-card);
     }
 
     .wishlist-summary__header {
       padding: 20px 22px 16px;
-      background: linear-gradient(135deg, #1a1108 0%, #2e1f06 100%);
-      border-bottom: 1px solid rgba($gold, 0.2);
+      background: var(--bo-hero-bg);
+      border-bottom: var(--bo-border-surface);
     }
 
     .wishlist-summary__title {
@@ -111,13 +112,13 @@ import { Wishlist } from '../../../Core/services/wishlist.service';
       font-family: 'Cormorant Garamond', serif;
       font-size: 20px;
       font-weight: 600;
-      color: #fff;
+      color: var(--text-dark);
       margin: 0;
 
       svg {
         width: 17px;
         height: 17px;
-        color: $gold-light;
+        color: var(--gold);
         flex-shrink: 0;
       }
     }
@@ -130,7 +131,7 @@ import { Wishlist } from '../../../Core/services/wishlist.service';
       font-family: 'DM Sans', sans-serif;
       font-size: 12px;
       font-weight: 600;
-      color: $text-soft;
+      color: var(--text-soft);
       text-transform: uppercase;
       letter-spacing: 0.07em;
     }
@@ -145,19 +146,19 @@ import { Wishlist } from '../../../Core/services/wishlist.service';
     .wishlist-summary__total-label {
       font-family: 'DM Sans', sans-serif;
       font-size: 13px;
-      color: $text-mid;
+      color: var(--text-mid);
     }
 
     .wishlist-summary__total-value {
       font-family: 'Cormorant Garamond', serif;
       font-size: 22px;
       font-weight: 700;
-      color: $text-dark;
+      color: var(--text-dark);
     }
 
     .wishlist-summary__divider {
       height: 1px;
-      background: $gold-border;
+      background: var(--bo-border-surface-hover);
       margin: 0 22px;
     }
 
@@ -171,8 +172,8 @@ import { Wishlist } from '../../../Core/services/wishlist.service';
       height: 46px;
       border-radius: 40px;
       border: none;
-      background: linear-gradient(135deg, $gold, $gold-light);
-      color: #fff;
+      background-image: var(--bo-accent-gradient);
+      color: var(--bo-color-on-accent);
       font-family: 'DM Sans', sans-serif;
       font-size: 13px;
       font-weight: 600;
@@ -182,7 +183,7 @@ import { Wishlist } from '../../../Core/services/wishlist.service';
       svg { width: 14px; height: 14px; }
 
       &:hover:not(:disabled) {
-        box-shadow: 0 6px 20px rgba($gold, 0.4);
+        box-shadow: var(--bo-shadow-card-hover);
         transform: translateY(-1px);
       }
 
@@ -197,9 +198,9 @@ import { Wishlist } from '../../../Core/services/wishlist.service';
       margin: 12px 22px 0;
       height: 38px;
       border-radius: 30px;
-      border: 1.5px solid $gold-border;
+      border: var(--bo-border-surface);
       background: transparent;
-      color: $text-mid;
+      color: var(--text-mid);
       font-family: 'DM Sans', sans-serif;
       font-size: 12px;
       font-weight: 600;
@@ -209,15 +210,15 @@ import { Wishlist } from '../../../Core/services/wishlist.service';
       svg { width: 13px; height: 13px; }
 
       &:hover {
-        border-color: $gold;
-        background: $gold-pale;
+        border-color: var(--bo-border-surface-hover);
+        background: var(--gold-soft);
       }
     }
 
     .wishlist-summary__note {
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
-      color: $text-soft;
+      color: var(--text-soft);
       text-align: center;
       line-height: 1.5;
       padding: 14px 22px 20px;
@@ -227,8 +228,8 @@ import { Wishlist } from '../../../Core/services/wishlist.service';
     .btn-spinner {
       width: 14px;
       height: 14px;
-      border: 2px solid rgba(255, 255, 255, 0.35);
-      border-top-color: #fff;
+      border: 2px solid rgba(31, 21, 10, 0.35);
+      border-top-color: var(--bo-color-on-accent);
       border-radius: 50%;
       animation: spin 0.65s linear infinite;
       display: inline-block;

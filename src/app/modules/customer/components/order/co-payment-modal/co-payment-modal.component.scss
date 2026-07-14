@@ -7,21 +7,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: $gold-pale;
-  border: 1px solid $gold-border;
+  background: var(--gold-soft);
+  border: var(--bo-border-surface);
   border-radius: 12px;
   padding: 14px 16px;
   margin-bottom: 20px;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: $text-mid;
+  color: var(--text-mid);
 
   &__value {
     font-family: 'Cormorant Garamond', serif;
     font-size: 20px;
     font-weight: 700;
-    color: $gold;
+    color: var(--gold);
   }
 }
 
@@ -33,21 +33,21 @@
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
     font-weight: 600;
-    color: $text-mid;
+    color: var(--text-mid);
     margin-bottom: 6px;
   }
 }
 
 .co-stripe-element {
-  border: 1px solid $gold-border;
+  border: var(--bo-border-surface);
   border-radius: 12px;
-  background: $bg-main;
+  background: var(--bo-bg-surface-hover);
   padding: 13px 14px;
   transition: border-color 0.2s, box-shadow 0.2s;
 
   &:focus-within {
-    border-color: $gold;
-    box-shadow: 0 0 0 3px rgba($gold, 0.12);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
   }
 }
 

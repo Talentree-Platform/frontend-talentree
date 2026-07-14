@@ -5,7 +5,7 @@ import {
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../Core/models/customer,models';
-import { CustomerMarketplaceService } from '../../Core/services/customer-marketplace.service';
+import { CustomerCartService } from '../../Core/services/cart-service.service';
 
 @Component({
   selector: 'app-customer-product-card',
@@ -18,13 +18,21 @@ import { CustomerMarketplaceService } from '../../Core/services/customer-marketp
 export class CustomerProductCardComponent {
   @Input({ required: true }) product!: Product;
   @Input() skeleton = false;
-  @Output() addedToCart = new EventEmitter<{ productId: string; qty: number }>();
+  @Output() addedToCart = new EventEmitter<{
+    productId: string;
+    qty: number;
+    productName?: string;
+    imageUrl?: string | null;
+  }>();
 
-  private readonly svc = inject(CustomerMarketplaceService);
+  private readonly cartSvc = inject(CustomerCartService);
 
   readonly qty = signal(1);
 
-  readonly cartQty = computed(() => this.svc.getCartQty(this.product?.id ?? ''));
+  readonly cartQty = computed(() => {
+    const id = Number(this.product?.id);
+    return this.cartSvc.cart()?.items.find((i) => i.productId === id)?.quantity ?? 0;
+  });
   readonly inCart  = computed(() => this.cartQty() > 0);
 
   readonly discountPct = computed(() => {
@@ -46,8 +54,12 @@ export class CustomerProductCardComponent {
 
   addToCart(): void {
     if (!this.product?.isAvailable) return;
-    this.svc.addToCart(this.product.id, this.qty());
-    this.addedToCart.emit({ productId: this.product.id, qty: this.qty() });
+    this.addedToCart.emit({
+      productId: this.product.id,
+      qty: this.qty(),
+      productName: this.product.name,
+      imageUrl: this.product.imageUrl,
+    });
     this.qty.set(1);
   }
 

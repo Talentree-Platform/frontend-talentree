@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ApiResponse, PaginatedResponse } from '../Interfaces/ibusiness-owner';
 import {
   RawMaterial,
@@ -11,6 +11,15 @@ import {
 } from '../Interfaces/iraw-material';
 import { environment } from '../../../../core/environment/envirinment';
 
+/**
+ * Host for relative media paths (e.g. "/uploads/rawmaterials/xxx.jpg") returned by
+ * the API. Images are static files served from the API host's root, not behind
+ * "/api" — unlike JSON endpoints, they must hit the real backend origin directly
+ * (same pattern as BusinessOwnerProductsService / OwnerSettingService), not the
+ * dev-server's "/api" proxy prefix.
+ */
+const API_MEDIA_ORIGIN = environment.AzureUrl;
+
 @Injectable({ providedIn: 'root' })
 export class RawMaterialService {
 
@@ -18,6 +27,20 @@ export class RawMaterialService {
 
  apiUrl = `${environment.baseUrl}/api/AdminRawMaterial`;
 //  apiUrl='/api/AdminRawMaterial'
+
+  private getFullImageUrl(path: string | null | undefined): string | null {
+    if (!path) return null;
+    const p = path.trim();
+    if (!p) return null;
+    if (p.startsWith('http://') || p.startsWith('https://')) return p;
+    if (p.startsWith('//')) return `https:${p}`;
+    return p.startsWith('/') ? `${API_MEDIA_ORIGIN}${p}` : `${API_MEDIA_ORIGIN}/${p}`;
+  }
+
+  private resolveMaterial(material: RawMaterial): RawMaterial {
+    return { ...material, pictureUrl: this.getFullImageUrl(material.pictureUrl) };
+  }
+
   // ── GET all (with filters + pagination) ──────────────────────────────────
 
   getRawMaterials(params?: RawMaterialFilterParams)
@@ -33,25 +56,36 @@ export class RawMaterialService {
     }
     return this._HttpClient.get<ApiResponse<PaginatedResponse<RawMaterial>>>(
       this.apiUrl, { params: httpParams }
+    ).pipe(
+      map((res) => ({
+        ...res,
+        data: { ...res.data, data: res.data.data.map((m) => this.resolveMaterial(m)) }
+      }))
     );
   }
 
   // ── GET by id ─────────────────────────────────────────────────────────────
 
   getRawMaterialById(id: number): Observable<ApiResponse<RawMaterial>> {
-    return this._HttpClient.get<ApiResponse<RawMaterial>>(`${this.apiUrl}/${id}`);
+    return this._HttpClient.get<ApiResponse<RawMaterial>>(`${this.apiUrl}/${id}`).pipe(
+      map((res) => ({ ...res, data: this.resolveMaterial(res.data) }))
+    );
   }
 
   // ── POST create ───────────────────────────────────────────────────────────
 
   createRawMaterial(dto: CreateRawMaterialDto): Observable<ApiResponse<RawMaterial>> {
-    return this._HttpClient.post<ApiResponse<RawMaterial>>(this.apiUrl, dto);
+    return this._HttpClient.post<ApiResponse<RawMaterial>>(this.apiUrl, dto).pipe(
+      map((res) => ({ ...res, data: this.resolveMaterial(res.data) }))
+    );
   }
 
   // ── PUT update ────────────────────────────────────────────────────────────
 
   updateRawMaterial(id: number, dto: UpdateRawMaterialDto): Observable<ApiResponse<RawMaterial>> {
-    return this._HttpClient.put<ApiResponse<RawMaterial>>(`${this.apiUrl}/${id}`, dto);
+    return this._HttpClient.put<ApiResponse<RawMaterial>>(`${this.apiUrl}/${id}`, dto).pipe(
+      map((res) => ({ ...res, data: this.resolveMaterial(res.data) }))
+    );
   }
 
   // ── DELETE ────────────────────────────────────────────────────────────────
@@ -65,6 +99,8 @@ export class RawMaterialService {
   restockMaterial(id: number, dto: RestockMaterialDto): Observable<ApiResponse<RawMaterial>> {
     return this._HttpClient.patch<ApiResponse<RawMaterial>>(
       `${this.apiUrl}/${id}/restock`, dto
+    ).pipe(
+      map((res) => ({ ...res, data: this.resolveMaterial(res.data) }))
     );
   }
 

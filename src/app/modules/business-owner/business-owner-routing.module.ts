@@ -35,6 +35,8 @@ import { FaqComponent } from './pages/Support/faq/faq.component';
 import { TicketCreateComponent } from './pages/Support/ticket-create/ticket-create.component';
 import { BusinessOwnerAiDashboardComponent } from './pages/business-owner-ai-dashboard/business-owner-ai-dashboard.component';
 import { AiPlatformToolsComponent } from './pages/ai-platform-tools/ai-platform-tools.component';
+import { ComplaintCreateComponent } from './pages/Complaints/complaint-create/complaint-create.component';
+import { ComplaintDetailsComponent } from './pages/Complaints/complaint-details/complaint-details.component';
 
 
 const routes: Routes = [
@@ -74,6 +76,9 @@ const routes: Routes = [
       { path: 'tickets/create', component: TicketCreateComponent },
       { path: 'tickets/:id', component: TicketDetailsComponent },
       { path: 'faq', component: FaqComponent },
+      { path: 'complaints', redirectTo: 'complaints/create', pathMatch: 'full' },
+      { path: 'complaints/create', component: ComplaintCreateComponent },
+      { path: 'complaints/:id', component: ComplaintDetailsComponent },
       {
         path: 'account',
         loadChildren: () => import('../account/account.routes').then(m => m.ACCOUNT_ROUTES)

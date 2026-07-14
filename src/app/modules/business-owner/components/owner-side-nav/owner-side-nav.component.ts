@@ -128,6 +128,24 @@ export class OwnerSideNavComponent implements OnInit {
       icon: 'fa-star'
     },
     {
+      key: 'complaints',
+      label: 'Complaints',
+      description: 'Report violations & track complaints',
+      route: '/businessowner/complaints',
+      icon: 'fa-flag'
+    },
+    {
+      key: 'knowledge-base',
+      label: 'Knowledge Base',
+      description: 'Guides, articles & saved bookmarks',
+      route: '/businessowner/knowledge-base',
+      icon: 'fa-book',
+      submenu: [
+        { key: 'kb-articles', label: 'Articles', route: '/businessowner/knowledge-base' },
+        { key: 'kb-bookmarks', label: 'Bookmarks', route: '/businessowner/knowledge-base/bookmarks' }
+      ]
+    },
+    {
       key: 'support',
       label: 'Support & Services',
       route: '/businessowner/tickets',

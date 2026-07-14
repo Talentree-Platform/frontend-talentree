@@ -24,18 +24,21 @@ export interface BreadcrumbItem {
     </nav>
   `,
   styles: [`
+    :host {
+      display: block;
+    }
     .breadcrumb {
       display: flex; align-items: center; gap: 6px;
       font-family: 'DM Sans', sans-serif;
       font-size: 13px;
     }
     .bc-link {
-      color: var(--text-soft, #A09280); text-decoration: none;
+      color: var(--bo-color-text-muted); text-decoration: none;
       transition: color 180ms ease;
-      &:hover { color: var(--gold, #B8860B); }
+      &:hover { color: var(--bo-accent); }
     }
-    .bc-sep { color: var(--border, #EDE8DF); }
-    .bc-current { color: var(--text-dark, #18130A); font-weight: 500; }
+    .bc-sep { color: var(--bo-border-surface-hover); }
+    .bc-current { color: var(--bo-color-text); font-weight: 500; }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

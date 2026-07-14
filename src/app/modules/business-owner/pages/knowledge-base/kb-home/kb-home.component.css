@@ -246,6 +246,13 @@
 }
 
 /* ── Dark mode ───────────────────────────────────────── */
+:host-context([data-bo-theme='dark']) .kb-hero {
+  background-image:
+    radial-gradient(ellipse at 18% 25%, rgba(201,168,76,.16) 0%, transparent 60%),
+    radial-gradient(ellipse at 82% 75%, rgba(240,208,128,.09) 0%, transparent 55%),
+    var(--bo-hero-bg, none);
+  border-bottom-color: var(--bo-border-surface-hover, rgba(218,165,32,.14));
+}
 :host-context([data-bo-theme='dark']) .kb-hero-title,
 :host-context([data-bo-theme='dark']) .kb-search-input,
 :host-context([data-bo-theme='dark']) .kb-section-title,
@@ -257,6 +264,18 @@
 :host-context([data-bo-theme='dark']) .kb-page-btn {
   background: var(--bo-bg-surface);
   border-color: var(--bo-border-surface-hover);
+}
+:host-context([data-bo-theme='dark']) .kb-select {
+  color: var(--bo-color-text);
+}
+:host-context([data-bo-theme='dark']) .kb-search-input::placeholder {
+  color: var(--bo-color-text-muted, #888);
+}
+:host-context([data-bo-theme='dark']) .kb-clear-x {
+  color: var(--bo-color-text-muted, #aaa);
+}
+:host-context([data-bo-theme='dark']) .kb-clear-x:hover {
+  color: var(--bo-color-text);
 }
 :host-context([data-bo-theme='dark']) .kb-card {
   background: var(--bo-card-gradient);

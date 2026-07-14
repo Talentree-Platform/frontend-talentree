@@ -705,6 +705,20 @@
     &::placeholder { color: var(--bo-color-text-muted); }
   }
 
+  /* Tells the browser to paint native chrome (the select's dropdown
+     popup, in particular) with a dark palette — without this, the
+     popup list stays OS-default light while its <option> text
+     inherits our white --bo-color-text, making every category
+     option unreadable (white-on-white) once the menu opens. */
+  .rmh-select {
+    color-scheme: dark;
+
+    option {
+      background: #1c1c1c;
+      color: var(--bo-color-text);
+    }
+  }
+
   .rmh-section-title { color: var(--bo-color-text); }
 
   .rmh-empty {
@@ -729,7 +743,19 @@
     color: var(--bo-color-text);
     border-color: var(--bo-border-surface-hover);
 
+    &:hover:not(:disabled) {
+      background: var(--bo-bg-surface-hover);
+      border-color: var(--bo-accent-ring);
+    }
+
+    &--nav {
+      background: var(--bo-bg-surface);
+      border-color: var(--bo-border-surface-hover);
+    }
+
     &--active {
+      background: linear-gradient(135deg, var(--bo-accent), var(--rmh-gold-light));
+      border-color: transparent;
       color: var(--bo-color-on-accent);
     }
   }

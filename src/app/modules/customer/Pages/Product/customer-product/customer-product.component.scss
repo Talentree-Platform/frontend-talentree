@@ -1,16 +1,19 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree – Customer Products Catalogue
+// Palette sourced from the shared --bo-* design tokens so the page follows
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
 // ─────────────────────────────────────────────────────────────────────────────
 
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-dark:   #18130A;
-$text-mid:    #5C5244;
-$text-soft:   #A09280;
-$danger:      #D94040;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-light:  #c9952a;
+  --gold-soft:   var(--bo-accent-soft);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   var(--bo-color-text-muted);
+  --danger:      #D94040;
+  display: block;
+}
 
 $bp-lg: 1100px;
 $bp-md: 900px;
@@ -25,9 +28,12 @@ $bp-sm: 600px;
 
 // ── Page header ───────────────────────────────────────────────────────────────
 .catalog-header {
-  background: linear-gradient(135deg, #1c1508 0%, #2b1c07 100%);
+  background:
+    radial-gradient(ellipse 55% 60% at 85% 20%, rgba(201,168,76,0.16) 0%, transparent 70%),
+    var(--bo-hero-bg);
   padding: 120px 0 32px;
-  border-bottom: 1px solid rgba($gold-border, 0.15);
+  border-bottom: var(--bo-border-surface);
+  transition: background-color var(--bo-transition), border-color var(--bo-transition);
 
   @media (max-width: $bp-md) {
     padding: 96px 0 24px;
@@ -59,18 +65,18 @@ $bp-sm: 600px;
   &__link {
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
-    color: rgba(255,255,255,0.5);
+    color: var(--text-mid);
     text-decoration: none;
     transition: color 0.2s;
-    &:hover { color: $gold-light; }
+    &:hover { color: var(--gold-light); }
   }
 
-  &__sep { color: rgba(255,255,255,0.25); font-size: 12px; }
+  &__sep { color: var(--text-soft); font-size: 12px; opacity: 0.6; }
 
   &__current {
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
-    color: rgba(255,255,255,0.7);
+    color: var(--text-dark);
   }
 }
 
@@ -78,14 +84,14 @@ $bp-sm: 600px;
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(26px, 3vw, 36px);
   font-weight: 600;
-  color: #fff;
+  color: var(--text-dark);
   margin: 0 0 6px;
 }
 
 .catalog-header__count {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: rgba(255,255,255,0.45);
+  color: var(--text-mid);
   margin: 0;
 }
 
@@ -98,12 +104,15 @@ $bp-sm: 600px;
 
 // ── Toolbar ───────────────────────────────────────────────────────────────────
 .toolbar {
-  background: #fff;
-  border-bottom: 1px solid $gold-border;
+  background: var(--bo-bg-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: var(--bo-border-surface);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 12px rgba($gold, 0.06);
+  box-shadow: var(--bo-shadow-card);
+  transition: background-color var(--bo-transition), border-color var(--bo-transition);
 }
 
 .toolbar__inner {
@@ -123,9 +132,9 @@ $bp-sm: 600px;
   height: 36px;
   padding: 0 16px;
   border-radius: 24px;
-  border: 1.5px solid $gold-border;
-  background: $gold-pale;
-  color: $text-mid;
+  border: var(--bo-border-surface-hover);
+  background: var(--gold-soft);
+  color: var(--text-mid);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -133,16 +142,14 @@ $bp-sm: 600px;
   transition: background 0.2s, border-color 0.2s;
   flex-shrink: 0;
 
-  svg { width: 16px; height: 16px; color: $gold; }
+  svg { width: 16px; height: 16px; color: var(--gold); }
 
-  &:hover { background: $gold-border; border-color: $gold; }
-
-  // On desktop, hide? Or keep visible for quick open. Keep visible.
+  &:hover { background: var(--gold-soft); border-color: var(--gold); }
 }
 
 .toolbar__filter-badge {
-  background: $gold;
-  color: #fff;
+  background: var(--gold);
+  color: var(--bo-color-on-accent);
   font-size: 10px;
   font-weight: 700;
   border-radius: 10px;
@@ -165,22 +172,22 @@ $bp-sm: 600px;
   height: 28px;
   padding: 0 10px;
   border-radius: 20px;
-  border: 1px solid $gold-border;
-  background: $gold-pale;
-  color: $text-mid;
+  border: var(--bo-border-surface-hover);
+  background: var(--gold-soft);
+  color: var(--text-mid);
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.18s, color 0.18s;
 
-  svg { width: 11px; height: 11px; color: $text-soft; }
+  svg { width: 11px; height: 11px; color: var(--text-soft); }
 
   &:hover {
-    background: rgba($danger, 0.08);
-    border-color: rgba($danger, 0.3);
-    color: $danger;
-    svg { color: $danger; }
+    background: rgba(217, 64, 64, 0.08);
+    border-color: rgba(217, 64, 64, 0.3);
+    color: var(--danger);
+    svg { color: var(--danger); }
   }
 }
 
@@ -188,14 +195,14 @@ $bp-sm: 600px;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
-  color: $gold;
+  color: var(--gold);
   background: none;
   border: none;
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 3px;
   padding: 0 4px;
-  &:hover { color: darken($gold, 10%); }
+  &:hover { opacity: 0.8; }
 }
 
 .toolbar__right {
@@ -217,17 +224,17 @@ $bp-sm: 600px;
 .sort-label {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  color: $text-soft;
+  color: var(--text-soft);
   white-space: nowrap;
 }
 
 .sort-select {
   height: 34px;
   padding: 0 32px 0 12px;
-  border: 1.5px solid $gold-border;
+  border: var(--bo-border-surface-hover);
   border-radius: 24px;
-  background: $bg-main;
-  color: $text-dark;
+  background: var(--bo-bg-surface);
+  color: var(--text-dark);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 500;
@@ -236,7 +243,7 @@ $bp-sm: 600px;
   appearance: none;
   transition: border-color 0.2s;
 
-  &:focus { border-color: $gold; }
+  &:focus { border-color: var(--gold); }
 }
 
 .sort-chevron {
@@ -244,14 +251,14 @@ $bp-sm: 600px;
   right: 10px;
   width: 14px;
   height: 14px;
-  color: $text-soft;
+  color: var(--text-soft);
   pointer-events: none;
 }
 
 // View toggle
 .view-toggle {
   display: flex;
-  border: 1.5px solid $gold-border;
+  border: var(--bo-border-surface-hover);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -263,21 +270,21 @@ $bp-sm: 600px;
   align-items: center;
   justify-content: center;
   border: none;
-  background: #fff;
+  background: var(--bo-bg-surface);
   cursor: pointer;
-  color: $text-soft;
+  color: var(--text-soft);
   transition: background 0.18s, color 0.18s;
 
   svg { width: 15px; height: 15px; }
 
-  &:hover { background: $gold-pale; color: $text-dark; }
+  &:hover { background: var(--gold-soft); color: var(--text-dark); }
 
   &--active {
-    background: $gold-pale;
-    color: $gold;
+    background: var(--gold-soft);
+    color: var(--gold);
   }
 
-  & + & { border-left: 1px solid $gold-border; }
+  & + & { border-left: var(--bo-border-surface); }
 }
 
 // ── Catalog layout ────────────────────────────────────────────────────────────
@@ -364,9 +371,9 @@ $bp-sm: 600px;
   justify-content: center;
   text-align: center;
   padding: 80px 24px;
-  border: 1px dashed $gold-border;
+  border: 1px dashed var(--bo-border-surface-hover);
   border-radius: 16px;
-  background: $bg-main;
+  background: var(--bo-bg-surface);
   gap: 12px;
 
   svg { width: 80px; height: 80px; }
@@ -375,28 +382,28 @@ $bp-sm: 600px;
     font-family: 'Cormorant Garamond', serif;
     font-size: 24px;
     font-weight: 600;
-    color: $text-dark;
+    color: var(--text-dark);
     margin: 0;
   }
 
   p {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: $text-soft;
+    color: var(--text-soft);
     margin: 0;
     max-width: 340px;
   }
 
-  &--error h3 { color: $danger; }
+  &--error h3 { color: var(--danger); }
 }
 
 .btn-retry {
   height: 38px;
   padding: 0 22px;
   border-radius: 24px;
-  border: 1.5px solid $gold-border;
-  background: #fff;
-  color: $gold;
+  border: var(--bo-border-surface-hover);
+  background: var(--bo-bg-surface);
+  color: var(--gold);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -405,8 +412,8 @@ $bp-sm: 600px;
   transition: background 0.2s, box-shadow 0.2s;
 
   &:hover {
-    background: $gold-pale;
-    box-shadow: 0 3px 12px rgba($gold, 0.2);
+    background: var(--gold-soft);
+    box-shadow: var(--bo-shadow-card-hover);
   }
 }
 
@@ -424,9 +431,9 @@ $bp-sm: 600px;
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  border: 1.5px solid $gold-border;
-  background: #fff;
-  color: $text-mid;
+  border: var(--bo-border-surface-hover);
+  background: var(--bo-bg-surface);
+  color: var(--text-mid);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 500;
@@ -439,29 +446,29 @@ $bp-sm: 600px;
   svg { width: 15px; height: 15px; }
 
   &:hover:not(:disabled):not(.page-btn--active) {
-    background: $gold-pale;
-    border-color: $gold;
-    color: $text-dark;
+    background: var(--gold-soft);
+    border-color: var(--gold);
+    color: var(--text-dark);
   }
 
   &--active {
-    background: linear-gradient(135deg, $gold, $gold-light);
-    border-color: $gold;
-    color: #fff;
+    background-image: var(--bo-accent-gradient);
+    border-color: var(--gold);
+    color: var(--bo-color-on-accent);
     font-weight: 700;
-    box-shadow: 0 3px 12px rgba($gold, 0.3);
+    box-shadow: var(--bo-shadow-card-hover);
     cursor: default;
   }
 
   &--nav {
-    svg { color: $text-mid; }
-    &:hover:not(:disabled) svg { color: $gold; }
+    svg { color: var(--text-mid); }
+    &:hover:not(:disabled) svg { color: var(--gold); }
   }
 
   &:disabled {
     opacity: 0.35;
     cursor: not-allowed;
-    &:hover { background: #fff; border-color: $gold-border; }
+    &:hover { background: var(--bo-bg-surface); border-color: var(--bo-border-surface-hover); }
   }
 }
 
@@ -471,7 +478,7 @@ $bp-sm: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $text-soft;
+  color: var(--text-soft);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
 }
@@ -479,7 +486,7 @@ $bp-sm: 600px;
 .pagination__meta {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  color: $text-soft;
+  color: var(--text-soft);
   margin-left: 8px;
   white-space: nowrap;
 }
@@ -487,7 +494,7 @@ $bp-sm: 600px;
 // ── Recommended for you ──────────────────────────────────────────────────────
 .recommend-section {
   padding: 40px 0 64px;
-  border-top: 1px solid $gold-border;
+  border-top: var(--bo-border-surface);
 }
 
 .recommend-section__header {
@@ -501,7 +508,7 @@ $bp-sm: 600px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: $gold;
+  color: var(--gold);
   margin-bottom: 4px;
 }
 
@@ -509,7 +516,7 @@ $bp-sm: 600px;
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(24px, 3vw, 32px);
   font-weight: 600;
-  color: $text-dark;
+  color: var(--text-dark);
   margin: 0;
 }
 

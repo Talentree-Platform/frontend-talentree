@@ -47,7 +47,6 @@
             id="uploadZone"
             (click)="fileInput.click()"
             (dragover)="onDragOver($event)"
-            (dragleave)="onDragLeave($event)"
             (drop)="onDrop($event)">
             <div class="ap-upload-zone__icon">
               <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -71,6 +70,9 @@
               </div>
             }
           </div>
+          @if (errors['images']) {
+            <span class="ap-error">{{ errors['images'] }}</span>
+          }
         </div>
 
         <div class="ap-card">
@@ -89,90 +91,73 @@
               type="text"
               placeholder="e.g. Classic Leather Sneakers"
               [(ngModel)]="productName"
+              [class.ap-input--error]="errors['productName']"
             />
-            <span class="ap-error" id="err-productName"></span>
+            <span class="ap-error">{{ errors['productName'] }}</span>
           </div>
 
           <div class="ap-form-group">
             <label class="feild" for="description">
-              <span>Description</span>
+              Description <span class="ap-required">*</span>
             </label>
             <textarea
               class="textarea-main mt-1 mb-1"
               id="description"
               name="description"
               rows="5"
+              [maxlength]="maxDescriptionLength"
               placeholder="Describe your product — materials, features, sizing..."
               [(ngModel)]="description"
+              [class.ap-input--error]="errors['description']"
             ></textarea>
-            <span class="ap-helper" id="charCount">{{ charCount }} / 1000 characters</span>
+            <span class="ap-helper" id="charCount">{{ charCount }} / {{ maxDescriptionLength }} characters</span>
+            <span class="ap-error">{{ errors['description'] }}</span>
           </div>
 
           <div class="ap-form-group">
             <label class="feild" for="category">
-              <span>Category</span>
-              <span class="ap-required">*</span>
+              Category <span class="ap-required">*</span>
             </label>
             <select
               class="select-main mt-1 mb-1"
               id="category"
               name="category"
-              [(ngModel)]="categoryLabel">
-              <option value="">Select category…</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Clothing &amp; Apparel">Clothing &amp; Apparel</option>
-              <option value="Home &amp; Garden">Home &amp; Garden</option>
-              <option value="Sports &amp; Outdoors">Sports &amp; Outdoors</option>
-              <option value="Beauty &amp; Health">Beauty &amp; Health</option>
-              <option value="Books &amp; Media">Books &amp; Media</option>
-              <option value="Toys &amp; Games">Toys &amp; Games</option>
-              <option value="Food &amp; Beverages">Food &amp; Beverages</option>
-              <option value="Automotive">Automotive</option>
-              <option value="Other">Other</option>
+              [(ngModel)]="categoryId"
+              [class.ap-input--error]="errors['category']"
+              [disabled]="categoriesLoading">
+              <option [ngValue]="null">{{ categoriesLoading ? 'Loading categories…' : 'Select category…' }}</option>
+              @for (c of categories; track c.id) {
+                <option [ngValue]="c.id">{{ c.name }}</option>
+              }
             </select>
-            <span class="ap-error" id="err-category"></span>
-          </div>
-
-          <div class="ap-row">
-            <div class="ap-form-group">
-              <label class="feild" for="costPrice">
-                Cost price (USD)
-              </label>
-              <div class="ap-input-prefix">
-                <span class="ap-input-prefix__symbol">$</span>
-                <input
-                  class="input-main mt-1 mb-1 ap-input--prefixed"
-                  id="costPrice"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0.00"
-                />
-              </div>
-            </div>
-            <div class="ap-form-group">
-              <label class="feild" for="sellingPrice">
-                selling price (USD) <span class="ap-required">*</span>
-              </label>
-              <div class="ap-input-prefix">
-                <span class="ap-input-prefix__symbol">$</span>
-                <input
-                  class="input-main mt-1 mb-1 ap-input--prefixed"
-                  id="sellingPrice"
-                  name="sellingPrice"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0.00"
-                  [(ngModel)]="price"
-                />
-              </div>
-              <span class="ap-error" id="err-price"></span>
-            </div>
+            <span class="ap-error">{{ errors['category'] }}</span>
           </div>
 
           <div class="ap-form-group">
-            <label class="feild" for="quantity">Available quentity</label>
+            <label class="feild" for="sellingPrice">
+              Price (USD) <span class="ap-required">*</span>
+            </label>
+            <div class="ap-input-prefix">
+              <span class="ap-input-prefix__symbol">$</span>
+              <input
+                class="input-main mt-1 mb-1 ap-input--prefixed"
+                id="sellingPrice"
+                name="sellingPrice"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+                [(ngModel)]="price"
+                [class.ap-input--error]="errors['price']"
+              />
+            </div>
+            <span class="ap-error">{{ errors['price'] }}</span>
+          </div>
+
+          <div class="ap-form-group">
+            <label class="feild" for="quantity">
+              Quantity / Stock <span class="ap-required">*</span>
+            </label>
             <input
               class="input-main mt-1 mb-1"
               id="quantity"
@@ -181,7 +166,9 @@
               min="0"
               placeholder="e.g. 100"
               [(ngModel)]="quantity"
+              [class.ap-input--error]="errors['quantity']"
             />
+            <span class="ap-error">{{ errors['quantity'] }}</span>
           </div>
 
           <div class="ap-form-group" style="margin-top:8px">
@@ -192,8 +179,10 @@
               <input
                 class="input-main mt-1 mb-1"
                 id="tagInput"
+                name="tagInput"
                 type="text"
                 placeholder="Add a tag and press Enter"
+                [(ngModel)]="tagInput"
                 (keydown)="handleTagKey($event)"
               />
               <button class="ap-btn ap-btn--gold ap-btn--sm" type="button" (click)="addTag()">

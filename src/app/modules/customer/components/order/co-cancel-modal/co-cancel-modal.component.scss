@@ -18,12 +18,12 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 13.5px;
   line-height: 1.6;
-  color: $text-mid;
+  color: var(--text-mid);
   text-align: center;
   margin: 0 0 4px;
 
   strong {
-    color: $text-dark;
+    color: var(--text-dark);
   }
 }
 

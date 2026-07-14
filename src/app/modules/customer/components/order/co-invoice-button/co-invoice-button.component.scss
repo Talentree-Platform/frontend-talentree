@@ -1,14 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Talentree · co-invoice-button styles
+// Palette sourced from the shared --bo-* design tokens so the button follows
+// the app-wide BoThemeService light/dark toggle (see src/styles.css).
 // ─────────────────────────────────────────────────────────────────────────────
 
-$gold:        #B8860B;
-$gold-light:  #C9952A;
-$gold-pale:   #FBF3E2;
-$gold-border: #E8D5A3;
-$bg-main:     #FDFAF4;
-$text-mid:    #5C5244;
-$danger:      #D94040;
+:host {
+  --gold:        var(--bo-accent);
+  --gold-soft:   var(--bo-accent-soft);
+  --danger:      #D94040;
+}
 
 .co-invoice-btn {
   display: inline-flex;
@@ -17,9 +17,9 @@ $danger:      #D94040;
   height: 42px;
   padding: 0 20px;
   border-radius: 40px;
-  border: 1.5px solid $gold-border;
-  background: #fff;
-  color: $gold;
+  border: 1.5px solid var(--bo-border-surface-hover);
+  background: var(--bo-bg-surface);
+  color: var(--gold);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -29,8 +29,8 @@ $danger:      #D94040;
   svg { width: 16px; height: 16px; }
 
   &:hover:not(:disabled) {
-    background: $gold-pale;
-    border-color: $gold;
+    background: var(--gold-soft);
+    border-color: var(--gold);
     transform: translateY(-1px);
   }
 
@@ -41,8 +41,8 @@ $danger:      #D94040;
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 2px solid $gold-border;
-  border-top-color: $gold;
+  border: 2px solid var(--bo-border-surface-hover);
+  border-top-color: var(--gold);
   animation: co-spin 0.7s linear infinite;
 }
 
@@ -55,5 +55,5 @@ $danger:      #D94040;
   margin-top: 6px;
   font-family: 'DM Sans', sans-serif;
   font-size: 11.5px;
-  color: $danger;
+  color: var(--danger);
 }
