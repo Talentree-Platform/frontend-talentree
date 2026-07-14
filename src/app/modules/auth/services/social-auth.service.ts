@@ -26,13 +26,13 @@ export class SocialAuthService {
       provider: 'Google'
     };
 
-    console.log('📤 Sending to:', `${this.apiUrl}/api/Auth/google-login`);
+    console.log('📤 Sending to:', `${this.apiUrl}/Auth/google-login`);
     console.log('📤 Body:', { 
       idToken: idToken.substring(0, 30) + '...', 
       provider: 'Google' 
     });
 
-    return this.http.post(`${this.apiUrl}/api/Auth/google-login`, body)
+    return this.http.post(`${this.apiUrl}/Auth/google-login`, body)
       .pipe(
         tap((response: any) => {
           console.log('✅ Google login successful', response);
@@ -58,13 +58,13 @@ export class SocialAuthService {
       provider: 'Facebook'
     };
 
-    console.log('📤 Sending to:', `${this.apiUrl}/api/Auth/facebook-login`);
+    console.log('📤 Sending to:', `${this.apiUrl}/Auth/facebook-login`);
     console.log('📤 Body:', { 
       idToken: accessToken.substring(0, 30) + '...', 
       provider: 'Facebook' 
     });
 
-    return this.http.post(`${this.apiUrl}/api/Auth/facebook-login`, body)
+    return this.http.post(`${this.apiUrl}/Auth/facebook-login`, body)
       .pipe(
         tap((response: any) => {
           console.log('✅ Facebook login successful', response);
