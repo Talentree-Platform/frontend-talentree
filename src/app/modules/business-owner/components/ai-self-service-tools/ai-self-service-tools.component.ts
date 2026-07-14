@@ -1,8 +1,6 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from '../../../auth/services/auth.service';
 import { AiDashboardService } from '../../core/services/ai-dashboard.service';
 import { ToastService } from '../../core/services/toast.service';
 import { FinancialExportFormat } from '../../models/ai-tools.model';
@@ -22,37 +20,6 @@ import { FinancialExportFormat } from '../../models/ai-tools.model';
       </div>
 
       <div class="panel-body">
-        <!-- Recompute profile -->
-        <div class="tool-row">
-          <div class="tool-row__info">
-            <span class="tool-row__title"><i class="fa-solid fa-arrows-rotate"></i> Recompute My Profile Insights</span>
-            <span class="tool-row__desc">Refresh profile-completeness and derived AI metrics for your account.</span>
-          </div>
-          <button class="glow-btn btn-gold" (click)="recomputeProfile()" [disabled]="loadingProfile">
-            <span *ngIf="loadingProfile"><i class="fa-solid fa-spinner fa-spin"></i></span>
-            <span *ngIf="!loadingProfile">Recompute</span>
-          </button>
-        </div>
-        <div class="tool-result" *ngIf="profileResult">
-          Profile completeness: <strong>{{ profileResult.profile_completeness }}%</strong>
-        </div>
-
-        <!-- Notify check -->
-        <div class="tool-row">
-          <div class="tool-row__info">
-            <span class="tool-row__title"><i class="fa-solid fa-bell"></i> Check My AI Notifications</span>
-            <span class="tool-row__desc">Run the notification engine now instead of waiting for the next scheduled check.</span>
-          </div>
-          <button class="glow-btn btn-blue" (click)="checkNotifications()" [disabled]="loadingNotify">
-            <span *ngIf="loadingNotify"><i class="fa-solid fa-spinner fa-spin"></i></span>
-            <span *ngIf="!loadingNotify">Check Now</span>
-          </button>
-        </div>
-        <div class="tool-result" *ngIf="notifyResult">
-          {{ notifyResult.notifications_fired }} notification(s) fired
-          <span *ngIf="notifyResult.types?.length"> — {{ notifyResult.types.join(', ') }}</span>
-        </div>
-
         <!-- Export financial -->
         <div class="tool-row tool-row--export">
           <div class="tool-row__info">
@@ -99,95 +66,24 @@ import { FinancialExportFormat } from '../../models/ai-tools.model';
     .dark-input:focus { outline: none; border-color: var(--bo-accent); }
 
     .glow-btn { padding: 9px 18px; border-radius: 8px; font-size: 13.5px; font-weight: 600; color: #fff; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.25s; flex-shrink: 0; }
-    .btn-blue { background: #3b82f6; }
-    .btn-blue:hover:not(:disabled) { box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); transform: translateY(-1px); }
-    .btn-gold { background: var(--bo-accent); }
-    .btn-gold:hover:not(:disabled) { box-shadow: 0 0 15px rgba(218, 165, 32, 0.6); transform: translateY(-1px); }
     .btn-green { background: #22c55e; }
     .btn-green:hover:not(:disabled) { box-shadow: 0 0 15px rgba(34, 197, 94, 0.6); transform: translateY(-1px); }
     .glow-btn:disabled { opacity: 0.6; cursor: not-allowed; }
   `]
 })
-export class AiSelfServiceToolsComponent implements OnInit, OnDestroy {
-  private authSvc = inject(AuthService);
+export class AiSelfServiceToolsComponent {
   private aiSvc = inject(AiDashboardService);
   private toastSvc = inject(ToastService);
-  private destroy$ = new Subject<void>();
 
-  private userId = '';
-
-  loadingProfile = false;
-  loadingNotify = false;
   loadingExport = false;
-
-  profileResult: { profile_completeness: number } | null = null;
-  notifyResult: { notifications_fired: number; types: string[] } | null = null;
 
   exportFormat: FinancialExportFormat = 'csv';
   exportFromDate = '';
   exportToDate = '';
 
-  ngOnInit(): void {
-    this.authSvc.currentUser$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(user => {
-        if (user?.id) this.userId = user.id;
-        else console.error('AI Self-Service Tools: no authenticated business owner id available');
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  recomputeProfile(): void {
-    if (!this.userId) {
-      this.toastSvc.show('Unable to identify your account — please re-login.', 'error');
-      return;
-    }
-    this.loadingProfile = true;
-    this.profileResult = null;
-    this.aiSvc.computeProfile(this.userId).subscribe({
-      next: (res) => {
-        this.profileResult = res;
-        this.loadingProfile = false;
-        this.toastSvc.show('Profile insights recomputed', 'success');
-      },
-      error: () => {
-        this.loadingProfile = false;
-        this.toastSvc.show('Failed to recompute profile insights', 'error');
-      }
-    });
-  }
-
-  checkNotifications(): void {
-    if (!this.userId) {
-      this.toastSvc.show('Unable to identify your account — please re-login.', 'error');
-      return;
-    }
-    this.loadingNotify = true;
-    this.notifyResult = null;
-    this.aiSvc.notifyCheck(this.userId).subscribe({
-      next: (res) => {
-        this.notifyResult = res;
-        this.loadingNotify = false;
-        this.toastSvc.show(`Checked — ${res.notifications_fired} notification(s) fired`, 'success');
-      },
-      error: () => {
-        this.loadingNotify = false;
-        this.toastSvc.show('Failed to check notifications', 'error');
-      }
-    });
-  }
-
   exportFinancial(): void {
-    if (!this.userId) {
-      this.toastSvc.show('Unable to identify your account — please re-login.', 'error');
-      return;
-    }
     this.loadingExport = true;
-    this.aiSvc.exportFinancial(this.userId, {
+    this.aiSvc.exportFinancial({
       format: this.exportFormat,
       fromDate: this.exportFromDate || undefined,
       toDate: this.exportToDate || undefined
@@ -197,7 +93,7 @@ export class AiSelfServiceToolsComponent implements OnInit, OnDestroy {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `talentree_financial_${this.userId.slice(0, 8)}.${this.exportFormat}`;
+        a.download = `talentree_financial_report.${this.exportFormat}`;
         document.body.appendChild(a);
         a.click();
         a.remove();

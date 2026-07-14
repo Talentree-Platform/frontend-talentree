@@ -14,7 +14,7 @@
 
       <!-- Actions wrapper containing reporting filters (theme is switched from the shared top-nav toggle) -->
       <div class="actions-wrapper">
-        <div class="controls-section" *ngIf="activeTab !== 'predictions'">
+        <div class="controls-section">
           <label for="periodSelect" class="filter-label">Reporting Range:</label>
           <div class="select-wrap">
             <select id="periodSelect" [(ngModel)]="selectedPeriod" (change)="onPeriodChange()" [disabled]="loadingAnalytics" class="period-select">
@@ -52,13 +52,6 @@
           (click)="switchTab('reviews')">
           <span class="tab-icon"><i class="fa-solid fa-brain"></i></span>
           <span class="tab-text">Review Intelligence</span>
-        </button>
-        <button
-          class="tab-btn"
-          [class.active]="activeTab === 'predictions'"
-          (click)="switchTab('predictions')">
-          <span class="tab-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
-          <span class="tab-text">AI Prediction Center</span>
         </button>
         <button
           class="tab-btn"
@@ -178,27 +171,11 @@
       </div>
     }
 
-    <!-- Tab 4: AI Predictions -->
-    @if (activeTab === 'predictions') {
-      <div class="tab-content animate-slide-up">
-        <app-prediction-panel></app-prediction-panel>
-      </div>
-    }
-
-    <!-- Tab 5: Benchmark & Tools -->
+    <!-- Tab 4: Benchmark & Tools -->
     @if (activeTab === 'platform') {
       <div class="tab-content animate-slide-up platform-tab-grid">
         <app-ai-benchmark-panel></app-ai-benchmark-panel>
-        <app-ai-model-status-panel></app-ai-model-status-panel>
         <app-ai-self-service-tools></app-ai-self-service-tools>
-
-        <a class="platform-tools-link glass-card" routerLink="/businessowner/ai-platform-tools">
-          <div class="platform-tools-link__text">
-            <span class="platform-tools-link__title"><i class="fa-solid fa-server"></i> Platform-Wide AI Maintenance</span>
-            <span class="platform-tools-link__desc">Recompute data, retrain models, and run notification sweeps for the whole platform.</span>
-          </div>
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
       </div>
     }
 

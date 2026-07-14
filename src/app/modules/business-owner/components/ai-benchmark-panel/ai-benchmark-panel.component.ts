@@ -117,7 +117,7 @@ export class AiBenchmarkPanelComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         if (user?.id) {
-          this.loadBenchmark(user.id);
+          this.loadBenchmark();
         } else {
           console.error('AI Benchmark: no authenticated business owner id available; skipping data load');
           this.loading = false;
@@ -130,9 +130,9 @@ export class AiBenchmarkPanelComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private loadBenchmark(userId: string): void {
+  private loadBenchmark(): void {
     this.loading = true;
-    this.aiSvc.getBenchmark(userId)
+    this.aiSvc.getBenchmark()
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.benchmark = res;

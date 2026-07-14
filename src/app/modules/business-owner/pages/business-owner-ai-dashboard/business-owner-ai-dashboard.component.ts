@@ -14,9 +14,7 @@ import { RevenueAnalyticsResponse, ReviewTrendsResponse } from '../../models/ana
 import { DashboardCardsComponent } from '../../components/dashboard-cards/dashboard-cards.component';
 import { ChartsComponent, ChartPoint } from '../../components/charts/charts.component';
 import { ReviewInsightsComponent } from '../../components/review-insights/review-insights.component';
-import { PredictionPanelComponent } from '../../components/prediction-panel/prediction-panel.component';
 import { AiBenchmarkPanelComponent } from '../../components/ai-benchmark-panel/ai-benchmark-panel.component';
-import { AiModelStatusPanelComponent } from '../../components/ai-model-status-panel/ai-model-status-panel.component';
 import { AiSelfServiceToolsComponent } from '../../components/ai-self-service-tools/ai-self-service-tools.component';
 
 @Component({
@@ -29,9 +27,7 @@ import { AiSelfServiceToolsComponent } from '../../components/ai-self-service-to
     DashboardCardsComponent,
     ChartsComponent,
     ReviewInsightsComponent,
-    PredictionPanelComponent,
     AiBenchmarkPanelComponent,
-    AiModelStatusPanelComponent,
     AiSelfServiceToolsComponent
   ],
   templateUrl: './business-owner-ai-dashboard.component.html',
@@ -105,7 +101,7 @@ export class BusinessOwnerAiDashboardComponent implements OnInit, OnDestroy {
     this.loadingOverview = true;
     this.errorOverview = false;
     
-    this.aiSvc.getDashboardOverview(this.userId)
+    this.aiSvc.getDashboardOverview()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
@@ -127,8 +123,8 @@ export class BusinessOwnerAiDashboardComponent implements OnInit, OnDestroy {
 
     // Fetch both revenue trend and reviews trend together
     forkJoin({
-      revenue: this.aiSvc.getRevenueTrend(this.userId, this.selectedPeriod),
-      reviews: this.aiSvc.getReviewTrends(this.userId, this.selectedPeriod)
+      revenue: this.aiSvc.getRevenueTrend(this.selectedPeriod),
+      reviews: this.aiSvc.getReviewTrends(this.selectedPeriod)
     })
       .pipe(takeUntil(this.destroy$))
       .subscribe({

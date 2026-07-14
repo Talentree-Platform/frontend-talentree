@@ -34,7 +34,6 @@ import { TicketDetailsComponent } from './pages/Support/ticket-details/ticket-de
 import { FaqComponent } from './pages/Support/faq/faq.component';
 import { TicketCreateComponent } from './pages/Support/ticket-create/ticket-create.component';
 import { BusinessOwnerAiDashboardComponent } from './pages/business-owner-ai-dashboard/business-owner-ai-dashboard.component';
-import { AiPlatformToolsComponent } from './pages/ai-platform-tools/ai-platform-tools.component';
 import { ComplaintCreateComponent } from './pages/Complaints/complaint-create/complaint-create.component';
 import { ComplaintDetailsComponent } from './pages/Complaints/complaint-details/complaint-details.component';
 
@@ -83,8 +82,7 @@ const routes: Routes = [
         path: 'account',
         loadChildren: () => import('../account/account.routes').then(m => m.ACCOUNT_ROUTES)
       },
-      { path: 'ai-dashboard', component: BusinessOwnerAiDashboardComponent },
-      { path: 'ai-platform-tools', component: AiPlatformToolsComponent }
+      { path: 'ai-dashboard', component: BusinessOwnerAiDashboardComponent }
     ]
   }
 

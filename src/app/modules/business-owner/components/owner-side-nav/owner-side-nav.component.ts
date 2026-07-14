@@ -114,11 +114,7 @@ export class OwnerSideNavComponent implements OnInit {
       label: 'AI Insights',
       description: 'AI-driven business analytics & predictions',
       route: '/businessowner/ai-dashboard',
-      icon: 'fa-wand-magic-sparkles',
-      submenu: [
-        { key: 'ai-insights', label: 'Insights & Predictions', route: '/businessowner/ai-dashboard' },
-        { key: 'ai-platform-tools', label: 'Platform Tools', route: '/businessowner/ai-platform-tools' }
-      ]
+      icon: 'fa-wand-magic-sparkles'
     },
     {
       key: 'review',
