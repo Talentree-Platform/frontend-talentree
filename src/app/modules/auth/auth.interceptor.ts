@@ -41,7 +41,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   '/Auth/google-login',
   '/Auth/facebook-login',
   '/Auth/register-business-owner',
-  '/Auth/change-forced-password'
+  '/Auth/change-forced-password',
+  '/help-center'          // ✅ public – no token required for AI chat widget
 ];
 
 const isPublicUrl = publicUrls.some(url => 

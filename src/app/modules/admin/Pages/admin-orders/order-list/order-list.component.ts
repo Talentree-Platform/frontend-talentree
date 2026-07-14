@@ -12,6 +12,7 @@ import {
   OrderStatus, PaymentStatus,
   ORDER_STATUS_LABELS, PAYMENT_STATUS_LABELS, ORDER_STATUS_VALUES,
   UpdateOrderStatusDto,
+  MaterialOrderListItem, MaterialOrderItem,
 } from '../../../core/Interfaces/iorder';
 
 @Component({
@@ -32,8 +33,11 @@ export class OrderListComponent implements OnInit, OnDestroy {
 
   // ── Data ──────────────────────────────────────────────────────────────────
   orders: OrderListItem[] = [];
+  materialOrders: MaterialOrderListItem[] = [];
   stats: OrderStats | null = null;
   selectedOrder: OrderDetail | null = null;
+  selectedMaterialOrder: MaterialOrderListItem | null = null;
+  activeTab: 'customer' | 'material' = 'customer';
 
   // ── Loading states ────────────────────────────────────────────────────────
   isLoading = false;
@@ -84,11 +88,21 @@ export class OrderListComponent implements OnInit, OnDestroy {
     { value: 6, label: 'Refunded' },
   ];
 
-  paymentStatusOptions: { value: PaymentStatus; label: string }[] = [
-    { value: 'Pending', label: 'Pending' },
-    { value: 'Paid', label: 'Paid' },
-    { value: 'Failed', label: 'Failed' },
-    { value: 'Refunded', label: 'Refunded' },
+  paymentStatusOptions: { value: number; label: string }[] = [
+    { value: 0, label: 'Pending' },
+    { value: 1, label: 'Paid' },
+    { value: 2, label: 'Failed' },
+    { value: 3, label: 'Refunded' },
+  ];
+
+  // Material order status options (0–5, no Confirmed step)
+  materialOrderStatusOptions: { value: number; label: string }[] = [
+    { value: 0, label: 'Pending' },
+    { value: 1, label: 'Processing' },
+    { value: 2, label: 'Shipped' },
+    { value: 3, label: 'Delivered' },
+    { value: 4, label: 'Cancelled' },
+    { value: 5, label: 'Refunded' },
   ];
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -105,38 +119,64 @@ export class OrderListComponent implements OnInit, OnDestroy {
   // ── Load orders ───────────────────────────────────────────────────────────
   load(): void {
     this.isLoading = true;
+    const sortByParam = (this.activeTab === 'material' && this.sortBy === 'orderDate') ? 'createdAt' : this.sortBy;
     const params: OrderFilterParams = {
       pageIndex: this.pageIndex,
       pageSize: this.pageSize,
       search: this.searchTerm || undefined,
-      status: this.selectedStatus !== '' ? this.selectedStatus as OrderStatus : undefined,
-      paymentStatus: this.selectedPaymentStatus !== '' ? this.selectedPaymentStatus as PaymentStatus : undefined,
+      status: this.selectedStatus !== '' ? Number(this.selectedStatus) : undefined,
+      paymentStatus: this.selectedPaymentStatus !== '' ? Number(this.selectedPaymentStatus) : undefined,
       dateFrom: this.dateFrom || undefined,
       dateTo: this.dateTo || undefined,
-      sortBy: this.sortBy || undefined,
+      sortBy: sortByParam || undefined,
       sortDesc: this.sortDesc,
     };
 
-    this._OrdersService.getOrders(params)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res) => {
-          this.isLoading = false;
-          this.orders = res.data;
-          this.totalPages = res.totalPages;
-          this.totalCount = res.count;
-          this.hasNext = res.hasNext;
-          this.hasPrevious = res.hasPrevious;
-          this.pageIndex = res.pageIndex;
-        },
-        error: (err) => {
-          this.isLoading = false;
-          this._ToastrService.error(
-            err?.error?.message ?? 'Failed to load orders', 'Talentree',
-            { timeOut: 2500, closeButton: true }
-          );
-        },
-      });
+    if (this.activeTab === 'material') {
+      this._OrdersService.getMaterialOrders(params)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            this.isLoading = false;
+            this.materialOrders = res.data;
+            this.totalPages = res.totalPages;
+            this.totalCount = res.count;
+            this.hasNext = res.hasNext;
+            this.hasPrevious = res.hasPrevious;
+            this.pageIndex = res.pageIndex;
+          },
+          error: (err) => {
+            this.isLoading = false;
+            this.materialOrders = [];
+            this._ToastrService.error(
+              err?.error?.message ?? 'Failed to load material orders', 'Talentree',
+              { timeOut: 2500, closeButton: true }
+            );
+          },
+        });
+    } else {
+      this._OrdersService.getOrders(params)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            this.isLoading = false;
+            this.orders = res.data;
+            this.totalPages = res.totalPages;
+            this.totalCount = res.count;
+            this.hasNext = res.hasNext;
+            this.hasPrevious = res.hasPrevious;
+            this.pageIndex = res.pageIndex;
+          },
+          error: (err) => {
+            this.isLoading = false;
+            this.orders = [];
+            this._ToastrService.error(
+              err?.error?.message ?? 'Failed to load orders', 'Talentree',
+              { timeOut: 2500, closeButton: true }
+            );
+          },
+        });
+    }
   }
 
   // ── Load stats ────────────────────────────────────────────────────────────
@@ -157,10 +197,18 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   // ── View order details ────────────────────────────────────────────────────
-  viewOrder(order: OrderListItem): void {
-    this.detailLoading = true;
+  viewOrder(order: any): void {
     this.isDetailsOpen = true;
+    if (this.activeTab === 'material') {
+      this.selectedMaterialOrder = order;
+      this.selectedOrder = null;
+      this.detailLoading = false;
+      return;
+    }
+
+    this.detailLoading = true;
     this.selectedOrder = null;
+    this.selectedMaterialOrder = null;
 
     this._OrdersService.getOrderById(order.id)
       .pipe(takeUntil(this.destroy$))
@@ -176,14 +224,27 @@ export class OrderListComponent implements OnInit, OnDestroy {
       });
   }
 
+  // ── Helper: resolve active order ID ──────────────────────────────────────
+  private get activeOrderId(): number | null {
+    return this.selectedOrder?.id ?? this.selectedMaterialOrder?.id ?? null;
+  }
+
   // ── Update status ─────────────────────────────────────────────────────────
-  openStatusForm(order: OrderListItem): void {
+  openStatusForm(order: any): void {
+    if (this.activeTab === 'material') {
+      // For material orders, use available list-item data (no need for detail fetch)
+      this.selectedMaterialOrder = order as MaterialOrderListItem;
+      this.selectedOrder = null;
+      this.statusForm = { newStatus: order.status ?? 0, reason: '' };
+      this.isStatusFormOpen = true;
+      return;
+    }
     this._OrdersService.getOrderById(order.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
           this.selectedOrder = res;
-          // Map string status (from GET response) to integer (required by PUT endpoint)
+          this.selectedMaterialOrder = null;
           this.statusForm = { newStatus: ORDER_STATUS_VALUES[res.status] ?? 0, reason: '' };
           this.isStatusFormOpen = true;
         },
@@ -194,14 +255,15 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   submitStatusUpdate(): void {
-    if (!this.selectedOrder) return;
+    const orderId = this.activeOrderId;
+    if (orderId === null) return;
     if (!this.statusForm.reason || this.statusForm.reason.trim().length === 0) {
       this._ToastrService.warning('Please enter a reason for the status change.', 'Required', { timeOut: 2500 });
       return;
     }
     this.statusSubmitting = true;
 
-    this._OrdersService.updateStatus(this.selectedOrder.id, this.statusForm)
+    this._OrdersService.updateStatus(orderId, this.statusForm)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -220,12 +282,20 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   // ── Add note ──────────────────────────────────────────────────────────────
-  openNotesForm(order: OrderListItem): void {
+  openNotesForm(order: any): void {
+    if (this.activeTab === 'material') {
+      this.selectedMaterialOrder = order as MaterialOrderListItem;
+      this.selectedOrder = null;
+      this.noteText = '';
+      this.isNotesFormOpen = true;
+      return;
+    }
     this._OrdersService.getOrderById(order.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
           this.selectedOrder = res;
+          this.selectedMaterialOrder = null;
           this.noteText = '';
           this.isNotesFormOpen = true;
         },
@@ -236,10 +306,11 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   submitNote(): void {
-    if (!this.selectedOrder || !this.noteText.trim()) return;
+    const orderId = this.activeOrderId;
+    if (orderId === null || !this.noteText.trim()) return;
     this.noteSubmitting = true;
 
-    this._OrdersService.addNote(this.selectedOrder.id, this.noteText.trim())
+    this._OrdersService.addNote(orderId, this.noteText.trim())
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -261,8 +332,8 @@ export class OrderListComponent implements OnInit, OnDestroy {
     this.exportLoading = true;
     const params: OrderFilterParams = {
       search: this.searchTerm || undefined,
-      status: this.selectedStatus !== '' ? this.selectedStatus as OrderStatus : undefined,
-      paymentStatus: this.selectedPaymentStatus !== '' ? this.selectedPaymentStatus as PaymentStatus : undefined,
+      status: this.selectedStatus !== '' ? Number(this.selectedStatus) : undefined,
+      paymentStatus: this.selectedPaymentStatus !== '' ? Number(this.selectedPaymentStatus) : undefined,
       dateFrom: this.dateFrom || undefined,
       dateTo: this.dateTo || undefined,
       sortBy: this.sortBy || undefined,
@@ -306,7 +377,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
     this.selectedPaymentStatus = '';
     this.dateFrom = '';
     this.dateTo = '';
-    this.sortBy = 'orderDate';
+    this.sortBy = this.activeTab === 'material' ? 'createdAt' : 'orderDate';
     this.sortDesc = true;
     this.pageIndex = 1;
     this.statusForm = { newStatus: 0, reason: '' };
@@ -334,8 +405,59 @@ export class OrderListComponent implements OnInit, OnDestroy {
     this.isStatusFormOpen = false;
     this.isNotesFormOpen = false;
     this.selectedOrder = null;
+    this.selectedMaterialOrder = null;
     this.noteText = '';
     this.statusForm = { newStatus: 0, reason: '' };
+  }
+
+  setTab(tab: 'customer' | 'material'): void {
+    if (this.activeTab === tab) return;
+    this.activeTab = tab;
+    this.clearFilters();
+  }
+
+  getMaterialOrderStatusLabel(status: number): string {
+    switch (status) {
+      case 0: return 'Pending';
+      case 1: return 'Processing';
+      case 2: return 'Shipped';
+      case 3: return 'Delivered';
+      case 4: return 'Cancelled';
+      case 5: return 'Refunded';
+      default: return 'Unknown';
+    }
+  }
+
+  materialOrderStatusClass(status: number): string {
+    switch (status) {
+      case 0: return 'status-pending';
+      case 1: return 'status-processing';
+      case 2: return 'status-shipped';
+      case 3: return 'status-delivered';
+      case 4: return 'status-cancelled';
+      case 5: return 'status-refunded';
+      default: return 'status-pending';
+    }
+  }
+
+  getMaterialPaymentStatusLabel(status: number): string {
+    switch (status) {
+      case 0: return 'Unpaid';
+      case 1: return 'Paid';
+      case 2: return 'Failed';
+      case 3: return 'Refunded';
+      default: return 'Unknown';
+    }
+  }
+
+  materialPaymentStatusClass(status: number): string {
+    switch (status) {
+      case 0: return 'pay-pending';
+      case 1: return 'pay-paid';
+      case 2: return 'pay-failed';
+      case 3: return 'pay-refunded';
+      default: return 'pay-pending';
+    }
   }
 
   // ── Pagination ────────────────────────────────────────────────────────────

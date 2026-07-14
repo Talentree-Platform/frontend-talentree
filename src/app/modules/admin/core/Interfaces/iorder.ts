@@ -32,6 +32,38 @@ export interface OrderListItem {
     itemCount?: number | null;
 }
 
+// ── Material Order List Item (from GET /api/AdminOrders/materials) ──────────────
+
+export interface MaterialOrderItem {
+    id: number;
+    rawMaterialId: number;
+    materialName: string;
+    unit: string;
+    quantity: number;
+    unitPriceAtPurchase: number;
+    lineTotal: number;
+}
+
+export interface MaterialOrderListItem {
+    id: number;
+    createdAt: string;
+    status: number;
+    paymentStatus: number;
+    totalAmount: number;
+    
+    // Optional / fallback fields depending on backend schema
+    deliveryAddress?: string | null;
+    deliveryCity?: string | null;
+    deliveryCountry?: string | null;
+    deliveryLocation?: string | null;
+    contactPhone?: string | null;
+    businessOwnerName?: string | null;
+    customerName?: string | null;
+    
+    itemCount?: number | null;
+    items?: MaterialOrderItem[] | null;
+}
+
 // ── Order Detail (from GET /api/AdminOrders/{id}) ────────────────────────────
 
 export interface OrderProduct {
@@ -138,6 +170,14 @@ export const ORDER_STATUS_VALUES: Record<OrderStatus, number> = {
     'Refunded': 6,
 };
 
+export const PAYMENT_STATUS_VALUES: Record<PaymentStatus, number> = {
+    'Pending': 0,
+    'Paid': 1,
+    'Failed': 2,
+    'Unpaid': 0, // Fallback to 0 (Pending) if Unpaid
+    'Refunded': 3,
+};
+
 export interface UpdateOrderStatusDto {
     newStatus: number;       // Must be integer (0-6) matching CustomerOrderStatus enum
     reason: string;          // Required by backend (minLength: 1)
@@ -149,8 +189,8 @@ export interface UpdateOrderStatusDto {
 
 export interface OrderFilterParams {
     search?: string;
-    status?: OrderStatus;
-    paymentStatus?: PaymentStatus;
+    status?: number | OrderStatus;
+    paymentStatus?: number | PaymentStatus;
     dateFrom?: string;
     dateTo?: string;
     sortBy?: string;

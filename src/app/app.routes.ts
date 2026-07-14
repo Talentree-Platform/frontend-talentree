@@ -38,7 +38,7 @@ export const routes: Routes = [
   {
   path: 'admin',
   canActivate: [authGuardGuard, roleGuardGuard],
-  data: { roles: ['Admin', 'SuperAdmin'] },   // ✅ ضيفي SuperAdmin هنا
+  data: { roles: ['Admin', 'SuperAdmin'] },   
   loadChildren: () =>
     import('./modules/admin/admin.module').then(a => a.AdminModule)
 },

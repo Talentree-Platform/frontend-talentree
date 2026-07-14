@@ -352,6 +352,16 @@
   box-shadow: 0 0 0 3px rgba(217,64,64,.1);
 }
 
+.btn-warn {
+  background-color: var(--amber) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+.btn-warn:hover:not(:disabled) {
+  background-color: var(--gold-light) !important;
+  box-shadow: 0 4px 12px rgba(201, 149, 42, 0.2) !important;
+}
+
 .btn-analytics {
   border-color: var(--blue);
   color: var(--blue);
@@ -361,11 +371,34 @@
   box-shadow: 0 0 0 3px rgba(59,111,232,.1);
 }
 
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  border-radius: 6px;
+}
+
+/* Custom button styles for low stock table actions */
+.ls-table .btn-main {
+  background-color: var(--gold) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(184, 134, 11, 0.15);
+  transition: all 0.2s ease;
+}
+
+.ls-table .btn-main:hover:not(:disabled) {
+  background-color: var(--gold-light) !important;
+  box-shadow: 0 4px 10px rgba(184, 134, 11, 0.25) !important;
+}
+
 /* Low Stock Section */
 .low-stock-section {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
+  border-radius: 14px;
   margin-top: 24px;
   overflow: hidden;
   box-shadow: var(--shadow-sm);

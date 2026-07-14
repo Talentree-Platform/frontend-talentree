@@ -5,12 +5,14 @@ import { environment } from '../../../../core/environment/envirinment';
 
 export interface ProductionRequest {
   id: number;
+  title?: string | null;
   status: number;
   statusText?: string | null;
   quotedPrice?: number | null;
   estimatedCompletionDate?: string | null;
   adminNotes?: string | null;
   rejectionReason?: string | null;
+   businessName?: string | null;
   productId?: number;
   productName?: string | null;
   businessOwnerId?: number;

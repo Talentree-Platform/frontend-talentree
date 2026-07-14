@@ -63,9 +63,27 @@
   text-decoration: none !important;
 }
 
-.nav-logo {
+.tt-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tt-header-logo-icon {
+  width: 32px;
   height: 32px;
-  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.tt-header-logo-text {
+  font-family: 'Outfit', 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #F0D080, #B8860B);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.02em;
 }
 
 .brand-pill {

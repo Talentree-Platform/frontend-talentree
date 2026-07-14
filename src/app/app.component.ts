@@ -4,8 +4,6 @@ import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/r
 import { filter } from 'rxjs/operators';
 import { BoThemeService } from './core/services/bo-theme.service';
 
-
-
 @Component({
   selector: 'app-root',
   standalone: true,
