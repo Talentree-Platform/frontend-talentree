@@ -454,17 +454,31 @@ export interface CategoryForecastSkipped {
     reason: string;
 }
 
+/** A single time-series point inside a category forecast. */
+export interface CategoryForecastPoint {
+    /** Month string, e.g. "2026-07" */
+    month: string;
+    /** Predicted demand quantity (not EGP revenue). */
+    forecasted_qty: number;
+    /** false = historical data used for training; true = future prediction. */
+    is_forecast: boolean;
+}
+
 export interface CategoryForecastItem {
     category_id: number;
     category_name: string;
-    actuals: ForecastActualPoint[];
-    forecast: ForecastPredictedPoint[];
-    model_meta: ForecastModelMeta;
+    historical_months_used: number;
+    trend_r2_score: number;
+    projected_growth_pct: number;
+    /** Combined historical + future time-series points. */
+    forecast: CategoryForecastPoint[];
 }
 
 export interface CategoryForecastSuccess {
     status: 'success';
-    categories: CategoryForecastItem[];
+    categories_forecasted: number;
+    /** Array of per-category forecast items — bind chart loops to this. */
+    forecasts: CategoryForecastItem[];
 }
 
 export type AdminCategoryForecastResponse = CategoryForecastSkipped | CategoryForecastSuccess;

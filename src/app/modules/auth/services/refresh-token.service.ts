@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, throwError, timer } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage.service';
 import { filter } from 'rxjs/operators';
 import { environment } from '../../../core/environment/envirinment';
 
@@ -30,6 +31,7 @@ export class RefreshTokenService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
+    private storage: StorageService,
     private router: Router
   ) {
     // بدء مراقبة الـ token عند بدء الخدمة
@@ -61,13 +63,14 @@ export class RefreshTokenService {
 
     console.log('🔄 Attempting to refresh token...');
 
-    return this.http.post<RefreshTokenResponse>(`${this.apiUrl}/Auth/refresh-token`, {
-      refreshToken: refreshToken
-    }).pipe(
+    // Delegate to AuthService which handles storage with the correct 'auth_' prefix
+    return this.authService.refreshToken().pipe(
       tap((response: RefreshTokenResponse) => {
-        console.log('✅ Token refreshed successfully');
-        this.handleSuccessfulRefresh(response);
+        console.log('✅ Token refreshed successfully via RefreshTokenService');
+        this.isRefreshing = false;
         this.refreshTokenSubject.next(response.token);
+        // Re-schedule next proactive refresh
+        this.scheduleTokenRefresh();
       }),
       catchError((error) => {
         console.error('❌ Token refresh failed:', error);
@@ -167,33 +170,25 @@ export class RefreshTokenService {
   // =============== 🛠️ Helper Methods ===============
 
   private getRefreshToken(): string | null {
-    return localStorage.getItem('refreshToken');
+    // Must use 'auth_' prefix to match how AuthService stores tokens
+    return this.storage.getItem('refreshToken', { prefix: 'auth_' });
   }
 
   private getTokenExpiry(): string | null {
-    return localStorage.getItem('tokenExpiry');
+    // Must use 'auth_' prefix to match how AuthService stores tokens
+    return this.storage.getItem('tokenExpiry', { prefix: 'auth_' });
   }
 
+  // NOTE: handleSuccessfulRefresh is no longer used directly — token saving
+  // is delegated to AuthService.refreshToken() which uses the correct prefix.
+  // Kept here for reference / backward compatibility only.
   private handleSuccessfulRefresh(response: RefreshTokenResponse): void {
-    // حفظ الـ tokens الجديدة
-    localStorage.setItem('token', response.token);
-    localStorage.setItem('refreshToken', response.refreshToken);
-    
-    // تحديث وقت الانتهاء
-    if (response.expiresIn) {
-      const expiryDate = new Date();
-      expiryDate.setSeconds(expiryDate.getSeconds() + response.expiresIn);
-      localStorage.setItem('tokenExpiry', expiryDate.toISOString());
-    }
-    
-    // حفظ بيانات المستخدم إذا كانت موجودة
+    // Storage is handled by AuthService.refreshToken() with 'auth_' prefix.
+    // Saving user data if present
     if (response.user) {
-      localStorage.setItem('user', JSON.stringify(response.user));
+      this.storage.setObject('user', response.user, { prefix: 'auth_' });
     }
-    
     this.isRefreshing = false;
-    
-    // إعادة جدولة التجديد التالي
     this.scheduleTokenRefresh();
   }
 
