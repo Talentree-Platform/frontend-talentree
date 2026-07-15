@@ -268,21 +268,21 @@ export class ReviewInsightsComponent implements OnChanges {
   }
 
   private mapChartPoints(): void {
-    if (!this.trends || !this.trends.sentiment_trend) return;
+    if (!this.trends || !this.trends.data) return;
 
-    this.sentimentPoints = this.trends.sentiment_trend.map(t => ({
-      label: t.date,
+    this.sentimentPoints = this.trends.data.map(t => ({
+      label: t.period,
       value: t.avg_sentiment
     }));
 
-    this.negativePoints = this.trends.sentiment_trend.map(t => ({
-      label: t.date,
-      value: t.negative_reviews
+    this.negativePoints = this.trends.data.map(t => ({
+      label: t.period,
+      value: t.negative_count
     }));
 
-    this.volumePoints = this.trends.sentiment_trend.map(t => ({
-      label: t.date,
-      value: t.total_reviews
+    this.volumePoints = this.trends.data.map(t => ({
+      label: t.period,
+      value: t.review_count
     }));
   }
 
@@ -310,14 +310,14 @@ export class ReviewInsightsComponent implements OnChanges {
     }
 
     // Insight C: Volume trend checks (using last elements of sentiment trend)
-    const points = this.trends.sentiment_trend;
+    const points = this.trends.data;
     if (points && points.length >= 2) {
       const last = points[points.length - 1];
       const prev = points[points.length - 2];
-      if (last.negative_reviews > prev.negative_reviews) {
+      if (last.negative_count > prev.negative_count) {
         list.push('Recent spike in negative review count detected in the last logged period. Check product reviews list.');
       }
-      if (last.total_reviews > prev.total_reviews * 1.5) {
+      if (last.review_count > prev.review_count * 1.5) {
         list.push('Customer feedback submission volume is growing rapidly. Keep responding to maintain loyalty ratings.');
       }
     }

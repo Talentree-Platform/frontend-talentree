@@ -133,13 +133,13 @@ export class BusinessOwnerAiDashboardComponent implements OnInit, OnDestroy {
           this.reviewTrendsData = results.reviews;
 
           // Map revenue trend chart points
-          if (this.revenueData && this.revenueData.trend_data) {
-            this.revenueChartPoints = this.revenueData.trend_data.map(p => ({
-              label: p.date,
+          if (this.revenueData && this.revenueData.data) {
+            this.revenueChartPoints = this.revenueData.data.map(p => ({
+              label: p.period,
               value: p.revenue
             }));
-            this.ordersChartPoints = this.revenueData.trend_data.map(p => ({
-              label: p.date,
+            this.ordersChartPoints = this.revenueData.data.map(p => ({
+              label: p.period,
               value: p.orders
             }));
           }
