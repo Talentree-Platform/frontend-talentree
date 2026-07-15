@@ -540,7 +540,6 @@ export interface RawHelpfulResponse {
 
 /**
  * Raw shape returned by POST /api/Recommendation/customer.
- * Not wrapped in the usual {success, data, ...} envelope.
  */
 export interface RecommendedProduct {
   product_id: number;
@@ -551,10 +550,19 @@ export interface RecommendedProduct {
   score: number;
 }
 
-export interface CustomerRecommendationResponse {
+export interface CustomerRecommendationData {
   customer_id: string;
   recommendations: RecommendedProduct[];
   model_version: string;
+}
+
+/** Like every other customer endpoint, this is wrapped in the {success, data, ...} envelope. */
+export interface CustomerRecommendationResponse {
+  success: boolean;
+  data: CustomerRecommendationData;
+  message: string;
+  errors: unknown;
+  timestamp: string;
 }
 
 /** Stock/availability aren't part of the ML response, so recommended items are treated as always purchasable. */
@@ -575,6 +583,6 @@ export function mapRecommendedProductToProduct(raw: RecommendedProduct): Product
   };
 }
 
-export function mapRecommendationsToProducts(raws: RecommendedProduct[]): Product[] {
+export function mapRecommendationsToProducts(raws: RecommendedProduct[] | undefined): Product[] {
   return (raws ?? []).map(mapRecommendedProductToProduct);
 }
