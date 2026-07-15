@@ -556,7 +556,7 @@ export class CustomerMarketplaceService {
         { topK }
       )
       .pipe(
-        tap(res => this.recommendationsData.set(mapRecommendationsToProducts(res.recommendations))),
+        tap(res => this.recommendationsData.set(mapRecommendationsToProducts(res.data?.recommendations))),
         catchError(err => {
           this.recommendationsError.set(err?.error?.message ?? 'Failed to load recommendations.');
           return of(null);
