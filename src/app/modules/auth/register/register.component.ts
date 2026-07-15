@@ -17,8 +17,8 @@ const VALID_ROLES = ['Customer', 'BusinessOwner', 'Supplier', 'Admin'];
 export class RegisterComponent {
   registerForm: FormGroup;
   isLoading = false;
-  error = '';        // ✅ Keep this one
-  success = '';      // ✅ Keep this one
+  error = '';
+  success = '';
   showPassword = false;
   showConfirmPassword = false;
 
@@ -46,27 +46,32 @@ export class RegisterComponent {
       confirmPassword: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s\-\(\)]+$/)]],
       role: [initialRole, [Validators.required]],
-      acceptTerms: [false, [Validators.requiredTrue]]
     }, { validators: this.passwordMatchValidator });
   }
 
+  // ✅ Matches backend regex exactly: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$
   private passwordComplexityValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     if (!value) return null;
-    
+
+    const backendPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+    if (backendPasswordRegex.test(value)) return null;
+
     const hasUpperCase = /[A-Z]/.test(value);
     const hasLowerCase = /[a-z]/.test(value);
     const hasNumber = /[0-9]/.test(value);
-    const hasSpecialChar = /[^a-zA-Z0-9]/.test(value);
-    
+    const hasAllowedSpecialChar = /[@$!%?&]/.test(value);
+    const hasDisallowedChar = /[^A-Za-z\d@$!%?&]/.test(value);
+
     const errors: ValidationErrors = {};
-    
+
     if (value.length < 8) errors['minlength'] = true;
     if (!hasUpperCase) errors['missingUpperCase'] = true;
     if (!hasLowerCase) errors['missingLowerCase'] = true;
     if (!hasNumber) errors['missingNumber'] = true;
-    if (!hasSpecialChar) errors['missingSpecialChar'] = true;
-    
+    if (!hasAllowedSpecialChar) errors['missingSpecialChar'] = true;
+    if (hasDisallowedChar) errors['invalidChar'] = true;
+
     return Object.keys(errors).length > 0 ? errors : null;
   }
 
@@ -85,59 +90,52 @@ export class RegisterComponent {
     });
   }
 
-  // src/app/modules/auth/register/register.component.ts
+  onSubmit() {
+    // Mark all fields as touched to show validation errors
+    this.markFormGroupTouched(this.registerForm);
 
-onSubmit() {
-  // Mark all fields as touched to show validation errors
-  this.markFormGroupTouched(this.registerForm);
-  
-  if (this.registerForm.invalid) {
-    this.isLoading = false;
-    return;
-  }
-
-  this.isLoading = true;
-  this.error = '';
-  this.success = '';
-  
-  // ✅ Send form data to auth service
-  this.authService.register(this.registerForm.value).subscribe({
-    next: (response: any) => {
+    if (this.registerForm.invalid) {
       this.isLoading = false;
-      this.success = 'Registration successful! Please verify your email.';
-      
-      // ❌ REMOVE THIS LINE - Let the service handle navigation
-      // this.router.navigate(['/verify-email']);
-      
-      // ✅ Instead, just show success message
-      console.log('✅ Registration successful - service will redirect');
-      
-      // Optional: Clear form
-      this.registerForm.reset();
-      this.registerForm.patchValue({ 
-        role: 'Customer', 
-        acceptTerms: false,
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        phoneNumber: ''
-      });
-    },
-    error: (error: any) => {
-      this.isLoading = false;
-      
-      // Handle validation errors
-      if (error.error?.errors) {
-        const firstErrorKey = Object.keys(error.error.errors)[0];
-        this.error = error.error.errors[firstErrorKey][0];
-      } else {
-        this.error = error.error?.message || 'Registration failed. Please try again.';
-      }
+      return;
     }
-  });
-}
+
+    this.isLoading = true;
+    this.error = '';
+    this.success = '';
+
+    // ✅ Send form data to auth service
+    this.authService.register(this.registerForm.value).subscribe({
+      next: (response: any) => {
+        this.isLoading = false;
+        this.success = 'Registration successful! Please verify your email.';
+
+        console.log('✅ Registration successful - service will redirect');
+
+        // Optional: Clear form
+        this.registerForm.reset();
+        this.registerForm.patchValue({
+          role: 'Customer',
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          phoneNumber: ''
+        });
+      },
+      error: (error: any) => {
+        this.isLoading = false;
+
+        // Handle validation errors
+        if (error.error?.errors) {
+          const firstErrorKey = Object.keys(error.error.errors)[0];
+          this.error = error.error.errors[firstErrorKey][0];
+        } else {
+          this.error = error.error?.message || 'Registration failed. Please try again.';
+        }
+      }
+    });
+  }
 
   isFieldInvalid(fieldName: string): boolean {
     const field = this.registerForm.get(fieldName);
@@ -152,9 +150,9 @@ onSubmit() {
   getFieldError(fieldName: string): string {
     const field = this.registerForm.get(fieldName);
     if (!field || !field.errors) return '';
-    
+
     const errors = field.errors;
-    
+
     if (errors['required']) return 'This field is required';
     if (errors['email']) return 'Please enter a valid email address';
     if (errors['minlength']) {
@@ -168,15 +166,13 @@ onSubmit() {
         return 'Invalid phone number format';
       }
     }
-    if (errors['requiredTrue'] && fieldName === 'acceptTerms') {
-      return 'You must accept the terms and conditions';
-    }
-    
+
     if (errors['missingUpperCase']) return 'Must contain uppercase letter (A-Z)';
     if (errors['missingLowerCase']) return 'Must contain lowercase letter (a-z)';
     if (errors['missingNumber']) return 'Must contain number (0-9)';
-    if (errors['missingSpecialChar']) return 'Must contain special character (!@#$%...)';
-    
+    if (errors['missingSpecialChar']) return 'Must contain one of: @ $ ! % ? &';
+    if (errors['invalidChar']) return 'Only these special characters are allowed: @ $ ! % ? &';
+
     return '';
   }
 
@@ -205,9 +201,8 @@ onSubmit() {
       confirmPassword: 'Test123!',
       phoneNumber: '+966500000000',
       role: 'Customer',
-      acceptTerms: true
     };
-    
+
     this.registerForm.patchValue(testData);
     this.registerForm.markAllAsTouched();
   }

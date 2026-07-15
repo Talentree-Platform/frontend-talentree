@@ -4,12 +4,13 @@
   <header class="pr-header">
     <div class="pr-header__left">
       <span class="pr-header__icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="7" width="20" height="14" rx="2"/>
-          <path d="M16 7V5a2 2 0 0 0-4 0v2"/>
-          <path d="M8 7V5a2 2 0 0 0-4 0v2"/>
-          <line x1="8" y1="12" x2="16" y2="12"/>
-          <line x1="8" y1="16" x2="12" y2="16"/>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" />
+          <path d="M16 7V5a2 2 0 0 0-4 0v2" />
+          <path d="M8 7V5a2 2 0 0 0-4 0v2" />
+          <line x1="8" y1="12" x2="16" y2="12" />
+          <line x1="8" y1="16" x2="12" y2="16" />
         </svg>
       </span>
       <div>
@@ -21,8 +22,9 @@
     <!-- Status filter -->
     <div class="pr-header__right">
       <div class="pr-filter">
-        <svg class="pr-filter__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        <svg class="pr-filter__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
         </svg>
         <select class="pr-filter__select" (change)="onStatusFilter($any($event.target).value)">
           <option value="">All statuses</option>
@@ -34,12 +36,20 @@
 
   <!-- ── Alerts ──────────────────────────────────────────────────────────── -->
   <div class="pr-alert pr-alert--success" *ngIf="successMsg" role="alert">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
     {{ successMsg }}
     <button class="pr-alert__close" (click)="successMsg = ''">✕</button>
   </div>
   <div class="pr-alert pr-alert--error" *ngIf="errorMsg" role="alert">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
     {{ errorMsg }}
     <button class="pr-alert__close" (click)="errorMsg = ''">✕</button>
   </div>
@@ -69,11 +79,10 @@
           <td class="pr-table__id">
             <button class="pr-id-btn" (click)="openDetail(req)">#{{ req.id }}</button>
           </td>
-          <td>{{ req.productName || ('Product #' + req.productId) || '—' }}</td>
-          <td>{{ req.businessOwnerName || ('Owner #' + req.businessOwnerId) || '—' }}</td>
+          <td>{{ req.title || '—' }}</td>
+          <td>{{ req.businessOwnerName || '—' }}</td>
           <td>
-            <span class="pr-badge"
-              [style.color]="getStatusColor(req.status)"
+            <span class="pr-badge" [style.color]="getStatusColor(req.status)"
               [style.background]="getStatusBg(req.status)">
               {{ getStatusLabel(req.status) }}
             </span>
@@ -84,59 +93,66 @@
           <td class="pr-table__actions">
             <div class="pr-actions">
               <!-- Review: Pending (0) -->
-              <button *ngIf="req.status === 0"
-                class="pr-btn pr-btn--ghost"
-                [disabled]="actionLoading"
-                (click)="doReview(req)"
-                title="Mark as Reviewed">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <button *ngIf="req.status === 0" class="pr-btn pr-btn--ghost" [disabled]="actionLoading"
+                (click)="doReview(req)" title="Mark as Reviewed">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
                 Review
               </button>
 
               <!-- Quote: Reviewed (1) -->
-              <button *ngIf="req.status === 1"
-                class="pr-btn pr-btn--gold"
-                [disabled]="actionLoading"
-                (click)="openModal('quote', req)"
-                title="Submit Quote">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <button *ngIf="req.status === 1" class="pr-btn pr-btn--gold" [disabled]="actionLoading"
+                (click)="openModal('quote', req)" title="Submit Quote">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23" />
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
                 Quote
               </button>
 
               <!-- Start: Quoted (2) -->
-              <button *ngIf="req.status === 2"
-                class="pr-btn pr-btn--teal"
-                [disabled]="startLoadingId === req.id"
-                (click)="doStart(req)"
-                title="Start Production">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <button *ngIf="req.status === 2" class="pr-btn pr-btn--teal" [disabled]="startLoadingId === req.id"
+                (click)="doStart(req)" title="Start Production">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
                 <span *ngIf="startLoadingId === req.id">Starting...</span>
                 <span *ngIf="startLoadingId !== req.id">Start</span>
               </button>
 
               <!-- Complete: Started (3) -->
-              <button *ngIf="req.status === 3"
-                class="pr-btn pr-btn--green"
-                [disabled]="actionLoading"
-                (click)="openModal('complete', req)"
-                title="Mark Complete">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <button *ngIf="req.status === 3" class="pr-btn pr-btn--green" [disabled]="actionLoading"
+                (click)="openModal('complete', req)" title="Mark Complete">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
                 Complete
               </button>
 
               <!-- Reject: any active status < 4 -->
-              <button *ngIf="req.status < 4"
-                class="pr-btn pr-btn--danger"
-                [disabled]="actionLoading"
-                (click)="openModal('reject', req)"
-                title="Reject Request">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <button *ngIf="req.status < 4" class="pr-btn pr-btn--danger" [disabled]="actionLoading"
+                (click)="openModal('reject', req)" title="Reject Request">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
                 Reject
               </button>
 
               <!-- View details always -->
               <button class="pr-btn pr-btn--ghost" (click)="openDetail(req)" title="View Details">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
                 Details
               </button>
             </div>
@@ -149,10 +165,11 @@
     <ng-template #emptyTpl>
       <div class="pr-empty">
         <div class="pr-empty__icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="7" width="20" height="14" rx="2"/>
-            <path d="M16 7V5a2 2 0 0 0-4 0v2"/>
-            <path d="M8 7V5a2 2 0 0 0-4 0v2"/>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 7V5a2 2 0 0 0-4 0v2" />
+            <path d="M8 7V5a2 2 0 0 0-4 0v2" />
           </svg>
         </div>
         <p class="pr-empty__title">No requests found</p>
@@ -167,10 +184,16 @@
       </span>
       <div class="pr-pagination__controls">
         <button class="pr-page-btn" [disabled]="pageIndex <= 1" (click)="onPageChange(-1)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
         </button>
         <button class="pr-page-btn" [disabled]="pageIndex >= totalPages" (click)="onPageChange(1)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
         </button>
       </div>
     </div>
@@ -187,8 +210,7 @@
       <ng-container *ngIf="modalMode === 'detail' && selectedRequest">
         <div class="pr-modal__header">
           <h2 class="pr-modal__title">Request #{{ selectedRequest.id }}</h2>
-          <span class="pr-badge pr-badge--lg"
-            [style.color]="getStatusColor(selectedRequest.status)"
+          <span class="pr-badge pr-badge--lg" [style.color]="getStatusColor(selectedRequest.status)"
             [style.background]="getStatusBg(selectedRequest.status)">
             {{ getStatusLabel(selectedRequest.status) }}
           </span>
@@ -221,9 +243,8 @@
               <label class="pr-form__label" for="quotedPrice">Quoted Price *</label>
               <div class="pr-input-prefix">
                 <span class="pr-input-prefix__symbol">$</span>
-                <input id="quotedPrice" type="number" min="0.01" step="0.01"
-                  class="pr-input pr-input--prefixed" formControlName="quotedPrice"
-                  placeholder="0.00">
+                <input id="quotedPrice" type="number" min="0.01" step="0.01" class="pr-input pr-input--prefixed"
+                  formControlName="quotedPrice" placeholder="0.00">
               </div>
               <span class="pr-form__error"
                 *ngIf="quoteForm.get('quotedPrice')?.invalid && quoteForm.get('quotedPrice')?.touched">
@@ -232,8 +253,7 @@
             </div>
             <div class="pr-form__group">
               <label class="pr-form__label" for="estDate">Estimated Completion *</label>
-              <input id="estDate" type="date" class="pr-input"
-                formControlName="estimatedCompletionDate">
+              <input id="estDate" type="date" class="pr-input" formControlName="estimatedCompletionDate">
               <span class="pr-form__error"
                 *ngIf="quoteForm.get('estimatedCompletionDate')?.invalid && quoteForm.get('estimatedCompletionDate')?.touched">
                 Date is required.
@@ -241,15 +261,19 @@
             </div>
             <div class="pr-form__group">
               <label class="pr-form__label" for="qNotes">Admin Notes</label>
-              <textarea id="qNotes" class="pr-textarea" rows="3"
-                formControlName="adminNotes" placeholder="Optional notes..."></textarea>
+              <textarea id="qNotes" class="pr-textarea" rows="3" formControlName="adminNotes"
+                placeholder="Optional notes..."></textarea>
             </div>
           </form>
         </div>
         <div class="pr-modal__footer">
           <button class="pr-btn pr-btn--outline" (click)="closeModal()" [disabled]="actionLoading">Cancel</button>
           <button class="pr-btn pr-btn--gold" (click)="submitQuote()" [disabled]="actionLoading">
-            <svg *ngIf="actionLoading" class="pr-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            <svg *ngIf="actionLoading" class="pr-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path
+                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
             {{ actionLoading ? 'Submitting...' : 'Submit Quote' }}
           </button>
         </div>
@@ -267,15 +291,19 @@
           <form [formGroup]="completeForm" class="pr-form">
             <div class="pr-form__group">
               <label class="pr-form__label" for="cNotes">Admin Notes</label>
-              <textarea id="cNotes" class="pr-textarea" rows="4"
-                formControlName="adminNotes" placeholder="Optional completion notes..."></textarea>
+              <textarea id="cNotes" class="pr-textarea" rows="4" formControlName="adminNotes"
+                placeholder="Optional completion notes..."></textarea>
             </div>
           </form>
         </div>
         <div class="pr-modal__footer">
           <button class="pr-btn pr-btn--outline" (click)="closeModal()" [disabled]="actionLoading">Cancel</button>
           <button class="pr-btn pr-btn--green" (click)="submitComplete()" [disabled]="actionLoading">
-            <svg *ngIf="actionLoading" class="pr-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            <svg *ngIf="actionLoading" class="pr-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path
+                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
             {{ actionLoading ? 'Completing...' : 'Mark as Complete' }}
           </button>
         </div>
@@ -294,8 +322,8 @@
           <form [formGroup]="rejectForm" class="pr-form">
             <div class="pr-form__group">
               <label class="pr-form__label" for="reason">Rejection Reason *</label>
-              <textarea id="reason" class="pr-textarea" rows="4"
-                formControlName="reason" placeholder="Explain why this request is being rejected..."></textarea>
+              <textarea id="reason" class="pr-textarea" rows="4" formControlName="reason"
+                placeholder="Explain why this request is being rejected..."></textarea>
               <span class="pr-form__error"
                 *ngIf="rejectForm.get('reason')?.invalid && rejectForm.get('reason')?.touched">
                 A reason is required.
@@ -306,7 +334,11 @@
         <div class="pr-modal__footer">
           <button class="pr-btn pr-btn--outline" (click)="closeModal()" [disabled]="actionLoading">Cancel</button>
           <button class="pr-btn pr-btn--danger" (click)="submitReject()" [disabled]="actionLoading">
-            <svg *ngIf="actionLoading" class="pr-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            <svg *ngIf="actionLoading" class="pr-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path
+                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
             {{ actionLoading ? 'Rejecting...' : 'Confirm Reject' }}
           </button>
         </div>

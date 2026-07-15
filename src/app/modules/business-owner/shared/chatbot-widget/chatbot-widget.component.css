@@ -14,6 +14,7 @@
   position: fixed;
   bottom: 28px;
   right: 28px;
+  left: auto;
   width: 58px;
   height: 58px;
   border-radius: 50%;
@@ -42,6 +43,7 @@
   position: fixed;
   bottom: 98px;
   right: 28px;
+  left: auto;
   width: 360px;
   max-height: 520px;
   background: var(--cream);
@@ -199,4 +201,112 @@
 
 .chatbot-bubble__text {
   margin: 0 0 6px 0;
+}
+
+/* Theme Toggle styles */
+.chatbot-theme-toggle {
+  background: transparent;
+  border: none;
+  color: var(--cream);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background-color 0.2s, transform 0.2s;
+}
+.chatbot-theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.chatbot-panel__header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Dark Mode Overrides */
+.chatbot-panel--dark {
+  --cream: #121212;
+  --text-dark: #e5e5e5;
+  --border-light: #2d2d2d;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.chatbot-panel--dark .chatbot-bubble:not(.chatbot-bubble--user) {
+  background: #1e1e1e;
+  color: #e5e5e5;
+  border-color: #2d2d2d;
+}
+
+.chatbot-panel--dark .chatbot-panel__input {
+  background: #1e1e1e;
+  border-top-color: #2d2d2d;
+}
+
+.chatbot-panel--dark .chatbot-panel__input input {
+  color: #e5e5e5;
+}
+
+.chatbot-panel--dark .chatbot-panel__messages {
+  background: #121212;
+}
+
+.chatbot-panel--dark .chatbot-empty {
+  color: #777777;
+}
+
+/* Generated Logo Styles */
+.generated-logo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+  width: 100%;
+}
+
+.generated-logo__actions {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.download-logo-btn,
+.view-full-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 1;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--border-light);
+  background: #fff;
+  color: var(--text-dark);
+  transition: all 0.2s ease;
+}
+
+.download-logo-btn:hover,
+.view-full-btn:hover {
+  background: var(--border-light);
+  border-color: var(--text-muted);
+}
+
+.chatbot-panel--dark .download-logo-btn,
+.chatbot-panel--dark .view-full-btn {
+  background: #1e1e1e;
+  border-color: #2d2d2d;
+  color: #e5e5e5;
+}
+
+.chatbot-panel--dark .download-logo-btn:hover,
+.chatbot-panel--dark .view-full-btn:hover {
+  background: #2d2d2d;
+  border-color: #444;
 }

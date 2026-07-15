@@ -46,24 +46,29 @@ export class RegisterBusinessownerComponent {
   }
 
   private passwordComplexityValidator(control: AbstractControl): ValidationErrors | null {
-    const value = control.value;
-    if (!value) return null;
+  const value = control.value;
+  if (!value) return null;
 
-    const hasUpperCase = /[A-Z]/.test(value);
-    const hasLowerCase = /[a-z]/.test(value);
-    const hasNumber = /[0-9]/.test(value);
-    const hasSpecialChar = /[^a-zA-Z0-9]/.test(value);
+  // Same rule as backend: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$
+  const backendPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+  if (backendPasswordRegex.test(value)) return null;
 
-    const errors: ValidationErrors = {};
+  const hasUpperCase = /[A-Z]/.test(value);
+  const hasLowerCase = /[a-z]/.test(value);
+  const hasNumber = /[0-9]/.test(value);
+  const hasAllowedSpecialChar = /[@$!%?&]/.test(value);
+  const hasDisallowedChar = /[^A-Za-z\d@$!%?&]/.test(value);
 
-    if (value.length < 8) errors['minlength'] = true;
-    if (!hasUpperCase) errors['missingUpperCase'] = true;
-    if (!hasLowerCase) errors['missingLowerCase'] = true;
-    if (!hasNumber) errors['missingNumber'] = true;
-    if (!hasSpecialChar) errors['missingSpecialChar'] = true;
+  const errors: ValidationErrors = {};
+  if (value.length < 8) errors['minlength'] = true;
+  if (!hasUpperCase) errors['missingUpperCase'] = true;
+  if (!hasLowerCase) errors['missingLowerCase'] = true;
+  if (!hasNumber) errors['missingNumber'] = true;
+  if (!hasAllowedSpecialChar) errors['missingSpecialChar'] = true;
+  if (hasDisallowedChar) errors['invalidChar'] = true;
 
-    return Object.keys(errors).length > 0 ? errors : null;
-  }
+  return Object.keys(errors).length > 0 ? errors : null;
+}
   private passwordMatchValidator(form: FormGroup): ValidationErrors | null {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;

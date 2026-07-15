@@ -3,8 +3,24 @@
 
     <!-- Logo -->
     <a class="navbar-brand brand-link" routerLink="/admin/dashboard">
-      <img src="assets/images/logo.jpg" alt="Talentree" class="nav-logo">
-      <span class="brand-pill">ADMIN</span>
+      <div class="tt-header-logo">
+        <svg class="tt-header-logo-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M17 31V19" stroke="url(#admin-hdr-gold)" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M17 23L10.5 17.5M17 20.5L24 15M17 18.5V12" stroke="url(#admin-hdr-gold)" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="17" cy="10" r="4.2" fill="url(#admin-hdr-gold)"/>
+          <circle cx="8.5" cy="15.5" r="3.1" fill="url(#admin-hdr-gold)" opacity="0.85"/>
+          <circle cx="25.5" cy="13.5" r="3.1" fill="url(#admin-hdr-gold)" opacity="0.85"/>
+          <circle cx="10.5" cy="8.3" r="2.1" fill="url(#admin-hdr-gold)" opacity="0.65"/>
+          <circle cx="24" cy="6.8" r="2.1" fill="url(#admin-hdr-gold)" opacity="0.65"/>
+          <defs>
+            <linearGradient id="admin-hdr-gold" x1="4" y1="4" x2="30" y2="31" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#F0D080"/>
+              <stop offset="1" stop-color="#B8860B"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="tt-header-logo-text">Talentree</span>
+      </div>
     </a>
 
     <!-- Mobile Toggle -->
@@ -70,13 +86,7 @@
               Account Settings
             </a>
 
-            <a class="dropdown-item" routerLink="/admin/profile" (click)="dropdownOpen = false">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-              My Profile
-            </a>
+           
 
             <div class="dropdown-divider"></div>
 
