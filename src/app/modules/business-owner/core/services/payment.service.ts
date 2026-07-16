@@ -15,7 +15,7 @@ export class PaymentService {
    */
   createIntent(requestId: number): Observable<PaymentIntentResponse> {
     return this.http.post<PaymentIntentResponse>(
-      `/api/Payment/production-requests/${requestId}/create-intent`,
+      `${this.baseUrl}/api/Payment/production-requests/${requestId}/create-intent`,
       {}
     );
   }
@@ -26,7 +26,7 @@ export class PaymentService {
    */
   createMaterialOrderIntent(orderId: number): Observable<PaymentIntentResponse> {
     return this.http.post<PaymentIntentResponse>(
-      `/api/Payment/material-orders/${orderId}/create-intent`,
+      `${this.baseUrl}/api/Payment/material-orders/${orderId}/create-intent`,
       {}
     );
   }
