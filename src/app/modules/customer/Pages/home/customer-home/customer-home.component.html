@@ -200,10 +200,11 @@
 
 <!-- ── RECOMMENDED FOR YOU ────────────────────────────────────────────────────
      Personalized picks sourced from POST /api/Recommendation/customer via
-     svc.loadRecommendations(). Hidden entirely when there's nothing to show
-     (no error/empty state, since this is supplementary content).
+     svc.loadRecommendations(). Shown while loading, on error (with retry),
+     and once results arrive; hidden only when the load succeeded but came
+     back empty, since this is supplementary content.
      ═══════════════════════════════════════════════════════════════════════ -->
-@if (svc.recommendationsLoading() || recommendedProducts.length > 0) {
+@if (svc.recommendationsLoading() || svc.recommendationsError() || recommendedProducts.length > 0) {
   <section class="section section--recommended">
     <div class="container">
       <div class="section__header">
@@ -211,7 +212,7 @@
           <span class="section__eyebrow">Picked for You</span>
           <h2 class="section__title">Recommended for You</h2>
         </div>
-        @if (!svc.recommendationsLoading() && recommendedProducts.length > CARDS_VISIBLE) {
+        @if (!svc.recommendationsLoading() && !svc.recommendationsError() && recommendedProducts.length > CARDS_VISIBLE) {
           <div class="carousel-controls">
             <button
               class="carousel-btn"
@@ -238,6 +239,11 @@
           @for (n of [1,2,3,4]; track n) {
             <app-customer-product-card [skeleton]="true" [product]="null!"></app-customer-product-card>
           }
+        </div>
+      } @else if (svc.recommendationsError()) {
+        <div class="error-state">
+          <p>{{ svc.recommendationsError() }}</p>
+          <button class="btn-retry" (click)="svc.loadRecommendations()">Retry</button>
         </div>
       } @else {
         <div class="trending-track">
