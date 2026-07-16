@@ -50,13 +50,13 @@ import { CommonModule } from '@angular/common';
   }
 
   @media (max-width: 768px) {
-    .main-content          { margin-left: 56px; padding: 20px 16px; }
-    .main-content.expanded { margin-left: 240px; }
+    .main-content,
+    .main-content.expanded { margin-left: 0; margin-bottom: 64px; padding: 20px 16px; }
   }
 
   @media (max-width: 480px) {
     .main-content,
-    .main-content.expanded { margin-left: 56px; padding: 16px 12px; }
+    .main-content.expanded { margin-left: 0; margin-bottom: 64px; padding: 16px 12px; }
   }
 `]
 })

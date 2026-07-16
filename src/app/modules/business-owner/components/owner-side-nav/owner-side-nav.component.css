@@ -322,12 +322,80 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .sidebar {
-    width: 50px;
+  .sidebar,
+  .sidebar.expanded {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 64px;
+    border-right: none;
+    border-top: var(--bo-border-surface);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 
-    &.expanded {
-      width: 200px;
-    }
+  .sidebar-toggle-btn,
+  .tt-sidebar-logo,
+  .profile-section {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+    padding: 0 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    text-align: initial;
+  }
+
+  .menu-list {
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    gap: 2px;
+    border-radius: 0;
+  }
+
+  .menu-item {
+    margin-bottom: 0;
+  }
+
+  .menu-link {
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: 6px 12px;
+  }
+
+  .menu-link .icon {
+    padding: 0;
+  }
+
+  .menu-link .text,
+  .menu-link .arrow {
+    display: none;
+  }
+
+  .sidebar:not(.expanded) .menu-item.active > .menu-link,
+  .sidebar.expanded .menu-item.active > .menu-link {
+    width: auto;
+    height: 100%;
+    border-radius: 10px;
+    padding: 6px 12px;
+    margin: 0;
+  }
+
+  .submenu {
+    display: none;
+  }
+
+  .nav-tooltip {
+    display: none;
   }
 }
 
