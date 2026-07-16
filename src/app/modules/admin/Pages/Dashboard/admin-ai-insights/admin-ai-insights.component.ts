@@ -12,7 +12,9 @@ import {
   AdminPriceAnomaliesResponse,
   CategoryTrendPoint,
   AdminCategoryForecastResponse,
-  CategoryForecastSkipped
+  CategoryForecastSkipped,
+  CategoryForecastItem,
+  CategoryForecastPoint
 } from '../../../core/Interfaces/ai-admin.models';
 
 Chart.register(...registerables);
@@ -230,7 +232,7 @@ export class AdminAiInsightsComponent {
       this.renderRfmChart(canvasRef.nativeElement, entries);
     });
 
-    // Category revenue forecast (horizontal bar chart)
+    // Category demand forecast — multi-line time-series chart
     effect(() => {
       const canvasRef = this.categoryForecastCanvas();
       const fc = this.categoryForecast();
@@ -239,7 +241,7 @@ export class AdminAiInsightsComponent {
         this.categoryForecastChart = undefined;
         return;
       }
-      this.renderCategoryForecastChart(canvasRef.nativeElement, fc.categories);
+      this.renderCategoryForecastChart(canvasRef.nativeElement, fc.forecasts);
     });
 
     // Category revenue trend sparkline (only one row can be expanded at a time)
@@ -739,35 +741,106 @@ export class AdminAiInsightsComponent {
 
   private renderCategoryForecastChart(
     canvas: HTMLCanvasElement,
-    categories: { category_id: number; category_name: string; forecast: { month: string; forecasted_revenue: number }[] }[]
+    categories: CategoryForecastItem[]
   ): void {
-    const labels = categories.map(c => c.category_name);
-    const totals = categories.map(c => c.forecast.reduce((sum, f) => sum + f.forecasted_revenue, 0));
+    if (!categories || categories.length === 0) return;
+
+    // Collect all unique month labels in order
+    const allMonths = Array.from(
+      new Set(categories.flatMap(c => c.forecast.map(p => p.month)))
+    ).sort();
+
+    const datasets = categories.map((cat, i) => {
+      const color = PALETTE[i % PALETTE.length];
+
+      // Split into historical (solid) and forecast (dashed) segments.
+      // Chart.js doesn't support per-point dash natively, so we render
+      // two overlapping datasets per category: one solid, one dashed.
+      const historicalData: (number | null)[] = allMonths.map(month => {
+        const pt = cat.forecast.find(p => p.month === month);
+        return pt && !pt.is_forecast ? pt.forecasted_qty : null;
+      });
+
+      const forecastData: (number | null)[] = allMonths.map(month => {
+        const pt = cat.forecast.find(p => p.month === month);
+        // Include the last historical point so the dashed line connects
+        if (!pt) return null;
+        if (pt.is_forecast) return pt.forecasted_qty;
+        // Bridge: if this is the last historical point, include it in the forecast series too
+        const isLastHistorical = cat.forecast
+          .filter(p => !p.is_forecast)
+          .at(-1)?.month === month;
+        return isLastHistorical ? pt.forecasted_qty : null;
+      });
+
+      return [
+        {
+          label: cat.category_name,
+          data: historicalData,
+          borderColor: color,
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: color,
+          spanGaps: false,
+          borderDash: [] as number[],
+        },
+        {
+          label: `${cat.category_name} (forecast)`,
+          data: forecastData,
+          borderColor: color,
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          tension: 0.3,
+          pointRadius: 3,
+          pointStyle: 'rectRot' as const,
+          pointBackgroundColor: color,
+          spanGaps: false,
+          borderDash: [6, 4],
+        }
+      ];
+    }).flat();
 
     this.categoryForecastChart?.destroy();
     this.categoryForecastChart = new Chart(canvas, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [{
-          label: 'Forecasted revenue',
-          data: totals,
-          backgroundColor: labels.map((_, i) => PALETTE[i % PALETTE.length]),
-          borderRadius: 6,
-          borderSkipped: false,
-        }]
-      },
+      type: 'line',
+      data: { labels: allMonths, datasets },
       options: {
-        indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: {
-            grid: { color: GRID_LINE },
-            ticks: { color: TEXT_SOFT, callback: (v) => typeof v === 'number' ? this.formatCurrency(v) : v }
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: TEXT_SOFT,
+              font: { size: 10 },
+              usePointStyle: true,
+              // Hide the "(forecast)" legend entries — the dashed line itself signals future
+              filter: item => !item.text.includes('(forecast)')
+            }
           },
-          y: { grid: { display: false }, ticks: { color: TEXT_SOFT } }
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const raw = ctx.parsed.y;
+                if (raw == null) return '';
+                const isForecast = ctx.dataset.label?.includes('(forecast)');
+                return `${ctx.dataset.label?.replace(' (forecast)', '')} — ${this.formatNumber(raw)} orders${isForecast ? ' (projected)' : ''}`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { grid: { color: GRID_LINE }, ticks: { color: TEXT_SOFT, font: { size: 10 } } },
+          y: {
+            grid: { color: GRID_LINE },
+            ticks: {
+              color: TEXT_SOFT,
+              callback: (v) => typeof v === 'number' ? this.formatNumber(v) : v
+            },
+            title: { display: true, text: 'Demand (orders)', color: TEXT_SOFT, font: { size: 10 } }
+          }
         }
       }
     });

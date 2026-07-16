@@ -326,7 +326,7 @@ export class AuthService {
 
   // =============== 🔄 8. REFRESH TOKEN ===============
 
-  refreshToken(): Observable<RefreshTokenResponse> {
+ refreshToken(): Observable<RefreshTokenResponse> {
     if (!this.isBrowser) {
       return of({ token: '', refreshToken: '', expiresIn: 0 });
     }
@@ -337,16 +337,30 @@ export class AuthService {
       return throwError(() => new Error('No refresh token available'));
     }
 
-    return this.http.post<RefreshTokenResponse>(`${this.apiUrl}/Auth/refresh-token`, {
+    return this.http.post<any>(`${this.apiUrl}/Auth/refresh-token`, {
       refreshToken: refreshToken
     }).pipe(
-      tap((response) => {
+      map((response) => {
+        const data = response?.data ?? response;
+        return {
+          token: data.accessToken || data.token || '',
+          refreshToken: data.refreshToken || refreshToken,
+          expiresIn: this.calculateExpiresIn(data.expiresAt, data.expiresIn)
+        };
+      }),
+      tap((normalized) => {
         console.log('✅ Token refreshed successfully');
-        this.saveTokens(response.token, response.refreshToken, response.expiresIn);
+        this.saveTokens(normalized.token, normalized.refreshToken, normalized.expiresIn);
       }),
       catchError((error) => {
         console.error('❌ Token refresh failed:', error);
-        this.logout();
+        // Do NOT call logout() here — it fires another HTTP request with the
+        // already-expired token, which triggers a second 401 and an infinite
+        // refresh loop. Clear auth data locally and redirect instead.
+        this.clearAuthData();
+        this.router.navigate(['/auth/login'], {
+          queryParams: { sessionExpired: true }
+        });
         return throwError(() => error);
       })
     );
@@ -468,7 +482,7 @@ export class AuthService {
     return {
       token: data.accessToken || data.token || '',
       refreshToken: data.refreshToken || '',
-      expiresIn: 3600,
+      expiresIn: this.calculateExpiresIn(data.expiresAt, data.expiresIn),
       user: {
         id: user.id || '',
         email: user.email || '',
@@ -481,6 +495,13 @@ export class AuthService {
         forcePasswordChange: user.forcePasswordChange ?? user.mustChangePassword ?? data.requiresPasswordChange ?? false
       }
     };
+  }
+  private calculateExpiresIn(expiresAt: string | undefined, expiresIn: any): number {
+    if (expiresAt) {
+      const diffMs = new Date(expiresAt).getTime() - Date.now();
+      if (diffMs > 0) return Math.floor(diffMs / 1000);
+    }
+    return this.parseExpiresIn(expiresIn);
   }
 
   private parseExpiresIn(expiresIn: any): number {
