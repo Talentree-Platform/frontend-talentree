@@ -3,13 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { MaterialOrderService } from '../../../core/services/material-order.service';
 import { MaterialOrder } from '../../../core/interfaces/i-checkout';
 import { CommonModule } from '@angular/common';
-import { AdminRoutingModule } from "../../../../admin/admin-routing.module";
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-material-order',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdminRoutingModule , RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './material-order.component.html',
   styleUrl: './material-order.component.css'
 })

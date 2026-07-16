@@ -16,13 +16,6 @@ export const roleGuardGuard: CanActivateFn = (route: ActivatedRouteSnapshot, sta
   }
 
   if (!roleSatisfies(user.role, expectedRoles)) {
-    console.warn('[roleGuard] blocked', {
-      url: state.url,
-      userRole: user.role,
-      expectedRoles,
-      routeData: route.data,
-      routePath: route.routeConfig?.path,
-    });
     router.navigate(['/unotherized']);
     return false;
   }
