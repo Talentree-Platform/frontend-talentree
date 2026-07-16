@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,5 +9,13 @@ import { Component } from '@angular/core';
   styleUrl: './not-found.component.css'
 })
 export class NotFoundComponent {
+  constructor(private router: Router) {}
 
+  goHome() {
+    this.router.navigate(['/']);
+  }
+
+  goBack() {
+    window.history.back();
+  }
 }
