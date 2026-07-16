@@ -596,3 +596,42 @@
   .owner-products-table th:nth-child(7),
   .owner-products-table td:nth-child(7) { display: none; }
 }
+
+/* ══════════════════════════════════════
+   DARK MODE
+   Mirrors the business-owner dark palette (BoThemeService / [data-bo-theme]).
+══════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  --gold: var(--bo-accent, #d1a33e);
+  --gold-light: var(--bo-accent, #e8c15f);
+  --gold-pale: rgba(218, 165, 32, 0.14);
+  --gold-border: rgba(218, 165, 32, 0.35);
+  --cream: var(--bo-bg-page);
+  --surface: var(--bo-bg-surface);
+  --border: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --text-dark: var(--bo-color-text);
+  --text-mid: var(--bo-color-text-muted);
+  --text-soft: rgba(255, 255, 255, 0.45);
+  --blue-pale: rgba(59, 111, 232, 0.14);
+  --green-pale: rgba(39, 160, 107, 0.14);
+  --amber-pale: rgba(201, 149, 42, 0.14);
+  --red-pale: rgba(217, 64, 64, 0.14);
+  --shadow-sm: var(--bo-shadow-card);
+  --shadow-md: var(--bo-shadow-card-hover);
+}
+
+:host-context([data-bo-theme='dark']) .admin-product-home__queue-badge,
+:host-context([data-bo-theme='dark']) .admin-product-home__status-pill {
+  color: #ffe7a8;
+  border-color: rgba(218, 165, 32, 0.35);
+}
+
+:host-context([data-bo-theme='dark']) .owner-products-banner {
+  color: #fca5a5;
+  border-color: rgba(217, 64, 64, 0.35);
+}
+
+:host-context([data-bo-theme='dark']) .low-stock-header {
+  background: rgba(255, 255, 255, 0.03);
+}

@@ -398,3 +398,31 @@
         padding-right: 1.25rem;
     }
 }
+
+/* ════════════════════════════════════════════════════════════
+   DARK MODE
+   Mirrors the business-owner dark palette (BoThemeService / [data-bo-theme]).
+   Overrides this file's own local :host tokens so every rule that
+   already consumes var(--cream)/var(--surface)/etc. picks up dark values.
+   ════════════════════════════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+    --gold-border: rgba(218, 165, 32, 0.35);
+    --cream:       var(--bo-bg-page);
+    --surface:     var(--bo-bg-surface);
+    --border:      var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+    --text-dark:   var(--bo-color-text);
+    --text-mid:    var(--bo-color-text-muted);
+    --text-soft:   rgba(255, 255, 255, 0.45);
+}
+
+:host-context([data-bo-theme='dark']) .ap-modal-panel {
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+:host-context([data-bo-theme='dark']) .timeline-dot {
+    border-color: var(--bo-bg-surface);
+}
+
+:host-context([data-bo-theme='dark']) .btn-secondary:hover {
+    background: rgba(218, 165, 32, 0.12);
+}

@@ -356,3 +356,82 @@
   line-height: 1.5;
 }
 .mt-3 { margin-top: 12px; }
+
+/* ══════════════════════════════════════
+   DARK MODE
+══════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  --gold-400: var(--bo-accent);
+  --gold-500: var(--bo-accent);
+  --gold-50: rgba(209, 163, 62, 0.08);
+  --gold-100: rgba(209, 163, 62, 0.14);
+  --gold-200: rgba(218, 165, 32, 0.24);
+  --gold-300: rgba(218, 165, 32, 0.34);
+  --card: var(--bo-bg-surface);
+  --border: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --text-primary: var(--bo-color-text);
+  --text-muted: var(--bo-color-text-muted);
+  --bg: var(--bo-bg-page);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.35);
+
+  --green-bg: rgba(52, 211, 153, 0.14);
+  --green-border: rgba(52, 211, 153, 0.4);
+  --green-text: #6ee7b7;
+  --amber-bg: rgba(252, 211, 77, 0.14);
+  --amber-border: rgba(252, 211, 77, 0.4);
+  --amber-text: #fcd34d;
+  --red-bg: rgba(248, 113, 113, 0.14);
+  --red-border: rgba(248, 113, 113, 0.4);
+  --red-text: #fca5a5;
+  --blue-bg: rgba(96, 165, 250, 0.14);
+  --blue-border: rgba(96, 165, 250, 0.4);
+  --blue-text: #93c5fd;
+}
+
+:host-context([data-bo-theme='dark']) .banner-card,
+:host-context([data-bo-theme='dark']) .cat-item,
+:host-context([data-bo-theme='dark']) .form-input,
+:host-context([data-bo-theme='dark']) .ap-modal-box,
+:host-context([data-bo-theme='dark']) .brand-item-card,
+:host-context([data-bo-theme='dark']) .feat-product-card,
+:host-context([data-bo-theme='dark']) .selector-item-card,
+:host-context([data-bo-theme='dark']) .btn-outline {
+  background: var(--card);
+}
+
+:host-context([data-bo-theme='dark']) .btn-danger:hover {
+  background: var(--red-bg);
+}
+
+:host-context([data-bo-theme='dark']) .banner-footer {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+:host-context([data-bo-theme='dark']) .ap-modal-head {
+  background: linear-gradient(135deg, var(--gold-50), var(--card));
+}
+
+:host-context([data-bo-theme='dark']) .tab-btn.active {
+  background: var(--card);
+  border-bottom-color: var(--card);
+}
+
+:host-context([data-bo-theme='dark']) .selector-item-card.selected {
+  background: var(--gold-100);
+}
+
+:host-context([data-bo-theme='dark']) .brand-logo-circle,
+:host-context([data-bo-theme='dark']) .brand-logo-circle-sm,
+:host-context([data-bo-theme='dark']) .feat-prod-img,
+:host-context([data-bo-theme='dark']) .feat-prod-img-sm {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+:host-context([data-bo-theme='dark']) .card-section,
+:host-context([data-bo-theme='dark']) .banner-card,
+:host-context([data-bo-theme='dark']) .brand-item-card,
+:host-context([data-bo-theme='dark']) .feat-product-card,
+:host-context([data-bo-theme='dark']) .ap-modal-box {
+  box-shadow: var(--bo-shadow-card);
+}

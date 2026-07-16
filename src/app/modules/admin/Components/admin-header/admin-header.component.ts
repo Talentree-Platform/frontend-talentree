@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../modules/auth/services/auth.service'; // ⚠️ عدّلي المسار
 import { UserRole } from '../../../../core/constants/roles.constants'; // ⚠️ عدّلي المسار
 import { NotificationService } from '../../../../modules/business-owner/core/services/notification.service'; // ⚠️ عدّلي المسار لو مختلف
+import { BoThemeService } from '../../../../core/services/bo-theme.service';
 
 @Component({
   selector: 'app-admin-top-nav',
@@ -19,7 +20,8 @@ export class AdminTopNavComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    public themeSvc: BoThemeService
   ) { }
 
   ngOnInit() {
@@ -50,6 +52,10 @@ export class AdminTopNavComponent implements OnInit {
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  toggleTheme() {
+    this.themeSvc.toggle();
   }
 
   @HostListener('document:keydown.escape')

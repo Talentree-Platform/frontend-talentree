@@ -176,3 +176,42 @@
         font-size: 1.15rem;
     }
 }
+
+/* ── Dark mode ────────────────────────────────────────────────────────────
+   Mirrors the business-owner dark palette (BoThemeService / [data-bo-theme]).
+   Overrides this file's own local :host tokens so every rule that already
+   consumes var(--surface)/var(--cream)/etc. picks up dark values. Chart
+   data-series colors (tone-* accent colors, pale badge chips) are left
+   untouched — only chrome (cards, shadows, error banner) is themed.
+   ─────────────────────────────────────────────────────────────────────── */
+:host-context([data-bo-theme='dark']) {
+    --gold-pale:   rgba(218, 165, 32, 0.14);
+    --gold-border: rgba(218, 165, 32, 0.35);
+    --cream:       var(--bo-bg-page);
+    --surface:     var(--bo-bg-surface);
+    --border:      var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+    --text-dark:   var(--bo-color-text);
+    --text-mid:    var(--bo-color-text-muted);
+    --text-soft:   rgba(255, 255, 255, 0.45);
+}
+
+:host-context([data-bo-theme='dark']) .kpi-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+:host-context([data-bo-theme='dark']) .kpi-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+:host-context([data-bo-theme='dark']) .kpi-card.tone-gold-strong {
+    background: rgba(218, 165, 32, 0.14);
+}
+
+:host-context([data-bo-theme='dark']) .kpi-card.tone-gold-strong .kpi-icon {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+:host-context([data-bo-theme='dark']) .analytics-error {
+    background: rgba(217, 64, 64, 0.12);
+    border-color: rgba(217, 64, 64, 0.3);
+}

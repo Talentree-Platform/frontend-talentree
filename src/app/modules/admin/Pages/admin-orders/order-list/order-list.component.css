@@ -1564,3 +1564,32 @@
     color: var(--gold);
     box-shadow: 0 4px 12px rgba(201, 149, 42, 0.15);
 }
+
+/* ══════════════════════════════════════════════════════════════
+   DARK MODE
+   Mirrors the business-owner dark palette (BoThemeService / [data-bo-theme]).
+   Overrides this file's own local :host tokens so every rule that
+   already consumes var(--cream)/var(--surface)/etc. picks up dark values.
+   ══════════════════════════════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+    --gold-pale:   rgba(218, 165, 32, 0.14);
+    --gold-border: rgba(218, 165, 32, 0.35);
+    --cream:       var(--bo-bg-page);
+    --surface:     var(--bo-bg-surface);
+    --border:      var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+    --border-soft: rgba(255, 255, 255, 0.08);
+    --text-dark:   var(--bo-color-text);
+    --text-mid:    var(--bo-color-text-muted);
+    --text-soft:   rgba(255, 255, 255, 0.45);
+    --shadow-sm:   0 1px 4px rgba(0, 0, 0, 0.35);
+    --shadow-md:   0 4px 20px rgba(0, 0, 0, 0.45);
+    --shadow-xl:   0 20px 60px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+:host-context([data-bo-theme='dark']) .modal-header {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, var(--surface) 70%);
+}
+
+:host-context([data-bo-theme='dark']) .modal-icon {
+    background: linear-gradient(135deg, rgba(218, 165, 32, 0.18), rgba(218, 165, 32, 0.08));
+}

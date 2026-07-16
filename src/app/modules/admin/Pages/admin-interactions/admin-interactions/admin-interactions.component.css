@@ -491,3 +491,50 @@ td {
         flex-direction: column;
     }
 }
+
+/* ─── Dark mode ─── */
+:host-context([data-bo-theme='dark']) {
+    --gold: var(--bo-accent);
+    --gold-light: rgba(218, 165, 32, 0.18);
+    --gold-mid: var(--bo-accent);
+    --gold-pale: rgba(209, 163, 62, 0.1);
+    --gold-border: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+    --white: var(--bo-bg-surface);
+    --bg: var(--bo-bg-page);
+    --card: var(--bo-bg-surface);
+    --text: var(--bo-color-text);
+    --text-muted: var(--bo-color-text-muted);
+    --border: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+    --row-hover: rgba(209, 163, 62, 0.08);
+    --shadow: var(--bo-shadow-card);
+}
+
+:host-context([data-bo-theme='dark']) thead th {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+:host-context([data-bo-theme='dark']) .badge-active {
+    background: rgba(16, 185, 129, 0.16);
+    color: #6ee7b7;
+}
+
+:host-context([data-bo-theme='dark']) .badge-suspended {
+    background: rgba(245, 158, 11, 0.16);
+    color: #fcd34d;
+}
+
+:host-context([data-bo-theme='dark']) .badge-blocked,
+:host-context([data-bo-theme='dark']) .violation-tag {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--bo-color-text-muted);
+}
+
+:host-context([data-bo-theme='dark']) .badge-banned {
+    background: rgba(239, 68, 68, 0.16);
+    color: #fca5a5;
+}
+
+:host-context([data-bo-theme='dark']) .badge-closed {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--bo-color-text-muted);
+}

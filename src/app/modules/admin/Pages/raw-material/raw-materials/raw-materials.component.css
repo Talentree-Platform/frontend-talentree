@@ -385,3 +385,29 @@
   .filters-bar { flex-direction: column; align-items: stretch; }
   .filter-input, .filter-select, .btn-clear { width: 100%; }
 }
+
+/* ══════════════════════════════════════
+   DARK MODE
+   Re-map this file's local :host tokens so every rule above
+   (which already consumes var(--token)) picks up dark values.
+   This also covers the ::ng-deep app-table overrides below, since
+   custom-property inheritance follows the real DOM regardless of
+   Angular view-encapsulation piercing.
+══════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  --gold-pale:   rgba(218, 165, 32, 0.12);
+  --gold-border: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+  --cream:       var(--bo-bg-page);
+  --surface:     var(--bo-bg-surface);
+  --border:      var(--bo-border-surface-hover, rgba(255, 255, 255, 0.12));
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   rgba(255, 255, 255, 0.45);
+  --shadow-sm:   0 1px 4px rgba(0, 0, 0, 0.35);
+  --shadow-md:   0 4px 20px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+:host-context([data-bo-theme='dark']) .stat-card-icon {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}

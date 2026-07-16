@@ -78,3 +78,24 @@
   .apw-tabs { width: 100%; }
   .apw-tab { flex: 1; text-align: center; }
 }
+
+/* ══════════════════════════════════════
+   DARK MODE
+   Mirrors the business-owner dark palette (BoThemeService / [data-bo-theme]).
+══════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  --apw-gold: var(--bo-accent, #d1a33e);
+  --apw-gold-light: var(--bo-accent, #e8c15f);
+  --apw-gold-border: rgba(218, 165, 32, 0.35);
+  --apw-gold-pale: rgba(218, 165, 32, 0.14);
+  --apw-cream: var(--bo-bg-page);
+  --apw-surface: var(--bo-bg-surface);
+  --apw-border: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+  --apw-text-dark: var(--bo-color-text);
+  --apw-text-mid: var(--bo-color-text-muted);
+  --apw-text-soft: rgba(255, 255, 255, 0.45);
+}
+
+:host-context([data-bo-theme='dark']) .apw-tabs {
+  box-shadow: var(--bo-shadow-card);
+}

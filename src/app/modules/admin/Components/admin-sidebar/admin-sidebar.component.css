@@ -471,3 +471,46 @@
     width: 240px;
   }
 }
+
+/* ══════════════════════════════════════
+   DARK MODE
+   Mirrors the business-owner dark palette — same BoThemeService /
+   [data-bo-theme] attribute drives both dashboards.
+══════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  --gold-50: rgba(209, 163, 62, 0.08);
+  --gold-100: rgba(209, 163, 62, 0.14);
+  --gold-200: rgba(218, 165, 32, 0.22);
+  --gold-300: rgba(218, 165, 32, 0.32);
+  --gold-400: #d1a33e;
+  --gold-500: #e2b355;
+  --gold-600: #ffd875;
+  --bg-surface: rgba(20, 20, 20, 0.75);
+  --border-light: rgba(218, 165, 32, 0.12);
+  --text-dark: #ffffff;
+  --text-medium: rgba(255, 255, 255, 0.65);
+  --text-soft: rgba(255, 255, 255, 0.45);
+}
+
+:host-context([data-bo-theme='dark']) .sidebar {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+:host-context([data-bo-theme='dark']) .sidebar-toggle-btn {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+:host-context([data-bo-theme='dark']) .profile-section {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+:host-context([data-bo-theme='dark']) .logout-btn:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+:host-context([data-bo-theme='dark']) .icon-badge-dot {
+  border-color: var(--bg-surface);
+}

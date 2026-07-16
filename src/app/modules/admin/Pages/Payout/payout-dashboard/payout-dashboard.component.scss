@@ -958,3 +958,172 @@ $ease-out:    cubic-bezier(.4,0,.2,1);
     tbody td:nth-child(3) { display: none; }
   }
 }
+
+// ═══════════════════════════════════════════════════════
+// DARK MODE
+// Mirrors the business-owner dark palette (BoThemeService / [data-bo-theme]).
+// ═══════════════════════════════════════════════════════
+:host-context([data-bo-theme='dark']) .pa-page {
+  color: var(--bo-color-text);
+}
+
+:host-context([data-bo-theme='dark']) .pa-header__eyebrow,
+:host-context([data-bo-theme='dark']) .pa-header__count,
+:host-context([data-bo-theme='dark']) .summary-card__label,
+:host-context([data-bo-theme='dark']) .filters__search-icon,
+:host-context([data-bo-theme='dark']) .id-chip,
+:host-context([data-bo-theme='dark']) .currency-tag,
+:host-context([data-bo-theme='dark']) .cell--bank .account-id,
+:host-context([data-bo-theme='dark']) .cell--date,
+:host-context([data-bo-theme='dark']) .pa-table thead th,
+:host-context([data-bo-theme='dark']) .empty-state p,
+:host-context([data-bo-theme='dark']) .pg-info,
+:host-context([data-bo-theme='dark']) .modal__sub,
+:host-context([data-bo-theme='dark']) .modal__label,
+:host-context([data-bo-theme='dark']) .modal__hint,
+:host-context([data-bo-theme='dark']) .modal__close {
+  color: var(--bo-color-text-muted);
+}
+
+:host-context([data-bo-theme='dark']) .pa-header__title,
+:host-context([data-bo-theme='dark']) .summary-card__value,
+:host-context([data-bo-theme='dark']) .filters__input,
+:host-context([data-bo-theme='dark']) .filters__select,
+:host-context([data-bo-theme='dark']) .cell--amount strong,
+:host-context([data-bo-theme='dark']) .cell--bank .bank-name,
+:host-context([data-bo-theme='dark']) .cell--holder,
+:host-context([data-bo-theme='dark']) .empty-state h3,
+:host-context([data-bo-theme='dark']) .pg-btn,
+:host-context([data-bo-theme='dark']) .modal__title,
+:host-context([data-bo-theme='dark']) .modal__textarea,
+:host-context([data-bo-theme='dark']) .btn-ghost {
+  color: var(--bo-color-text);
+}
+
+:host-context([data-bo-theme='dark']) .pa-header__count,
+:host-context([data-bo-theme='dark']) .summary-card,
+:host-context([data-bo-theme='dark']) .filters__input,
+:host-context([data-bo-theme='dark']) .filters__select,
+:host-context([data-bo-theme='dark']) .table-card,
+:host-context([data-bo-theme='dark']) .id-chip,
+:host-context([data-bo-theme='dark']) .currency-tag,
+:host-context([data-bo-theme='dark']) .pg-btn,
+:host-context([data-bo-theme='dark']) .modal,
+:host-context([data-bo-theme='dark']) .modal__close,
+:host-context([data-bo-theme='dark']) .btn-ghost {
+  background: var(--bo-bg-surface);
+  border-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+}
+
+:host-context([data-bo-theme='dark']) .summary-card,
+:host-context([data-bo-theme='dark']) .table-card {
+  box-shadow: var(--bo-shadow-card);
+}
+:host-context([data-bo-theme='dark']) .summary-card:hover {
+  box-shadow: var(--bo-shadow-card-hover);
+}
+
+:host-context([data-bo-theme='dark']) .filters__input::placeholder,
+:host-context([data-bo-theme='dark']) .modal__textarea::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+:host-context([data-bo-theme='dark']) .pa-table thead tr {
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+}
+
+:host-context([data-bo-theme='dark']) .pa-table tbody tr {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+:host-context([data-bo-theme='dark']) .pa-table tbody tr:hover,
+:host-context([data-bo-theme='dark']) .pa-table tbody tr.pa-row--even {
+  background: rgba(255, 255, 255, 0.03);
+}
+:host-context([data-bo-theme='dark']) .pa-table tbody tr.pa-row--even:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+:host-context([data-bo-theme='dark']) .skel {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.05) 100%);
+  background-size: 200% 100%;
+}
+:host-context([data-bo-theme='dark']) .skeleton-row {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+:host-context([data-bo-theme='dark']) .pagination {
+  background: rgba(255, 255, 255, 0.03);
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+:host-context([data-bo-theme='dark']) .pg-btn:hover:not(:disabled):not(.pg-btn--active) {
+  background: var(--bo-accent-soft);
+  border-color: var(--bo-accent);
+  color: var(--bo-accent);
+}
+
+:host-context([data-bo-theme='dark']) .row-spinner {
+  border-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+}
+
+:host-context([data-bo-theme='dark']) .rejection-reason {
+  color: #fca5a5;
+}
+
+// Status badges & action buttons — swap near-white pale chips for translucent dark-safe versions
+:host-context([data-bo-theme='dark']) .status-badge.badge--pending {
+  background: rgba(245, 158, 11, 0.14);
+  color: #fcd34d;
+  border-color: rgba(245, 158, 11, 0.35);
+}
+:host-context([data-bo-theme='dark']) .status-badge.badge--approved,
+:host-context([data-bo-theme='dark']) .act-btn--complete {
+  background: rgba(59, 130, 246, 0.14);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.35);
+}
+:host-context([data-bo-theme='dark']) .status-badge.badge--completed,
+:host-context([data-bo-theme='dark']) .act-btn--approve {
+  background: rgba(34, 197, 94, 0.14);
+  color: #86efac;
+  border-color: rgba(34, 197, 94, 0.35);
+}
+:host-context([data-bo-theme='dark']) .status-badge.badge--rejected,
+:host-context([data-bo-theme='dark']) .act-btn--reject,
+:host-context([data-bo-theme='dark']) .modal__icon--danger,
+:host-context([data-bo-theme='dark']) .modal__close:hover {
+  background: rgba(239, 68, 68, 0.14);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+:host-context([data-bo-theme='dark']) .act-btn--approve:hover {
+  background: rgba(34, 197, 94, 0.22);
+}
+:host-context([data-bo-theme='dark']) .act-btn--reject:hover {
+  background: rgba(239, 68, 68, 0.22);
+}
+:host-context([data-bo-theme='dark']) .act-btn--complete:hover {
+  background: rgba(59, 130, 246, 0.22);
+}
+
+:host-context([data-bo-theme='dark']) .modal__header,
+:host-context([data-bo-theme='dark']) .modal__footer {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+:host-context([data-bo-theme='dark']) .modal__footer {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+:host-context([data-bo-theme='dark']) .modal__textarea {
+  background: rgba(255, 255, 255, 0.04);
+}
+:host-context([data-bo-theme='dark']) .modal__textarea:focus {
+  background: var(--bo-bg-surface);
+}
+
+:host-context([data-bo-theme='dark']) .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.16);
+}

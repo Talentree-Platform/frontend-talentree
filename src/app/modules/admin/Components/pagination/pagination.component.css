@@ -37,3 +37,22 @@
   font-weight: 500;
   color: #374151;
 }
+
+:host-context([data-bo-theme='dark']) .pagination button {
+  background-color: var(--bo-bg-surface);
+  color: var(--bo-accent);
+}
+
+:host-context([data-bo-theme='dark']) .pagination button:hover:not(:disabled) {
+  background-color: var(--bo-accent-soft);
+  border-color: var(--bo-accent);
+}
+
+:host-context([data-bo-theme='dark']) .pagination button:disabled {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.3);
+}
+
+:host-context([data-bo-theme='dark']) .pagination span {
+  color: var(--bo-color-text-muted);
+}

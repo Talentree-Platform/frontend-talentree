@@ -595,3 +595,60 @@
   .ntf-item__top { flex-direction: column; gap: 6px; }
   .ntf-item__meta { flex-wrap: wrap; }
 }
+
+/* ── Dark mode ──────────────────────────────────────────────────────────── */
+:host-context([data-bo-theme='dark']) {
+  --gold-50:  rgba(209, 163, 62, 0.10);
+  --gold-100: rgba(209, 163, 62, 0.16);
+  --gold-200: rgba(218, 165, 32, 0.24);
+  --gold-300: rgba(218, 165, 32, 0.34);
+  --gold-700: #ffd875;
+  --gold-800: #ffe7a8;
+  --gold-900: #fff3d6;
+
+  --surface:    var(--bo-bg-page);
+  --surface-2:  rgba(255, 255, 255, 0.04);
+  --border:     var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+  --border-strong: rgba(218, 165, 32, 0.35);
+
+  --text-primary:   var(--bo-color-text);
+  --text-secondary: var(--bo-color-text-muted);
+  --text-muted:     rgba(255, 255, 255, 0.45);
+
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.45);
+}
+
+:host-context([data-bo-theme='dark']) .ntf-tab--active,
+:host-context([data-bo-theme='dark']) .ntf-filter,
+:host-context([data-bo-theme='dark']) .ntf-list,
+:host-context([data-bo-theme='dark']) .ntf-prefs__card,
+:host-context([data-bo-theme='dark']) .ntf-page-btn,
+:host-context([data-bo-theme='dark']) .ntf-time-input {
+  background: var(--bo-bg-surface);
+}
+
+:host-context([data-bo-theme='dark']) .ntf-toggle__track::after {
+  background: #1a1a1a;
+}
+
+:host-context([data-bo-theme='dark']) .ntf-alert--success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #86efac;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+:host-context([data-bo-theme='dark']) .ntf-alert--error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+:host-context([data-bo-theme='dark']) .ntf-btn--danger-ghost:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+:host-context([data-bo-theme='dark']) .ntf-item__delete:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+}

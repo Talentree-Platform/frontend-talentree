@@ -357,3 +357,79 @@
     font-size: .68rem !important;
   }
 }
+
+/* ══════════════════════════════════════
+   DARK MODE
+   Mirrors the business-owner dark palette (BoThemeService / [data-bo-theme]).
+══════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) .table-card {
+  background: var(--bo-bg-surface);
+  border-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+  box-shadow: var(--bo-shadow-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+:host-context([data-bo-theme='dark']) .orders-table {
+  color: var(--bo-color-text);
+}
+
+:host-context([data-bo-theme='dark']) .orders-table thead tr,
+:host-context([data-bo-theme='dark']) .orders-table th {
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+}
+
+:host-context([data-bo-theme='dark']) .orders-table th {
+  color: var(--bo-color-text-muted);
+}
+
+:host-context([data-bo-theme='dark']) .orders-table td {
+  color: var(--bo-color-text);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+:host-context([data-bo-theme='dark']) .orders-table tbody tr:hover:not(:has(td.no-data)) td {
+  background: var(--bo-accent-soft) !important;
+}
+
+:host-context([data-bo-theme='dark']) .name-column,
+:host-context([data-bo-theme='dark']) .business-name {
+  color: var(--bo-color-text);
+}
+
+:host-context([data-bo-theme='dark']) .cell-pill,
+:host-context([data-bo-theme='dark']) .category-column {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--bo-color-text-muted);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:host-context([data-bo-theme='dark']) .no-data {
+  background: transparent !important;
+}
+
+:host-context([data-bo-theme='dark']) .no-data-inner {
+  color: var(--bo-color-text-muted);
+}
+
+:host-context([data-bo-theme='dark']) .no-data-inner::before {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+}
+
+:host-context([data-bo-theme='dark']) .sortable-header:hover,
+:host-context([data-bo-theme='dark']) .sortable-header.sorted-asc,
+:host-context([data-bo-theme='dark']) .sortable-header.sorted-desc {
+  color: var(--bo-accent) !important;
+}
+
+:host-context([data-bo-theme='dark']) .orders-table .action-buttons .btn-view {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: var(--bo-color-text-muted) !important;
+}
+
+:host-context([data-bo-theme='dark']) .orders-table .action-buttons .btn-view:hover {
+  background: var(--bo-accent-soft) !important;
+  color: var(--bo-accent) !important;
+}

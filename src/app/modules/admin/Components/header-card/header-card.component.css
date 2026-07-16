@@ -33,3 +33,13 @@
   object-fit: cover;
   border: 1px solid var(--border);
 }
+
+:host-context([data-bo-theme='dark']) .poster {
+  background: var(--bo-bg-surface);
+  border-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+  box-shadow: var(--bo-shadow-card);
+}
+
+:host-context([data-bo-theme='dark']) .poster h6 {
+  color: var(--bo-color-text-muted);
+}

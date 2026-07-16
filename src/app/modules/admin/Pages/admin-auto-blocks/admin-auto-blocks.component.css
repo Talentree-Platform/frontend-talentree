@@ -165,3 +165,42 @@
   animation: spin .7s linear infinite;
 }
 
+/* ══════════════════════════════════════
+   DARK MODE
+══════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  --gold-400: var(--bo-accent);
+  --gold-500: var(--bo-accent);
+  --gold-50: rgba(209, 163, 62, 0.08);
+  --gold-100: rgba(209, 163, 62, 0.14);
+  --gold-200: rgba(218, 165, 32, 0.24);
+  --gold-300: rgba(218, 165, 32, 0.34);
+  --card: var(--bo-bg-surface);
+  --border: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --text-primary: var(--bo-color-text);
+  --text-muted: var(--bo-color-text-muted);
+  --bg: var(--bo-bg-page);
+}
+
+:host-context([data-bo-theme='dark']) .btn-outline,
+:host-context([data-bo-theme='dark']) .form-input,
+:host-context([data-bo-theme='dark']) .filter-select,
+:host-context([data-bo-theme='dark']) .modal {
+  background: var(--card);
+}
+
+:host-context([data-bo-theme='dark']) .data-table th,
+:host-context([data-bo-theme='dark']) .load-more-row {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+:host-context([data-bo-theme='dark']) .modal-head {
+  background: linear-gradient(135deg, var(--gold-50), var(--card));
+}
+
+:host-context([data-bo-theme='dark']) .table-card,
+:host-context([data-bo-theme='dark']) .modal {
+  box-shadow: var(--bo-shadow-card);
+}
+

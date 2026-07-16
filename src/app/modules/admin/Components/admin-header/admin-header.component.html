@@ -36,6 +36,12 @@
       <!-- Right Icons -->
       <div class="nav-icons d-flex align-items-center gap-2 ms-lg-2">
 
+        <!-- Theme Toggle -->
+        <button class="icon-btn theme-toggle-btn" (click)="toggleTheme()"
+          [attr.aria-label]="themeSvc.isLight ? 'Switch to dark mode' : 'Switch to light mode'">
+          <i class="fa-solid" [class.fa-moon]="!themeSvc.isLight" [class.fa-sun]="themeSvc.isLight"></i>
+        </button>
+
         <!-- Notifications -->
         <button class="icon-btn" routerLink="/admin/notifications">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">

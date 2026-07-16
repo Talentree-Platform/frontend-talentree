@@ -722,11 +722,39 @@ tbody tr:last-child td {
   color: var(--bo-color-text);
 }
 
-:host-context([data-bo-theme='dark']) .card-revenue { background: linear-gradient(155deg, rgba(31,138,94,0.16) 0%, rgba(20,14,8,0.6) 100%); color: #6ee7b7; }
-:host-context([data-bo-theme='dark']) .card-expenses { background: linear-gradient(155deg, rgba(185,74,74,0.16) 0%, rgba(20,14,8,0.6) 100%); color: #fca5a5; }
-:host-context([data-bo-theme='dark']) .card-profit   { background: linear-gradient(155deg, rgba(201,168,76,0.18) 0%, rgba(20,14,8,0.6) 100%); color: var(--bo-accent); }
-:host-context([data-bo-theme='dark']) .card-balance  { background: linear-gradient(155deg, rgba(192,107,39,0.16) 0%, rgba(20,14,8,0.6) 100%); color: #fbbf7a; }
-:host-context([data-bo-theme='dark']) .card-pending  { background: linear-gradient(155deg, rgba(192,86,127,0.16) 0%, rgba(20,14,8,0.6) 100%); color: #f3a8c5; }
+:host-context([data-bo-theme='dark']) .card-revenue,
+:host-context([data-bo-theme='dark']) .card-expenses,
+:host-context([data-bo-theme='dark']) .card-profit,
+:host-context([data-bo-theme='dark']) .card-balance,
+:host-context([data-bo-theme='dark']) .card-pending {
+  background: var(--bo-bg-surface);
+  color: var(--bo-color-text);
+}
+
+:host-context([data-bo-theme='dark']) .card .label {
+  color: var(--bo-color-text-muted);
+  opacity: 1;
+}
+
+:host-context([data-bo-theme='dark']) .card-glow {
+  background: linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 55%);
+}
+
+:host-context([data-bo-theme='dark']) .card-icon {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+:host-context([data-bo-theme='dark']) .card-revenue .card-icon  { color: #7fcfa8; }
+:host-context([data-bo-theme='dark']) .card-expenses .card-icon { color: #e2a3a3; }
+:host-context([data-bo-theme='dark']) .card-profit .card-icon   { color: var(--bo-accent); }
+:host-context([data-bo-theme='dark']) .card-balance .card-icon  { color: #dba274; }
+:host-context([data-bo-theme='dark']) .card-pending .card-icon  { color: #dba0bd; }
+
+:host-context([data-bo-theme='dark']) .card-circle.c1,
+:host-context([data-bo-theme='dark']) .card-circle.c2 {
+  opacity: 0.12;
+}
+
 :host-context([data-bo-theme='dark']) .card {
   border-color: var(--bo-border-surface-hover);
 }

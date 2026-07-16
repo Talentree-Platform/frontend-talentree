@@ -308,7 +308,7 @@
 .chip {
   padding: 7px 16px;
   border-radius: 30px;
-  background: rgba(255,252,240,.85);
+  background: var(--glass);
   border: 1.5px solid var(--border);
   font-size: 12.5px;
   font-weight: 500;

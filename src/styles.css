@@ -103,6 +103,24 @@ html {
   --bo-color-on-accent: #1f150a;
 }
 
+/* =============================================================================
+   Admin panel — shared design tokens (dark mode)
+   Mirrors the business-owner dark palette so both dashboards read as one
+   product. Light mode keeps the original :root values above; toggled by the
+   same [data-bo-theme] attribute as the --bo-* tokens.
+   ============================================================================= */
+[data-bo-theme="dark"] {
+  --ap-bg: #131110;
+  --ap-surface: rgba(24, 24, 24, 0.75);
+  --ap-border: rgba(218, 165, 32, 0.16);
+  --ap-text-muted: rgba(255, 255, 255, 0.65);
+  --ap-text-light: rgba(255, 255, 255, 0.45);
+  --ap-gold-light: rgba(209, 163, 62, 0.14);
+  --ap-gold-ring: rgba(218, 165, 32, 0.3);
+  --ap-shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.35);
+  --ap-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.45);
+}
+
 
 
 body {
@@ -972,6 +990,11 @@ textarea.textarea-main:focus {
   to {
     opacity: 1;
   }
+}
+
+[data-bo-theme="dark"] .owner-products-modal-title,
+[data-bo-theme="dark"] .owner-products-stat-block-value {
+  color: var(--bo-color-text);
 }
 
 @keyframes owner-products-modal-in {

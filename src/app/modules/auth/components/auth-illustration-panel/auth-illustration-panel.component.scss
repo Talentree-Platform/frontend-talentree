@@ -31,6 +31,14 @@
   .auth-logo-mark {
     filter: drop-shadow(0 0 26px rgba(255, 216, 117, 0.45));
   }
+
+  .blob-stop-1 { stop-color: #3a2e14; }
+  .blob-stop-2 { stop-color: #1c160a; }
+
+  :host-context([data-bo-theme='light']) & {
+    .blob-stop-1 { stop-color: #fdf3dc; }
+    .blob-stop-2 { stop-color: #f3dfa8; }
+  }
 }
 
 .auth-illustration-copy {

@@ -34,3 +34,19 @@
   object-fit: cover;
   box-shadow: var(--shadow-sm, 0 1px 4px rgba(154, 114, 9, 0.08));
 }
+
+/* ══════════════════════════════════════
+   DARK MODE
+   This file's own rules use var(--text-primary,#hex) / var(--white,#hex) /
+   var(--gold-300,#hex) / var(--gold-50,#hex) fallback pairs where the
+   custom property itself is otherwise undefined (unlike --border and
+   --shadow-sm, which already come from raw-material.shared.css). Defining
+   the property here makes those var() calls resolve to it instead of the
+   light-mode fallback hex.
+══════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  --text-primary: var(--bo-color-text);
+  --white:        var(--bo-bg-surface);
+  --gold-300:     rgba(218, 165, 32, 0.4);
+  --gold-50:      rgba(218, 165, 32, 0.1);
+}

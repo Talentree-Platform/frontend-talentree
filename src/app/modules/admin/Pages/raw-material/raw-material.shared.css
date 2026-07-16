@@ -365,3 +365,27 @@
   .modal-footer { flex-direction: column; }
   .btn-cancel, .btn-confirm { width: 100%; justify-content: center; }
 }
+
+/* ══════════════════════════════════════
+   DARK MODE
+   Re-map this file's local :host tokens so every rule above
+   (which already consumes var(--token)) picks up dark values.
+   This file is @imported by raw-material-details, raw-material-form
+   and restock-modal, so this section themes all three.
+══════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  --gold-pale:   rgba(218, 165, 32, 0.12);
+  --gold-border: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+  --cream:       var(--bo-bg-page);
+  --surface:     var(--bo-bg-surface);
+  --border:      var(--bo-border-surface-hover, rgba(255, 255, 255, 0.12));
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --text-dark:   var(--bo-color-text);
+  --text-mid:    var(--bo-color-text-muted);
+  --text-soft:   rgba(255, 255, 255, 0.45);
+  --shadow-lg:   0 8px 32px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+:host-context([data-bo-theme='dark']) .modal-overlay {
+  background: rgba(0, 0, 0, 0.6);
+}

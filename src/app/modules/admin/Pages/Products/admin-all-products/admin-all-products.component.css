@@ -518,3 +518,33 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* ══════════════════════════════════════
+   DARK MODE
+   Mirrors the business-owner dark palette (BoThemeService / [data-bo-theme]).
+══════════════════════════════════════ */
+:host-context([data-bo-theme='dark']) {
+  --ap-gold: var(--bo-accent, #d1a33e);
+  --ap-gold-light: var(--bo-accent, #e8c15f);
+  --ap-gold-border: rgba(218, 165, 32, 0.35);
+  --ap-gold-pale: rgba(218, 165, 32, 0.14);
+  --ap-cream: var(--bo-bg-page);
+  --ap-surface: var(--bo-bg-surface);
+  --ap-border: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+  --ap-text-dark: var(--bo-color-text);
+  --ap-text-mid: var(--bo-color-text-muted);
+  --ap-text-soft: rgba(255, 255, 255, 0.45);
+
+  --ap-blue-pale: rgba(59, 111, 160, 0.14);
+  --ap-green-pale: rgba(42, 138, 92, 0.14);
+  --ap-red-pale: rgba(194, 74, 74, 0.14);
+  --ap-purple-pale: rgba(122, 95, 176, 0.14);
+  --ap-amber-pale: rgba(218, 165, 32, 0.14);
+
+  --ap-shadow: var(--bo-shadow-card);
+  --ap-shadow-hover: var(--bo-shadow-card-hover);
+}
+
+:host-context([data-bo-theme='dark']) .ap-badge--gold {
+  color: #ffe7a8;
+}

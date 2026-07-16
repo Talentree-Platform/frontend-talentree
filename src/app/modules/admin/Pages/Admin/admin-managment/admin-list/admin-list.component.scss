@@ -568,4 +568,102 @@ $shadow-elevated: 0 12px 32px rgba(24, 19, 10, 0.08);
     font-size: 12px;
     color: $text-mid;
   }
+}
+
+// ═══════════════════════════════════════════════════════
+// DARK MODE
+// Mirrors the business-owner dark palette (BoThemeService / [data-bo-theme]).
+// ═══════════════════════════════════════════════════════
+:host-context([data-bo-theme='dark']) {
+  .admin-list-page {
+    background: var(--bo-bg-page);
+    color: var(--bo-color-text);
+  }
+
+  .breadcrumb {
+    color: var(--bo-color-text-muted);
+
+    &-item--current { color: var(--bo-color-text); }
+  }
+
+  .page-header__text {
+    h1 { color: var(--bo-color-text); }
+    p { color: var(--bo-color-text-muted); }
+  }
+
+  .btn-secondary {
+    background: var(--bo-bg-surface);
+    border-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+    color: var(--bo-color-text);
+
+    &:hover { background: var(--bo-accent-soft); }
+  }
+
+  .card {
+    background: var(--bo-bg-surface);
+    border-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+    box-shadow: var(--bo-shadow-card);
+
+    &:hover { box-shadow: var(--bo-shadow-card-hover); }
+  }
+
+  .admin-table {
+    thead {
+      background: rgba(255, 255, 255, 0.04);
+
+      th {
+        color: var(--bo-color-text-muted);
+        border-bottom-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+      }
+    }
+
+    tbody tr {
+      border-bottom-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+      &:hover { background: var(--bo-accent-soft); }
+    }
+
+    td { color: var(--bo-color-text); }
+  }
+
+  .cell-muted { color: var(--bo-color-text-muted); }
+
+  .empty-state {
+    color: var(--bo-color-text-muted);
+
+    h3 { color: var(--bo-color-text); }
+    p { color: var(--bo-color-text-muted); }
+  }
+
+  .skeleton-block {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.14) 37%, rgba(255, 255, 255, 0.06) 63%);
+  }
+
+  .modal-card {
+    background: var(--bo-bg-page);
+    border-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+
+    h2 { color: var(--bo-color-text); }
+    label { color: var(--bo-color-text-muted); }
+
+    input, select {
+      background: var(--bo-bg-surface);
+      border-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3));
+      color: var(--bo-color-text);
+    }
+  }
+
+  .modal-subtitle { color: var(--bo-color-text-muted); }
+
+  .confirm-message {
+    color: var(--bo-color-text-muted);
+    strong { color: var(--bo-color-text); }
+  }
+
+  .detail-row { border-bottom-color: var(--bo-border-surface-hover, rgba(218, 165, 32, 0.3)); }
+  .detail-label { color: var(--bo-color-text-muted); }
+  .detail-value {
+    color: var(--bo-color-text);
+    &--mono { color: var(--bo-color-text-muted); }
+  }
 }

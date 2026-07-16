@@ -29,7 +29,8 @@ import { CommonModule } from '@angular/common';
   .layout-body {
     display: flex;
     min-height: 100vh;
-    background: #FDFAF4;
+    background: var(--bo-bg-page);
+    transition: background-color var(--bo-transition, 0.2s ease);
     padding-top: 20px;   /* 70px navbar + 48px secondary */
   }
 
