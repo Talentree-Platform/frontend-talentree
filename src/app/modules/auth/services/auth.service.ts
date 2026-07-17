@@ -367,7 +367,7 @@ export class AuthService {
   }
   // =============== 👋 9. Register Business Owner ===============
   registerOwner(ownerData: object): Observable<any> {
-    return this.http.post(`https://talentreeplateform.runasp.net/api/Auth/register-business-owner`, ownerData)
+    return this.http.post(`${this.apiUrl}/Auth/register-business-owner`, ownerData)
   }
   // =============== 👋 10. LOGOUT ===============
 
