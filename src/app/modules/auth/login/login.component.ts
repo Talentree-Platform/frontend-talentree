@@ -143,7 +143,7 @@ export class LoginComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        this.errorMessage = error.message || 'Failed to send verification email';
+        this.errorMessage = error.error?.message || 'Failed to send verification email';
       }
     });
   }
