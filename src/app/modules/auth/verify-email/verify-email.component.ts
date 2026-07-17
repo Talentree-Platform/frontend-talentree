@@ -112,9 +112,33 @@ export class VerifyEmailComponent implements OnInit {
       error: (error) => {
         console.error('❌ Failed to send code:', error);
         this.sendCodeLoading = false;
+
+        if (this.isAlreadyVerifiedError(error)) {
+          this.handleAlreadyVerified();
+          return;
+        }
+
         this.emailError = error.error?.message || 'Failed to send verification code';
       }
     });
+  }
+
+  // Backend rejects with this once the account is already confirmed — treat it
+  // as success instead of leaving the user stuck retrying a code that can
+  // never be valid again.
+  private isAlreadyVerifiedError(error: any): boolean {
+    return !!error.error?.message?.toLowerCase().includes('already verified');
+  }
+
+  private handleAlreadyVerified(): void {
+    this.isVerified = true;
+
+    if (this.isBrowser) {
+      this.storageService.removeItem('pending_verification_email', { prefix: '' });
+      this.storageService.removeItem('needs_verification', { prefix: '' });
+    }
+
+    setTimeout(() => this.goToLogin(), 3000);
   }
 
   // ✅ Clear email and go back to email input state
@@ -174,7 +198,12 @@ submitVerificationCode(): void {
     error: (error) => {
       console.error('❌ Verification failed:', error);
       this.verifyLoading = false;
-      
+
+      if (this.isAlreadyVerifiedError(error)) {
+        this.handleAlreadyVerified();
+        return;
+      }
+
       // Even if verification fails, let the user try again
       this.codeError = error.error?.message || 'Invalid verification code. Please try again.';
       this.verificationCode = '';
@@ -206,6 +235,12 @@ submitVerificationCode(): void {
       },
       error: (error) => {
         this.resendLoading = false;
+
+        if (this.isAlreadyVerifiedError(error)) {
+          this.handleAlreadyVerified();
+          return;
+        }
+
         this.errorMessage = error.error?.message || 'Failed to resend verification code';
       }
     });

@@ -90,7 +90,10 @@ export class RegisterBusinessownerComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        this.errorMessage = error?.error?.message ?? 'Registration failed. Please try again.';
+        const message = error?.error?.message ?? 'Registration failed. Please try again.';
+        this.errorMessage = message.toLowerCase().includes('already verified')
+          ? `${message}. Please log in instead.`
+          : message;
       }
     });
   }
