@@ -112,7 +112,7 @@ export class VerifyEmailComponent implements OnInit {
       error: (error) => {
         console.error('❌ Failed to send code:', error);
         this.sendCodeLoading = false;
-        this.emailError = error.message || 'Failed to send verification code';
+        this.emailError = error.error?.message || 'Failed to send verification code';
       }
     });
   }
@@ -176,7 +176,7 @@ submitVerificationCode(): void {
       this.verifyLoading = false;
       
       // Even if verification fails, let the user try again
-      this.codeError = error.message || 'Invalid verification code. Please try again.';
+      this.codeError = error.error?.message || 'Invalid verification code. Please try again.';
       this.verificationCode = '';
     }
   });
@@ -206,7 +206,7 @@ submitVerificationCode(): void {
       },
       error: (error) => {
         this.resendLoading = false;
-        this.errorMessage = error.message || 'Failed to resend verification code';
+        this.errorMessage = error.error?.message || 'Failed to resend verification code';
       }
     });
   }
