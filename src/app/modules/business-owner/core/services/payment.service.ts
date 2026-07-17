@@ -7,7 +7,7 @@ import { environment } from '../../../../core/environment/envirinment';
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = environment.AzureUrl;
+  private readonly baseUrl = environment.baseUrl;
 
   /**
    * POST /api/Payment/production-requests/{requestId}/create-intent

@@ -1,4 +1,5 @@
 import { Component , Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MaterialCartService } from '../../core/services/material-cart.service';
 import { FormsModule } from '@angular/forms';
@@ -6,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css'
 })
