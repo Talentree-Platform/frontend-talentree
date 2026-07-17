@@ -76,30 +76,23 @@ export class RegisterBusinessownerComponent {
   }
 
   onSubmit() {
-    console.log(this.registerForm)
-    //Call register Api
-    this._AuthService.registerOwner(this.registerForm.value).subscribe(
-      {
-        next: (res) => { console.log(res)
-          this.success = 'Registration successful! Please verify your email.';
-          this.isLoading=false;
-          setInterval( () =>{this._Router.navigate(['/auth/verify-email'])},2000)
-          
-         },
-        error: (error) => { console.log(error)
-          this.errorMessage = error.error.message;
-         },
-        complete: () => { }
-
-
-      }
-
-    )
     if (this.registerForm.invalid) {
-      this.isLoading = false;
+      this.registerForm.markAllAsTouched();
       return;
     }
+
     this.isLoading = true;
+    this._AuthService.registerOwner(this.registerForm.value).subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        this.success = 'Registration successful! Please verify your email.';
+        setTimeout(() => this._Router.navigate(['/auth/verify-email']), 2000);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = error?.error?.message ?? 'Registration failed. Please try again.';
+      }
+    });
   }
   isFieldInvalid(fieldName: string): boolean {
     const field = this.registerForm.get(fieldName);
@@ -111,7 +104,7 @@ export class RegisterBusinessownerComponent {
   }
   togglePasswordVisibility(field: string): void {
     if (field === 'password') {
-      this.showPassword = !this.showConfirmPassword;
+      this.showPassword = !this.showPassword;
     }
     else if (field === 'confirmPassword') {
       this.showConfirmPassword = !this.showConfirmPassword;

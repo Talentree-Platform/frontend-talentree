@@ -32,7 +32,11 @@
   padding: 48px 44px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // "safe" falls back to start-alignment when content overflows the panel,
+  // instead of plain `center`, which pushes the overflow above the visible
+  // area and out of scroll range (browsers won't scroll into that direction),
+  // making top fields like First/Last Name unreachable on long forms.
+  justify-content: safe center;
   max-height: 92vh;
   overflow-y: auto;
 }
@@ -138,9 +142,22 @@ select.form-control {
   background-position: right 4px center;
   background-size: 16px;
   padding-right: 24px;
+  color-scheme: dark;
 
+  // Native <option> popups can't render a translucent background, so they
+  // need a solid color that matches each theme rather than inheriting the
+  // (semi-transparent) --bo-bg-surface tokens.
   option {
     background: #14100a;
+    color: #ffffff;
+  }
+}
+
+:host-context([data-bo-theme="light"]) select.form-control {
+  color-scheme: light;
+
+  option {
+    background: #fffdf7;
     color: var(--bo-color-text);
   }
 }

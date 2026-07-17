@@ -107,7 +107,7 @@
           <label for="password">Password</label>
           <div class="password-input-group">
             <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
-              class="form-control"
+              class="form-control" autocomplete="new-password"
                [class.is-invalid]="isFieldInvalid('password')"
               [class.is-valid]="isFieldValid('password')"
               placeholder="Password" />
@@ -141,6 +141,7 @@
              id="confirmPassword"
               formControlName="confirmPassword"
                class="form-control"
+               autocomplete="new-password"
               [class.is-invalid]="registerForm.get('confirmPassword')?.touched &&(registerForm.get('confirmPassword')?.invalid || registerForm.hasError('passwordMismatch'))"
                [class.is-valid]="
     registerForm.get('confirmPassword')?.touched &&
